@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 120" style="enable-background:new 0 0 400 120;">
+  <defs>
+    <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D4AF37;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#B8860B;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#DAA520;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- TF Logo Symbol -->
+  <g transform="translate(10, 10)">
+    <!-- Background rounded rectangle -->
+    <rect x="0" y="0" width="90" height="90" rx="8" ry="8" fill="url(#goldGradient)"/>
+    
+    <!-- T Letter -->
+    <rect x="15" y="15" width="60" height="10" fill="white"/>
+    <rect x="40" y="15" width="10" height="50" fill="white"/>
+    
+    <!-- F Letter -->
+    <rect x="15" y="35" width="10" height="40" fill="white"/>
+    <rect x="15" y="35" width="35" height="8" fill="white"/>
+    <rect x="15" y="55" width="25" height="8" fill="white"/>
+  </g>
+  
+  <!-- TrueForm Text -->
+  <text x="120" y="45" font-family="Georgia, serif" font-size="32" font-weight="bold" fill="#1e293b">TrueForm</text>
+  
+  <!-- Excellence Refined Tagline -->
+  <text x="120" y="75" font-family="Georgia, serif" font-size="16" font-style="italic" fill="#64748b">Excellence Refined.</text>
+</svg> 

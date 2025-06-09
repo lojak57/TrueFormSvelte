@@ -1,0 +1,138 @@
+{
+  "root": true,
+  "extends": [
+    "eslint:recommended",
+    "@typescript-eslint/recommended",
+    "plugin:svelte/recommended",
+    "plugin:security/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": [
+    "@typescript-eslint",
+    "security"
+  ],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2020,
+    "extraFileExtensions": [".svelte"]
+  },
+  "env": {
+    "browser": true,
+    "es2017": true,
+    "node": true
+  },
+  "overrides": [
+    {
+      "files": ["*.svelte"],
+      "parser": "svelte-eslint-parser",
+      "parserOptions": {
+        "parser": "@typescript-eslint/parser"
+      }
+    },
+    {
+      "files": ["*.test.ts", "*.test.js", "*.spec.ts", "*.spec.js"],
+      "env": {
+        "vitest/globals": true
+      },
+      "extends": ["plugin:vitest/recommended"],
+      "plugins": ["vitest"]
+    }
+  ],
+  "rules": {
+    // Code Quality Rules
+    "max-lines": ["error", { "max": 200, "skipBlankLines": true, "skipComments": true }],
+    "max-lines-per-function": ["error", { "max": 50, "skipBlankLines": true, "skipComments": true }],
+    "complexity": ["error", 10],
+    "max-depth": ["error", 4],
+    "max-params": ["error", 4],
+    "no-console": ["warn", { "allow": ["warn", "error"] }],
+    "no-debugger": "error",
+    "no-alert": "error",
+    
+    // TypeScript Specific Rules
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/prefer-const": "error",
+    "@typescript-eslint/no-non-null-assertion": "warn",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-empty-function": "warn",
+    
+    // Security Rules
+    "security/detect-object-injection": "error",
+    "security/detect-non-literal-regexp": "error",
+    "security/detect-unsafe-regex": "error",
+    "security/detect-buffer-noassert": "error",
+    "security/detect-child-process": "error",
+    "security/detect-disable-mustache-escape": "error",
+    "security/detect-eval-with-expression": "error",
+    "security/detect-no-csrf-before-method-override": "error",
+    "security/detect-non-literal-fs-filename": "error",
+    "security/detect-non-literal-require": "error",
+    "security/detect-possible-timing-attacks": "error",
+    "security/detect-pseudoRandomBytes": "error",
+    
+    // Best Practices
+    "eqeqeq": ["error", "always"],
+    "curly": ["error", "all"],
+    "no-var": "error",
+    "prefer-const": "error",
+    "no-duplicate-imports": "error",
+    "no-template-curly-in-string": "error",
+    "array-callback-return": "error",
+    "consistent-return": "error",
+    "default-case": "error",
+    "no-fallthrough": "error",
+    "no-floating-decimal": "error",
+    "no-implicit-globals": "error",
+    "no-implied-eval": "error",
+    "no-loop-func": "error",
+    "no-new-wrappers": "error",
+    "no-return-assign": "error",
+    "no-self-compare": "error",
+    "no-sequences": "error",
+    "no-throw-literal": "error",
+    "no-unmodified-loop-condition": "error",
+    "no-useless-call": "error",
+    "no-useless-concat": "error",
+    "no-useless-return": "error",
+    "prefer-promise-reject-errors": "error",
+    "require-await": "error",
+    
+    // Style Rules (handled by Prettier but good to have)
+    "no-trailing-spaces": "error",
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
+    "eol-last": "error",
+    
+    // Svelte Specific Rules
+    "svelte/no-at-debug-tags": "warn",
+    "svelte/no-reactive-functions": "error",
+    "svelte/no-reactive-literals": "error",
+    "svelte/prefer-destructuring": "warn",
+    "svelte/button-has-type": "error",
+    "svelte/no-at-html-tags": "warn",
+    "svelte/no-target-blank": "error",
+    "svelte/a11y-accesskey": "error",
+    "svelte/a11y-aria-attributes": "error",
+    "svelte/a11y-click-events-have-key-events": "error",
+    "svelte/a11y-img-redundant-alt": "error",
+    "svelte/a11y-label-has-associated-control": "error",
+    "svelte/a11y-media-has-caption": "error",
+    "svelte/a11y-missing-attribute": "error",
+    "svelte/a11y-missing-content": "error",
+    "svelte/a11y-mouse-events-have-key-events": "error",
+    "svelte/a11y-no-redundant-roles": "error",
+    "svelte/a11y-no-static-element-interactions": "error",
+    "svelte/a11y-role-has-required-aria-props": "error",
+    "svelte/a11y-structure": "error"
+  },
+  "ignorePatterns": [
+    "dist/",
+    "build/",
+    ".svelte-kit/",
+    "node_modules/",
+    "*.config.js",
+    "*.config.ts"
+  ]
+} 
