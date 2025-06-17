@@ -12,11 +12,11 @@
       {#if isVisible}
         <div class="text-center mb-16" in:fly={{ y: 30, duration: 600 }}>
           <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
-            Every Type of Website You Can Imagine
+            Built Like a Tech Startup. Priced Like a Website.
           </h2>
           <p class="text-xl text-gray-600 max-w-4xl mx-auto">
-            From simple marketing sites to complex e-commerce platforms and SaaS applications - if you can dream it, we can build it. 
-            Our versatile approach means unlimited possibilities for your business.
+            Each project starts with our battle-tested foundation: 74 custom components, enterprise authentication, 
+            real-time data sync, and production-grade infrastructure. What takes most teams months to build, we deliver in days.
           </p>
         </div>
         

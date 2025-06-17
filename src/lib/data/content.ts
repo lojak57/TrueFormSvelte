@@ -44,76 +44,52 @@ export interface PricingTier {
 // Features data
 export const FEATURES_DATA: Feature[] = [
   {
-    id: 'marketing',
-    icon: Globe,
-    title: "Marketing Websites",
-    description: "Convert visitors into customers with stunning marketing sites. Landing pages, corporate sites, and brand showcases that drive results.",
-    category: 'marketing',
+    id: 'architecture',
+    icon: Shield,
+    title: "Enterprise Architecture",
+    description: "PostgreSQL with RLS security, TypeScript strictness, and SvelteKit performance. The same tech stack that powers billion-dollar companies.",
+    category: 'technical',
     colorScheme: "text-blue-600 bg-blue-100"
   },
   {
-    id: 'ecommerce',
-    icon: Award,
-    title: "E-commerce Stores",
-    description: "Like our flagship vcsews.com - full webshops with custom design tools, product management, and user-friendly admin panels.",
-    category: 'ecommerce',
+    id: 'components',
+    icon: Zap,
+    title: "74 Custom Components",
+    description: "Pre-built UI library with base, business, and layout components. No dependencies on external libraries that break or charge fees.",
+    category: 'development',
     colorScheme: "text-purple-600 bg-purple-100"
   },
   {
-    id: 'booking',
-    icon: Users,
-    title: "Booking & Scheduling",
-    description: "Service-based businesses love our booking systems. Appointments, reservations, calendar integration, and automated confirmations.",
-    category: 'services',
+    id: 'testing',
+    icon: Award,
+    title: "136 E2E Tests Passing",
+    description: "Full Playwright test suite with cross-browser validation. Every feature tested before deployment - zero surprises.",
+    category: 'quality',
     colorScheme: "text-green-600 bg-green-100"
   },
   {
-    id: 'saas',
-    icon: Zap,
-    title: "SaaS Platforms",
-    description: "Multi-tenant applications with user dashboards, subscription management, and custom feature sets for your unique business model.",
-    category: 'software',
+    id: 'workflow',
+    icon: Users,
+    title: "Production Workflow",
+    description: "Danger.js code review, ESLint security scanning, and automated deployment. The same standards as FAANG companies.",
+    category: 'process',
     colorScheme: "text-yellow-600 bg-yellow-100"
   },
   {
-    id: 'portfolio',
-    icon: Palette,
-    title: "Portfolio & Creative",
-    description: "Artists, photographers, designers - showcase your work with galleries, client proofing, booking systems, and stunning visual layouts.",
-    category: 'creative',
+    id: 'scalability',
+    icon: Globe,
+    title: "Built to Scale",
+    description: "Multi-tenant ready, API-first design, and modular architecture. Your $999 site can grow into a million-dollar platform.",
+    category: 'growth',
     colorScheme: "text-pink-600 bg-pink-100"
   },
   {
-    id: 'membership',
-    icon: Shield,
-    title: "Membership Communities",
-    description: "Private communities with member portals, content libraries, forums, and subscription-based access control systems.",
-    category: 'community',
+    id: 'performance',
+    icon: Palette,
+    title: "Lighthouse Perfect",
+    description: "Optimized bundle splitting, lazy loading, and edge caching. Sub-second load times that convert visitors into customers.",
+    category: 'speed',
     colorScheme: "text-indigo-600 bg-indigo-100"
-  },
-  {
-    id: 'realestate',
-    icon: Globe,
-    title: "Real Estate Platforms",
-    description: "Property listings, agent profiles, search filters, virtual tours, and lead capture systems that convert browsers into buyers.",
-    category: 'realestate',
-    colorScheme: "text-teal-600 bg-teal-100"
-  },
-  {
-    id: 'education',
-    icon: Users,
-    title: "Educational Platforms",
-    description: "Online courses, learning management systems, student portals, progress tracking, and certification management.",
-    category: 'education',
-    colorScheme: "text-orange-600 bg-orange-100"
-  },
-  {
-    id: 'restaurant',
-    icon: Award,
-    title: "Restaurant & Food",
-    description: "Online ordering, menu management, reservation systems, delivery integration, and customer loyalty programs.",
-    category: 'food',
-    colorScheme: "text-red-600 bg-red-100"
   }
 ];
 
@@ -179,50 +155,51 @@ export const STATS_DATA: Stat[] = [
 // Pricing data
 export const PRICING_DATA: PricingTier[] = [
   {
-    id: 'free-demo',
-    name: 'Free Demo',
+    id: 'architecture-demo',
+    name: 'See The Foundation',
     price: '$0',
-    description: 'See what we can do for you',
+    description: 'Experience enterprise-grade architecture',
     features: [
-      'Custom mockup of your site',
-      'No commitment required',
-      'See your vision come to life',
-      'Professional consultation'
+      'Live demo of our tech stack',
+      'Code architecture walkthrough',
+      'Performance benchmarks',
+      'Security audit overview'
     ],
-    buttonText: 'Get Free Demo',
+    buttonText: 'Explore The Code',
     buttonHref: '/request',
-    badge: 'Risk Free'
+    badge: 'Technical Deep Dive'
   },
   {
-    id: 'professional',
-    name: 'Professional',
+    id: 'production-ready',
+    name: 'Production Platform',
     price: '$999',
-    monthlyPrice: 'Or $83/month for 12 months',
-    description: 'Complete professional website',
+    monthlyPrice: 'Worth $50k+ in dev time',
+    description: 'Enterprise foundation, startup speed',
     features: [
-      'Fully custom design & development',
-      'Mobile responsive & SEO optimized',
-      'Content management system',
-      '30 days free support',
-      'BNPL option available'
+      '74 pre-built components included',
+      'PostgreSQL + RLS security setup',
+      '136 E2E tests for reliability',
+      'TypeScript strict mode enabled',
+      'Scalable multi-tenant architecture',
+      'Production deployment ready'
     ],
-    buttonText: 'Start Your Project',
+    buttonText: 'Build My Platform',
     buttonHref: '/request',
     isPopular: true,
-    badge: 'Most Popular'
+    badge: 'Best Value'
   },
   {
-    id: 'enterprise',
-    name: 'Custom Enterprise',
-    price: "Let's Talk",
-    description: 'Tailored solutions for complex needs',
+    id: 'custom-platform',
+    name: 'Custom Architecture',
+    price: "Let's Build",
+    description: 'When you need something truly unique',
     features: [
-      'E-commerce platforms',
-      'Custom web applications',
-      'Multi-site management',
-      'Ongoing development partnership'
+      'Custom component libraries',
+      'Advanced integrations & APIs',
+      'Multi-platform deployments',
+      'Ongoing technical partnership'
     ],
-    buttonText: 'Contact Us',
+    buttonText: 'Discuss Project',
     buttonHref: '/contact'
   }
 ];
@@ -230,98 +207,98 @@ export const PRICING_DATA: PricingTier[] = [
 // Hero content
 export const HERO_CONTENT = {
   badge: {
-    text: 'Excellence Refined - Premium Website Development',
-    icon: Award
+    text: 'Enterprise Architecture. Startup Speed. Fixed Price.',
+    icon: Shield
   },
   title: {
-    main: 'Transform Your Business with',
-    highlight: 'Professional Websites'
+    main: 'We Build Real Software Companies',
+    highlight: 'Not Just Websites'
   },
-  description: 'Get a stunning, conversion-optimized website that perfectly represents your brand. From concept to completion in just days, not months.',
+  description: 'While others sell templates, we deliver production-ready platforms with 150+ custom components, enterprise security, and scalable architecture. The same foundation that powers million-dollar SaaS products, for just $999.',
   buttons: {
     primary: {
-      text: 'Start Your Project',
+      text: 'See The Difference',
       href: '/request',
       icon: Zap
     },
     secondary: {
-      text: 'See How It Works',
+      text: 'View Architecture',
       href: '#features'
     }
   },
   trustIndicators: [
-    { icon: Shield, text: 'Enterprise Security' },
-    { icon: Zap, text: 'Days, Not Months' },
-    { icon: Award, text: '5-Star Reviews' }
+    { icon: Shield, text: '202 SQL Tables Ready' },
+    { icon: Zap, text: '136 E2E Tests Passing' },
+    { icon: Award, text: 'TypeScript + RLS Security' }
   ]
 };
 
 // Advanced features content
 export const ADVANCED_FEATURES_CONTENT = {
   badge: {
-    text: 'Beyond Basic Builders & Expensive Custom Development',
-    icon: Award
+    text: 'Beyond Templates & Junior Developers',
+    icon: Shield
   },
-  title: 'Enterprise Features at a Fraction of the Cost',
-  description: 'Why settle for Squarespace limitations or pay $5k+ for basic custom development? TrueForm delivers advanced features that even expensive developers don\'t typically include - all for just $999.',
+  title: 'The Technical Foundation That Others Can\'t Deliver',
+  description: 'Most "custom" developers give you basic features on WordPress. Template builders limit you to their constraints. TrueForm delivers enterprise-grade architecture that scales from startup to IPO.',
   features: [
     {
-      title: 'Advanced User Dashboards:',
-      description: 'Custom admin panels with role-based permissions and real-time analytics'
+      title: '202-Line Database Schema:',
+      description: 'Production-ready PostgreSQL with proper relationships, RLS security, and performance optimization'
     },
     {
-      title: 'Dynamic Content Systems:',
-      description: 'User-generated content, automated workflows, and smart data management'
+      title: '74 Custom Components:',
+      description: 'No external dependencies that break or charge fees. Complete UI library built for extensibility'
     },
     {
-      title: 'Multi-Tenant Architecture:',
-      description: 'SaaS-ready platforms with user isolation and scalable infrastructure'
+      title: 'TypeScript Strict Mode:',
+      description: 'Type safety across 150+ files prevents runtime errors and enables confident refactoring'
     },
     {
-      title: 'Advanced Integrations:',
-      description: 'Payment processors, CRMs, email marketing, and custom API connections'
+      title: '136 E2E Tests Passing:',
+      description: 'Full Playwright test suite ensures every feature works across browsers and devices'
     },
     {
-      title: 'Real-Time Features:',
-      description: 'Live chat, notifications, collaborative tools, and instant updates'
+      title: 'Enterprise Authentication:',
+      description: 'Supabase Auth with JWT tokens, role-based access, and security middleware'
     },
     {
-      title: 'Custom Business Logic:',
-      description: 'Automated processes, smart recommendations, and industry-specific workflows'
+      title: 'Production Infrastructure:',
+      description: 'Code review automation, security scanning, and deployment pipelines from day one'
     }
   ],
   comparison: {
     competitors: [
       {
-        name: 'Squarespace/Wix',
+        name: 'Template Builders',
         issues: [
-          'Template limitations',
-          'No custom functionality',
-          'Basic integrations only',
-          'Monthly fees forever'
+          'Locked into their ecosystem',
+          'Monthly fees forever',
+          'No real customization',
+          'Performance bottlenecks'
         ]
       },
       {
-        name: '$5k+ Custom Dev',
+        name: 'Basic Custom Dev',
         issues: [
-          'Basic features only',
-          'No ongoing support',
-          'Long development time',
-          'Extra costs for everything'
+          'WordPress vulnerabilities',
+          'No testing infrastructure',
+          'Junior-level architecture',
+          'Technical debt from day one'
         ]
       }
     ],
-    advantage: 'Enterprise-grade features, rapid delivery, ongoing support, and advanced capabilities that most $10k+ projects don\'t even include.'
+    advantage: 'Production-ready codebase with enterprise patterns, comprehensive testing, and scalable architecture that grows with your business.'
   }
 };
 
 // CTA section content
 export const CTA_CONTENT = {
-  title: 'Ready to Transform Your Business?',
-  description: 'Join hundreds of businesses that have grown with TrueForm websites. Get started today and see results in days, not months.',
+  title: 'Stop Buying Websites. Start Building Platforms.',
+  description: 'While your competitors use templates, you\'ll have enterprise-grade software. The same technical foundation that powers billion-dollar companies, delivered in days for $999.',
   button: {
-    text: 'Start Your Project Today',
+    text: 'Build My Platform',
     href: '/request',
-    icon: Zap
+    icon: Shield
   }
 }; 
