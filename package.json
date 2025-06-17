@@ -2,6 +2,9 @@
   "name": "true-form-svelte",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": "18.x"
+  },
   "scripts": {
     "build": "vite build",
     "dev": "vite dev",
