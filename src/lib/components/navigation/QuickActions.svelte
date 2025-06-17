@@ -5,15 +5,17 @@
   import { goto } from '$app/navigation';
 
   export let showOpportunities = true;
-  export let showProposals = true;
+  export let showProposals = false;
   export let compact = false;
 
   function createProposal() {
-    goto('/admin/proposals/create');
+    // Redirect to projects instead since proposals are removed
+    goto('/admin/projects');
   }
 
   function createFromOpportunity() {
-    goto('/admin/proposals/create?from=opportunity');
+    // Redirect to companies instead since proposals are removed
+    goto('/admin/companies');
   }
 
   function viewOpportunities() {
@@ -21,7 +23,8 @@
   }
 
   function viewProposals() {
-    goto('/admin/proposals');
+    // Proposals functionality removed
+    throw new Error('Proposals functionality has been removed');
   }
 </script>
 

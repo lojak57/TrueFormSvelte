@@ -50,33 +50,21 @@ export { DATABASE_TABLES } from './database.types';
 // WIZARD TYPES
 // ============================================================================
 export type {
-  // Wizard Steps
-  WizardStepId,
-  WizardStep,
-  
-  // Form Data
-  WizardFormData,
-  
-  // Features
-  WizardFeature,
-  FeatureCategory,
-  
-  // UI State
-  WizardUIState,
+  // Site Request Wizard
+  SiteRequestFormData,
+  BasicInfoData,
+  ProjectVisionData,
+  ProjectTypeData,
+  DesignBrandingData,
+  ContentStructureData,
+  UserExperienceData,
+  TechnicalRequirementsData,
+  TimelineBudgetData,
   
   // Validation
-  WizardValidationResult,
-  WizardStepValidation,
-  
-  // Actions & Events
-  WizardAction,
-  
-  // Configuration
-  WizardConfiguration,
-  WizardPricingConfig,
-  
-  // Store
-  WizardStore,
+  ValidationResult,
+  FieldValidationError,
+  StepValidationEvent,
 } from './wizard.types';
 
 // ============================================================================

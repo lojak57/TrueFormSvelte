@@ -44,18 +44,26 @@
         </p>
         
         <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
-          <Button variant="accent" size="lg" class="px-8 py-4 text-lg shadow-2xl hover:shadow-accent-500/25 transition-all duration-300 hover:scale-105">
-            <a href={HERO_CONTENT.buttons.primary.href} class="flex items-center gap-3">
+          <Button 
+            variant="accent" 
+            size="lg" 
+            class="px-8 py-4 text-lg shadow-2xl hover:shadow-accent-500/25 transition-all duration-300 hover:scale-105"
+            on:click={() => window.location.href = `${HERO_CONTENT.buttons.primary.href}?start=true`}
+          >
+            <div class="flex items-center gap-3">
               <svelte:component this={HERO_CONTENT.buttons.primary.icon} size={24} />
               {HERO_CONTENT.buttons.primary.text}
               <ArrowRight size={20} />
-            </a>
+            </div>
           </Button>
           
-          <Button variant="outline" size="lg" class="px-8 py-4 text-lg border-white/20 text-white hover:bg-white/10 backdrop-blur-sm">
-            <a href={HERO_CONTENT.buttons.secondary.href}>
-              {HERO_CONTENT.buttons.secondary.text}
-            </a>
+          <Button 
+            variant="outline" 
+            size="lg" 
+            class="px-8 py-4 text-lg border-white/20 text-white hover:bg-white/10 backdrop-blur-sm"
+            on:click={() => window.location.href = HERO_CONTENT.buttons.secondary.href}
+          >
+            {HERO_CONTENT.buttons.secondary.text}
           </Button>
         </div>
         

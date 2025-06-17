@@ -2,6 +2,151 @@ import { json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { createTrueFormOpportunity, getTrueFormOpportunities, updateOpportunityStatus } from '$lib/api/trueform-server';
 
+// Lead scoring algorithm
+function calculateLeadScore(data: any): { score: number; priority: string; factors: string[] } {
+  let score = 50; // Base score
+  const factors = [];
+
+  // Decision Making Authority (0-25 points)
+  switch (data.decisionAuthority) {
+    case 'decision_maker':
+      score += 25;
+      factors.push('Decision maker identified');
+      break;
+    case 'influencer':
+      score += 15;
+      factors.push('Key influencer');
+      break;
+    case 'team_decision':
+      score += 10;
+      factors.push('Team decision process');
+      break;
+    case 'researcher':
+      score += 5;
+      factors.push('Research phase');
+      break;
+  }
+
+  // Budget Context (0-25 points)
+  switch (data.budgetContext) {
+    case 'budget_approved':
+      score += 25;
+      factors.push('Budget already approved');
+      break;
+    case 'budget_flexible':
+      score += 20;
+      factors.push('Flexible budget');
+      break;
+    case 'budget_researching':
+      score += 15;
+      factors.push('Researching investment');
+      break;
+    case 'budget_constrained':
+      score += 10;
+      factors.push('Budget conscious');
+      break;
+    case 'budget_exploring':
+      score += 5;
+      factors.push('Early exploration');
+      break;
+  }
+
+  // Project Urgency (0-25 points)
+  switch (data.projectUrgency) {
+    case 'urgent_deadline':
+      score += 25;
+      factors.push('Has specific deadline');
+      break;
+    case 'high_priority':
+      score += 20;
+      factors.push('High priority project');
+      break;
+    case 'planned_project':
+      score += 15;
+      factors.push('Planned initiative');
+      break;
+    case 'when_ready':
+      score += 10;
+      factors.push('Quality over speed');
+      break;
+    case 'exploring':
+      score += 5;
+      factors.push('Exploring options');
+      break;
+  }
+
+  // Current Situation - Pain Level (0-20 points)
+  switch (data.currentSituation) {
+    case 'losing_business':
+      score += 20;
+      factors.push('Losing business opportunities');
+      break;
+    case 'no_website':
+    case 'competitor_pressure':
+      score += 18;
+      factors.push('Competitive pressure');
+      break;
+    case 'outdated_website':
+    case 'new_launch':
+    case 'growth_phase':
+      score += 15;
+      factors.push('Growth-driven need');
+      break;
+    case 'modernize':
+      score += 10;
+      factors.push('Modernization initiative');
+      break;
+  }
+
+  // Competitor Context (0-15 points)
+  switch (data.competitorContext) {
+    case 'first_choice':
+      score += 15;
+      factors.push('We are first choice');
+      break;
+    case 'referral':
+      score += 12;
+      factors.push('Came via referral');
+      break;
+    case 'quotes_received':
+      score += 10;
+      factors.push('Actively comparing quotes');
+      break;
+    case 'quotes_pending':
+      score += 8;
+      factors.push('Getting multiple quotes');
+      break;
+    case 'researching':
+      score += 5;
+      factors.push('Still researching');
+      break;
+  }
+
+  // Project Complexity Bonus (0-10 points)
+  const features = data.coreFeatures || [];
+  if (features.length > 8) {
+    score += 10;
+    factors.push('Complex project requirements');
+  } else if (features.length > 5) {
+    score += 5;
+    factors.push('Moderate complexity');
+  }
+
+  // Timeline Urgency Bonus (0-5 points)
+  if (data.timeline === 'ASAP' || data.timeline === '1-2 weeks') {
+    score += 5;
+    factors.push('Urgent timeline');
+  }
+
+  // Determine priority level
+  let priority = 'LOW';
+  if (score >= 85) priority = 'CRITICAL';
+  else if (score >= 70) priority = 'HIGH';
+  else if (score >= 55) priority = 'MEDIUM';
+
+  return { score: Math.min(score, 100), priority, factors };
+}
+
 export const POST: RequestHandler = async ({ request }) => {
   try {
     const data = await request.json();
@@ -112,6 +257,9 @@ export const POST: RequestHandler = async ({ request }) => {
       isPremium: !BASE_FEATURES.includes(id) && !ENTERPRISE_FEATURES.includes(id),
       isEnterprise: ENTERPRISE_FEATURES.includes(id)
     }));
+
+    // Calculate lead score and qualification
+    const leadScoring = calculateLeadScore(data);
     
     // Create project summary
     const projectSummary = {
@@ -154,12 +302,12 @@ export const POST: RequestHandler = async ({ request }) => {
       }
     };
     
-    // Transform wizard data to TrueForm lead format
+    // Transform wizard data to TrueForm lead format with qualification data
     const leadData = {
       companyName: data.companyName,
       contactName: data.contactName,
       contactEmail: data.contactEmail,
-      contactPhone: '', // Not collected in wizard
+      contactPhone: data.contactPhone || '', 
       projectDescription: data.projectDescription,
       websiteType: data.websiteType,
       features: selectedFeatures.map((f: any) => f.name),
@@ -168,14 +316,36 @@ export const POST: RequestHandler = async ({ request }) => {
       brandAssets: data.brandingAssets?.hasBrandAssets === 'yes',
       timeline: data.timeline,
       budgetRange: isEnterprise ? 'Custom Quote' : `$${totalPrice} - Custom`,
-      planType: isEnterprise ? 'enterprise' : 'custom'
+      planType: isEnterprise ? 'enterprise' : 'custom',
+      
+      // NEW: Lead qualification data
+      contactRole: data.contactRole,
+      decisionAuthority: data.decisionAuthority,
+      budgetContext: data.budgetContext,
+      projectUrgency: data.projectUrgency,
+      currentSituation: data.currentSituation,
+      competitorContext: data.competitorContext,
+      
+      // Lead scoring
+      leadScore: leadScoring.score,
+      leadPriority: leadScoring.priority,
+      scoringFactors: leadScoring.factors.join(', '),
+      
+      // Enhanced tracking
+      industry: data.industry,
+      targetAudience: data.targetAudience,
+      primaryGoals: Array.isArray(data.primaryGoals) ? data.primaryGoals.join(', ') : data.primaryGoals,
+      additionalInfo: data.additionalInfo
     };
     
     console.log('🚀 Creating TrueForm opportunity:', {
       company: leadData.companyName,
       email: leadData.contactEmail,
       features: leadData.features.length,
-      pricing: isEnterprise ? 'ENTERPRISE QUOTE' : `$${totalPrice}`
+      pricing: isEnterprise ? 'ENTERPRISE QUOTE' : `$${totalPrice}`,
+      leadScore: leadScoring.score,
+      priority: leadScoring.priority,
+      scoringFactors: leadScoring.factors
     });
     
     // Use the proper TrueForm opportunity creation function
@@ -189,8 +359,46 @@ export const POST: RequestHandler = async ({ request }) => {
       type: leadData.websiteType,
       features: leadData.features.length,
       pricing: isEnterprise ? 'ENTERPRISE QUOTE' : `$${totalPrice}`,
-      timeline: leadData.timeline
+      timeline: leadData.timeline,
+      
+      // Lead qualification results
+      '🎯 LEAD SCORE': `${leadScoring.score}/100`,
+      '⚡ PRIORITY': leadScoring.priority,
+      '📊 DECISION AUTHORITY': data.decisionAuthority,
+      '💰 BUDGET STATUS': data.budgetContext,
+      '🚨 URGENCY': data.projectUrgency,
+      '🎭 SITUATION': data.currentSituation,
+      '🏆 COMPETITOR CONTEXT': data.competitorContext || 'Not specified'
     });
+
+    // 🚨 HIGH-PRIORITY LEAD NOTIFICATION SYSTEM
+    if (leadScoring.priority === 'CRITICAL' || leadScoring.priority === 'HIGH') {
+      console.log('🚨🚨🚨 HIGH-PRIORITY LEAD ALERT 🚨🚨🚨');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log(`🎯 LEAD SCORE: ${leadScoring.score}/100 (${leadScoring.priority})`);
+      console.log(`🏢 COMPANY: ${leadData.companyName}`);
+      console.log(`👤 CONTACT: ${leadData.contactName} (${leadData.contactEmail})`);
+      console.log(`💼 ROLE: ${data.contactRole}`);
+      console.log(`🎪 DECISION MAKER: ${data.decisionAuthority}`);
+      console.log(`💰 BUDGET: ${data.budgetContext}`);
+      console.log(`⏰ URGENCY: ${data.projectUrgency}`);
+      console.log(`💸 PROJECT VALUE: ${isEnterprise ? 'ENTERPRISE QUOTE' : `$${totalPrice}`}`);
+      console.log(`📞 PHONE: ${data.contactPhone || 'Not provided'}`);
+      console.log(`🎯 SCORING FACTORS: ${leadScoring.factors.join(', ')}`);
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('📋 IMMEDIATE ACTION REQUIRED:');
+      console.log('  1. Follow up within 1 hour for CRITICAL leads');
+      console.log('  2. Follow up within 4 hours for HIGH priority leads');
+      console.log('  3. Prioritize this lead in your CRM');
+      console.log('  4. Prepare personalized proposal based on scoring factors');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      
+      // TODO: In production, this would:
+      // - Send Slack notification to sales team
+      // - Send email alert to lead sales rep  
+      // - Create high-priority ticket in project management system
+      // - Set up automated follow-up reminders
+    }
     
     return json({ 
       success: true, 

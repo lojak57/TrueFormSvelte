@@ -1,246 +1,277 @@
 <script lang="ts">
-  import Card from '$lib/components/ui/Card.svelte';
-  import Button from '$lib/components/ui/Button.svelte';
-  import { Plus, FileText, Zap, Users, BarChart3, Filter } from 'lucide-svelte';
-  import { goto } from '$app/navigation';
-
-  // Mock data - replace with actual proposal data
-  let proposals = [
-    {
-      id: '1',
-      title: 'E-commerce Website for TechStart',
-      clientCompany: 'TechStart Inc.',
-      status: 'draft',
-      value: 15000,
-      createdAt: '2024-01-15',
-      lastModified: '2024-01-16'
-    },
-    {
-      id: '2',
-      title: 'Corporate Website Redesign',
-      clientCompany: 'GreenCo',
-      status: 'sent',
-      value: 8500,
-      createdAt: '2024-01-10',
-      lastModified: '2024-01-12'
+  import { onMount } from 'svelte';
+  import type { Proposal } from '$lib/types';
+  
+  let proposals: Proposal[] = [];
+  let loading = true;
+  let error = '';
+  
+  onMount(async () => {
+    await loadProposals();
+  });
+  
+  async function loadProposals() {
+    try {
+      loading = true;
+      const response = await fetch('/api/proposals');
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Proposals API response:', data);
+        // Ensure we always have an array
+        proposals = Array.isArray(data) ? data : (data.proposals || []);
+        console.log('Final proposals array:', proposals);
+      } else {
+        console.log('API response not OK:', response.status, response.statusText);
+        // If API doesn't exist yet, show empty state
+        proposals = [];
+      }
+    } catch (err) {
+      console.error('Error loading proposals:', err);
+      proposals = [];
+    } finally {
+      loading = false;
     }
-  ];
-
-  function getStatusColor(status: string) {
-    const colors = {
-      draft: 'bg-gray-100 text-gray-800',
-      sent: 'bg-blue-100 text-blue-800',
-      viewed: 'bg-yellow-100 text-yellow-800',
-      accepted: 'bg-green-100 text-green-800',
-      declined: 'bg-red-100 text-red-800'
-    };
-    return colors[status as keyof typeof colors] || 'bg-gray-100 text-gray-800';
   }
-
-  function formatCurrency(amount: number) {
+  
+  function formatCurrency(amount: number): string {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD'
     }).format(amount);
   }
-
-  function createProposal() {
-    goto('/admin/proposals/create');
+  
+  function formatDate(dateString: string): string {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
   }
-
-  function createFromOpportunity() {
-    // Navigate to opportunity selection flow
-    goto('/admin/proposals/create?from=opportunity');
+  
+  function getStatusColor(status: string): string {
+    switch (status) {
+      case 'draft': return 'bg-gray-100 text-gray-800';
+      case 'sent': return 'bg-blue-100 text-blue-800';
+      case 'accepted': return 'bg-green-100 text-green-800';
+      case 'rejected': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
   }
-
-  function viewProposal(id: string) {
-    goto(`/admin/proposals/${id}`);
+  
+  function getStatusGradient(status: string): string {
+    switch (status) {
+      case 'draft': return 'from-gray-400 to-gray-500';
+      case 'sent': return 'from-blue-400 to-blue-600';
+      case 'accepted': return 'from-green-400 to-green-600';
+      case 'rejected': return 'from-red-400 to-red-600';
+      default: return 'from-gray-400 to-gray-500';
+    }
+  }
+  
+  function getStatusDot(status: string): string {
+    switch (status) {
+      case 'draft': return 'bg-gray-500';
+      case 'sent': return 'bg-blue-500';
+      case 'accepted': return 'bg-green-500';
+      case 'rejected': return 'bg-red-500';
+      default: return 'bg-gray-500';
+    }
+  }
+  
+  async function downloadPDF(proposalId: string, event: Event) {
+    event.stopPropagation();
+    event.preventDefault();
+    
+    try {
+      const response = await fetch(`/api/proposals/${proposalId}/pdf?payment_qr=true&acceptance_qr=true`);
+      
+      if (!response.ok) {
+        throw new Error('Failed to generate PDF');
+      }
+      
+      // Get the filename from response headers
+      const contentDisposition = response.headers.get('content-disposition');
+      let filename = `proposal-${proposalId.slice(-8)}.pdf`;
+      
+      if (contentDisposition) {
+        const matches = contentDisposition.match(/filename="(.+)"/i);
+        if (matches) {
+          filename = matches[1];
+        }
+      }
+      
+      // Create blob and download
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (err) {
+      console.error('Error downloading PDF:', err);
+      alert('Failed to download PDF. Please try again.');
+    }
   }
 </script>
 
 <svelte:head>
-  <title>Proposals | True-Form Admin</title>
+  <title>Proposals | TrueForm Admin</title>
 </svelte:head>
 
 <div class="space-y-6">
   <!-- Header -->
-  <div class="flex justify-between items-center">
+  <div class="flex items-center justify-between">
     <div>
-      <h1 class="text-3xl font-semibold text-gray-900 mb-2">Proposals</h1>
-      <p class="text-gray-600">Create and manage client proposals with AI-powered generation</p>
+      <h1 class="text-3xl font-semibold text-gray-900">Proposals</h1>
+      <p class="text-gray-600 mt-1">Create and manage client proposals</p>
     </div>
-    
-    <div class="flex items-center space-x-3">
-      <Button variant="outline" on:click={createFromOpportunity}>
-        <Users size={20} class="mr-2" />
-        From Opportunity
-      </Button>
-      <Button variant="accent" on:click={createProposal}>
-        <Plus size={20} class="mr-2" />
-        New Proposal
-      </Button>
-    </div>
+    <a 
+      href="/admin/proposals/new"
+      class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
+    >
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+      </svg>
+      New Proposal
+    </a>
   </div>
-
-  <!-- Quick Stats -->
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-    <Card class="p-6">
-      <div class="flex items-center">
-        <div class="p-3 bg-blue-100 rounded-lg">
-          <FileText class="text-blue-600" size={24} />
-        </div>
-        <div class="ml-4">
-          <p class="text-sm font-medium text-gray-600">Total Proposals</p>
-          <p class="text-2xl font-semibold text-gray-900">{proposals.length}</p>
-        </div>
-      </div>
-    </Card>
-
-    <Card class="p-6">
-      <div class="flex items-center">
-        <div class="p-3 bg-green-100 rounded-lg">
-          <Zap class="text-green-600" size={24} />
-        </div>
-        <div class="ml-4">
-          <p class="text-sm font-medium text-gray-600">This Month</p>
-          <p class="text-2xl font-semibold text-gray-900">
-            {proposals.filter(p => new Date(p.createdAt) > new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)).length}
-          </p>
-        </div>
-      </div>
-    </Card>
-
-    <Card class="p-6">
-      <div class="flex items-center">
-        <div class="p-3 bg-purple-100 rounded-lg">
-          <BarChart3 class="text-purple-600" size={24} />
-        </div>
-        <div class="ml-4">
-          <p class="text-sm font-medium text-gray-600">Total Value</p>
-          <p class="text-2xl font-semibold text-gray-900">
-            {formatCurrency(proposals.reduce((sum, p) => sum + p.value, 0))}
-          </p>
-        </div>
-      </div>
-    </Card>
-
-    <Card class="p-6">
-      <div class="flex items-center">
-        <div class="p-3 bg-orange-100 rounded-lg">
-          <Users class="text-orange-600" size={24} />
-        </div>
-        <div class="ml-4">
-          <p class="text-sm font-medium text-gray-600">Acceptance Rate</p>
-          <p class="text-2xl font-semibold text-gray-900">
-            {Math.round((proposals.filter(p => p.status === 'accepted').length / proposals.length) * 100) || 0}%
-          </p>
-        </div>
-      </div>
-    </Card>
-  </div>
-
-  <!-- Actions Bar -->
-  <div class="flex items-center justify-between p-4 bg-white border border-gray-200 rounded-lg">
-    <div class="flex items-center space-x-4">
-      <Button variant="outline" size="sm">
-        <Filter size={16} class="mr-2" />
-        Filter
-      </Button>
-      <select class="text-sm border border-gray-300 rounded-md px-3 py-2">
-        <option>All Statuses</option>
-        <option>Draft</option>
-        <option>Sent</option>
-        <option>Viewed</option>
-        <option>Accepted</option>
-        <option>Declined</option>
-      </select>
+  
+  {#if loading}
+    <div class="flex items-center justify-center py-12">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <span class="ml-3 text-gray-600">Loading proposals...</span>
     </div>
-    
-    <div class="text-sm text-gray-600">
-      {proposals.length} proposals
-    </div>
-  </div>
-
-  <!-- Proposals List -->
-  {#if proposals.length > 0}
-    <div class="space-y-4">
-      {#each proposals as proposal}
-        <Card class="p-6 hover:shadow-lg transition-shadow cursor-pointer" on:click={() => viewProposal(proposal.id)}>
-          <div class="flex items-center justify-between">
-            <div class="flex-1">
-              <div class="flex items-center space-x-3 mb-2">
-                <h3 class="text-lg font-semibold text-gray-900">{proposal.title}</h3>
-                <span class="px-2 py-1 text-xs font-medium rounded-full {getStatusColor(proposal.status)}">
-                  {proposal.status}
-                </span>
-              </div>
-              
-              <p class="text-sm text-gray-600 mb-2">{proposal.clientCompany}</p>
-              
-              <div class="flex items-center space-x-4 text-sm text-gray-500">
-                <span>Created: {new Date(proposal.createdAt).toLocaleDateString()}</span>
-                <span>Modified: {new Date(proposal.lastModified).toLocaleDateString()}</span>
-              </div>
-            </div>
-            
-            <div class="text-right">
-              <div class="text-2xl font-bold text-green-600 mb-1">
-                {formatCurrency(proposal.value)}
-              </div>
-              <Button variant="outline" size="sm" on:click={(e) => {
-                e.stopPropagation();
-                viewProposal(proposal.id);
-              }}>
-                View Details
-              </Button>
-            </div>
-          </div>
-        </Card>
-      {/each}
+  {:else if proposals.length === 0}
+    <!-- Empty State -->
+    <div class="text-center py-12">
+      <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+      <h3 class="mt-2 text-sm font-medium text-gray-900">No proposals</h3>
+      <p class="mt-1 text-sm text-gray-500">Get started by creating your first proposal.</p>
+      <div class="mt-6">
+        <a 
+          href="/admin/proposals/new"
+          class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
+        >
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          </svg>
+          Create Your First Proposal
+        </a>
+      </div>
     </div>
   {:else}
-    <!-- Empty State -->
-    <Card class="p-12 text-center">
-      <div class="flex flex-col items-center">
-        <div class="p-4 bg-gray-100 rounded-full mb-4">
-          <FileText size={48} class="text-gray-400" />
-        </div>
-        <h3 class="text-xl font-semibold text-gray-900 mb-2">No proposals yet</h3>
-        <p class="text-gray-600 mb-6 max-w-md">
-          Create your first proposal using our AI-powered generator. You can start from scratch or create from an existing opportunity.
-        </p>
-        <div class="flex items-center space-x-3">
-          <Button variant="outline" on:click={createFromOpportunity}>
-            <Users size={20} class="mr-2" />
-            From Opportunity
-          </Button>
-          <Button variant="accent" on:click={createProposal}>
-            <Plus size={20} class="mr-2" />
-            Create New Proposal
-          </Button>
-        </div>
-      </div>
-    </Card>
-  {/if}
+    <!-- Proposals List - Modern Card Layout -->
+    <div class="grid gap-6">
+      {#each proposals as proposal}
+        <div class="group relative bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 transition-all duration-300 overflow-hidden">
+          <a href="/admin/proposals/{proposal.id}" class="block">
+            <!-- Card Header with Status Indicator -->
+            <div class="relative">
+              <!-- Status accent bar -->
+              <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r {getStatusGradient(proposal.status)}"></div>
+              
+              <div class="p-6 pb-4">
+                <div class="flex items-start justify-between gap-4">
+                  <!-- Main proposal info -->
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-3 mb-2">
+                      <h3 class="text-xl font-semibold text-gray-900 truncate group-hover:text-blue-600 transition-colors">
+                        {proposal.title}
+                      </h3>
+                      <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {getStatusColor(proposal.status)} flex-shrink-0">
+                        <span class="w-1.5 h-1.5 rounded-full {getStatusDot(proposal.status)} mr-1.5"></span>
+                        {proposal.status}
+                      </span>
+                    </div>
+                    
+                    <!-- Company info with icon -->
+                    <div class="flex items-center text-sm text-gray-600 mb-3">
+                      <div class="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-1.5">
+                        <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                          <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd" />
+                        </svg>
+                        <span class="font-medium">Company #{proposal.company_id?.slice(-8)}</span>
+                      </div>
+                    </div>
+                  </div>
 
-  <!-- Quick Help -->
-  <Card class="p-6 bg-blue-50 border-blue-200">
-    <div class="flex items-start space-x-3">
-      <div class="p-2 bg-blue-100 rounded-lg">
-        <Zap class="text-blue-600" size={20} />
-      </div>
-      <div>
-        <h4 class="font-semibold text-blue-900 mb-2">AI-Powered Proposal Generation</h4>
-        <p class="text-blue-800 text-sm mb-3">
-          Our advanced proposal generator uses AI to create professional, customized proposals in minutes.
-        </p>
-        <ul class="text-blue-800 text-sm space-y-1">
-          <li>• Smart templates based on project type</li>
-          <li>• Automated pricing calculations</li>
-          <li>• Professional PDF generation</li>
-          <li>• Client tracking and analytics</li>
-        </ul>
-      </div>
+                  <!-- Total value - prominent display -->
+                  <div class="text-right flex-shrink-0">
+                    <div class="text-3xl font-bold text-blue-600">{formatCurrency(proposal.total)}</div>
+                    <div class="text-sm text-gray-500 font-medium">Total Value</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card Body -->
+            <div class="px-6 pb-4">
+              <!-- Services preview -->
+              {#if proposal.line_items && proposal.line_items.length > 0}
+                <div class="mb-4">
+                  <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span class="font-medium">{proposal.line_items.length} Services</span>
+                  </div>
+                  <div class="flex flex-wrap gap-2">
+                    {#each proposal.line_items.slice(0, 3) as item}
+                      <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                        {item.name}
+                      </span>
+                    {/each}
+                    {#if proposal.line_items.length > 3}
+                      <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-50 text-gray-600 border border-gray-200">
+                        +{proposal.line_items.length - 3} more
+                      </span>
+                    {/if}
+                  </div>
+                </div>
+              {/if}
+
+              <!-- Metadata row -->
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center gap-4">
+                  <div class="flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-9 0h10m-10 0l.5 9a1 1 0 001 1h9a1 1 0 001-1l.5-9" />
+                    </svg>
+                    <span>Created {formatDate(proposal.created_at)}</span>
+                  </div>
+                </div>
+
+                <!-- Action buttons -->
+                <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button 
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors" 
+                    on:click={(e) => downloadPDF(proposal.id, e)}
+                    title="Download PDF"
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    PDF
+                  </button>
+                  
+                  <div class="flex items-center gap-1.5 text-blue-600 text-xs font-medium">
+                    <span>View Details</span>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      {/each}
     </div>
-  </Card>
-</div> 
+  {/if}
+</div>

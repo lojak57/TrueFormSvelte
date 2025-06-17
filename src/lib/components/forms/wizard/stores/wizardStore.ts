@@ -21,219 +21,139 @@ export interface WizardState {
   isSuccess: boolean;
 }
 
-// Step definitions with starter prompts
+// Rich, consultative wizard - UI/UX masterpiece for design consultation
 export const WIZARD_STEPS: WizardStep[] = [
-  // Welcome
+  // Welcome Screen - Sets premium consultation tone
   {
     id: 'welcome',
     section: 'intro',
-    component: null, // Will import later
+    component: null,
     title: '',
     subtitle: ''
   },
-  
-  // Company Name with examples
-  {
-    id: 'companyName',
-    section: 'basic',
-    component: null,
-    title: "First, what's your company name?",
-    placeholder: 'e.g., Acme Corp, Smith & Associates, TechStart Inc.',
-    starterPrompts: [
-      'Just use my name',
-      'It\'s a new startup',
-      'Still deciding on the name'
-    ]
-  },
-  
-  // Contact Name with friendly options
-  {
-    id: 'contactName',
-    section: 'basic',
-    component: null,
-    title: 'And who am I speaking with?',
-    placeholder: 'e.g., John Smith',
-    subtitle: 'Your first and last name'
-  },
-  
-  // Contact Role - new step with dropdown
-  {
-    id: 'contactRole',
-    section: 'basic',
-    component: null,
-    title: 'What\'s your role in the company?',
-    subtitle: 'This helps us understand your decision-making authority'
-  },
-  
-  // Email with domain suggestions
-  {
-    id: 'contactEmail',
-    section: 'basic',
-    component: null,
-    title: 'What\'s the best email to reach you?',
-    placeholder: 'you@company.com',
-    subtitle: 'We\'ll send project updates here'
-  },
-  
-  // Phone number - important but optional
-  {
-    id: 'contactPhone',
-    section: 'basic',
-    component: null,
-    title: 'What\'s the best number to reach you?',
-    placeholder: '(555) 123-4567',
-    subtitle: 'For quick questions and project coordination',
-    skipLabel: 'I prefer email only'
-  },
-  
-  // Industry with visual cards + "Other" option
-  {
-    id: 'industry',
-    section: 'basic',
-    component: null,
-    title: 'What industry are you in?',
-    subtitle: 'This helps us tailor your site'
-    // Will show top 8 industries + "Other" + "Multiple industries"
-  },
-  
-  // Project Description with starter templates
-  {
-    id: 'projectDescription',
-    section: 'vision',
-    component: null,
-    title: 'Tell us about your project',
-    subtitle: 'In your own words, or use a starter below',
-    starterPrompts: [
-      'We need a modern website to showcase our services and generate leads',
-      'We\'re launching a new product and need an online presence',
-      'Our current website is outdated and doesn\'t work on mobile',
-      'We want to start selling our products online',
-      'We need a platform for our customers to book appointments',
-      'We\'re a new business and need our first website'
-    ]
-  },
-  
-  // Goals with descriptions
-  {
-    id: 'primaryGoals',
-    section: 'vision',
-    component: null,
-    title: 'What\'s your main goal?',
-    subtitle: 'Pick the most important one (you can add more next)'
-  },
-  
-  // Target Audience with templates
-  {
-    id: 'targetAudience',
-    section: 'vision',
-    component: null,
-    title: 'Who\'s your ideal customer?',
-    starterPrompts: [
-      'Small business owners who need our services',
-      'Consumers looking for quality products',
-      'Enterprise companies in our industry',
-      'Local community members',
-      'Young professionals aged 25-40',
-      'Parents and families',
-      'B2B decision makers',
-      'Anyone interested in our topic'
-    ],
-    skipLabel: 'I\'ll figure this out later'
-  },
-  
-  // Website Type - already visual
-  {
-    id: 'websiteType',
-    section: 'type',
-    component: null,
-    title: 'What type of website do you need?',
-    subtitle: 'Don\'t worry if you need features from multiple types'
-  },
-  
-  // Features with smart defaults
-  {
-    id: 'coreFeatures',
-    section: 'features',
-    component: null,
-    title: 'Which features do you need?',
-    subtitle: 'Select the features that matter most to your business'
-  },
 
-  // Design Mood
+  // Step 1: Contact & Company Info (Beautiful, professional form)
   {
-    id: 'designMood',
-    section: 'design',
+    id: 'contactInfo',
+    section: 'discovery',
     component: null,
-    title: 'How should your site feel?',
-    subtitle: 'Pick one or two that resonate'
+    title: 'Let\'s get acquainted',
+    subtitle: 'Every great partnership starts with introductions'
   },
   
-  // Typography Style
+  // Step 2: Vision & Goals (Consultative with emotional hooks)
   {
-    id: 'typography',
-    section: 'design',
+    id: 'projectVision',
+    section: 'discovery',
     component: null,
-    title: 'What typography style fits your brand?',
-    subtitle: 'Typography sets the tone for your entire website'
-  },
-  
-  // Color with smart suggestions
-  {
-    id: 'colorPalette',
-    section: 'design',
-    component: null,
-    title: 'Color preferences?',
-    subtitle: 'We\'ll suggest palettes based on your mood choice'
-  },
-  
-  // Branding Assets
-  {
-    id: 'brandingAssets',
-    section: 'design',
-    component: null,
-    title: 'Do you have existing brand materials?',
-    subtitle: 'Logos, colors, fonts, or brand guidelines we should know about'
-  },
-  
-  // Timeline with context
-  {
-    id: 'timeline',
-    section: 'planning',
-    component: null,
-    title: 'When do you need this?',
-    subtitle: 'Be realistic - good things take time',
+    title: 'What\'s your big vision?',
+    subtitle: 'Tell us about the impact you want to make',
     starterPrompts: [
-      'ASAP - I have a deadline',
-      'Within a month',
-      'Next 2-3 months',
-      'No rush, let\'s do it right'
+      '🚀 We\'re launching something revolutionary and need a stunning showcase',
+      '💼 We want to dominate our industry with a premium digital presence',
+      '📱 Our outdated site is embarrassing and losing us serious business',
+      '🛒 We\'re ready to sell online and compete with the big players',
+      '📅 Our clients need a seamless way to book and engage with us',
+      '✨ We\'re starting fresh and want to make an unforgettable first impression'
     ]
   },
   
-  // Additional info with prompts
+  // Step 3: Industry & Audience (Visual selection with personality)
   {
-    id: 'additionalInfo',
-    section: 'planning',
+    id: 'brandPersonality',
+    section: 'discovery',
     component: null,
-    title: 'Anything else we should know?',
-    starterPrompts: [
-      'I have existing branding/logos',
-      'I need help with content writing',
-      'This needs to integrate with existing systems',
-      'I have specific accessibility requirements',
-      'I want to be able to update it myself',
-      'I have examples of sites I like'
-    ],
-    skipLabel: 'No, I think we covered everything!'
+    title: 'Who are you speaking to?',
+    subtitle: 'Understanding your audience shapes everything we create'
   },
   
-  // Summary/Review
+  // Step 4: Design Vibe & Aesthetic (Rich visual selection)
+  {
+    id: 'designVibe',
+    section: 'design',
+    component: null,
+    title: 'What\'s your vibe?',
+    subtitle: 'Let\'s capture the feeling you want your visitors to experience'
+  },
+  
+  // Step 5: Website Type & Features (Visual cards with previews)
+  {
+    id: 'websiteScope',
+    section: 'design',
+    component: null,
+    title: 'What kind of experience are we building?',
+    subtitle: 'Each type has its own personality and purpose'
+  },
+  
+  // Step 6: Color & Typography Mood (Interactive design elements)
+  {
+    id: 'designElements',
+    section: 'design',
+    component: null,
+    title: 'Let\'s talk colors and style',
+    subtitle: 'These choices will define your brand\'s visual voice'
+  },
+  
+  // Step 7: Inspiration & References (Upload/describe inspirations)
+  {
+    id: 'inspiration',
+    section: 'design',
+    component: null,
+    title: 'Show us what inspires you',
+    subtitle: 'Share anything that captures the feeling you\'re after'
+  },
+  
+  // Step 8: Timeline & Investment (Contextual with value framing)
+  {
+    id: 'projectContext',
+    section: 'planning',
+    component: null,
+    title: 'Let\'s talk timing and investment',
+    subtitle: 'Great work takes time, but we understand your urgency'
+  },
+  
+  // Step 9: Decision Process (Relationship building)
+  {
+    id: 'decisionProcess',
+    section: 'planning',
+    component: null,
+    title: 'How do you make big decisions?',
+    subtitle: 'We want to make this process smooth for everyone involved'
+  },
+  
+  // Step 10: Current Challenges (Pain point discovery)
+  {
+    id: 'currentSituation',
+    section: 'planning',
+    component: null,
+    title: 'What\'s not working right now?',
+    subtitle: 'Understanding your frustrations helps us solve the right problems',
+    starterPrompts: [
+      '😤 Our current site makes us look amateur compared to competitors',
+      '📱 Nothing works properly on mobile and we\'re losing mobile customers',
+      '🐌 Our site is so slow that people leave before it even loads',
+      '🔍 Nobody can find us online - our SEO is basically non-existent',
+      '🛒 Our checkout process is a nightmare and killing our sales',
+      '📞 We\'re manually handling everything that should be automated'
+    ]
+  },
+  
+  // Step 11: Success Vision (Future state visualization)
+  {
+    id: 'successVision',
+    section: 'planning',
+    component: null,
+    title: 'Picture your success',
+    subtitle: 'When this project is complete, what will have changed?'
+  },
+  
+  // Step 12: Summary & Next Steps (Exciting conclusion)
   {
     id: 'summary',
     section: 'review',
     component: null,
-    title: 'Review Your Project',
-    subtitle: 'Almost done! Let\'s make sure we got everything right'
+    title: 'This is going to be amazing!',
+    subtitle: 'Let\'s review your vision and start bringing it to life'
   }
 ];
 
@@ -322,11 +242,14 @@ function createWizardStore() {
 
 export const wizardStore = createWizardStore();
 
-// Derived store for progress percentage
+// Derived store for progress percentage - streamlined flow
 export const wizardProgress = derived(
   wizardStore,
   $wizard => {
-    return Math.round(($wizard.currentStepIndex / WIZARD_STEPS.length) * 100);
+    const currentIndex = $wizard.currentStepIndex;
+    
+    // Simple linear progress for streamlined flow
+    return Math.round(((currentIndex + 1) / WIZARD_STEPS.length) * 100);
   }
 );
 

@@ -126,9 +126,10 @@
       <p class="text-gray-600">Manage website development opportunities</p>
     </div>
     <div class="flex items-center space-x-3">
-      <Button variant="outline" on:click={() => window.location.href = '/admin/proposals'}>
+      <!-- Proposals functionality removed -->
+      <Button variant="outline" disabled>
         <FileText size={20} class="mr-2" />
-        View Proposals
+        Proposals (Removed)
       </Button>
       <Button variant="accent" class="flex items-center gap-2">
         <Plus size={20} />
@@ -241,18 +242,12 @@
                         View Details
                       </Button>
                       {#if opportunity.status === 'qualified'}
-                        <Button variant="accent" size="sm" class="flex items-center gap-1 text-xs" on:click={(e) => {
-                          e.stopPropagation();
-                          window.location.href = `/admin/proposals/create?opportunityId=${opportunity.id}`;
-                        }}>
-                          Create Proposal
+                        <Button variant="accent" size="sm" class="flex items-center gap-1 text-xs" disabled>
+                          Proposals Removed
                         </Button>
                       {:else if opportunity.status === 'proposal'}
-                        <Button variant="outline" size="sm" class="flex items-center gap-1 text-xs" on:click={(e) => {
-                          e.stopPropagation();
-                          window.location.href = `/admin/proposals?opportunityId=${opportunity.id}`;
-                        }}>
-                          View Proposal
+                        <Button variant="outline" size="sm" class="flex items-center gap-1 text-xs" disabled>
+                          Proposals Removed
                         </Button>
                       {:else}
                         <Button variant="outline" size="sm" class="flex items-center gap-1">
@@ -292,7 +287,7 @@
         <div class="text-2xl font-bold text-purple-600 mb-2">
           {getOpportunitiesByStatus('proposal').length}
         </div>
-        <p class="text-sm text-gray-600">Active Proposals</p>
+        <p class="text-sm text-gray-600">Proposals (Removed)</p>
       </Card>
       
       <Card class="p-6 text-center">
@@ -316,7 +311,7 @@
 <div class="fixed bottom-6 right-6 z-50">
   <button
     class="bg-accent-600 hover:bg-accent-700 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center space-x-2 group"
-    on:click={() => window.location.href = '/admin/proposals/create'}
+    disabled
     title="Create New Proposal"
   >
     <FileText size={24} />

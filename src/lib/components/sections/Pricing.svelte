@@ -52,8 +52,9 @@
             variant={tier.isPopular ? 'accent' : 'outline'} 
             size="lg" 
             class="w-full {tier.isPopular ? 'shadow-lg mb-3' : ''}"
+            on:click={() => window.location.href = tier.buttonHref.includes('/request') ? `${tier.buttonHref}?start=true` : tier.buttonHref}
           >
-            <a href={tier.buttonHref}>{tier.buttonText}</a>
+            {tier.buttonText}
           </Button>
           
           {#if tier.isPopular}

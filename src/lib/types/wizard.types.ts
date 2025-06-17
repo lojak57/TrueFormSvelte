@@ -1,34 +1,4 @@
-/**
- * Wizard Types - Enhanced for SiteRequestWizard
- * Part of Phase 3 refactor - centralized wizard type definitions
- */
-
-// ============================================================================
-// WIZARD STEP TYPES
-// ============================================================================
-
-export type WizardStepId = 
-  | 'introduction' 
-  | 'basic-info' 
-  | 'features' 
-  | 'design' 
-  | 'timeline' 
-  | 'budget' 
-  | 'summary';
-
-export interface WizardStep {
-  id: number;
-  title: string;
-  description: string;
-  isComplete: boolean;
-  isValid: boolean;
-  isOptional?: boolean;
-}
-
-// ============================================================================
-// WIZARD FORM DATA STRUCTURE
-// ============================================================================
-
+// Site Request Wizard Types
 export interface SiteRequestFormData {
   // Step 1: Basic Information
   companyName: string;
@@ -88,134 +58,8 @@ export interface SiteRequestFormData {
   inspirationFiles: File[];
 }
 
-// ============================================================================
-// FEATURE SELECTION TYPES
-// ============================================================================
-
-export interface WizardFeature {
-  id: string;
-  name: string;
-  description: string;
-  category: 'basic' | 'advanced' | 'enterprise';
-  included: boolean;
-  addOnCost?: number;
-  icon?: string;
-  isEnterprise?: boolean;
-}
-
-export type FeatureCategory = 'basic' | 'advanced' | 'enterprise';
-
-// ============================================================================
-// WIZARD UI STATE TYPES
-// ============================================================================
-
-export interface WizardUIState {
-  isLoading: boolean;
-  isDirty: boolean;
-  validationErrors: Record<string, string[]>;
-  showAdvancedOptions: boolean;
-  autoSaveEnabled: boolean;
-  lastAutoSaveAt?: string;
-}
-
-// ============================================================================
-// WIZARD VALIDATION TYPES
-// ============================================================================
-
-export interface WizardValidationResult {
-  isValid: boolean;
-  errors: Record<string, string>;
-  warnings?: Record<string, string>;
-}
-
-export interface WizardStepValidator {
-  validate(data: Partial<SiteRequestFormData>): WizardValidationResult;
-  getRequiredFields(): string[];
-}
-
-// ============================================================================
-// WIZARD EVENTS & ACTIONS
-// ============================================================================
-
-export type WizardAction = 
-  | { type: 'NEXT_STEP' }
-  | { type: 'PREVIOUS_STEP' }
-  | { type: 'GOTO_STEP'; stepId: WizardStepId }
-  | { type: 'UPDATE_FIELD'; field: string; value: any }
-  | { type: 'TOGGLE_FEATURE'; featureId: string }
-  | { type: 'SAVE_DRAFT' }
-  | { type: 'LOAD_DRAFT'; draftId: string }
-  | { type: 'SUBMIT_WIZARD' }
-  | { type: 'RESET_WIZARD' };
-
-// ============================================================================
-// WIZARD CONFIGURATION
-// ============================================================================
-
-export interface WizardConfiguration {
-  steps: WizardStep[];
-  features: WizardFeature[];
-  pricing: WizardPricingConfig;
-  validation: WizardStepValidator[];
-  ui: {
-    theme: 'light' | 'dark';
-    showProgressBar: boolean;
-    enableKeyboardNavigation: boolean;
-    autoSaveInterval: number; // milliseconds
-  };
-}
-
-export interface WizardPricingConfig {
-  basePrices: Record<string, number>;
-  featureAddOns: Record<string, number>;
-  discounts: Record<string, number>;
-  taxRate: number;
-}
-
-// ============================================================================
-// WIZARD STORE TYPES (for Svelte stores)
-// ============================================================================
-
-export interface WizardStore {
-  formData: SiteRequestFormData;
-  uiState: WizardUIState;
-  configuration: WizardConfiguration;
-}
-
-// ============================================================================
-// SiteRequestWizard specific types
-// ============================================================================
-
-export interface WizardState {
-  currentStep: number;
-  steps: WizardStep[];
-  canGoBack: boolean;
-  canGoNext: boolean;
-  isDirty: boolean;
-  isLoading: boolean;
-}
-
-// Option interfaces for form choices
-export interface WizardOption {
-  name: string;
-  icon?: string;
-  description: string;
-  category?: string;
-  premium?: boolean;
-  color?: string;
-  complexity?: string;
-  timeframe?: string;
-}
-
-export interface WizardIconOption {
-  name: string;
-  icon: any; // Lucide icon component
-  description: string;
-  color?: string;
-}
-
-// Step-specific interfaces
-export interface BasicInfoStep {
+// Individual step data types for better type safety
+export interface BasicInfoData {
   companyName: string;
   contactName: string;
   contactEmail: string;
@@ -224,7 +68,7 @@ export interface BasicInfoStep {
   companySize: string;
 }
 
-export interface ProjectVisionStep {
+export interface ProjectVisionData {
   projectDescription: string;
   primaryGoals: string[];
   targetAudience: string;
@@ -232,7 +76,7 @@ export interface ProjectVisionStep {
   competitorExamples: string;
 }
 
-export interface WebsiteTypeStep {
+export interface ProjectTypeData {
   websiteType: string;
   platformType: string;
   coreFeatures: string[];
@@ -240,7 +84,7 @@ export interface WebsiteTypeStep {
   integrations: string[];
 }
 
-export interface DesignBrandingStep {
+export interface DesignBrandingData {
   designMood: string[];
   colorPalette: string;
   typography: string;
@@ -249,60 +93,51 @@ export interface DesignBrandingStep {
   hasBrandGuidelines: boolean;
   logoFile: File | null;
   brandFiles: File[];
+  inspirationFiles: File[];
 }
 
-export interface ContentStructureStep {
+export interface ContentStructureData {
   pageStructure: string[];
   contentSections: string[];
   copywriting: string;
   mediaRequirements: string[];
 }
 
-export interface UserExperienceStep {
+export interface UserExperienceData {
   userJourney: string;
   keyInteractions: string[];
   responsiveRequirements: string[];
   performanceRequirements: string[];
 }
 
-export interface TechnicalRequirementsStep {
+export interface TechnicalRequirementsData {
   hostingPreference: string;
   domainStatus: string;
   analyticsRequirements: string[];
   securityRequirements: string[];
 }
 
-export interface TimelineBudgetStep {
+export interface TimelineBudgetData {
   timeline: string;
   budgetRange: string;
   launchDate: string;
   additionalRequirements: string;
-  inspirationFiles: File[];
 }
 
-// Wizard event types
-export interface WizardStepChangeEvent {
-  step: number;
-  direction: 'next' | 'previous';
-  data: Partial<SiteRequestFormData>;
+// Form validation types
+export interface ValidationResult {
+  isValid: boolean;
+  errors: FieldValidationError[];
 }
 
-export interface WizardSubmitEvent {
-  formData: SiteRequestFormData;
-  opportunity?: any;
-  contact?: any;
+export interface FieldValidationError {
+  field: keyof SiteRequestFormData;
+  message: string;
+  value?: unknown;
 }
 
-// File upload types
-export interface FileUploadState {
-  isUploading: boolean;
-  progress: number;
-  error?: string;
-  preview?: string;
+// Step component event types
+export interface StepValidationEvent {
+  isValid: boolean;
+  errors?: FieldValidationError[];
 }
-
-export interface WizardFileUpload {
-  type: 'logo' | 'brand' | 'inspiration';
-  files: File[];
-  state: FileUploadState;
-} 

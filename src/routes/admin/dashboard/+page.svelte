@@ -1,158 +1,376 @@
 <script lang="ts">
-  import Card from '$lib/components/ui/Card.svelte';
-  import Button from '$lib/components/ui/Button.svelte';
-  import { Plus, Users, FileText, DollarSign, TrendingUp, Zap } from 'lucide-svelte';
-  import { goto } from '$app/navigation';
+  import { onMount } from 'svelte';
+  import ModernCard from '$lib/components/ui/ModernCard.svelte';
+  import StatsCard from '$lib/components/ui/StatsCard.svelte';
+  import BaseButton from '$lib/components/base/BaseButton.svelte';
 
-  // Mock data - would come from Supabase in real app
-  const stats = [
-    { title: 'Total Leads', value: '24', change: '+12%', icon: Users, color: 'text-blue-600' },
-    { title: 'Active Opportunities', value: '8', change: '+3', icon: TrendingUp, color: 'text-green-600' },
-    { title: 'Monthly Revenue', value: '$3,200', change: '+18%', icon: DollarSign, color: 'text-accent-600' },
-    { title: 'Proposals Sent', value: '12', change: '+5', icon: FileText, color: 'text-purple-600' },
-  ];
+  let stats = {
+    companies: 0,
+    contacts: 0,
+    projects: 0,
+    verticals: 0
+  };
 
-  function createProposal() {
-    goto('/admin/proposals/create');
-  }
+  let loading = true;
 
-  function createOpportunity() {
-    goto('/admin/opportunities');
-  }
+  onMount(async () => {
+    // Load dashboard statistics
+    try {
+      const [companiesRes, contactsRes, projectsRes, verticalsRes] = await Promise.all([
+        fetch('/api/companies'),
+        fetch('/api/contacts'),
+        fetch('/api/projects'),
+        fetch('/api/verticals')
+      ]);
 
-  function viewProposals() {
-    goto('/admin/proposals');
-  }
+      if (companiesRes.ok) {
+        const companies = await companiesRes.json();
+        stats.companies = companies.length;
+      }
+      
+      if (contactsRes.ok) {
+        const contacts = await contactsRes.json();
+        stats.contacts = contacts.length;
+      }
+      
+      if (projectsRes.ok) {
+        const projects = await projectsRes.json();
+        stats.projects = projects.length;
+      }
+      
+      if (verticalsRes.ok) {
+        const verticals = await verticalsRes.json();
+        stats.verticals = verticals.length;
+      }
+    } catch (error) {
+      console.error('Error loading dashboard stats:', error);
+    } finally {
+      loading = false;
+    }
+  });
 </script>
 
-<svelte:head>
-  <title>Dashboard | True-Form Admin</title>
-</svelte:head>
+<div class="modern-dashboard">
+  <!-- Welcome Section -->
+  <section class="welcome-section">
+    <ModernCard variant="feature" size="lg">
+      <div class="welcome-content">
+        <div class="welcome-text">
+          <h1 class="dashboard-title">Welcome to TrueForm</h1>
+          <p class="dashboard-subtitle">
+            Professional website development platform. Manage clients across golf, oilfield, healthcare, and technology industries from this unified dashboard.
+          </p>
+        </div>
+        <div class="welcome-visual">
+          <div class="visual-grid">
+            <div class="visual-item">🏢</div>
+            <div class="visual-item">🚀</div>
+            <div class="visual-item">📈</div>
+          </div>
+        </div>
+      </div>
+    </ModernCard>
+  </section>
 
-<div class="space-y-6">
+  <!-- Stats Grid -->
+  <section class="stats-section">
+    <h2 class="section-title">Overview</h2>
+    <div class="stats-grid">
+      <StatsCard
+        title="Companies"
+        value={stats.companies.toString()}
+        icon="🏢"
+        href="/admin/companies"
+        {loading}
+        trend="up"
+        change={12.5}
+        changeLabel="vs last month"
+      />
+      
+      <StatsCard
+        title="Contacts" 
+        value={stats.contacts.toString()}
+        icon="👥"
+        href="/admin/contacts"
+        {loading}
+        trend="up"
+        change={8.3}
+        changeLabel="vs last month"
+      />
+      
+      <StatsCard
+        title="Active Projects"
+        value={stats.projects.toString()}
+        icon="🚀" 
+        href="/admin/projects"
+        {loading}
+        trend="up"
+        change={15.7}
+        changeLabel="vs last month"
+      />
+      
+      <StatsCard
+        title="Verticals"
+        value={stats.verticals.toString()}
+        icon="📈"
+        href="/admin/verticals" 
+        {loading}
+        trend="neutral"
+        change={0}
+        changeLabel="vs last month"
+      />
+    </div>
+  </section>
+
   <!-- Quick Actions -->
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    <!-- Create Proposal -->
-    <Card class="p-6 border-l-4 border-l-blue-500 hover:shadow-lg transition-shadow cursor-pointer" on:click={createProposal}>
-      <div class="flex items-center">
-        <div class="p-3 bg-blue-100 rounded-lg">
-          <FileText class="text-blue-600" size={24} />
-        </div>
-        <div class="ml-4 flex-1">
-          <h3 class="font-semibold text-gray-900">Create Proposal</h3>
-          <p class="text-sm text-gray-600">AI-powered proposal generation</p>
-        </div>
-        <div class="p-2 bg-blue-50 rounded-full">
-          <Plus class="text-blue-600" size={16} />
-        </div>
-      </div>
-    </Card>
-
-    <!-- Add Opportunity -->
-    <Card class="p-6 border-l-4 border-l-green-500 hover:shadow-lg transition-shadow cursor-pointer" on:click={createOpportunity}>
-      <div class="flex items-center">
-        <div class="p-3 bg-green-100 rounded-lg">
-          <Users class="text-green-600" size={24} />
-        </div>
-        <div class="ml-4 flex-1">
-          <h3 class="font-semibold text-gray-900">Add Opportunity</h3>
-          <p class="text-sm text-gray-600">New lead or project</p>
-        </div>
-        <div class="p-2 bg-green-50 rounded-full">
-          <Plus class="text-green-600" size={16} />
-        </div>
-      </div>
-    </Card>
-
-    <!-- View All Proposals -->
-    <Card class="p-6 border-l-4 border-l-purple-500 hover:shadow-lg transition-shadow cursor-pointer" on:click={viewProposals}>
-      <div class="flex items-center">
-        <div class="p-3 bg-purple-100 rounded-lg">
-          <Zap class="text-purple-600" size={24} />
-        </div>
-        <div class="ml-4 flex-1">
-          <h3 class="font-semibold text-gray-900">Proposals</h3>
-          <p class="text-sm text-gray-600">12 active proposals</p>
-        </div>
-        <div class="p-2 bg-purple-50 rounded-full">
-          <TrendingUp class="text-purple-600" size={16} />
-        </div>
-      </div>
-    </Card>
-  </div>
-
-  <div class="space-y-8">
-    <div>
-      <h1 class="text-3xl font-semibold text-gray-900 mb-2">Dashboard</h1>
-      <p class="text-gray-600">Welcome to your True-Form admin dashboard</p>
-    </div>
-
-    <!-- Stats Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {#each stats as stat}
-        <Card class="p-6">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm font-medium text-gray-600">{stat.title}</p>
-              <p class="text-3xl font-semibold text-gray-900 mt-1">{stat.value}</p>
-              <p class="text-sm text-green-600 mt-1">{stat.change}</p>
-            </div>
-            <div class="p-3 bg-gray-50 rounded-lg">
-              <svelte:component this={stat.icon} size={24} class={stat.color} />
-            </div>
+  <section class="actions-section">
+    <h2 class="section-title">Quick Actions</h2>
+    <ModernCard variant="elevated" size="lg">
+      <div class="actions-grid">
+        <a href="/admin/companies/create" class="action-card">
+          <div class="action-icon">🏢</div>
+          <div class="action-content">
+            <h3 class="action-title">New Company</h3>
+            <p class="action-desc">Add a new client company</p>
           </div>
-        </Card>
-      {/each}
-    </div>
-
-    <!-- Charts Row -->
-    <div class="grid lg:grid-cols-2 gap-6">
-      <Card class="p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Lead Pipeline</h3>
-        <div class="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-          <p class="text-gray-500">Chart.js pipeline chart would go here</p>
-        </div>
-      </Card>
-
-      <Card class="p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Revenue Trend</h3>
-        <div class="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-          <p class="text-gray-500">Chart.js revenue chart would go here</p>
-        </div>
-      </Card>
-    </div>
-
-    <!-- Recent Activity -->
-    <Card class="p-6">
-      <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-      <div class="space-y-4">
-        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-          <div class="w-2 h-2 bg-green-500 rounded-full"></div>
-          <div class="flex-1">
-            <p class="font-medium text-gray-900">New lead from contact form</p>
-            <p class="text-sm text-gray-600">Acme Corp submitted a website request</p>
-          </div>
-          <span class="text-sm text-gray-500">2 hours ago</span>
-        </div>
+        </a>
         
-        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-          <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
-          <div class="flex-1">
-            <p class="font-medium text-gray-900">Proposal sent</p>
-            <p class="text-sm text-gray-600">Standard package proposal for TechStart</p>
+        <a href="/admin/contacts/create" class="action-card">
+          <div class="action-icon">👤</div>
+          <div class="action-content">
+            <h3 class="action-title">New Contact</h3>
+            <p class="action-desc">Add a contact person</p>
           </div>
-          <span class="text-sm text-gray-500">5 hours ago</span>
-        </div>
+        </a>
         
-        <div class="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
-          <div class="w-2 h-2 bg-accent-500 rounded-full"></div>
-          <div class="flex-1">
-            <p class="font-medium text-gray-900">Payment received</p>
-            <p class="text-sm text-gray-600">$199 payment for Standard plan</p>
+        <a href="/admin/projects/create" class="action-card">
+          <div class="action-icon">🚀</div>
+          <div class="action-content">
+            <h3 class="action-title">New Project</h3>
+            <p class="action-desc">Start a new project</p>
           </div>
-          <span class="text-sm text-gray-500">1 day ago</span>
-        </div>
+        </a>
+        
+        <a href="/admin/proposals/new" class="action-card">
+          <div class="action-icon">📋</div>
+          <div class="action-content">
+            <h3 class="action-title">New Proposal</h3>
+            <p class="action-desc">Create a proposal</p>
+          </div>
+        </a>
       </div>
-    </Card>
-  </div>
-</div> 
+    </ModernCard>
+  </section>
+</div>
+
+<style>
+  .modern-dashboard {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .welcome-section {
+    margin-bottom: 16px;
+  }
+
+  .welcome-content {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .welcome-text {
+    flex: 1;
+  }
+
+  .dashboard-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: rgb(17, 24, 39);
+    margin: 0 0 12px 0;
+    line-height: 1.2;
+  }
+
+  .dashboard-subtitle {
+    font-size: 18px;
+    color: rgb(107, 114, 128);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .welcome-visual {
+    flex-shrink: 0;
+  }
+
+  .visual-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .visual-item {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    background: rgb(248, 250, 252);
+    border-radius: 12px;
+    border: 1px solid rgb(243, 244, 246);
+  }
+
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: rgb(17, 24, 39);
+    margin: 0 0 24px 0;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+  }
+
+  .actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .action-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 12px;
+    background: rgb(248, 250, 252);
+    border: 1px solid rgb(243, 244, 246);
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s;
+  }
+
+  .action-card:hover {
+    background: rgb(243, 244, 246);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+
+  .action-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid rgb(229, 231, 235);
+    flex-shrink: 0;
+  }
+
+  .action-content {
+    flex: 1;
+  }
+
+  .action-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgb(17, 24, 39);
+    margin: 0 0 4px 0;
+  }
+
+  .action-desc {
+    font-size: 14px;
+    color: rgb(107, 114, 128);
+    margin: 0;
+  }
+
+  /* Dark mode */
+  :global(.dark) .dashboard-title {
+    color: rgb(243, 244, 246);
+  }
+
+  :global(.dark) .dashboard-subtitle {
+    color: rgb(156, 163, 175);
+  }
+
+  :global(.dark) .section-title {
+    color: rgb(243, 244, 246);
+  }
+
+  :global(.dark) .visual-item {
+    background: rgb(31, 41, 55);
+    border-color: rgb(55, 65, 81);
+  }
+
+  :global(.dark) .action-card {
+    background: rgb(31, 41, 55);
+    border-color: rgb(55, 65, 81);
+  }
+
+  :global(.dark) .action-card:hover {
+    background: rgb(55, 65, 81);
+  }
+
+  :global(.dark) .action-icon {
+    background: rgb(17, 24, 39);
+    border-color: rgb(75, 85, 99);
+  }
+
+  :global(.dark) .action-title {
+    color: rgb(243, 244, 246);
+  }
+
+  :global(.dark) .action-desc {
+    color: rgb(156, 163, 175);
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .modern-dashboard {
+      padding: 24px 16px;
+      gap: 32px;
+    }
+
+    .welcome-content {
+      flex-direction: column;
+      text-align: center;
+      gap: 24px;
+    }
+
+    .dashboard-title {
+      font-size: 28px;
+    }
+
+    .dashboard-subtitle {
+      font-size: 16px;
+    }
+
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .actions-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .visual-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .visual-item {
+      width: 48px;
+      height: 48px;
+      font-size: 20px;
+    }
+  }
+</style> 

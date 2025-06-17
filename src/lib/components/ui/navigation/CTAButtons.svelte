@@ -5,14 +5,19 @@
 
 <div class="hidden md:flex items-center space-x-4">
   <Button variant="outline" size="sm" class="text-sm">
-    <a href="/admin/opportunities">
+    <a href="/admin/dashboard">
       Admin
     </a>
   </Button>
-  <Button variant="accent" size="sm" class="text-sm shadow-lg hover:shadow-xl transition-shadow duration-300">
-    <a href="/request" class="flex items-center gap-2">
+  <Button 
+    variant="accent" 
+    size="sm" 
+    class="text-sm shadow-lg hover:shadow-xl transition-shadow duration-300"
+    on:click={() => window.location.href = '/request?start=true'}
+  >
+    <div class="flex items-center gap-2">
       Get Started
       <Zap size={16} />
-    </a>
+    </div>
   </Button>
 </div> 

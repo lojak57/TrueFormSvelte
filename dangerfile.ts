@@ -23,8 +23,7 @@ const oversizedFiles = danger.git.created_files.concat(danger.git.modified_files
   .filter(file => {
     // We'll implement line counting logic here when files are actually changed
     // For now, just warn about known problematic files
-    return file.includes('SiteRequestWizard.svelte') || 
-           file.includes('proposalStore.ts') ||
+    return file.includes('SiteRequestWizard.svelte') ||
            file.includes('Header.svelte');
   });
 

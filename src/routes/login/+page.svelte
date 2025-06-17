@@ -15,17 +15,23 @@ import type { LoginCredentials } from '$lib/types';
   let isSignupMode = false;
 
   async function handleSubmit() {
+    console.log('Form submitted!', { credentials, isSignupMode });
     loading = true;
     error = '';
 
     try {
+      console.log('Calling auth service...');
       const result = isSignupMode 
         ? await signupUser(credentials)
         : await loginUser(credentials);
 
+      console.log('Auth result:', result);
+
       if (result.error) {
+        console.error('Auth error:', result.error);
         error = result.error;
       } else if (result.user) {
+        console.log('Login successful, redirecting...');
         // Login successful
         goto('/admin/dashboard');
       } else if (isSignupMode) {
@@ -33,6 +39,7 @@ import type { LoginCredentials } from '$lib/types';
         error = 'Account created! Please check your email for the confirmation link.';
       }
     } catch (err) {
+      console.error('Caught error:', err);
       error = 'An unexpected error occurred. Please try again.';
     } finally {
       loading = false;
@@ -112,15 +119,13 @@ import type { LoginCredentials } from '$lib/types';
       </div>
 
       <div class="space-y-4">
-        <Button 
+        <button 
           type="submit" 
-          variant="accent" 
-          size="lg" 
-          class="w-full" 
+          class="w-full py-3 px-4 bg-accent-600 text-white rounded-lg hover:bg-accent-700 focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={loading}
         >
           {loading ? (isSignupMode ? 'Creating Account...' : 'Signing In...') : (isSignupMode ? 'Create Account' : 'Sign In')}
-        </Button>
+        </button>
         
         <Button 
           type="button" 

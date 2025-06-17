@@ -3,42 +3,46 @@
   import WizardModal from './WizardModal.svelte';
   import { fade } from 'svelte/transition';
   
-  // Import step components
+  // Import step components for rich consultation experience
   import WelcomeScreen from './steps/welcome/WelcomeScreen.svelte';
+  import ContactInfoStep from './steps/ContactInfoStep.svelte';
+  import BrandPersonalityStep from './steps/BrandPersonalityStep.svelte';
+  import PremiumDesignVibeStep from './steps/PremiumDesignVibeStep.svelte';
+  import InspirationStep from './steps/InspirationStep.svelte';
+  import SuccessVisionStep from './steps/SuccessVisionStep.svelte';
   import TextInputStep from './components/TextInputStep.svelte';
-  import VisualSelectionStep from './components/VisualSelectionStep.svelte';
-  import IndustryStep from './steps/IndustryStep.svelte';
-  import GoalsStep from './steps/GoalsStep.svelte';
-  import WebsiteTypeStep from './steps/WebsiteTypeStep.svelte';
-  import FeaturesStep from './steps/FeaturesStep.svelte';
-  import DesignMoodStep from './steps/DesignMoodStep.svelte';
-  import TypographyStep from './steps/TypographyStep.svelte';
-  import ColorPaletteStep from './steps/ColorPaletteStep.svelte';
-  import BrandingAssetsStep from './steps/BrandingAssetsStep.svelte';
-  import TimelineStep from './steps/TimelineStep.svelte';
+  import EnhancedWebsiteTypeStep from './steps/EnhancedWebsiteTypeStep.svelte';
+  import CurrentSituationStep from './steps/CurrentSituationStep.svelte';
   import SummaryStep from './steps/SummaryStep.svelte';
-  import ContactRoleStep from './steps/ContactRoleStep.svelte';
   
-  // Map step IDs to components
+  // Map step IDs to rich visual components
   const stepComponents: Record<string, any> = {
     welcome: WelcomeScreen,
-    contactRole: ContactRoleStep,
-    industry: IndustryStep,
-    primaryGoals: GoalsStep,
-    websiteType: WebsiteTypeStep,
-    coreFeatures: FeaturesStep,
-    designMood: DesignMoodStep,
-    typography: TypographyStep,
-    colorPalette: ColorPaletteStep,
-    brandingAssets: BrandingAssetsStep,
-    timeline: TimelineStep,
+    contactInfo: ContactInfoStep, // Beautiful contact form
+    projectVision: TextInputStep, // Vision with emotional prompts
+    brandPersonality: BrandPersonalityStep, // Industry + audience + personality
+    designVibe: PremiumDesignVibeStep, // Premium visual vibe selection
+    websiteScope: EnhancedWebsiteTypeStep, // Website type + features with visual previews
+    designElements: TextInputStep, // Color + typography (simplified for now)
+    inspiration: InspirationStep, // Visual inspiration collection
+    projectContext: TextInputStep, // Timeline + budget
+    decisionProcess: TextInputStep, // Decision making process
+    currentSituation: CurrentSituationStep, // Pain points with emojis
+    successVision: SuccessVisionStep, // Future state visualization
     summary: SummaryStep,
-    // Text inputs will use TextInputStep by default
   };
   
   // Get current step component
   $: StepComponent = stepComponents[$currentStep.id] || TextInputStep;
   
+  // Simple linear step progression for streamlined flow
+  function getNextStep(currentStepId: string, answer: any): number {
+    const currentIndex = $wizardStore.currentStepIndex;
+    
+    // Simple linear progression
+    return currentIndex + 1;
+  }
+
   // Handle step completion
   function handleStepComplete(event: CustomEvent) {
     const { value, skipped } = event.detail || {};
@@ -51,19 +55,26 @@
     
     // Save the answer
     if (!skipped && value !== undefined) {
+      // Special handling for contactInfo step - save individual fields
+      if ($currentStep.id === 'contactInfo' && typeof value === 'object') {
+        Object.keys(value).forEach(key => {
+          wizardStore.saveAnswer(key, value[key]);
+        });
+      }
       wizardStore.saveAnswer($currentStep.id, value);
     }
     
     // Add a small delay for smooth transitions
     setTimeout(() => {
-      // Move to next step
-      if ($wizardStore.currentStepIndex < WIZARD_STEPS.length - 1) {
-        wizardStore.nextStep();
+      const nextStepIndex = getNextStep($currentStep.id, value);
+      
+      if (nextStepIndex < WIZARD_STEPS.length) {
+        wizardStore.goToStep(nextStepIndex);
       } else {
         // We're done! Submit the form
         handleSubmit();
       }
-    }, 400); // Small delay to show selection before transitioning
+    }, 400);
   }
   
   async function handleSubmit() {
@@ -130,87 +141,100 @@
     return typeMap[stepId] || 'text';
   }
   
-  // Example data for different step types
+  // Props for rich visual step components
   function getStepProps(step: any) {
     switch (step.id) {
       case 'welcome':
+        return {};
+        
+      case 'contactInfo':
         return {
-          // WelcomeScreen doesn't need any props
+          value: $wizardStore.answers.contactInfo || {
+            companyName: $wizardStore.answers.companyName || '',
+            contactName: $wizardStore.answers.contactName || '',
+            contactEmail: $wizardStore.answers.contactEmail || '',
+            contactPhone: $wizardStore.answers.contactPhone || ''
+          }
         };
         
-      case 'companyName':
+      case 'projectVision':
         return {
-          value: $wizardStore.answers.companyName || '',
-          placeholder: step.placeholder,
-          starterPrompts: step.starterPrompts,
-          autocomplete: 'organization'
+          value: $wizardStore.answers.projectVision || '',
+          placeholder: 'Share your vision and what impact you want to make...',
+          starterPrompts: step.starterPrompts || [],
+          name: step.id
         };
         
-      case 'contactRole':
+      case 'brandPersonality':
         return {
-          selected: $wizardStore.answers.contactRole || ''
+          selected: $wizardStore.answers.brandPersonality || {
+            industry: '',
+            audience: '',
+            personality: []
+          }
         };
         
-      case 'industry':
+      case 'designVibe':
         return {
-          selected: $wizardStore.answers.industry || ''
+          selected: $wizardStore.answers.designVibe || []
         };
         
-      case 'primaryGoals':
+      case 'websiteScope':
         return {
-          selected: $wizardStore.answers.primaryGoals || ''
+          selected: $wizardStore.answers.websiteScope || '',
+          showFeatures: true
         };
         
-      case 'websiteType':
+      case 'designElements':
         return {
-          selected: $wizardStore.answers.websiteType || ''
+          value: $wizardStore.answers.designElements || '',
+          placeholder: 'Describe your ideal colors, fonts, and visual style...',
+          name: step.id
         };
         
-      case 'coreFeatures':
+      case 'inspiration':
         return {
-          selected: $wizardStore.answers.coreFeatures || [],
-          websiteType: $wizardStore.answers.websiteType || ''
+          selected: $wizardStore.answers.inspiration || {
+            websiteUrls: [],
+            description: '',
+            keywords: [],
+            feeling: ''
+          }
         };
         
-      case 'designMood':
+      case 'projectContext':
         return {
-          selected: $wizardStore.answers.designMood || []
+          value: $wizardStore.answers.projectContext || '',
+          placeholder: 'Timeline, budget range, and any constraints...',
+          name: step.id
         };
         
-      case 'typography':
+      case 'decisionProcess':
         return {
-          selected: $wizardStore.answers.typography || ''
+          value: $wizardStore.answers.decisionProcess || '',
+          placeholder: 'Who\'s involved in decisions and how do you typically choose partners?',
+          name: step.id
         };
         
-      case 'colorPalette':
+      case 'currentSituation':
         return {
-          selected: $wizardStore.answers.colorPalette || '',
-          designMood: $wizardStore.answers.designMood || []
+          selected: $wizardStore.answers.currentSituation || '',
+          starterPrompts: step.starterPrompts || []
         };
         
-      case 'brandingAssets':
+      case 'successVision':
         return {
-          selected: $wizardStore.answers.brandingAssets || { hasBrandAssets: '', files: [] }
-        };
-        
-      case 'timeline':
-        return {
-          selected: $wizardStore.answers.timeline || ''
+          selected: $wizardStore.answers.successVision || []
         };
         
       case 'summary':
-        return {
-          // Summary step doesn't need props, it reads from wizardStore directly
-        };
+        return {};
         
       default:
         return {
           value: $wizardStore.answers[step.id] || '',
           placeholder: step.placeholder,
           starterPrompts: step.starterPrompts || [],
-          skipLabel: step.skipLabel,
-          autocomplete: getAutocompleteValue(step.id),
-          inputType: getInputType(step.id),
           name: step.id
         };
     }

@@ -13,12 +13,17 @@
     <p class="text-xl mb-10 text-accent-100">
       {CTA_CONTENT.description}
     </p>
-    <Button variant="default" size="lg" class="bg-white text-accent-600 hover:bg-gray-50 px-8 py-4 text-lg shadow-2xl hover:shadow-white/25 transition-all duration-300 hover:scale-105">
-      <a href={CTA_CONTENT.button.href} class="flex items-center gap-3">
+    <Button 
+      variant="default" 
+      size="lg" 
+      class="bg-white text-accent-600 hover:bg-gray-50 px-8 py-4 text-lg shadow-2xl hover:shadow-white/25 transition-all duration-300 hover:scale-105"
+      on:click={() => window.location.href = `${CTA_CONTENT.button.href}?start=true`}
+    >
+      <div class="flex items-center gap-3">
         <svelte:component this={CTA_CONTENT.button.icon} size={24} />
         {CTA_CONTENT.button.text}
         <ArrowRight size={20} />
-      </a>
+      </div>
     </Button>
   </div>
 </section> 

@@ -25,8 +25,4 @@
   <CallToAction />
 </div>
 
-<style>
-  .bg-grid-white\/\[0\.02\] {
-    background-image: radial-gradient(circle, white 1px, transparent 1px);
-  }
-</style> 
+ 

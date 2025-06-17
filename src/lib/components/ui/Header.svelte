@@ -77,9 +77,11 @@
 
 <!-- Click outside to close dropdown -->
 {#if isServicesOpen}
-  <div 
-    class="fixed inset-0 z-30" 
+  <button
+    class="fixed inset-0 z-30 bg-transparent border-none cursor-default"
     on:click={closeDropdowns}
+    on:keydown={(e) => e.key === 'Escape' && closeDropdowns()}
+    aria-label="Close services menu"
     transition:fade={{ duration: 100 }}
-  ></div>
+  ></button>
 {/if} 
