@@ -1,6 +1,8 @@
 import Stripe from 'stripe';
-import { STRIPE_SECRET_KEY } from '$env/static/private';
 import type { Proposal, Company, Contact } from '$lib/types';
+
+// Get STRIPE_SECRET_KEY from process.env (more reliable for build)
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
 
 export interface PaymentLinkOptions {
   proposal: Proposal;
