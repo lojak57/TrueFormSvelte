@@ -11,6 +11,7 @@
     currentTheme,
     effectiveThemeMode,
   } from "$lib/stores/theme";
+  import AdminSidebar from "$lib/components/admin/AdminSidebar.svelte";
 
   export let data = undefined;
 
@@ -43,57 +44,55 @@
   });
 </script>
 
-<!-- Admin Layout: Clean, focused on productivity -->
-<div class="min-h-screen bg-gray-100 admin-layout">
-  <!-- Admin Header -->
-  <header class="bg-white shadow-sm border-b border-gray-200">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <!-- Admin Logo & Nav -->
-        <div class="flex items-center">
-          <a href="/admin/dashboard" class="flex items-center">
-            <div class="w-8 h-8">
-              <img
-                src="/logo.svg"
-                alt="TrueForm Admin"
-                class="w-full h-full object-contain"
-              />
-            </div>
-            <div class="ml-3">
-              <div class="text-lg font-bold text-gray-900">TrueForm Admin</div>
-            </div>
-          </a>
-        </div>
+<!-- Admin Layout: Sidebar + Content -->
+<div class="admin-layout">
+  <!-- Sidebar Navigation -->
+  <AdminSidebar />
 
-        <!-- Admin Actions -->
-        <div class="flex items-center space-x-4">
-          <a
-            href="https://true-form-apps.com"
-            target="_blank"
-            class="text-gray-600 hover:text-gray-900 text-sm font-medium"
-          >
-            View Site
-          </a>
-          <a
-            href="/auth/signout"
-            class="text-red-600 hover:text-red-700 text-sm font-medium"
-          >
-            Sign Out
-          </a>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Admin Content -->
-  <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-    <slot />
-  </main>
+  <!-- Main Content Area -->
+  <div class="admin-content">
+    <main class="admin-main">
+      <slot />
+    </main>
+  </div>
 </div>
 
 <style>
   .admin-layout {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-      sans-serif;
+    display: flex;
+    min-height: 100vh;
+    background-color: #f9fafb;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .admin-content {
+    flex: 1;
+    margin-left: 260px; /* Width of sidebar */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin-main {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1400px;
+    width: 100%;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .admin-content {
+      margin-left: 240px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .admin-content {
+      margin-left: 0;
+    }
+    
+    .admin-main {
+      padding: 1rem;
+    }
   }
 </style>
