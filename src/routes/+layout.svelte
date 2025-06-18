@@ -45,17 +45,18 @@
 
 </script>
 
-<!-- Conditional layout based on subdomain -->
-<div class="min-h-screen bg-gray-50">
-  {#if !data?.isCRMSubdomain}
+<!-- Conditional layout based on subdomain and admin routes -->
+{#if data?.isCRMSubdomain || $page.url.pathname.startsWith('/admin')}
+  <!-- CRM/Admin: No marketing layout -->
+  <slot />
+{:else}
+  <!-- Marketing site: Full layout -->
+  <div class="min-h-screen bg-gray-50">
     <Header />
-  {/if}
 
-  <main class="relative">
-    <slot />
-  </main>
-
-  {#if !data?.isCRMSubdomain}
+    <main class="relative">
+      <slot />
+    </main>
     <!-- Footer -->
     <footer class="bg-gray-900 text-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -213,8 +214,8 @@
         </div>
       </div>
     </footer>
-  {/if}
-</div>
+  </div>
+{/if}
 
 <style>
   :global(html) {
