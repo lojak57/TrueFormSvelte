@@ -250,3 +250,7 @@ Built with ❤️ by the TrueForm team.
 ---
 
 **Excellence Refined.** 🎯
+
+## 🚀 Live Production Deployment
+- **Marketing Site**: [true-form-apps.com](https://true-form-apps.com)
+- **CRM Admin**: [crm.true-form-apps.com](https://crm.true-form-apps.com)
