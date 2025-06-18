@@ -1,185 +1,199 @@
 <script lang="ts">
-  import DashboardLayout from '$lib/components/layout/DashboardLayout.svelte';
-  import { CompanyCard, ContactCard, ProjectCard } from '$lib/components/business/index.js';
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
-  import type { Company, Contact, Project } from '$lib/types/index.js';
+  import DashboardLayout from "$lib/components/layout/DashboardLayout.svelte";
+  import {
+    CompanyCard,
+    ContactCard,
+    ProjectCard,
+  } from "$lib/components/business/index.js";
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
+  import type { Company, Contact, Project } from "$lib/types/index.js";
 
   // Sample data
   const sampleCompanies: Company[] = [
     {
-      id: '1',
-      name: 'Pillar Apps',
-      website: 'https://pillarapps.com',
-      vertical_id: 'technology',
-      billing_street: '123 Tech Street',
-      billing_city: 'Austin',
-      billing_state: 'TX',
-      billing_zip: '78701',
-      billing_country: 'USA',
-      notes: 'Sister organization focused on mobile app development and digital solutions.',
-      status: 'active',
-      created_at: '2024-01-15T10:00:00Z'
+      id: "1",
+      name: "Pillar Apps",
+      website: "https://pillarapps.com",
+      vertical_id: "technology",
+      billing_street: "123 Tech Street",
+      billing_city: "Austin",
+      billing_state: "TX",
+      billing_zip: "78701",
+      billing_country: "USA",
+      notes:
+        "Sister organization focused on mobile app development and digital solutions.",
+      status: "active",
+      created_at: "2024-01-15T10:00:00Z",
     },
     {
-      id: '2',
-      name: 'Green Valley Golf Club',
-      website: 'https://greenvalleygolf.com',
-      vertical_id: 'golf',
-      billing_city: 'Scottsdale',
-      billing_state: 'AZ',
-      status: 'active',
-      created_at: '2024-02-01T14:30:00Z'
+      id: "2",
+      name: "Green Valley Golf Club",
+      website: "https://greenvalleygolf.com",
+      vertical_id: "golf",
+      billing_city: "Scottsdale",
+      billing_state: "AZ",
+      status: "active",
+      created_at: "2024-02-01T14:30:00Z",
     },
     {
-      id: '3',
-      name: 'Lone Star Energy',
-      vertical_id: 'oilfield',
-      billing_city: 'Houston',
-      billing_state: 'TX',
-      status: 'pending',
-      created_at: '2024-02-15T09:15:00Z'
+      id: "3",
+      name: "Lone Star Energy",
+      vertical_id: "oilfield",
+      billing_city: "Houston",
+      billing_state: "TX",
+      status: "pending",
+      created_at: "2024-02-15T09:15:00Z",
     },
     {
-      id: '4',
-      name: 'MedTech Solutions',
-      website: 'https://medtechsolutions.com',
-      vertical_id: 'healthcare',
-      billing_city: 'Boston',
-      billing_state: 'MA',
-      status: 'active',
-      created_at: '2024-01-20T16:45:00Z'
-    }
+      id: "4",
+      name: "MedTech Solutions",
+      website: "https://medtechsolutions.com",
+      vertical_id: "healthcare",
+      billing_city: "Boston",
+      billing_state: "MA",
+      status: "active",
+      created_at: "2024-01-20T16:45:00Z",
+    },
   ];
 
   const sampleContacts: Contact[] = [
     {
-      id: '1',
-      company_id: '1',
-      first_name: 'Trent',
-      last_name: 'Mechelay',
-      email: 'trent@pillarapps.com',
-      phone: '+1-512-555-0123',
-      title: 'CEO',
-      notes: 'Visionary leader driving innovation in mobile technology.',
-      status: 'active',
-      vertical_id: 'technology',
-      created_at: '2024-01-15T10:00:00Z'
+      id: "1",
+      company_id: "1",
+      first_name: "Trent",
+      last_name: "Mechelay",
+      email: "trent@pillarapps.com",
+      phone: "+1-512-555-0123",
+      title: "CEO",
+      notes: "Visionary leader driving innovation in mobile technology.",
+      status: "active",
+      vertical_id: "technology",
+      created_at: "2024-01-15T10:00:00Z",
     },
     {
-      id: '2',
-      company_id: '2',
-      first_name: 'Sarah',
-      last_name: 'Johnson',
-      email: 'sarah@greenvalleygolf.com',
-      phone: '+1-480-555-0456',
-      title: 'General Manager',
-      status: 'active',
-      vertical_id: 'golf',
-      created_at: '2024-02-01T14:30:00Z'
+      id: "2",
+      company_id: "2",
+      first_name: "Sarah",
+      last_name: "Johnson",
+      email: "sarah@greenvalleygolf.com",
+      phone: "+1-480-555-0456",
+      title: "General Manager",
+      status: "active",
+      vertical_id: "golf",
+      created_at: "2024-02-01T14:30:00Z",
     },
     {
-      id: '3',
-      company_id: '3',
-      first_name: 'Mike',
-      last_name: 'Rodriguez',
-      email: 'mike@lonestarenergy.com',
-      phone: '+1-713-555-0789',
-      title: 'Operations Director',
-      status: 'active',
-      vertical_id: 'oilfield',
-      created_at: '2024-02-15T09:15:00Z'
+      id: "3",
+      company_id: "3",
+      first_name: "Mike",
+      last_name: "Rodriguez",
+      email: "mike@lonestarenergy.com",
+      phone: "+1-713-555-0789",
+      title: "Operations Director",
+      status: "active",
+      vertical_id: "oilfield",
+      created_at: "2024-02-15T09:15:00Z",
     },
     {
-      id: '4',
-      company_id: '4',
-      first_name: 'Dr. Emily',
-      last_name: 'Chen',
-      email: 'emily@medtechsolutions.com',
-      title: 'Chief Technology Officer',
-      status: 'active',
-      vertical_id: 'healthcare',
-      created_at: '2024-01-20T16:45:00Z'
-    }
+      id: "4",
+      company_id: "4",
+      first_name: "Dr. Emily",
+      last_name: "Chen",
+      email: "emily@medtechsolutions.com",
+      title: "Chief Technology Officer",
+      status: "active",
+      vertical_id: "healthcare",
+      created_at: "2024-01-20T16:45:00Z",
+    },
   ];
 
   const sampleProjects: Project[] = [
     {
-      id: '1',
-      company_id: '1',
-      name: 'Mobile CRM Platform',
-      description: 'Development of a comprehensive mobile CRM solution with real-time synchronization and offline capabilities.',
-      project_type: 'custom_development',
-      status: 'active',
-      start_date: '2024-01-15',
-      end_date: '2024-06-15',
+      id: "1",
+      company_id: "1",
+      name: "Mobile CRM Platform",
+      description:
+        "Development of a comprehensive mobile CRM solution with real-time synchronization and offline capabilities.",
+      project_type: "custom_development",
+      status: "active",
+      start_date: "2024-01-15",
+      end_date: "2024-06-15",
       budget: 150000,
-      created_at: '2024-01-15T10:00:00Z'
+      created_at: "2024-01-15T10:00:00Z",
     },
     {
-      id: '2',
-      company_id: '2',
-      name: 'Golf Club Website Launch',
-      description: 'Complete website redesign with booking system, member portal, and event management.',
-      project_type: 'website_launch',
-      status: 'active',
-      start_date: '2024-02-01',
-      end_date: '2024-04-01',
+      id: "2",
+      company_id: "2",
+      name: "Golf Club Website Launch",
+      description:
+        "Complete website redesign with booking system, member portal, and event management.",
+      project_type: "website_launch",
+      status: "active",
+      start_date: "2024-02-01",
+      end_date: "2024-04-01",
       budget: 25000,
-      created_at: '2024-02-01T14:30:00Z'
+      created_at: "2024-02-01T14:30:00Z",
     },
     {
-      id: '3',
-      company_id: '3',
-      name: 'Operations Dashboard Demo',
-      description: 'Interactive frontend demo showcasing real-time drilling data and equipment monitoring.',
-      project_type: 'frontend_demo',
-      status: 'planning',
-      start_date: '2024-03-01',
+      id: "3",
+      company_id: "3",
+      name: "Operations Dashboard Demo",
+      description:
+        "Interactive frontend demo showcasing real-time drilling data and equipment monitoring.",
+      project_type: "frontend_demo",
+      status: "planning",
+      start_date: "2024-03-01",
       budget: 35000,
-      created_at: '2024-02-15T09:15:00Z'
+      created_at: "2024-02-15T09:15:00Z",
     },
     {
-      id: '4',
-      company_id: '4',
-      name: 'Healthcare Platform Integration',
-      description: 'Integration with existing EHR systems and compliance with HIPAA requirements.',
-      project_type: 'platform_integration',
-      status: 'completed',
-      start_date: '2024-01-01',
-      end_date: '2024-02-28',
+      id: "4",
+      company_id: "4",
+      name: "Healthcare Platform Integration",
+      description:
+        "Integration with existing EHR systems and compliance with HIPAA requirements.",
+      project_type: "platform_integration",
+      status: "completed",
+      start_date: "2024-01-01",
+      end_date: "2024-02-28",
       budget: 75000,
-      created_at: '2024-01-20T16:45:00Z'
-    }
+      created_at: "2024-01-20T16:45:00Z",
+    },
   ];
 
   // Demo actions
   const headerActions = [
     {
-      label: 'Add Company',
-      variant: 'primary' as const,
-      onClick: () => alert('Add Company clicked!')
+      label: "Add Company",
+      variant: "primary" as const,
+      onClick: () => alert("Add Company clicked!"),
     },
     {
-      label: 'Import Data',
-      variant: 'outline' as const,
-      onClick: () => alert('Import Data clicked!')
-    }
+      label: "Import Data",
+      variant: "outline" as const,
+      onClick: () => alert("Import Data clicked!"),
+    },
   ];
 
   function handleEdit(event: CustomEvent) {
-    console.log('Edit clicked:', event.detail);
-    alert(`Edit ${event.detail.name || event.detail.first_name + ' ' + event.detail.last_name}`);
+    console.log("Edit clicked:", event.detail);
+    alert(
+      `Edit ${
+        event.detail.name ||
+        event.detail.first_name + " " + event.detail.last_name
+      }`
+    );
   }
 
   // Listen for edit events
-  if (typeof document !== 'undefined') {
-    document.addEventListener('edit', handleEdit);
+  if (typeof document !== "undefined") {
+    document.addEventListener("edit", handleEdit);
   }
 </script>
 
-<DashboardLayout 
-  title="Business Components Demo" 
+<DashboardLayout
+  title="Business Components Demo"
   subtitle="Showcasing TrueForm's enhanced business components with multi-vertical support"
   actions={headerActions}
 >
@@ -189,8 +203,9 @@
       <div class="hero-content">
         <h2 class="section-title">Multi-Vertical Platform</h2>
         <p class="section-description">
-          TrueForm serves as a comprehensive website launcher platform across multiple industries. 
-          Our design system adapts to different verticals while maintaining consistency and usability.
+          TrueForm serves as a comprehensive website launcher platform across
+          multiple industries. Our design system adapts to different verticals
+          while maintaining consistency and usability.
         </p>
         <div class="stats-grid">
           <div class="stat-item">
@@ -218,9 +233,10 @@
   <section class="demo-section">
     <h2 class="section-title">Company Cards</h2>
     <p class="section-description">
-      Company cards with vertical-specific styling and multiple display variants.
+      Company cards with vertical-specific styling and multiple display
+      variants.
     </p>
-    
+
     <!-- Hero Variant -->
     <div class="demo-subsection">
       <h3 class="subsection-title">Hero Variant</h3>
@@ -256,7 +272,7 @@
     <p class="section-description">
       Contact cards with avatar generation and communication actions.
     </p>
-    
+
     <!-- Hero Variant -->
     <div class="demo-subsection">
       <h3 class="subsection-title">Hero Variant</h3>
@@ -290,9 +306,10 @@
   <section class="demo-section">
     <h2 class="section-title">Project Cards</h2>
     <p class="section-description">
-      Project cards with type-specific styling, status indicators, and budget information.
+      Project cards with type-specific styling, status indicators, and budget
+      information.
     </p>
-    
+
     <!-- Hero Variant -->
     <div class="demo-subsection">
       <h3 class="subsection-title">Hero Variant</h3>
@@ -328,13 +345,13 @@
     <p class="section-description">
       Real-world dashboard layout combining different card variants.
     </p>
-    
+
     <div class="mixed-layout">
       <!-- Featured Company -->
       <div class="featured-section">
         <CompanyCard company={sampleCompanies[0]} variant="hero" />
       </div>
-      
+
       <!-- Quick Stats -->
       <div class="stats-section">
         <BaseCard variant="compact">
@@ -355,7 +372,7 @@
           </div>
         </BaseCard>
       </div>
-      
+
       <!-- Recent Contacts -->
       <div class="contacts-section">
         <h3 class="section-subtitle">Recent Contacts</h3>
@@ -365,12 +382,12 @@
           {/each}
         </div>
       </div>
-      
+
       <!-- Active Projects -->
       <div class="projects-section">
         <h3 class="section-subtitle">Active Projects</h3>
         <div class="project-compact-grid">
-          {#each sampleProjects.filter(p => p.status === 'active') as project}
+          {#each sampleProjects.filter((p) => p.status === "active") as project}
             <ProjectCard {project} variant="compact" />
           {/each}
         </div>
@@ -476,7 +493,7 @@
     grid-template-columns: 2fr 1fr;
     grid-template-rows: auto auto;
     gap: var(--space-6);
-    grid-template-areas: 
+    grid-template-areas:
       "featured stats"
       "contacts projects";
   }
@@ -542,7 +559,7 @@
   @media (max-width: 1024px) {
     .mixed-layout {
       grid-template-columns: 1fr;
-      grid-template-areas: 
+      grid-template-areas:
         "featured"
         "stats"
         "contacts"
@@ -582,4 +599,4 @@
       margin-bottom: var(--space-8);
     }
   }
-</style> 
+</style>

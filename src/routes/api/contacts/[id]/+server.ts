@@ -1,6 +1,6 @@
-import { json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
-import { createClient } from '@supabase/supabase-js';
+import { createClient } from "@supabase/supabase-js";
+import { json } from "@sveltejs/kit";
+import type { RequestHandler } from "./$types";
 
 const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_URL,
@@ -10,17 +10,17 @@ const supabase = createClient(
 export const GET: RequestHandler = async ({ params }) => {
   try {
     const { id } = params;
-    
+
     // Get contact details
     const { data: contact, error: contactError } = await supabase
-      .from('tf_contacts')
-      .select('*')
-      .eq('id', id)
+      .from("tf_contacts")
+      .select("*")
+      .eq("id", id)
       .single();
 
     if (contactError) {
-      if (contactError.code === 'PGRST116') {
-        return json({ error: 'Contact not found' }, { status: 404 });
+      if (contactError.code === "PGRST116") {
+        return json({ error: "Contact not found" }, { status: 404 });
       }
       throw contactError;
     }
@@ -29,9 +29,9 @@ export const GET: RequestHandler = async ({ params }) => {
     let company = null;
     if (contact.company_id) {
       const { data: companyData, error: companyError } = await supabase
-        .from('tf_companies')
-        .select('id, name, industry, size')
-        .eq('id', contact.company_id)
+        .from("tf_companies")
+        .select("id, name, industry, size")
+        .eq("id", contact.company_id)
         .single();
 
       if (!companyError) {
@@ -41,10 +41,10 @@ export const GET: RequestHandler = async ({ params }) => {
 
     // Get interaction history
     const { data: interactions, error: interactionsError } = await supabase
-      .from('tf_contact_interactions')
-      .select('*')
-      .eq('contact_id', id)
-      .order('created_at', { ascending: false });
+      .from("tf_contact_interactions")
+      .select("*")
+      .eq("contact_id", id)
+      .order("created_at", { ascending: false });
 
     if (interactionsError) throw interactionsError;
 
@@ -55,23 +55,24 @@ export const GET: RequestHandler = async ({ params }) => {
       interactions: interactions || [],
       stats: {
         total_interactions: (interactions || []).length,
-        last_interaction: (interactions || []).length > 0 
-          ? interactions[0].created_at 
-          : null,
+        last_interaction:
+          (interactions || []).length > 0 ? interactions[0].created_at : null,
         interaction_types: {
-          email: (interactions || []).filter(i => i.type === 'email').length,
-          call: (interactions || []).filter(i => i.type === 'call').length,
-          meeting: (interactions || []).filter(i => i.type === 'meeting').length,
-          demo: (interactions || []).filter(i => i.type === 'demo').length,
-          proposal: (interactions || []).filter(i => i.type === 'proposal').length
-        }
-      }
+          email: (interactions || []).filter((i) => i.type === "email").length,
+          call: (interactions || []).filter((i) => i.type === "call").length,
+          meeting: (interactions || []).filter((i) => i.type === "meeting")
+            .length,
+          demo: (interactions || []).filter((i) => i.type === "demo").length,
+          proposal: (interactions || []).filter((i) => i.type === "proposal")
+            .length,
+        },
+      },
     };
 
     return json(contactWithRelations);
   } catch (error) {
-    console.error('Error fetching contact:', error);
-    return json({ error: 'Failed to fetch contact' }, { status: 500 });
+    console.error("Error fetching contact:", error);
+    return json({ error: "Failed to fetch contact" }, { status: 500 });
   }
 };
 
@@ -79,43 +80,40 @@ export const PUT: RequestHandler = async ({ params, request }) => {
   try {
     const { id } = params;
     const updateData = await request.json();
-    
+
     const { data: contact, error } = await supabase
-      .from('tf_contacts')
+      .from("tf_contacts")
       .update(updateData)
-      .eq('id', id)
+      .eq("id", id)
       .select()
       .single();
 
     if (error) {
-      if (error.code === 'PGRST116') {
-        return json({ error: 'Contact not found' }, { status: 404 });
+      if (error.code === "PGRST116") {
+        return json({ error: "Contact not found" }, { status: 404 });
       }
       throw error;
     }
 
     return json(contact);
   } catch (error) {
-    console.error('Error updating contact:', error);
-    return json({ error: 'Failed to update contact' }, { status: 500 });
+    console.error("Error updating contact:", error);
+    return json({ error: "Failed to update contact" }, { status: 500 });
   }
 };
 
 export const DELETE: RequestHandler = async ({ params }) => {
   try {
     const { id } = params;
-    
-    const { error } = await supabase
-      .from('tf_contacts')
-      .delete()
-      .eq('id', id);
+
+    const { error } = await supabase.from("tf_contacts").delete().eq("id", id);
 
     if (error) throw error;
 
     return json({ success: true });
   } catch (error) {
-    console.error('Error deleting contact:', error);
-    return json({ error: 'Failed to delete contact' }, { status: 500 });
+    console.error("Error deleting contact:", error);
+    return json({ error: "Failed to delete contact" }, { status: 500 });
   }
 };
 
@@ -123,7 +121,7 @@ export const POST: RequestHandler = async ({ params, request }) => {
   try {
     const { id } = params;
     const body = await request.json();
-    
+
     // Add new interaction
     if (body.interaction) {
       const interactionData = {
@@ -131,11 +129,11 @@ export const POST: RequestHandler = async ({ params, request }) => {
         type: body.interaction.type,
         subject: body.interaction.subject,
         notes: body.interaction.notes,
-        created_at: body.interaction.created_at || new Date().toISOString()
+        created_at: body.interaction.created_at || new Date().toISOString(),
       };
 
       const { data: interaction, error } = await supabase
-        .from('tf_contact_interactions')
+        .from("tf_contact_interactions")
         .insert(interactionData)
         .select()
         .single();
@@ -145,9 +143,9 @@ export const POST: RequestHandler = async ({ params, request }) => {
       return json(interaction, { status: 201 });
     }
 
-    return json({ error: 'Invalid request body' }, { status: 400 });
+    return json({ error: "Invalid request body" }, { status: 400 });
   } catch (error) {
-    console.error('Error creating interaction:', error);
-    return json({ error: 'Failed to create interaction' }, { status: 500 });
+    console.error("Error creating interaction:", error);
+    return json({ error: "Failed to create interaction" }, { status: 500 });
   }
-}; 
+};

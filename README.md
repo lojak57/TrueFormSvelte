@@ -31,6 +31,7 @@ open http://localhost:5173
 ## 🏗️ Architecture
 
 ### **Technology Stack**
+
 - **Frontend**: SvelteKit with TypeScript
 - **Database**: Supabase (PostgreSQL)
 - **Styling**: Tailwind CSS
@@ -40,6 +41,7 @@ open http://localhost:5173
 - **Deployment**: Vercel/Netlify ready
 
 ### **Project Structure**
+
 ```
 src/
 ├── lib/
@@ -65,12 +67,14 @@ src/
 ## 🛠️ Development Setup
 
 ### **Prerequisites**
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 - Supabase account
 - Stripe account (for payments)
 
 ### **Environment Variables**
+
 Create a `.env.local` file based on `env.example`:
 
 ```env
@@ -79,7 +83,7 @@ PUBLIC_SUPABASE_URL=your_supabase_project_url
 PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
-# Stripe Configuration  
+# Stripe Configuration
 PUBLIC_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 STRIPE_SECRET_KEY=your_stripe_secret_key
 
@@ -88,12 +92,14 @@ PUBLIC_APP_URL=http://localhost:5173
 ```
 
 ### **Database Setup**
+
 1. Create a new Supabase project
 2. Run the migrations in `src/lib/database/`
 3. Set up Row Level Security (RLS) policies
 4. Configure authentication providers
 
 ### **Available Scripts**
+
 ```bash
 npm run dev          # Start development server
 npm run build        # Build for production
@@ -107,6 +113,7 @@ npm test             # Run tests
 ## 📚 Key Features
 
 ### **Public Website**
+
 - 🎨 Modern, responsive design
 - ⚡ Optimized performance (Lighthouse 95+)
 - 🔍 SEO optimized
@@ -114,6 +121,7 @@ npm test             # Run tests
 - 🎭 Smooth animations and transitions
 
 ### **Admin Dashboard**
+
 - 👥 User management with role-based access
 - 💼 Lead and opportunity tracking
 - 📊 Analytics and reporting
@@ -121,6 +129,7 @@ npm test             # Run tests
 - 📝 Proposal generation system
 
 ### **Authentication & Security**
+
 - 🔐 Supabase Auth integration
 - 🛡️ Row Level Security (RLS)
 - 🔑 JWT token management
@@ -149,6 +158,7 @@ npm run test:integration
 ## 🚀 Deployment
 
 ### **Vercel (Recommended)**
+
 ```bash
 # Install Vercel CLI
 npm i -g vercel
@@ -160,6 +170,7 @@ vercel
 ```
 
 ### **Netlify**
+
 ```bash
 # Build command
 npm run build
@@ -171,6 +182,7 @@ build/
 ```
 
 ### **Production Checklist**
+
 - [ ] Environment variables configured
 - [ ] Database migrations applied
 - [ ] RLS policies enabled
@@ -182,6 +194,7 @@ build/
 ## 🤝 Contributing
 
 ### **Development Workflow**
+
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/amazing-feature`)
 3. Make your changes
@@ -192,6 +205,7 @@ build/
 8. Open a Pull Request
 
 ### **Code Standards**
+
 - TypeScript for all new code
 - Components should be under 200 lines
 - Proper error handling and validation
@@ -199,6 +213,7 @@ build/
 - Clear, descriptive commit messages
 
 ### **Pull Request Guidelines**
+
 - Include a clear description of changes
 - Add screenshots for UI changes
 - Ensure all tests pass

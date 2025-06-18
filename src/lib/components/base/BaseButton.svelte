@@ -1,10 +1,11 @@
 <script lang="ts">
-  export let variant: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger' = 'primary';
-  export let size: 'sm' | 'md' | 'lg' = 'md';
+  export let variant: "primary" | "secondary" | "outline" | "ghost" | "danger" =
+    "primary";
+  export let size: "sm" | "md" | "lg" = "md";
   export let disabled: boolean = false;
   export let loading: boolean = false;
   export let href: string | undefined = undefined;
-  export let type: 'button' | 'submit' | 'reset' = 'button';
+  export let type: "button" | "submit" | "reset" = "button";
   export let fullWidth: boolean = false;
   export let icon: boolean = false; // For icon-only buttons
 
@@ -13,14 +14,16 @@
 
   // CSS classes based on variant and props
   $: buttonClasses = [
-    'base-button',
+    "base-button",
     `variant-${variant}`,
     `size-${size}`,
-    disabled && 'disabled',
-    loading && 'loading',
-    fullWidth && 'full-width',
-    icon && 'icon-only',
-  ].filter(Boolean).join(' ');
+    disabled && "disabled",
+    loading && "loading",
+    fullWidth && "full-width",
+    icon && "icon-only",
+  ]
+    .filter(Boolean)
+    .join(" ");
 </script>
 
 {#if isLink}
@@ -34,7 +37,7 @@
     on:keydown
   >
     {#if loading}
-      <span class="loading-spinner" aria-hidden="true"></span>
+      <span class="loading-spinner" aria-hidden="true" />
     {/if}
     <span class="button-content" class:sr-only={loading}>
       <slot />
@@ -50,7 +53,7 @@
     on:keydown
   >
     {#if loading}
-      <span class="loading-spinner" aria-hidden="true"></span>
+      <span class="loading-spinner" aria-hidden="true" />
     {/if}
     <span class="button-content" class:sr-only={loading}>
       <slot />
@@ -305,4 +308,4 @@
       height: 44px;
     }
   }
-</style> 
+</style>

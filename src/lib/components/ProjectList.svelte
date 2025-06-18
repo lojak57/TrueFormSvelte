@@ -1,32 +1,32 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { ProjectService } from '$lib/services/ProjectService';
-  
+  import { onMount } from "svelte";
+  import { ProjectService } from "$lib/services/ProjectService";
+
   export let companyId: string | undefined = undefined;
-  
+
   let projects: any[] = [];
   let error: string | null = null;
-  
+
   const projectService = new ProjectService();
 
   onMount(async () => {
     try {
       projects = await projectService.getProjects(companyId);
     } catch (e: unknown) {
-      error = e instanceof Error ? e.message : 'An unknown error occurred';
+      error = e instanceof Error ? e.message : "An unknown error occurred";
     }
   });
 
   // Form functions will be added when ProjectForm component is created
 
   async function handleDelete(id: string) {
-    if (!confirm('Are you sure you want to delete this project?')) return;
-    
+    if (!confirm("Are you sure you want to delete this project?")) return;
+
     try {
       await projectService.deleteProject(id);
-      projects = projects.filter(p => p.id !== id);
+      projects = projects.filter((p) => p.id !== id);
     } catch (e: unknown) {
-      error = e instanceof Error ? e.message : 'An unknown error occurred';
+      error = e instanceof Error ? e.message : "An unknown error occurred";
     }
   }
 </script>
@@ -53,12 +53,16 @@
             <p class="budget">Budget: ${project.budget}</p>
           {/if}
           {#if project.start_date}
-            <p class="date">Start: {new Date(project.start_date).toLocaleDateString()}</p>
+            <p class="date">
+              Start: {new Date(project.start_date).toLocaleDateString()}
+            </p>
           {/if}
         </div>
         <div class="actions">
           <!-- Edit button will be added when ProjectForm is created -->
-          <button class="delete" on:click={() => handleDelete(project.id)}>Delete</button>
+          <button class="delete" on:click={() => handleDelete(project.id)}
+            >Delete</button
+          >
         </div>
       </div>
     {/each}
@@ -172,4 +176,4 @@
     color: #6b7280;
     margin: 2rem 0;
   }
-</style> 
+</style>

@@ -1,27 +1,28 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { fade, slide } from 'svelte/transition';
-  import { ArrowRight, Sparkles } from 'lucide-svelte';
-  
-  export let value: string = '';
-  export let placeholder: string = '';
+  import { createEventDispatcher } from "svelte";
+  import { fade, slide } from "svelte/transition";
+  import { ArrowRight, Sparkles } from "lucide-svelte";
+
+  export let value: string = "";
+  export let placeholder: string = "";
   export let starterPrompts: string[] = [];
   export let multiline: boolean = false;
-  export let skipLabel: string = '';
+  export let skipLabel: string = "";
   export let autoFocus: boolean = true;
-  export let autocomplete: string = '';
-  export let inputType: string = 'text';
-  export let name: string = '';
-  
+  export let autocomplete: string = "";
+  export let inputType: string = "text";
+  export let name: string = "";
+
   const dispatch = createEventDispatcher();
-  
+
   let showPrompts = true;
   let isTyping = false;
   let inputElement: HTMLInputElement | HTMLTextAreaElement;
-  
+
   // Show prompts if we have them, user hasn't typed, and no value
-  $: shouldShowPrompts = starterPrompts.length > 0 && showPrompts && !value.trim() && !isTyping;
-  
+  $: shouldShowPrompts =
+    starterPrompts.length > 0 && showPrompts && !value.trim() && !isTyping;
+
   function handlePromptClick(prompt: string) {
     value = prompt;
     showPrompts = false;
@@ -33,7 +34,7 @@
       inputElement.setSelectionRange(value.length, value.length);
     }
   }
-  
+
   function handleInput() {
     if (!isTyping && value.length > 0) {
       isTyping = true;
@@ -42,27 +43,27 @@
         showPrompts = false;
       }, 300);
     }
-    
+
     // If user clears the input, show prompts again
-    if (value.trim() === '') {
+    if (value.trim() === "") {
       isTyping = false;
       showPrompts = true;
     }
   }
-  
+
   function handleSubmit() {
     if (value.trim() || skipLabel) {
-      dispatch('complete', { value: value.trim() });
+      dispatch("complete", { value: value.trim() });
     }
   }
-  
+
   function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Enter' && !multiline && !e.shiftKey) {
+    if (e.key === "Enter" && !multiline && !e.shiftKey) {
       e.preventDefault();
       handleSubmit();
     }
   }
-  
+
   // Auto-focus on mount
   $: if (inputElement && autoFocus) {
     inputElement.focus();
@@ -84,7 +85,7 @@
         rows="4"
         class="w-full px-4 py-3 text-lg border-2 border-gray-200 rounded-xl focus:border-accent-500 focus:ring-4 focus:ring-accent-100 transition-all resize-none"
       />
-    {:else if inputType === 'email'}
+    {:else if inputType === "email"}
       <input
         bind:this={inputElement}
         bind:value
@@ -96,7 +97,7 @@
         type="email"
         class="w-full px-4 py-3 text-lg border-2 border-gray-200 rounded-xl focus:border-accent-500 focus:ring-4 focus:ring-accent-100 transition-all"
       />
-    {:else if inputType === 'tel'}
+    {:else if inputType === "tel"}
       <input
         bind:this={inputElement}
         bind:value
@@ -124,10 +125,14 @@
   </div>
 
   <!-- Starter Prompts Container with minimum height to prevent layout shift -->
-  <div class="{starterPrompts.length > 0 ? 'min-h-[120px]' : 'min-h-[60px]'} transition-all duration-300">
+  <div
+    class="{starterPrompts.length > 0
+      ? 'min-h-[120px]'
+      : 'min-h-[60px]'} transition-all duration-300"
+  >
     {#if shouldShowPrompts}
-      <div 
-        in:fade={{ duration: 300 }} 
+      <div
+        in:fade={{ duration: 300 }}
         out:fade={{ duration: 400 }}
         class="transition-all duration-300"
       >
@@ -153,15 +158,14 @@
       </div>
     {:else if isTyping && value.length > 0}
       <!-- Show a subtle hint that prompts are available -->
-      <div 
-        in:fade={{ duration: 300, delay: 200 }} 
-        class="text-center py-8"
-      >
-        <div class="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+      <div in:fade={{ duration: 300, delay: 200 }} class="text-center py-8">
+        <div
+          class="inline-flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+        >
           <Sparkles size={14} class="text-gray-400" />
           <button
             on:click={() => {
-              value = '';
+              value = "";
               isTyping = false;
               showPrompts = true;
               inputElement?.focus();
@@ -179,7 +183,7 @@
   <div class="flex items-center justify-between">
     {#if skipLabel}
       <button
-        on:click={() => dispatch('complete', { value: '', skipped: true })}
+        on:click={() => dispatch("complete", { value: "", skipped: true })}
         class="text-gray-500 hover:text-gray-700 transition-colors"
       >
         {skipLabel}
@@ -204,4 +208,4 @@
       Press <kbd class="px-2 py-1 bg-gray-100 rounded text-xs">Enter</kbd> to continue
     </p>
   {/if}
-</div> 
+</div>

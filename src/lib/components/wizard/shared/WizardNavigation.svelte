@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-svelte';
-  import Button from '../../ui/Button.svelte';
-  
+  import { ChevronLeft, ChevronRight, Loader2 } from "lucide-svelte";
+  import Button from "../../ui/Button.svelte";
+
   export let currentStep: number;
   export let totalSteps: number;
   export let canGoBack: boolean = true;
@@ -11,24 +11,24 @@
   export let onPrevious: (() => void) | null = null;
   export let onNext: (() => void) | null = null;
   export let onSubmit: (() => void) | null = null;
-  
+
   $: isLastStep = currentStep === totalSteps;
   $: showPrevious = currentStep > 1 && canGoBack && onPrevious;
   $: showNext = !isLastStep && canGoNext && onNext;
   $: showSubmit = isLastStep && onSubmit;
-  
+
   function handlePrevious() {
     if (onPrevious && !isLoading) {
       onPrevious();
     }
   }
-  
+
   function handleNext() {
     if (onNext && !isLoading) {
       onNext();
     }
   }
-  
+
   function handleSubmit() {
     if (onSubmit && !isSubmitting) {
       onSubmit();
@@ -39,9 +39,9 @@
 <div class="wizard-navigation">
   <div class="nav-left">
     {#if showPrevious}
-      <Button 
-        variant="outline" 
-        on:click={handlePrevious} 
+      <Button
+        variant="outline"
+        on:click={handlePrevious}
         disabled={isLoading || isSubmitting}
         class="flex items-center gap-2"
       >
@@ -59,8 +59,8 @@
 
   <div class="nav-right">
     {#if showNext}
-      <Button 
-        variant="accent" 
+      <Button
+        variant="accent"
         on:click={handleNext}
         disabled={!canGoNext || isLoading}
         class="flex items-center gap-2"
@@ -74,8 +74,8 @@
         {/if}
       </Button>
     {:else if showSubmit}
-      <Button 
-        variant="accent" 
+      <Button
+        variant="accent"
         on:click={handleSubmit}
         disabled={!canGoNext || isSubmitting}
         class="px-8 flex items-center gap-2"
@@ -100,50 +100,50 @@
     padding-top: 1.5rem;
     border-top: 1px solid rgb(229, 231, 235);
   }
-  
+
   .nav-left,
   .nav-right {
     flex: 1;
   }
-  
+
   .nav-left {
     display: flex;
     justify-content: flex-start;
   }
-  
+
   .nav-center {
     flex: 0 0 auto;
     display: flex;
     justify-content: center;
   }
-  
+
   .nav-right {
     display: flex;
     justify-content: flex-end;
   }
-  
+
   .step-counter {
     font-size: 0.875rem;
     color: rgb(107, 114, 128);
     font-weight: 500;
   }
-  
+
   @media (max-width: 640px) {
     .wizard-navigation {
       flex-direction: column;
       gap: 1rem;
     }
-    
+
     .nav-left,
     .nav-center,
     .nav-right {
       flex: none;
       width: 100%;
     }
-    
+
     .nav-left,
     .nav-right {
       justify-content: center;
     }
   }
-</style> 
+</style>

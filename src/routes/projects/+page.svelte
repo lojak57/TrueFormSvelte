@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ProjectList from '$lib/components/ProjectList.svelte';
+  import ProjectList from "$lib/components/ProjectList.svelte";
 </script>
 
 <div class="projects-page">
@@ -19,4 +19,4 @@
     font-weight: 600;
     color: #111827;
   }
-</style> 
+</style>

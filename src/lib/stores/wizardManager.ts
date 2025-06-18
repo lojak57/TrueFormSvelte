@@ -1,5 +1,5 @@
-import { writable, derived } from 'svelte/store';
-import type { Writable } from 'svelte/store';
+import type { Writable } from "svelte/store";
+import { derived, writable } from "svelte/store";
 
 export interface WizardState<T = Record<string, unknown>> {
   currentStep: number;
@@ -26,11 +26,11 @@ export class WizardManager<T = Record<string, unknown>> {
       data: initialData,
       validation: {},
       isSubmitting: false,
-      submitError: ''
+      submitError: "",
     };
 
     // Load from localStorage if persistence key is provided
-    if (config.persistenceKey && typeof window !== 'undefined') {
+    if (config.persistenceKey && typeof window !== "undefined") {
       const saved = localStorage.getItem(config.persistenceKey);
       if (saved) {
         try {
@@ -38,24 +38,27 @@ export class WizardManager<T = Record<string, unknown>> {
           initialState.data = { ...initialData, ...parsedState.data };
           initialState.currentStep = parsedState.currentStep || 0;
         } catch (error) {
-          console.warn('Failed to load wizard state from localStorage:', error);
+          console.warn("Failed to load wizard state from localStorage:", error);
         }
       }
     }
 
     this._store = writable(initialState);
-    this.store = derived(this._store, state => state);
+    this.store = derived(this._store, (state) => state);
 
     // Auto-save to localStorage when data changes
-    if (config.persistenceKey && typeof window !== 'undefined') {
-      this._store.subscribe(state => {
+    if (config.persistenceKey && typeof window !== "undefined") {
+      this._store.subscribe((state) => {
         try {
-          localStorage.setItem(config.persistenceKey!, JSON.stringify({
-            data: state.data,
-            currentStep: state.currentStep
-          }));
+          localStorage.setItem(
+            config.persistenceKey!,
+            JSON.stringify({
+              data: state.data,
+              currentStep: state.currentStep,
+            })
+          );
         } catch (error) {
-          console.warn('Failed to save wizard state to localStorage:', error);
+          console.warn("Failed to save wizard state to localStorage:", error);
         }
       });
     }
@@ -63,7 +66,7 @@ export class WizardManager<T = Record<string, unknown>> {
 
   // Navigation methods
   nextStep() {
-    this._store.update(state => {
+    this._store.update((state) => {
       if (state.currentStep < state.totalSteps - 1) {
         return { ...state, currentStep: state.currentStep + 1 };
       }
@@ -72,7 +75,7 @@ export class WizardManager<T = Record<string, unknown>> {
   }
 
   prevStep() {
-    this._store.update(state => {
+    this._store.update((state) => {
       if (state.currentStep > 0) {
         return { ...state, currentStep: state.currentStep - 1 };
       }
@@ -81,7 +84,7 @@ export class WizardManager<T = Record<string, unknown>> {
   }
 
   goToStep(step: number) {
-    this._store.update(state => {
+    this._store.update((state) => {
       if (step >= 0 && step < state.totalSteps) {
         return { ...state, currentStep: step };
       }
@@ -91,30 +94,30 @@ export class WizardManager<T = Record<string, unknown>> {
 
   // Data methods
   updateData(updates: Partial<T>): void {
-    this._store.update(state => ({
+    this._store.update((state) => ({
       ...state,
-      data: { ...state.data, ...updates }
+      data: { ...state.data, ...updates },
     }));
   }
 
   setData(data: T) {
-    this._store.update(state => ({
+    this._store.update((state) => ({
       ...state,
-      data
+      data,
     }));
   }
 
   // Validation methods
   setStepValidation(step: number, isValid: boolean) {
-    this._store.update(state => ({
+    this._store.update((state) => ({
       ...state,
-      validation: { ...state.validation, [step]: isValid }
+      validation: { ...state.validation, [step]: isValid },
     }));
   }
 
   isStepValid(step: number): boolean {
     let isValid = false;
-    this._store.subscribe(state => {
+    this._store.subscribe((state) => {
       isValid = state.validation[step] || false;
     })();
     return isValid;
@@ -122,7 +125,7 @@ export class WizardManager<T = Record<string, unknown>> {
 
   getCurrentStepValid(): boolean {
     let isValid = false;
-    this._store.subscribe(state => {
+    this._store.subscribe((state) => {
       isValid = state.validation[state.currentStep] || false;
     })();
     return isValid;
@@ -130,16 +133,16 @@ export class WizardManager<T = Record<string, unknown>> {
 
   // Submission methods
   setSubmitting(isSubmitting: boolean) {
-    this._store.update(state => ({
+    this._store.update((state) => ({
       ...state,
-      isSubmitting
+      isSubmitting,
     }));
   }
 
   setSubmitError(error: string) {
-    this._store.update(state => ({
+    this._store.update((state) => ({
       ...state,
-      submitError: error
+      submitError: error,
     }));
   }
 
@@ -151,12 +154,12 @@ export class WizardManager<T = Record<string, unknown>> {
       data,
       validation: {},
       isSubmitting: false,
-      submitError: ''
+      submitError: "",
     });
   }
 
   clearPersistence(persistenceKey: string) {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.removeItem(persistenceKey);
     }
   }

@@ -1,58 +1,58 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { fade } from 'svelte/transition';
+  import { createEventDispatcher } from "svelte";
+  import { fade } from "svelte/transition";
 
   const dispatch = createEventDispatcher();
 
-  let selectedBudget = '';
+  let selectedBudget = "";
 
   const budgetOptions = [
     {
-      id: 'budget_approved',
-      title: 'Budget is approved',
-      description: 'We have funds allocated for this project',
-      icon: '💰',
-      range: 'Ready to invest',
-      score: 25
+      id: "budget_approved",
+      title: "Budget is approved",
+      description: "We have funds allocated for this project",
+      icon: "💰",
+      range: "Ready to invest",
+      score: 25,
     },
     {
-      id: 'budget_researching',
-      title: 'Researching investment levels',
-      description: 'Want to understand typical costs for this type of project',
-      icon: '📊',
-      range: 'Learning phase',
-      score: 15
+      id: "budget_researching",
+      title: "Researching investment levels",
+      description: "Want to understand typical costs for this type of project",
+      icon: "📊",
+      range: "Learning phase",
+      score: 15,
     },
     {
-      id: 'budget_flexible',
-      title: 'Flexible budget',
-      description: 'Budget depends on the value and features we need',
-      icon: '🎯',
-      range: 'Value-driven',
-      score: 20
+      id: "budget_flexible",
+      title: "Flexible budget",
+      description: "Budget depends on the value and features we need",
+      icon: "🎯",
+      range: "Value-driven",
+      score: 20,
     },
     {
-      id: 'budget_constrained',
-      title: 'Working with constraints',
-      description: 'Have a specific budget range in mind',
-      icon: '🎱',
-      range: 'Budget-conscious',
-      score: 10
+      id: "budget_constrained",
+      title: "Working with constraints",
+      description: "Have a specific budget range in mind",
+      icon: "🎱",
+      range: "Budget-conscious",
+      score: 10,
     },
     {
-      id: 'budget_exploring',
-      title: 'Just exploring options',
-      description: 'Early stage - gathering information and quotes',
-      icon: '🔍',
-      range: 'Discovery mode',
-      score: 5
-    }
+      id: "budget_exploring",
+      title: "Just exploring options",
+      description: "Early stage - gathering information and quotes",
+      icon: "🔍",
+      range: "Discovery mode",
+      score: 5,
+    },
   ];
 
   function selectBudget(budget: string) {
     selectedBudget = budget;
     setTimeout(() => {
-      dispatch('complete', { value: budget });
+      dispatch("complete", { value: budget });
     }, 300);
   }
 </script>
@@ -60,7 +60,7 @@
 <div class="budget-context-step" in:fade={{ duration: 300 }}>
   <div class="budget-options">
     {#each budgetOptions as option (option.id)}
-      <button 
+      <button
         class="budget-option"
         class:selected={selectedBudget === option.id}
         on:click={() => selectBudget(option.id)}
@@ -83,7 +83,10 @@
   </div>
 
   <div class="help-text">
-    <p>💡 Don't worry - we work with all types of budgets and will provide transparent pricing</p>
+    <p>
+      💡 Don't worry - we work with all types of budgets and will provide
+      transparent pricing
+    </p>
   </div>
 </div>
 

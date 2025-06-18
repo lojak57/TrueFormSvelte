@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
+  import { onMount } from "svelte";
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
 
   interface Contact {
     id: string;
@@ -22,15 +22,15 @@
 
   onMount(async () => {
     try {
-      const response = await fetch('/api/contacts');
+      const response = await fetch("/api/contacts");
       if (response.ok) {
         contacts = await response.json();
       } else {
-        error = 'Failed to load contacts';
+        error = "Failed to load contacts";
       }
     } catch (err) {
-      error = 'Error loading contacts';
-      console.error('Error fetching contacts:', err);
+      error = "Error loading contacts";
+      console.error("Error fetching contacts:", err);
     } finally {
       loading = false;
     }
@@ -46,9 +46,12 @@
 
   function getStatusColor(status: string): string {
     switch (status.toLowerCase()) {
-      case 'active': return 'text-success bg-success-100';
-      case 'inactive': return 'text-error bg-error-100';
-      default: return 'text-neutral-600 bg-neutral-100';
+      case "active":
+        return "text-success bg-success-100";
+      case "inactive":
+        return "text-error bg-error-100";
+      default:
+        return "text-neutral-600 bg-neutral-100";
     }
   }
 </script>
@@ -76,7 +79,9 @@
       <div class="text-center">
         <div class="text-6xl mb-4">👥</div>
         <h3 class="text-h4 mb-2">No Contacts Yet</h3>
-        <p class="text-muted mb-4">Start building your contact database by adding your first contact.</p>
+        <p class="text-muted mb-4">
+          Start building your contact database by adding your first contact.
+        </p>
         <BaseButton variant="primary" href="/admin/contacts/create">
           Add First Contact
         </BaseButton>
@@ -94,7 +99,8 @@
               </div>
               <div class="flex-1 min-w-0">
                 <h3 class="contact-name">
-                  {contact.first_name} {contact.last_name}
+                  {contact.first_name}
+                  {contact.last_name}
                 </h3>
                 {#if contact.title}
                   <p class="contact-title">{contact.title}</p>
@@ -117,7 +123,7 @@
                   </a>
                 </div>
               {/if}
-              
+
               {#if contact.phone}
                 <div class="contact-detail">
                   <span class="detail-icon">📞</span>
@@ -130,17 +136,17 @@
 
             <!-- Actions -->
             <div class="contact-actions">
-              <BaseButton 
-                variant="outline" 
-                size="sm" 
+              <BaseButton
+                variant="outline"
+                size="sm"
                 href="/admin/contacts/{contact.id}"
               >
                 View
               </BaseButton>
-              <BaseButton 
-                variant="ghost" 
-                size="sm" 
-                on:click={() => console.log('Edit contact:', contact.id)}
+              <BaseButton
+                variant="ghost"
+                size="sm"
+                on:click={() => console.log("Edit contact:", contact.id)}
               >
                 Edit
               </BaseButton>
@@ -157,7 +163,8 @@
           <div>
             <h4 class="text-h6 mb-1">Total Contacts</h4>
             <p class="text-muted text-sm">
-              {contacts.length} contact{contacts.length !== 1 ? 's' : ''} across all companies
+              {contacts.length} contact{contacts.length !== 1 ? "s" : ""} across
+              all companies
             </p>
           </div>
           <div class="text-h3 font-bold text-primary">
@@ -208,7 +215,11 @@
     width: 48px;
     height: 48px;
     border-radius: var(--radius-lg);
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-accent)
+    );
     color: white;
     display: flex;
     align-items: center;
@@ -283,4 +294,4 @@
   .contact-summary {
     margin-top: var(--space-4);
   }
-</style> 
+</style>

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import ContactList from '$lib/components/ContactList.svelte';
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
+  import ContactList from "$lib/components/ContactList.svelte";
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
 </script>
 
 <div class="container space-y-8">
@@ -10,7 +10,9 @@
     <div class="flex justify-between items-start">
       <div>
         <h2 class="text-h2 mb-2">Manage Contacts</h2>
-        <p class="text-muted">Organize and track your business contacts across all verticals</p>
+        <p class="text-muted">
+          Organize and track your business contacts across all verticals
+        </p>
       </div>
       <div class="flex gap-3">
         <BaseButton variant="outline" href="/admin/contacts/import">
@@ -26,4 +28,4 @@
 
   <!-- Contact List -->
   <ContactList />
-</div> 
+</div>

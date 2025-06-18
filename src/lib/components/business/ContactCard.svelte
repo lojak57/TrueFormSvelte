@@ -1,10 +1,10 @@
 <script lang="ts">
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
-  import type { Contact } from '$lib/types/index.js';
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
+  import type { Contact } from "$lib/types/index.js";
 
   export let contact: Contact;
-  export let variant: 'hero' | 'compact' | 'mini' = 'compact';
+  export let variant: "hero" | "compact" | "mini" = "compact";
   export let showActions: boolean = true;
   export let loading: boolean = false;
 
@@ -16,7 +16,7 @@
   }
 
   function handleEdit() {
-    const event = new CustomEvent('edit', { detail: contact });
+    const event = new CustomEvent("edit", { detail: contact });
     document.dispatchEvent(event);
   }
 
@@ -42,14 +42,14 @@
   }
 </script>
 
-<BaseCard 
-  {variant} 
-  accent="var(--color-info)" 
+<BaseCard
+  {variant}
+  accent="var(--color-info)"
   {loading}
-  clickable={variant !== 'hero'}
-  on:click={variant !== 'hero' ? handleView : undefined}
+  clickable={variant !== "hero"}
+  on:click={variant !== "hero" ? handleView : undefined}
 >
-  {#if variant === 'hero'}
+  {#if variant === "hero"}
     <!-- Hero variant - large detailed view -->
     <div class="hero-content">
       <div class="hero-header">
@@ -69,7 +69,9 @@
         {#if showActions}
           <div class="hero-actions">
             <BaseButton size="sm" on:click={handleEdit}>Edit</BaseButton>
-            <BaseButton variant="outline" size="sm" on:click={handleView}>View Details</BaseButton>
+            <BaseButton variant="outline" size="sm" on:click={handleView}
+              >View Details</BaseButton
+            >
           </div>
         {/if}
       </div>
@@ -78,30 +80,52 @@
         {#if contact.email}
           <div class="contact-method">
             <div class="method-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+                />
               </svg>
             </div>
             <div class="method-details">
               <div class="method-label">Email</div>
-              <a href="mailto:{contact.email}" class="method-value">{contact.email}</a>
+              <a href="mailto:{contact.email}" class="method-value"
+                >{contact.email}</a
+              >
             </div>
-            <BaseButton size="sm" variant="ghost" on:click={handleEmail}>Send</BaseButton>
+            <BaseButton size="sm" variant="ghost" on:click={handleEmail}
+              >Send</BaseButton
+            >
           </div>
         {/if}
 
         {#if contact.phone}
           <div class="contact-method">
             <div class="method-icon">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+              >
+                <path
+                  d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+                />
               </svg>
             </div>
             <div class="method-details">
               <div class="method-label">Phone</div>
-              <a href="tel:{contact.phone}" class="method-value">{contact.phone}</a>
+              <a href="tel:{contact.phone}" class="method-value"
+                >{contact.phone}</a
+              >
             </div>
-            <BaseButton size="sm" variant="ghost" on:click={handleCall}>Call</BaseButton>
+            <BaseButton size="sm" variant="ghost" on:click={handleCall}
+              >Call</BaseButton
+            >
           </div>
         {/if}
       </div>
@@ -113,8 +137,7 @@
         </div>
       {/if}
     </div>
-
-  {:else if variant === 'compact'}
+  {:else if variant === "compact"}
     <!-- Compact variant - medium card for grids -->
     <div class="compact-content">
       <div class="compact-header">
@@ -135,7 +158,9 @@
         {#if contact.email}
           <div class="method-item">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              <path
+                d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+              />
             </svg>
             <span class="method-text">{contact.email}</span>
           </div>
@@ -143,7 +168,9 @@
         {#if contact.phone}
           <div class="method-item">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+              <path
+                d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"
+              />
             </svg>
             <span class="method-text">{contact.phone}</span>
           </div>
@@ -152,11 +179,12 @@
 
       {#if showActions}
         <div class="compact-actions">
-          <BaseButton size="sm" variant="ghost" on:click={handleEditClick}>Edit</BaseButton>
+          <BaseButton size="sm" variant="ghost" on:click={handleEditClick}
+            >Edit</BaseButton
+          >
         </div>
       {/if}
     </div>
-
   {:else}
     <!-- Mini variant - small card for lists -->
     <div class="mini-content">
@@ -198,7 +226,11 @@
     width: 64px;
     height: 64px;
     border-radius: var(--radius-full);
-    background: linear-gradient(135deg, var(--color-info), var(--color-info-600));
+    background: linear-gradient(
+      135deg,
+      var(--color-info),
+      var(--color-info-600)
+    );
     display: flex;
     align-items: center;
     justify-content: center;
@@ -302,7 +334,11 @@
     width: 48px;
     height: 48px;
     border-radius: var(--radius-full);
-    background: linear-gradient(135deg, var(--color-info), var(--color-info-600));
+    background: linear-gradient(
+      135deg,
+      var(--color-info),
+      var(--color-info-600)
+    );
     display: flex;
     align-items: center;
     justify-content: center;
@@ -378,7 +414,11 @@
     width: 32px;
     height: 32px;
     border-radius: var(--radius-full);
-    background: linear-gradient(135deg, var(--color-info), var(--color-info-600));
+    background: linear-gradient(
+      135deg,
+      var(--color-info),
+      var(--color-info-600)
+    );
     display: flex;
     align-items: center;
     justify-content: center;
@@ -456,4 +496,4 @@
       text-align: center;
     }
   }
-</style> 
+</style>

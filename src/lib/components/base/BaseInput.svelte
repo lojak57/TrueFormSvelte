@@ -1,44 +1,55 @@
 <script lang="ts">
-  export let type: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' = 'text';
-  export let value: string | number = '';
-  export let label: string = '';
-  export let placeholder: string = '';
+  export let type:
+    | "text"
+    | "email"
+    | "password"
+    | "number"
+    | "tel"
+    | "url"
+    | "search" = "text";
+  export let value: string | number = "";
+  export let label: string = "";
+  export let placeholder: string = "";
   export let required: boolean = false;
   export let disabled: boolean = false;
   export let readonly: boolean = false;
-  export let error: string = '';
-  export let success: string = '';
-  export let hint: string = '';
-  export let size: 'sm' | 'md' | 'lg' = 'md';
+  export let error: string = "";
+  export let success: string = "";
+  export let hint: string = "";
+  export let size: "sm" | "md" | "lg" = "md";
   export let fullWidth: boolean = true;
   export let floating: boolean = true; // Use floating labels
-  export let id: string = '';
+  export let id: string = "";
 
   // Generate unique ID if not provided
   $: inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
 
   // Determine if label should be floating
-  $: hasValue = value !== '' && value !== null && value !== undefined;
+  $: hasValue = value !== "" && value !== null && value !== undefined;
   $: shouldFloat = floating && (hasValue || placeholder);
 
   // CSS classes
   $: inputClasses = [
-    'base-input',
+    "base-input",
     `size-${size}`,
-    error && 'error',
-    success && 'success',
-    disabled && 'disabled',
-    readonly && 'readonly',
-    fullWidth && 'full-width',
-    floating && 'floating',
-    shouldFloat && 'has-value',
-  ].filter(Boolean).join(' ');
+    error && "error",
+    success && "success",
+    disabled && "disabled",
+    readonly && "readonly",
+    fullWidth && "full-width",
+    floating && "floating",
+    shouldFloat && "has-value",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   $: containerClasses = [
-    'input-container',
-    floating && 'floating-container',
-    fullWidth && 'full-width',
-  ].filter(Boolean).join(' ');
+    "input-container",
+    floating && "floating-container",
+    fullWidth && "full-width",
+  ]
+    .filter(Boolean)
+    .join(" ");
 </script>
 
 <div class={containerClasses}>
@@ -52,7 +63,7 @@
   {/if}
 
   <div class="input-wrapper">
-    {#if type === 'text'}
+    {#if type === "text"}
       <input
         type="text"
         bind:value
@@ -62,8 +73,14 @@
         {readonly}
         id={inputId}
         class={inputClasses}
-        aria-invalid={error ? 'true' : 'false'}
-        aria-describedby={error ? `${inputId}-error` : success ? `${inputId}-success` : hint ? `${inputId}-hint` : undefined}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={error
+          ? `${inputId}-error`
+          : success
+          ? `${inputId}-success`
+          : hint
+          ? `${inputId}-hint`
+          : undefined}
         on:input
         on:change
         on:focus
@@ -71,7 +88,7 @@
         on:keydown
         on:keyup
       />
-    {:else if type === 'email'}
+    {:else if type === "email"}
       <input
         type="email"
         bind:value
@@ -81,8 +98,14 @@
         {readonly}
         id={inputId}
         class={inputClasses}
-        aria-invalid={error ? 'true' : 'false'}
-        aria-describedby={error ? `${inputId}-error` : success ? `${inputId}-success` : hint ? `${inputId}-hint` : undefined}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={error
+          ? `${inputId}-error`
+          : success
+          ? `${inputId}-success`
+          : hint
+          ? `${inputId}-hint`
+          : undefined}
         on:input
         on:change
         on:focus
@@ -90,7 +113,7 @@
         on:keydown
         on:keyup
       />
-    {:else if type === 'password'}
+    {:else if type === "password"}
       <input
         type="password"
         bind:value
@@ -100,8 +123,14 @@
         {readonly}
         id={inputId}
         class={inputClasses}
-        aria-invalid={error ? 'true' : 'false'}
-        aria-describedby={error ? `${inputId}-error` : success ? `${inputId}-success` : hint ? `${inputId}-hint` : undefined}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={error
+          ? `${inputId}-error`
+          : success
+          ? `${inputId}-success`
+          : hint
+          ? `${inputId}-hint`
+          : undefined}
         on:input
         on:change
         on:focus
@@ -109,7 +138,7 @@
         on:keydown
         on:keyup
       />
-    {:else if type === 'number'}
+    {:else if type === "number"}
       <input
         type="number"
         bind:value
@@ -119,8 +148,14 @@
         {readonly}
         id={inputId}
         class={inputClasses}
-        aria-invalid={error ? 'true' : 'false'}
-        aria-describedby={error ? `${inputId}-error` : success ? `${inputId}-success` : hint ? `${inputId}-hint` : undefined}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={error
+          ? `${inputId}-error`
+          : success
+          ? `${inputId}-success`
+          : hint
+          ? `${inputId}-hint`
+          : undefined}
         on:input
         on:change
         on:focus
@@ -128,7 +163,7 @@
         on:keydown
         on:keyup
       />
-    {:else if type === 'tel'}
+    {:else if type === "tel"}
       <input
         type="tel"
         bind:value
@@ -138,8 +173,14 @@
         {readonly}
         id={inputId}
         class={inputClasses}
-        aria-invalid={error ? 'true' : 'false'}
-        aria-describedby={error ? `${inputId}-error` : success ? `${inputId}-success` : hint ? `${inputId}-hint` : undefined}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={error
+          ? `${inputId}-error`
+          : success
+          ? `${inputId}-success`
+          : hint
+          ? `${inputId}-hint`
+          : undefined}
         on:input
         on:change
         on:focus
@@ -147,7 +188,7 @@
         on:keydown
         on:keyup
       />
-    {:else if type === 'url'}
+    {:else if type === "url"}
       <input
         type="url"
         bind:value
@@ -157,8 +198,14 @@
         {readonly}
         id={inputId}
         class={inputClasses}
-        aria-invalid={error ? 'true' : 'false'}
-        aria-describedby={error ? `${inputId}-error` : success ? `${inputId}-success` : hint ? `${inputId}-hint` : undefined}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={error
+          ? `${inputId}-error`
+          : success
+          ? `${inputId}-success`
+          : hint
+          ? `${inputId}-hint`
+          : undefined}
         on:input
         on:change
         on:focus
@@ -176,8 +223,14 @@
         {readonly}
         id={inputId}
         class={inputClasses}
-        aria-invalid={error ? 'true' : 'false'}
-        aria-describedby={error ? `${inputId}-error` : success ? `${inputId}-success` : hint ? `${inputId}-hint` : undefined}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={error
+          ? `${inputId}-error`
+          : success
+          ? `${inputId}-success`
+          : hint
+          ? `${inputId}-hint`
+          : undefined}
         on:input
         on:change
         on:focus
@@ -200,13 +253,17 @@
     {#if error}
       <div class="status-icon error-icon" aria-hidden="true">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-          <path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zM7 3h2v6H7V3zm0 8h2v2H7v-2z"/>
+          <path
+            d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zM7 3h2v6H7V3zm0 8h2v2H7v-2z"
+          />
         </svg>
       </div>
     {:else if success}
       <div class="status-icon success-icon" aria-hidden="true">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-          <path d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.5 6L7 10.5 4.5 8 5.91 6.59 7 7.68l3.59-3.59L12 5.5z"/>
+          <path
+            d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.5 6L7 10.5 4.5 8 5.91 6.59 7 7.68l3.59-3.59L12 5.5z"
+          />
         </svg>
       </div>
     {/if}
@@ -458,4 +515,4 @@
       padding-bottom: var(--space-2);
     }
   }
-</style> 
+</style>

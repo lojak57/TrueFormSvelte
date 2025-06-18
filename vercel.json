@@ -3,6 +3,11 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
+  "functions": {
+    "src/routes/api/proposals/[id]/pdf/+server.ts": {
+      "maxDuration": 30
+    }
+  },
   "headers": [
     {
       "source": "/api/(.*)",
@@ -18,6 +23,18 @@
         {
           "key": "Access-Control-Allow-Headers",
           "value": "Content-Type, Authorization, stripe-signature"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "crm.true-form-apps.com"
         }
       ]
     }

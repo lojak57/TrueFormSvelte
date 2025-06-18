@@ -1,47 +1,47 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { fade } from 'svelte/transition';
+  import { createEventDispatcher } from "svelte";
+  import { fade } from "svelte/transition";
 
   const dispatch = createEventDispatcher();
 
-  let selectedAuthority = '';
+  let selectedAuthority = "";
 
   const authorityOptions = [
     {
-      id: 'decision_maker',
-      title: 'I make the final decision',
-      description: 'I have the authority to approve and move forward',
-      icon: '👑',
-      score: 25 // High value lead
+      id: "decision_maker",
+      title: "I make the final decision",
+      description: "I have the authority to approve and move forward",
+      icon: "👑",
+      score: 25, // High value lead
     },
     {
-      id: 'influencer',
-      title: 'I influence the decision',
-      description: 'I recommend solutions but need approval from others',
-      icon: '🎯',
-      score: 15
+      id: "influencer",
+      title: "I influence the decision",
+      description: "I recommend solutions but need approval from others",
+      icon: "🎯",
+      score: 15,
     },
     {
-      id: 'researcher',
-      title: 'I\'m gathering information',
-      description: 'Researching options for someone else to decide',
-      icon: '🔍',
-      score: 5
+      id: "researcher",
+      title: "I'm gathering information",
+      description: "Researching options for someone else to decide",
+      icon: "🔍",
+      score: 5,
     },
     {
-      id: 'team_decision',
-      title: 'It\'s a team decision',
-      description: 'Multiple people are involved in the final choice',
-      icon: '👥',
-      score: 10
-    }
+      id: "team_decision",
+      title: "It's a team decision",
+      description: "Multiple people are involved in the final choice",
+      icon: "👥",
+      score: 10,
+    },
   ];
 
   function selectAuthority(authority: string) {
     selectedAuthority = authority;
     // Add a small delay for UX, then proceed
     setTimeout(() => {
-      dispatch('complete', { value: authority });
+      dispatch("complete", { value: authority });
     }, 300);
   }
 </script>
@@ -49,7 +49,7 @@
 <div class="decision-authority-step" in:fade={{ duration: 300 }}>
   <div class="authority-options">
     {#each authorityOptions as option (option.id)}
-      <button 
+      <button
         class="authority-option"
         class:selected={selectedAuthority === option.id}
         on:click={() => selectAuthority(option.id)}

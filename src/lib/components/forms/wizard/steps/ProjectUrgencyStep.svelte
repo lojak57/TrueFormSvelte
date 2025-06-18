@@ -1,72 +1,76 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { fade } from 'svelte/transition';
+  import { createEventDispatcher } from "svelte";
+  import { fade } from "svelte/transition";
 
   const dispatch = createEventDispatcher();
 
-  let selectedUrgency = '';
+  let selectedUrgency = "";
 
   const urgencyOptions = [
     {
-      id: 'urgent_deadline',
-      title: 'Urgent - We have a deadline',
-      description: 'Specific date or event driving timeline',
-      icon: '🚨',
-      timeline: 'ASAP',
-      priority: 'HIGH',
-      score: 25
+      id: "urgent_deadline",
+      title: "Urgent - We have a deadline",
+      description: "Specific date or event driving timeline",
+      icon: "🚨",
+      timeline: "ASAP",
+      priority: "HIGH",
+      score: 25,
     },
     {
-      id: 'high_priority',
-      title: 'High priority',
-      description: 'Important for business goals this quarter',
-      icon: '⚡',
-      timeline: '1-2 months',
-      priority: 'HIGH',
-      score: 20
+      id: "high_priority",
+      title: "High priority",
+      description: "Important for business goals this quarter",
+      icon: "⚡",
+      timeline: "1-2 months",
+      priority: "HIGH",
+      score: 20,
     },
     {
-      id: 'planned_project',
-      title: 'Planned project',
-      description: 'Scheduled initiative with some flexibility',
-      icon: '📅',
-      timeline: '2-3 months',
-      priority: 'MEDIUM',
-      score: 15
+      id: "planned_project",
+      title: "Planned project",
+      description: "Scheduled initiative with some flexibility",
+      icon: "📅",
+      timeline: "2-3 months",
+      priority: "MEDIUM",
+      score: 15,
     },
     {
-      id: 'when_ready',
-      title: 'When it\'s ready',
-      description: 'Quality over speed - no rushing needed',
-      icon: '🎯',
-      timeline: '3+ months',
-      priority: 'MEDIUM',
-      score: 10
+      id: "when_ready",
+      title: "When it's ready",
+      description: "Quality over speed - no rushing needed",
+      icon: "🎯",
+      timeline: "3+ months",
+      priority: "MEDIUM",
+      score: 10,
     },
     {
-      id: 'exploring',
-      title: 'Just exploring',
-      description: 'Gathering information and comparing options',
-      icon: '🔍',
-      timeline: 'TBD',
-      priority: 'LOW',
-      score: 5
-    }
+      id: "exploring",
+      title: "Just exploring",
+      description: "Gathering information and comparing options",
+      icon: "🔍",
+      timeline: "TBD",
+      priority: "LOW",
+      score: 5,
+    },
   ];
 
   function selectUrgency(urgency: string) {
     selectedUrgency = urgency;
     setTimeout(() => {
-      dispatch('complete', { value: urgency });
+      dispatch("complete", { value: urgency });
     }, 300);
   }
 
   function getPriorityColor(priority: string) {
     switch (priority) {
-      case 'HIGH': return '#ef4444';
-      case 'MEDIUM': return '#f59e0b';
-      case 'LOW': return '#10b981';
-      default: return '#6b7280';
+      case "HIGH":
+        return "#ef4444";
+      case "MEDIUM":
+        return "#f59e0b";
+      case "LOW":
+        return "#10b981";
+      default:
+        return "#6b7280";
     }
   }
 </script>
@@ -74,7 +78,7 @@
 <div class="project-urgency-step" in:fade={{ duration: 300 }}>
   <div class="urgency-options">
     {#each urgencyOptions as option (option.id)}
-      <button 
+      <button
         class="urgency-option"
         class:selected={selectedUrgency === option.id}
         on:click={() => selectUrgency(option.id)}
@@ -82,21 +86,23 @@
         <div class="option-header">
           <div class="option-icon">{option.icon}</div>
           <div class="option-badges">
-            <span 
+            <span
               class="priority-badge"
-              style="background-color: {getPriorityColor(option.priority)}20; color: {getPriorityColor(option.priority)}"
+              style="background-color: {getPriorityColor(
+                option.priority
+              )}20; color: {getPriorityColor(option.priority)}"
             >
               {option.priority}
             </span>
             <span class="timeline-badge">{option.timeline}</span>
           </div>
         </div>
-        
+
         <div class="option-content">
           <h3 class="option-title">{option.title}</h3>
           <p class="option-description">{option.description}</p>
         </div>
-        
+
         <div class="option-check">
           {#if selectedUrgency === option.id}
             <div class="checkmark">✓</div>
@@ -107,7 +113,10 @@
   </div>
 
   <div class="help-text">
-    <p>⏰ This helps us allocate the right resources and timeline for your project</p>
+    <p>
+      ⏰ This helps us allocate the right resources and timeline for your
+      project
+    </p>
   </div>
 </div>
 

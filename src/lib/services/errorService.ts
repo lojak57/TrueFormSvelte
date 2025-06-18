@@ -1,8 +1,8 @@
-import { writable } from 'svelte/store';
+import { writable } from "svelte/store";
 
 export interface ErrorMessage {
   id: string;
-  type: 'error' | 'warning' | 'info' | 'success';
+  type: "error" | "warning" | "info" | "success";
   title: string;
   message: string;
   timestamp: Date;
@@ -63,114 +63,124 @@ class ErrorService {
   // API Error Handling
   handleApiError(error: ApiError, id?: string): ErrorMessage {
     const errorId = id || this.generateId();
-    let title = 'Request Failed';
-    let message = error.message || 'An error occurred while processing your request.';
+    let title = "Request Failed";
+    let message =
+      error.message || "An error occurred while processing your request.";
 
     // Customize based on status code
     switch (error.status) {
       case 400:
-        title = 'Invalid Request';
-        message = 'Please check your input and try again.';
+        title = "Invalid Request";
+        message = "Please check your input and try again.";
         break;
       case 401:
-        title = 'Authentication Required';
-        message = 'Please log in to continue.';
+        title = "Authentication Required";
+        message = "Please log in to continue.";
         break;
       case 403:
-        title = 'Access Denied';
-        message = 'You don\'t have permission to perform this action.';
+        title = "Access Denied";
+        message = "You don't have permission to perform this action.";
         break;
       case 404:
-        title = 'Not Found';
-        message = 'The requested resource could not be found.';
+        title = "Not Found";
+        message = "The requested resource could not be found.";
         break;
       case 429:
-        title = 'Too Many Requests';
-        message = 'Please wait a moment before trying again.';
+        title = "Too Many Requests";
+        message = "Please wait a moment before trying again.";
         break;
       case 500:
-        title = 'Server Error';
-        message = 'Something went wrong on our end. Please try again later.';
+        title = "Server Error";
+        message = "Something went wrong on our end. Please try again later.";
         break;
       case 503:
-        title = 'Service Unavailable';
-        message = 'The service is temporarily unavailable. Please try again later.';
+        title = "Service Unavailable";
+        message =
+          "The service is temporarily unavailable. Please try again later.";
         break;
     }
 
     return {
       id: errorId,
-      type: 'error',
+      type: "error",
       title,
       message: error.message || message,
       timestamp: new Date(),
       dismissible: true,
-      autoRemove: error.status >= 500 ? undefined : 8000 // Keep server errors visible
+      autoRemove: error.status >= 500 ? undefined : 8000, // Keep server errors visible
     };
   }
 
   // Validation Error Handling
   handleValidationError(error: ValidationError, id?: string): ErrorMessage {
     const errorId = id || this.generateId();
-    
+
     return {
       id: errorId,
-      type: 'warning',
-      title: 'Validation Error',
+      type: "warning",
+      title: "Validation Error",
       message: `${error.field}: ${error.message}`,
       timestamp: new Date(),
       dismissible: true,
-      autoRemove: 6000
+      autoRemove: 6000,
     };
   }
 
   // System Error Handling
-  handleSystemError(error: SystemError, id?: string, context?: string): ErrorMessage {
+  handleSystemError(
+    error: SystemError,
+    id?: string,
+    context?: string
+  ): ErrorMessage {
     const errorId = id || this.generateId();
-    
+
     // Log to console for debugging
-    console.error('System Error:', error, context);
-    
+    console.error("System Error:", error, context);
+
     return {
       id: errorId,
-      type: 'error',
-      title: 'System Error',
-      message: context 
+      type: "error",
+      title: "System Error",
+      message: context
         ? `An error occurred in ${context}. Please try again or contact support if the problem persists.`
-        : 'An unexpected error occurred. Please try again or contact support if the problem persists.',
+        : "An unexpected error occurred. Please try again or contact support if the problem persists.",
       timestamp: new Date(),
-      dismissible: true
+      dismissible: true,
     };
   }
 
   // Unknown Error Handling
-  handleUnknownError(error: unknown, id?: string, context?: string): ErrorMessage {
+  handleUnknownError(
+    error: unknown,
+    id?: string,
+    context?: string
+  ): ErrorMessage {
     const errorId = id || this.generateId();
-    
-    console.error('Unknown Error:', error, context);
-    
+
+    console.error("Unknown Error:", error, context);
+
     return {
       id: errorId,
-      type: 'error',
-      title: 'Unexpected Error',
-      message: 'An unexpected error occurred. Please try again.',
+      type: "error",
+      title: "Unexpected Error",
+      message: "An unexpected error occurred. Please try again.",
       timestamp: new Date(),
       dismissible: true,
-      autoRemove: 8000
+      autoRemove: 8000,
     };
   }
 
   // Success Messages
-  showSuccess(message: string, title = 'Success'): ErrorMessage {
+  showSuccess(message: string, title = "Success"): ErrorMessage {
     const id = this.generateId();
     const successMessage: ErrorMessage = {
       id,
-      type: 'success',
+      type: "success",
       title,
       message,
       timestamp: new Date(),
       dismissible: true,
-      autoRemove: 5000
+      autoRemove: 5000,
     };
 
     this.addMessage(successMessage);
@@ -178,16 +188,16 @@ class ErrorService {
   }
 
   // Info Messages
-  showInfo(message: string, title = 'Information'): ErrorMessage {
+  showInfo(message: string, title = "Information"): ErrorMessage {
     const id = this.generateId();
     const infoMessage: ErrorMessage = {
       id,
-      type: 'info',
+      type: "info",
       title,
       message,
       timestamp: new Date(),
       dismissible: true,
-      autoRemove: 6000
+      autoRemove: 6000,
     };
 
     this.addMessage(infoMessage);
@@ -195,16 +205,16 @@ class ErrorService {
   }
 
   // Warning Messages
-  showWarning(message: string, title = 'Warning'): ErrorMessage {
+  showWarning(message: string, title = "Warning"): ErrorMessage {
     const id = this.generateId();
     const warningMessage: ErrorMessage = {
       id,
-      type: 'warning',
+      type: "warning",
       title,
       message,
       timestamp: new Date(),
       dismissible: true,
-      autoRemove: 7000
+      autoRemove: 7000,
     };
 
     this.addMessage(warningMessage);
@@ -213,23 +223,23 @@ class ErrorService {
 
   // Message Management
   private addMessage(message: ErrorMessage): void {
-    errorMessages.update(messages => {
+    errorMessages.update((messages) => {
       const updated = [...messages, message];
-      
+
       // Auto-remove if specified
       if (message.autoRemove) {
         setTimeout(() => {
           this.removeMessage(message.id);
         }, message.autoRemove);
       }
-      
+
       return updated;
     });
   }
 
   removeMessage(id: string): void {
-    errorMessages.update(messages => 
-      messages.filter(message => message.id !== id)
+    errorMessages.update((messages) =>
+      messages.filter((message) => message.id !== id)
     );
   }
 
@@ -239,25 +249,31 @@ class ErrorService {
 
   // Type Guards
   private isApiError(error: unknown): error is ApiError {
-    return typeof error === 'object' && 
-           error !== null && 
-           'status' in error && 
-           typeof (error as any).status === 'number';
+    return (
+      typeof error === "object" &&
+      error !== null &&
+      "status" in error &&
+      typeof (error as any).status === "number"
+    );
   }
 
   private isValidationError(error: unknown): error is ValidationError {
-    return typeof error === 'object' && 
-           error !== null && 
-           'field' in error && 
-           'message' in error;
+    return (
+      typeof error === "object" &&
+      error !== null &&
+      "field" in error &&
+      "message" in error
+    );
   }
 
   private isSystemError(error: unknown): error is SystemError {
-    return error instanceof Error || 
-           (typeof error === 'object' && 
-            error !== null && 
-            'name' in error && 
-            'message' in error);
+    return (
+      error instanceof Error ||
+      (typeof error === "object" &&
+        error !== null &&
+        "name" in error &&
+        "message" in error)
+    );
   }
 
   // Utility Methods
@@ -267,24 +283,27 @@ class ErrorService {
 
   // Form Error Handling
   handleFormErrors(errors: FieldError[]): ErrorMessage[] {
-    return errors.map(error => this.handleValidationError({
-      field: error.field,
-      message: error.message
-    }));
+    return errors.map((error) =>
+      this.handleValidationError({
+        field: error.field,
+        message: error.message,
+      })
+    );
   }
 
   // Network Error Handling
   handleNetworkError(error: unknown): ErrorMessage {
     const id = this.generateId();
-    
+
     return {
       id,
-      type: 'error',
-      title: 'Connection Error',
-      message: 'Unable to connect to the server. Please check your internet connection and try again.',
+      type: "error",
+      title: "Connection Error",
+      message:
+        "Unable to connect to the server. Please check your internet connection and try again.",
       timestamp: new Date(),
       dismissible: true,
-      autoRemove: 10000
+      autoRemove: 10000,
     };
   }
 
@@ -295,22 +314,22 @@ class ErrorService {
     delay = 1000
   ): Promise<T> {
     let lastError: unknown;
-    
+
     for (let attempt = 1; attempt <= maxAttempts; attempt++) {
       try {
         return await operation();
       } catch (error) {
         lastError = error;
-        
+
         if (attempt === maxAttempts) {
           break;
         }
-        
+
         // Exponential backoff
-        await new Promise(resolve => setTimeout(resolve, delay * attempt));
+        await new Promise((resolve) => setTimeout(resolve, delay * attempt));
       }
     }
-    
+
     throw lastError;
   }
 }
@@ -319,16 +338,16 @@ class ErrorService {
 export const errorService = new ErrorService();
 
 // Convenience functions
-export const handleError = (error: unknown, context?: string) => 
+export const handleError = (error: unknown, context?: string) =>
   errorService.handleError(error, context);
 
-export const showSuccess = (message: string, title?: string) => 
+export const showSuccess = (message: string, title?: string) =>
   errorService.showSuccess(message, title);
 
-export const showInfo = (message: string, title?: string) => 
+export const showInfo = (message: string, title?: string) =>
   errorService.showInfo(message, title);
 
-export const showWarning = (message: string, title?: string) => 
+export const showWarning = (message: string, title?: string) =>
   errorService.showWarning(message, title);
 
 export const clearErrors = () => errorService.clearAll();

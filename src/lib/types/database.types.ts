@@ -1,6 +1,6 @@
 /**
  * Database Types - TrueForm Application
- * 
+ *
  * Consolidated type definitions for all database entities.
  * These types should match the Supabase database schema.
  */
@@ -65,7 +65,12 @@ export interface BaseformLead {
 export interface BaseformOpportunity {
   id: string;
   lead_id: string;
-  stage: 'discovery' | 'proposal' | 'negotiation' | 'closed_won' | 'closed_lost';
+  stage:
+    | "discovery"
+    | "proposal"
+    | "negotiation"
+    | "closed_won"
+    | "closed_lost";
   value?: number;
   notes?: string;
   created_at: string;
@@ -138,7 +143,7 @@ export interface Invoice {
   stripe_session_id?: string;
   amount: number;
   status: string;
-  plan_type: 'starter' | 'standard' | 'pro';
+  plan_type: "starter" | "standard" | "pro";
   created_at: string;
   paid_at?: string;
 }
@@ -147,7 +152,7 @@ export interface Invoice {
 // SETTINGS & CONFIGURATION TYPES
 // ============================================================================
 
-export type CurrencyCode = 'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD';
+export type CurrencyCode = "USD" | "EUR" | "GBP" | "CAD" | "AUD";
 
 export interface OrganizationProposalSettings {
   defaultCurrency: CurrencyCode;
@@ -170,23 +175,23 @@ export interface OrganizationProposalSettings {
 // ============================================================================
 
 export const DATABASE_TABLES = {
-  USERS: 'users',
-  ORGANIZATIONS: 'organizations',
-  BRAND_KITS: 'brand_kits',
-  BASEFORM_LEADS: 'baseform_leads',
-  BASEFORM_OPPORTUNITIES: 'baseform_opportunities',
-  PROPOSALS: 'proposals',
-  PROPOSAL_DRAFTS: 'proposal_drafts',
-  INVOICES: 'invoices',
-  CONTACTS: 'contacts'
+  USERS: "users",
+  ORGANIZATIONS: "organizations",
+  BRAND_KITS: "brand_kits",
+  BASEFORM_LEADS: "baseform_leads",
+  BASEFORM_OPPORTUNITIES: "baseform_opportunities",
+  PROPOSALS: "proposals",
+  PROPOSAL_DRAFTS: "proposal_drafts",
+  INVOICES: "invoices",
+  CONTACTS: "contacts",
 } as const;
 
 // ============================================================================
 // UTILITY TYPES FOR DATABASE OPERATIONS
 // ============================================================================
 
-export type DatabaseInsert<T> = Omit<T, 'id' | 'created_at' | 'updated_at'>;
-export type DatabaseUpdate<T> = Partial<Omit<T, 'id' | 'created_at'>>;
+export type DatabaseInsert<T> = Omit<T, "id" | "created_at" | "updated_at">;
+export type DatabaseUpdate<T> = Partial<Omit<T, "id" | "created_at">>;
 
 // ============================================================================
 // SUPABASE RESPONSE TYPES
@@ -201,4 +206,4 @@ export interface SupabaseListResponse<T> {
   data: T[] | null;
   error: any;
   count?: number;
-} 
+}

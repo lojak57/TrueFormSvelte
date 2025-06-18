@@ -1,6 +1,6 @@
 <script lang="ts">
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
 
   export let contact: any;
   export let onEditContact: () => void;
@@ -12,18 +12,24 @@
 
   function getStatusVariant(status: string): string {
     switch (status) {
-      case 'active': return 'success';
-      case 'inactive': return 'secondary';
-      case 'pending': return 'warning';
-      default: return 'secondary';
+      case "active":
+        return "success";
+      case "inactive":
+        return "secondary";
+      case "pending":
+        return "warning";
+      default:
+        return "secondary";
     }
   }
 
   function formatPhoneNumber(phone: string): string {
     // Simple phone formatting - could be more sophisticated
-    const cleaned = phone.replace(/\D/g, '');
+    const cleaned = phone.replace(/\D/g, "");
     if (cleaned.length === 10) {
-      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
+      return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(
+        6
+      )}`;
     }
     return phone;
   }
@@ -68,7 +74,9 @@
       </div>
       <div class="contact-actions">
         <BaseButton on:click={onEditContact}>Edit Contact</BaseButton>
-        <BaseButton variant="outline" on:click={onViewCompany}>View Company</BaseButton>
+        <BaseButton variant="outline" on:click={onViewCompany}
+          >View Company</BaseButton
+        >
       </div>
     </div>
   </div>
@@ -213,4 +221,4 @@
       justify-content: center;
     }
   }
-</style> 
+</style>

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
 
   export let interactions: any[];
   export let contactId: string;
@@ -9,38 +9,38 @@
   let isFormVisible = false;
   let isSubmitting = false;
   let formData = {
-    type: 'email',
-    subject: '',
-    notes: ''
+    type: "email",
+    subject: "",
+    notes: "",
   };
 
   const interactionTypes = [
-    { value: 'email', label: 'Email', icon: '📧' },
-    { value: 'call', label: 'Phone Call', icon: '📞' },
-    { value: 'meeting', label: 'Meeting', icon: '🤝' },
-    { value: 'demo', label: 'Demo', icon: '🖥️' },
-    { value: 'proposal', label: 'Proposal', icon: '📄' },
-    { value: 'note', label: 'Note', icon: '📝' }
+    { value: "email", label: "Email", icon: "📧" },
+    { value: "call", label: "Phone Call", icon: "📞" },
+    { value: "meeting", label: "Meeting", icon: "🤝" },
+    { value: "demo", label: "Demo", icon: "🖥️" },
+    { value: "proposal", label: "Proposal", icon: "📄" },
+    { value: "note", label: "Note", icon: "📝" },
   ];
 
   function formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: '2-digit'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
     });
   }
 
   function getInteractionIcon(type: string): string {
-    const typeObj = interactionTypes.find(t => t.value === type);
-    return typeObj?.icon || '📝';
+    const typeObj = interactionTypes.find((t) => t.value === type);
+    return typeObj?.icon || "📝";
   }
 
   function toggleForm() {
     isFormVisible = !isFormVisible;
     if (!isFormVisible) {
-      formData = { type: 'email', subject: '', notes: '' };
+      formData = { type: "email", subject: "", notes: "" };
     }
   }
 
@@ -51,31 +51,31 @@
 
     try {
       isSubmitting = true;
-      
+
       const response = await fetch(`/api/contacts/${contactId}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           interaction: {
             type: formData.type,
             subject: formData.subject,
             notes: formData.notes,
-            created_at: new Date().toISOString()
-          }
-        })
+            created_at: new Date().toISOString(),
+          },
+        }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add interaction');
+        throw new Error("Failed to add interaction");
       }
 
-      formData = { type: 'email', subject: '', notes: '' };
+      formData = { type: "email", subject: "", notes: "" };
       isFormVisible = false;
       onInteractionAdded();
     } catch (error) {
-      console.error('Error adding interaction:', error);
+      console.error("Error adding interaction:", error);
     } finally {
       isSubmitting = false;
     }
@@ -86,7 +86,7 @@
   <div class="section-header">
     <h3 class="text-h3">Interaction History ({interactions.length})</h3>
     <BaseButton variant="outline" size="sm" on:click={toggleForm}>
-      {isFormVisible ? 'Cancel' : 'Add Interaction'}
+      {isFormVisible ? "Cancel" : "Add Interaction"}
     </BaseButton>
   </div>
 
@@ -98,7 +98,8 @@
           <select bind:value={formData.type} class="select">
             {#each interactionTypes as type}
               <option value={type.value}>
-                {type.icon} {type.label}
+                {type.icon}
+                {type.label}
               </option>
             {/each}
           </select>
@@ -123,15 +124,17 @@
             placeholder="Detailed notes about the interaction..."
             rows="3"
             class="textarea"
-          ></textarea>
+          />
         </label>
       </div>
       <div class="form-actions">
-        <BaseButton 
-          on:click={handleSubmit} 
-          disabled={isSubmitting || !formData.subject.trim() || !formData.notes.trim()}
+        <BaseButton
+          on:click={handleSubmit}
+          disabled={isSubmitting ||
+            !formData.subject.trim() ||
+            !formData.notes.trim()}
         >
-          {isSubmitting ? 'Adding...' : 'Add Interaction'}
+          {isSubmitting ? "Adding..." : "Add Interaction"}
         </BaseButton>
         <BaseButton variant="outline" on:click={toggleForm}>Cancel</BaseButton>
       </div>
@@ -142,7 +145,9 @@
     <div class="empty-state">
       <div class="empty-icon">💬</div>
       <h4>No interactions yet</h4>
-      <p class="text-muted">Start tracking your communication history with this contact.</p>
+      <p class="text-muted">
+        Start tracking your communication history with this contact.
+      </p>
       <BaseButton on:click={toggleForm}>Add First Interaction</BaseButton>
     </div>
   {:else}
@@ -150,16 +155,21 @@
       {#each interactions as interaction}
         <div class="timeline-item">
           <div class="timeline-marker">
-            <span class="interaction-icon">{getInteractionIcon(interaction.type)}</span>
+            <span class="interaction-icon"
+              >{getInteractionIcon(interaction.type)}</span
+            >
           </div>
           <div class="timeline-content">
             <div class="interaction-header">
               <h4 class="interaction-subject">{interaction.subject}</h4>
-              <span class="interaction-date">{formatDate(interaction.created_at)}</span>
+              <span class="interaction-date"
+                >{formatDate(interaction.created_at)}</span
+              >
             </div>
             <p class="interaction-notes">{interaction.notes}</p>
             <div class="interaction-type">
-              {interactionTypes.find(t => t.value === interaction.type)?.label || interaction.type}
+              {interactionTypes.find((t) => t.value === interaction.type)
+                ?.label || interaction.type}
             </div>
           </div>
         </div>
@@ -237,7 +247,7 @@
   }
 
   .timeline::before {
-    content: '';
+    content: "";
     position: absolute;
     left: 20px;
     top: 0;
@@ -358,4 +368,4 @@
       flex-direction: column;
     }
   }
-</style> 
+</style>

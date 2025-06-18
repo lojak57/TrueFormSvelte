@@ -1,44 +1,44 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { fade } from 'svelte/transition';
-  import { Building2, User, Mail, Phone } from 'lucide-svelte';
-  
+  import { createEventDispatcher } from "svelte";
+  import { fade } from "svelte/transition";
+  import { Building2, User, Mail, Phone } from "lucide-svelte";
+
   const dispatch = createEventDispatcher();
-  
+
   export let value: any = {
-    companyName: '',
-    contactName: '', 
-    contactEmail: '',
-    contactPhone: ''
+    companyName: "",
+    contactName: "",
+    contactEmail: "",
+    contactPhone: "",
   };
-  
+
   let errors: Record<string, string> = {};
   let touched: Record<string, boolean> = {};
-  
+
   function validateField(fieldName: string) {
     // Only show errors for fields that have been touched
     if (!touched[fieldName]) return;
-    
+
     switch (fieldName) {
-      case 'companyName':
+      case "companyName":
         if (!value.companyName?.trim()) {
-          errors.companyName = 'Company name is required';
+          errors.companyName = "Company name is required";
         } else {
           delete errors.companyName;
         }
         break;
-      case 'contactName':
+      case "contactName":
         if (!value.contactName?.trim()) {
-          errors.contactName = 'Your name is required';
+          errors.contactName = "Your name is required";
         } else {
           delete errors.contactName;
         }
         break;
-      case 'contactEmail':
+      case "contactEmail":
         if (!value.contactEmail?.trim()) {
-          errors.contactEmail = 'Email is required';
+          errors.contactEmail = "Email is required";
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.contactEmail)) {
-          errors.contactEmail = 'Please enter a valid email';
+          errors.contactEmail = "Please enter a valid email";
         } else {
           delete errors.contactEmail;
         }
@@ -46,45 +46,48 @@
     }
     errors = { ...errors }; // Trigger reactivity
   }
-  
+
   function validateForm() {
     // Mark all fields as touched for submit validation
     touched = { companyName: true, contactName: true, contactEmail: true };
-    
-    validateField('companyName');
-    validateField('contactName');
-    validateField('contactEmail');
-    
+
+    validateField("companyName");
+    validateField("contactName");
+    validateField("contactEmail");
+
     return Object.keys(errors).length === 0;
   }
-  
+
   function handleBlur(fieldName: string) {
     touched[fieldName] = true;
     validateField(fieldName);
   }
-  
+
   function handleSubmit() {
     if (validateForm()) {
-      dispatch('complete', { value });
+      dispatch("complete", { value });
     }
   }
-  
+
   function handleKeyPress(e: KeyboardEvent) {
-    if (e.key === 'Enter' && isFormValid) {
+    if (e.key === "Enter" && isFormValid) {
       handleSubmit();
     }
   }
-  
+
   // Reactive statement to check if form is valid
-  $: isFormValid = value.companyName?.trim() && 
-                   value.contactName?.trim() && 
-                   value.contactEmail?.trim() && 
-                   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.contactEmail);
+  $: isFormValid =
+    value.companyName?.trim() &&
+    value.contactName?.trim() &&
+    value.contactEmail?.trim() &&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.contactEmail);
 </script>
 
 <div class="space-y-6" in:fade={{ duration: 300 }}>
   <div class="text-center mb-8">
-    <div class="inline-flex items-center justify-center w-16 h-16 bg-accent-100 rounded-full mb-4">
+    <div
+      class="inline-flex items-center justify-center w-16 h-16 bg-accent-100 rounded-full mb-4"
+    >
       <User size={32} class="text-accent-600" />
     </div>
   </div>
@@ -99,8 +102,8 @@
       <input
         type="text"
         bind:value={value.companyName}
-        on:input={() => validateField('companyName')}
-        on:blur={() => handleBlur('companyName')}
+        on:input={() => validateField("companyName")}
+        on:blur={() => handleBlur("companyName")}
         on:keypress={handleKeyPress}
         placeholder="e.g., Acme Corp, Smith & Associates, TechStart Inc."
         autocomplete="organization"
@@ -121,8 +124,8 @@
       <input
         type="text"
         bind:value={value.contactName}
-        on:input={() => validateField('contactName')}
-        on:blur={() => handleBlur('contactName')}
+        on:input={() => validateField("contactName")}
+        on:blur={() => handleBlur("contactName")}
         on:keypress={handleKeyPress}
         placeholder="e.g., John Smith"
         autocomplete="name"
@@ -143,8 +146,8 @@
       <input
         type="email"
         bind:value={value.contactEmail}
-        on:input={() => validateField('contactEmail')}
-        on:blur={() => handleBlur('contactEmail')}
+        on:input={() => validateField("contactEmail")}
+        on:blur={() => handleBlur("contactEmail")}
         on:keypress={handleKeyPress}
         placeholder="you@company.com"
         autocomplete="email"
@@ -170,7 +173,9 @@
         autocomplete="tel"
         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-accent-500 transition-colors"
       />
-      <p class="text-xs text-gray-500">For quick questions and project coordination</p>
+      <p class="text-xs text-gray-500">
+        For quick questions and project coordination
+      </p>
     </div>
 
     <!-- Submit Button -->
@@ -178,7 +183,7 @@
       <button
         type="submit"
         disabled={!isFormValid}
-        class="w-full px-6 py-3 bg-accent-600 text-white rounded-lg font-medium 
+        class="w-full px-6 py-3 bg-accent-600 text-white rounded-lg font-medium
                hover:bg-accent-700 disabled:opacity-50 disabled:cursor-not-allowed
                focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2
                transition-colors duration-200"
@@ -187,10 +192,13 @@
       </button>
     </div>
   </form>
-  
+
   <div class="text-center">
     <p class="text-sm text-gray-500">
-      Press <kbd class="px-2 py-1 bg-gray-100 border border-gray-200 rounded text-xs font-mono">Enter</kbd> to continue
+      Press <kbd
+        class="px-2 py-1 bg-gray-100 border border-gray-200 rounded text-xs font-mono"
+        >Enter</kbd
+      > to continue
     </p>
   </div>
 </div>

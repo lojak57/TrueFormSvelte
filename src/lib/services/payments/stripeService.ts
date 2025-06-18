@@ -1,4 +1,4 @@
-import type { Proposal, Company, Contact } from '$lib/types';
+import type { Company, Contact, Proposal } from "$lib/types";
 
 // TODO: Re-enable when Stripe is integrated (next week)
 // Temporarily disabled for deployment since Stripe isn't integrated yet
@@ -15,20 +15,20 @@ export interface PaymentLinkOptions {
 
 // Temporary placeholder service for deployment
 export const stripeService = {
-  createPaymentLink: async (): Promise<string> => { 
-    throw new Error('Stripe not integrated yet - available next week'); 
+  createPaymentLink: async (): Promise<string> => {
+    throw new Error("Stripe not integrated yet - available next week");
   },
-  createACHPaymentLink: async (): Promise<string> => { 
-    throw new Error('Stripe not integrated yet - available next week'); 
+  createACHPaymentLink: async (): Promise<string> => {
+    throw new Error("Stripe not integrated yet - available next week");
   },
-  createInstallmentPlan: async (): Promise<string[]> => { 
-    throw new Error('Stripe not integrated yet - available next week'); 
+  createInstallmentPlan: async (): Promise<string[]> => {
+    throw new Error("Stripe not integrated yet - available next week");
   },
   verifyPayment: async () => ({ success: false }),
   refundPayment: async () => false,
-  createCustomer: async (): Promise<string> => { 
-    throw new Error('Stripe not integrated yet - available next week'); 
-  }
+  createCustomer: async (): Promise<string> => {
+    throw new Error("Stripe not integrated yet - available next week");
+  },
 };
 
 /* 

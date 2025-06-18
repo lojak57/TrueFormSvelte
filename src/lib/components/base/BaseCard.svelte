@@ -1,11 +1,11 @@
 <script lang="ts">
-  export let variant: 'hero' | 'compact' | 'mini' = 'hero';
-  export let accent: string = 'var(--color-primary)';
+  export let variant: "hero" | "compact" | "mini" = "hero";
+  export let accent: string = "var(--color-primary)";
   export let clickable: boolean = true;
   export let href: string | undefined = undefined;
   export let loading: boolean = false;
   export let elevated: boolean = false;
-  export let padding: 'none' | 'sm' | 'md' | 'lg' = 'md';
+  export let padding: "none" | "sm" | "md" | "lg" = "md";
 
   // Determine if this should be a link or button
   $: isLink = href !== undefined;
@@ -13,17 +13,19 @@
 
   // CSS classes based on variant and props
   $: cardClasses = [
-    'base-card',
+    "base-card",
     `variant-${variant}`,
     `padding-${padding}`,
-    isInteractive && 'interactive',
-    elevated && 'elevated',
-    loading && 'loading',
-  ].filter(Boolean).join(' ');
+    isInteractive && "interactive",
+    elevated && "elevated",
+    loading && "loading",
+  ]
+    .filter(Boolean)
+    .join(" ");
 </script>
 
 {#if isLink}
-  <a 
+  <a
     {href}
     class={cardClasses}
     style="--accent-color: {accent}"
@@ -34,7 +36,7 @@
   >
     {#if loading}
       <div class="loading-overlay">
-        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card" />
       </div>
     {:else}
       <slot />
@@ -49,20 +51,17 @@
   >
     {#if loading}
       <div class="loading-overlay">
-        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card" />
       </div>
     {:else}
       <slot />
     {/if}
   </button>
 {:else}
-  <div
-    class={cardClasses}
-    style="--accent-color: {accent}"
-  >
+  <div class={cardClasses} style="--accent-color: {accent}">
     {#if loading}
       <div class="loading-overlay">
-        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card" />
       </div>
     {:else}
       <slot />
@@ -88,7 +87,7 @@
 
   /* Accent bar */
   .base-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -241,4 +240,4 @@
       transform: none;
     }
   }
-</style> 
+</style>

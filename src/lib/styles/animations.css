@@ -98,10 +98,15 @@
 }
 
 @keyframes bounce {
-  0%, 20%, 53%, 80%, 100% {
+  0%,
+  20%,
+  53%,
+  80%,
+  100% {
     transform: translate3d(0, 0, 0);
   }
-  40%, 43% {
+  40%,
+  43% {
     transform: translate3d(0, -30px, 0);
   }
   70% {
@@ -113,7 +118,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -131,7 +137,8 @@
 }
 
 @keyframes ping {
-  75%, 100% {
+  75%,
+  100% {
     transform: scale(2);
     opacity: 0;
   }
@@ -216,7 +223,7 @@
 }
 
 .card-hover::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -279,7 +286,7 @@
 }
 
 .accent-bar::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -350,7 +357,7 @@
   opacity: 1;
   transform: translateY(0);
   transition: opacity var(--duration-300) var(--ease-out),
-              transform var(--duration-300) var(--ease-out);
+    transform var(--duration-300) var(--ease-out);
 }
 
 .page-transition-exit {
@@ -362,7 +369,7 @@
   opacity: 0;
   transform: translateY(-20px);
   transition: opacity var(--duration-200) var(--ease-in),
-              transform var(--duration-200) var(--ease-in);
+    transform var(--duration-200) var(--ease-in);
 }
 
 /* ============================================================================
@@ -388,7 +395,7 @@
 
 .modal-content {
   transition: transform var(--duration-300) var(--ease-out),
-              opacity var(--duration-300) var(--ease-out);
+    opacity var(--duration-300) var(--ease-out);
 }
 
 .modal-content.entering {
@@ -418,9 +425,9 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   .animate-shimmer {
     animation: none;
     background: var(--color-neutral-200);
   }
-} 
+}

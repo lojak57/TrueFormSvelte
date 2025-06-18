@@ -1,17 +1,25 @@
 <script lang="ts">
-  import { fade, fly } from 'svelte/transition';
-  import { cubicOut } from 'svelte/easing';
-  import { wizardStore, wizardProgress, currentStep, WIZARD_STEPS, sectionProgress } from './stores/wizardStore';
-  import { X, ChevronLeft, ChevronRight } from 'lucide-svelte';
-  import { onMount } from 'svelte';
-  import PricingMeter from './components/PricingMeter.svelte';
-  import ProgressEstimator from './components/ProgressEstimator.svelte';
+  import { fade, fly } from "svelte/transition";
+  import { cubicOut } from "svelte/easing";
+  import {
+    wizardStore,
+    wizardProgress,
+    currentStep,
+    WIZARD_STEPS,
+    sectionProgress,
+  } from "./stores/wizardStore";
+  import { X, ChevronLeft, ChevronRight } from "lucide-svelte";
+  import { onMount } from "svelte";
+  import PricingMeter from "./components/PricingMeter.svelte";
+  import ProgressEstimator from "./components/ProgressEstimator.svelte";
 
   let isClosing = false;
 
   function handleClose() {
     if ($wizardStore.completedSteps.size > 0) {
-      if (confirm('Are you sure you want to exit? Your progress will be saved.')) {
+      if (
+        confirm("Are you sure you want to exit? Your progress will be saved.")
+      ) {
         closeWizard();
       }
     } else {
@@ -28,16 +36,16 @@
   }
 
   function handleKeydown(e: KeyboardEvent) {
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       handleClose();
     }
   }
 
   onMount(() => {
     // Prevent body scroll when modal is open
-    document.body.style.overflow = 'hidden';
+    document.body.style.overflow = "hidden";
     return () => {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     };
   });
 
@@ -48,7 +56,7 @@
 
 {#if $wizardStore.isOpen}
   <!-- Backdrop -->
-  <div 
+  <div
     class="fixed inset-0 bg-black/50 z-50"
     in:fade={{ duration: 200 }}
     out:fade={{ duration: 200 }}
@@ -56,8 +64,10 @@
   />
 
   <!-- Modal Container -->
-  <div class="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
-    <div 
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none"
+  >
+    <div
       class="modern-wizard-modal"
       in:fly={{ y: 20, duration: 300, easing: cubicOut }}
       out:fly={{ y: 20, duration: 200, easing: cubicOut }}
@@ -67,10 +77,7 @@
       <div class="wizard-header">
         <!-- Progress Bar -->
         <div class="progress-track">
-          <div 
-            class="progress-fill"
-            style="width: {$wizardProgress}%"
-          />
+          <div class="progress-fill" style="width: {$wizardProgress}%" />
         </div>
 
         <!-- Navigation -->
@@ -85,13 +92,13 @@
                 <ChevronLeft size={20} />
               </button>
             {/if}
-            
+
             <div class="step-info">
               <div class="step-number">
                 Step {$wizardStore.currentStepIndex + 1} of {WIZARD_STEPS.length}
               </div>
               <div class="step-section">
-                {$currentStep.section.replace(/([A-Z])/g, ' $1').trim()}
+                {$currentStep.section.replace(/([A-Z])/g, " $1").trim()}
               </div>
             </div>
           </div>
@@ -111,14 +118,14 @@
         <div class="content-container">
           <!-- Progress Estimator -->
           <ProgressEstimator />
-          
+
           <!-- Step Title -->
           {#if $currentStep.title}
             <h2 class="step-title">
               {$currentStep.title}
             </h2>
           {/if}
-          
+
           {#if $currentStep.subtitle}
             <p class="step-subtitle">
               {$currentStep.subtitle}
@@ -141,16 +148,20 @@
           </div>
           <div class="progress-info">
             <div class="status-indicator consultation">
-              <span class="status-dot"></span>
+              <span class="status-dot" />
               <span class="status-text">
                 {#if $wizardStore.currentStepIndex >= 10}
-                  Wrapping up your vision! - {Math.round($wizardProgress)}% complete
+                  Wrapping up your vision! - {Math.round($wizardProgress)}%
+                  complete
                 {:else if $wizardStore.currentStepIndex >= 7}
-                  Bringing it all together - {Math.round($wizardProgress)}% complete
+                  Bringing it all together - {Math.round($wizardProgress)}%
+                  complete
                 {:else if $wizardStore.currentStepIndex >= 4}
-                  Exploring your design style - {Math.round($wizardProgress)}% complete
+                  Exploring your design style - {Math.round($wizardProgress)}%
+                  complete
                 {:else if $wizardStore.currentStepIndex >= 2}
-                  Getting to know your brand - {Math.round($wizardProgress)}% complete
+                  Getting to know your brand - {Math.round($wizardProgress)}%
+                  complete
                 {:else}
                   Starting your design journey - About 8-10 minutes
                 {/if}
@@ -159,7 +170,7 @@
           </div>
         </div>
       </div>
-      
+
       <!-- Pricing Meter -->
       <PricingMeter />
     </div>
@@ -174,7 +185,8 @@
     max-height: 90vh;
     background: white;
     border-radius: 16px;
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 10px 10px -5px rgb(0 0 0 / 0.04);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1),
+      0 10px 10px -5px rgb(0 0 0 / 0.04);
     pointer-events: auto;
     overflow: hidden;
     display: flex;
@@ -205,7 +217,7 @@
   }
 
   .progress-fill::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     right: 0;
@@ -371,10 +383,15 @@
     background: linear-gradient(45deg, rgb(168, 85, 247), rgb(236, 72, 153));
     animation: pulse 2s infinite;
   }
-  
+
   @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.7; }
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
   }
 
   .status-text {
@@ -449,11 +466,19 @@
 
   :global(.dark) .wizard-header {
     border-color: rgb(55, 65, 81);
-    background: linear-gradient(135deg, rgb(31, 41, 55) 0%, rgb(17, 24, 39) 100%);
+    background: linear-gradient(
+      135deg,
+      rgb(31, 41, 55) 0%,
+      rgb(17, 24, 39) 100%
+    );
   }
 
   :global(.dark) .wizard-content {
-    background: linear-gradient(180deg, rgb(17, 24, 39) 0%, rgb(31, 41, 55) 100%);
+    background: linear-gradient(
+      180deg,
+      rgb(17, 24, 39) 0%,
+      rgb(31, 41, 55) 100%
+    );
   }
 
   :global(.dark) .wizard-footer {
@@ -491,4 +516,4 @@
       transition: none;
     }
   }
-</style> 
+</style>

@@ -1,13 +1,17 @@
-// Re-export from the Vercel-compatible PDF generator
-export { 
-  vercelPdfGenerator as pdfGenerator,
+// Re-export from the refactored PDF generator
+export {
+  refactoredPdfGenerator as pdfGenerator,
+  type PDFGenerationOptions,
+  type PDFGenerationResult,
   type ProposalPDFData,
-  type PDFGenerationOptions
-} from './vercelPdfGenerator';
+} from "./refactoredPdfGenerator";
 
-// Legacy class for backwards compatibility - delegates to Vercel generator
-import { vercelPdfGenerator } from './vercelPdfGenerator';
-import type { ProposalPDFData, PDFGenerationOptions } from './vercelPdfGenerator';
+// Legacy class for backwards compatibility - delegates to refactored generator
+import type {
+  PDFGenerationOptions,
+  ProposalPDFData,
+} from "./refactoredPdfGenerator";
+import { refactoredPdfGenerator } from "./refactoredPdfGenerator";
 
 export class ProposalPDFGenerator {
   private static instance: ProposalPDFGenerator;
@@ -22,22 +26,22 @@ export class ProposalPDFGenerator {
   }
 
   async generatePDF(
-    data: ProposalPDFData, 
+    data: ProposalPDFData,
     options: PDFGenerationOptions = {}
   ): Promise<Response> {
-    // Delegate to the Vercel-compatible generator
-    return vercelPdfGenerator.generatePDF(data, options);
+    // Delegate to the refactored generator
+    return refactoredPdfGenerator.generatePDF(data, options);
   }
 
   async generateHTML(
-    data: ProposalPDFData, 
+    data: ProposalPDFData,
     options: PDFGenerationOptions = {}
   ): Promise<string> {
-    // Delegate to the Vercel-compatible generator
-    return vercelPdfGenerator.generateHTML(data, options);
+    // Delegate to the refactored generator
+    return refactoredPdfGenerator.generateHTML(data, options);
   }
 
   async destroy(): Promise<void> {
-    // No-op for Vercel compatibility
+    // No-op for compatibility
   }
 }

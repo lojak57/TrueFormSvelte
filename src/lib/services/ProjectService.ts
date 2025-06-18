@@ -1,5 +1,5 @@
-import { createClient, SupabaseClient } from '@supabase/supabase-js';
-import type { Project, CreateProjectDTO, UpdateProjectDTO } from '$lib/types';
+import type { CreateProjectDTO, Project, UpdateProjectDTO } from "$lib/types";
+import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 export class ProjectService {
   private supabase: SupabaseClient;
@@ -13,12 +13,12 @@ export class ProjectService {
 
   async getProjects(companyId?: string): Promise<Project[]> {
     let query = this.supabase
-      .from('tf_company_projects')
-      .select('*')
-      .order('name');
+      .from("tf_company_projects")
+      .select("*")
+      .order("name");
 
     if (companyId) {
-      query = query.eq('company_id', companyId);
+      query = query.eq("company_id", companyId);
     }
 
     const { data, error } = await query;
@@ -28,44 +28,44 @@ export class ProjectService {
 
   async getProject(id: string): Promise<Project> {
     const { data, error } = await this.supabase
-      .from('tf_company_projects')
-      .select('*')
-      .eq('id', id)
+      .from("tf_company_projects")
+      .select("*")
+      .eq("id", id)
       .single();
-    
+
     if (error) throw new Error(error.message);
     return data;
   }
 
   async createProject(dto: CreateProjectDTO): Promise<Project> {
     const { data, error } = await this.supabase
-      .from('tf_company_projects')
+      .from("tf_company_projects")
       .insert(dto)
       .select()
       .single();
-    
+
     if (error) throw new Error(error.message);
     return data;
   }
 
   async updateProject(id: string, dto: UpdateProjectDTO): Promise<Project> {
     const { data, error } = await this.supabase
-      .from('tf_company_projects')
+      .from("tf_company_projects")
       .update(dto)
-      .eq('id', id)
+      .eq("id", id)
       .select()
       .single();
-    
+
     if (error) throw new Error(error.message);
     return data;
   }
 
   async deleteProject(id: string): Promise<void> {
     const { error } = await this.supabase
-      .from('tf_company_projects')
+      .from("tf_company_projects")
       .delete()
-      .eq('id', id);
-    
+      .eq("id", id);
+
     if (error) throw new Error(error.message);
   }
-} 
+}

@@ -7,21 +7,21 @@ export interface SiteRequestFormData {
   contactPhone: string;
   industry: string;
   companySize: string;
-  
+
   // Step 2: Project Vision & Goals
   projectDescription: string;
   primaryGoals: string[];
   targetAudience: string;
   successMetrics: string[];
   competitorExamples: string;
-  
+
   // Step 3: Website Type & Features
   websiteType: string;
   platformType: string;
   coreFeatures: string[];
   advancedFeatures: string[];
   integrations: string[];
-  
+
   // Step 4: Design & Branding
   designMood: string[];
   colorPalette: string;
@@ -31,25 +31,25 @@ export interface SiteRequestFormData {
   hasBrandGuidelines: boolean;
   logoFile: File | null;
   brandFiles: File[];
-  
+
   // Step 5: Content & Structure
   pageStructure: string[];
   contentSections: string[];
   copywriting: string;
   mediaRequirements: string[];
-  
+
   // Step 6: Functionality & User Experience
   userJourney: string;
   keyInteractions: string[];
   responsiveRequirements: string[];
   performanceRequirements: string[];
-  
+
   // Step 7: Technical Requirements
   hostingPreference: string;
   domainStatus: string;
   analyticsRequirements: string[];
   securityRequirements: string[];
-  
+
   // Step 8: Timeline & Additional Info
   timeline: string;
   budgetRange: string;

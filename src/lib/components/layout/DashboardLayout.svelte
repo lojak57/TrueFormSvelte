@@ -1,22 +1,31 @@
 <script lang="ts">
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
-  import { themeMode, currentTheme, effectiveThemeMode, themeUtils } from '$lib/stores/theme.js';
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
+  import {
+    themeMode,
+    currentTheme,
+    effectiveThemeMode,
+    themeUtils,
+  } from "$lib/stores/theme.js";
 
   export let title: string;
-  export let subtitle: string = '';
+  export let subtitle: string = "";
   export let showThemeToggle: boolean = true;
-  export let actions: Array<{ label: string; variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger'; onClick: () => void }> = [];
+  export let actions: Array<{
+    label: string;
+    variant?: "primary" | "secondary" | "outline" | "ghost" | "danger";
+    onClick: () => void;
+  }> = [];
 
   // Reactive theme values
   $: currentThemeName = $currentTheme.name;
-  $: isDark = $effectiveThemeMode === 'dark';
+  $: isDark = $effectiveThemeMode === "dark";
 
   function toggleTheme() {
     themeUtils.toggleThemeMode();
   }
 
-  function switchTheme(theme: 'default' | 'golf' | 'oilfield') {
+  function switchTheme(theme: "default" | "golf" | "oilfield") {
     themeUtils.setTheme(theme);
   }
 </script>
@@ -32,13 +41,13 @@
             <p class="dashboard-subtitle">{subtitle}</p>
           {/if}
         </div>
-        
+
         <div class="header-actions">
           <!-- Custom Actions -->
           {#each actions as action}
-            <BaseButton 
-              variant={action.variant || 'primary'} 
-              size="sm" 
+            <BaseButton
+              variant={action.variant || "primary"}
+              size="sm"
               on:click={action.onClick}
             >
               {action.label}
@@ -50,42 +59,52 @@
             <div class="theme-controls">
               <!-- Theme Selector -->
               <div class="theme-selector">
-                <BaseButton 
-                  variant="ghost" 
-                  size="sm" 
-                  on:click={() => switchTheme('default')}
+                <BaseButton
+                  variant="ghost"
+                  size="sm"
+                  on:click={() => switchTheme("default")}
                 >
                   Default
                 </BaseButton>
-                <BaseButton 
-                  variant="ghost" 
-                  size="sm" 
-                  on:click={() => switchTheme('golf')}
+                <BaseButton
+                  variant="ghost"
+                  size="sm"
+                  on:click={() => switchTheme("golf")}
                 >
                   Golf
                 </BaseButton>
-                <BaseButton 
-                  variant="ghost" 
-                  size="sm" 
-                  on:click={() => switchTheme('oilfield')}
+                <BaseButton
+                  variant="ghost"
+                  size="sm"
+                  on:click={() => switchTheme("oilfield")}
                 >
                   Oilfield
                 </BaseButton>
               </div>
 
               <!-- Dark/Light Toggle -->
-              <BaseButton 
-                variant="ghost" 
-                size="sm" 
-                on:click={toggleTheme}
-              >
+              <BaseButton variant="ghost" size="sm" on:click={toggleTheme}>
                 {#if isDark}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
+                    />
                   </svg>
                 {:else}
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"/>
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+                    />
                   </svg>
                 {/if}
               </BaseButton>
@@ -303,4 +322,4 @@
       display: none;
     }
   }
-</style> 
+</style>

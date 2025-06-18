@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
-  
+  import { onMount } from "svelte";
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
+
   interface Company {
     id: string;
     name: string;
@@ -13,22 +13,22 @@
     vertical_id?: string;
     created_at: string;
   }
-  
+
   let companies: Company[] = [];
   let loading = true;
   let error: string | null = null;
 
   onMount(async () => {
     try {
-      const response = await fetch('/api/companies');
+      const response = await fetch("/api/companies");
       if (response.ok) {
         companies = await response.json();
       } else {
-        error = 'Failed to load companies';
+        error = "Failed to load companies";
       }
     } catch (err) {
-      error = 'Error loading companies';
-      console.error('Error fetching companies:', err);
+      error = "Error loading companies";
+      console.error("Error fetching companies:", err);
     } finally {
       loading = false;
     }
@@ -36,43 +36,47 @@
 
   function getInitials(name: string): string {
     return name
-      .split(' ')
-      .map(word => word.charAt(0))
-      .join('')
+      .split(" ")
+      .map((word) => word.charAt(0))
+      .join("")
       .toUpperCase()
       .slice(0, 2);
   }
 
   function getStatusColor(status: string): string {
     switch (status.toLowerCase()) {
-      case 'active': return 'text-success bg-success-100';
-      case 'inactive': return 'text-error bg-error-100';
-      case 'pending': return 'text-warn bg-warn-100';
-      default: return 'text-neutral-600 bg-neutral-100';
+      case "active":
+        return "text-success bg-success-100";
+      case "inactive":
+        return "text-error bg-error-100";
+      case "pending":
+        return "text-warn bg-warn-100";
+      default:
+        return "text-neutral-600 bg-neutral-100";
     }
   }
 
   function formatWebsite(website?: string): string {
-    if (!website) return '';
-    return website.replace(/^https?:\/\//, '');
+    if (!website) return "";
+    return website.replace(/^https?:\/\//, "");
   }
 
   async function handleDelete(id: string, name: string) {
     if (!confirm(`Are you sure you want to delete "${name}"?`)) return;
-    
+
     try {
       const response = await fetch(`/api/companies/${id}`, {
-        method: 'DELETE'
+        method: "DELETE",
       });
-      
+
       if (response.ok) {
-        companies = companies.filter(c => c.id !== id);
+        companies = companies.filter((c) => c.id !== id);
       } else {
-        error = 'Failed to delete company';
+        error = "Failed to delete company";
       }
     } catch (err) {
-      error = 'Error deleting company';
-      console.error('Error deleting company:', err);
+      error = "Error deleting company";
+      console.error("Error deleting company:", err);
     }
   }
 </script>
@@ -100,7 +104,9 @@
       <div class="text-center">
         <div class="text-6xl mb-4">🏢</div>
         <h3 class="text-h4 mb-2">No Companies Yet</h3>
-        <p class="text-muted mb-4">Start building your client portfolio by adding your first company.</p>
+        <p class="text-muted mb-4">
+          Start building your client portfolio by adding your first company.
+        </p>
         <BaseButton variant="primary" href="/admin/companies/create">
           Add First Company
         </BaseButton>
@@ -133,12 +139,17 @@
               {#if company.website}
                 <div class="company-detail">
                   <span class="detail-icon">🌐</span>
-                  <a href={company.website} target="_blank" rel="noopener noreferrer" class="detail-value">
+                  <a
+                    href={company.website}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="detail-value"
+                  >
                     {formatWebsite(company.website)}
                   </a>
                 </div>
               {/if}
-              
+
               {#if company.billing_city && company.billing_state}
                 <div class="company-detail">
                   <span class="detail-icon">📍</span>
@@ -151,23 +162,23 @@
 
             <!-- Actions -->
             <div class="company-actions">
-              <BaseButton 
-                variant="outline" 
-                size="sm" 
+              <BaseButton
+                variant="outline"
+                size="sm"
                 href="/admin/companies/{company.id}"
               >
                 View
               </BaseButton>
-              <BaseButton 
-                variant="ghost" 
-                size="sm" 
+              <BaseButton
+                variant="ghost"
+                size="sm"
                 href="/admin/companies/{company.id}/edit"
               >
                 Edit
               </BaseButton>
-              <BaseButton 
-                variant="danger" 
-                size="sm" 
+              <BaseButton
+                variant="danger"
+                size="sm"
                 on:click={() => handleDelete(company.id, company.name)}
               >
                 Delete
@@ -185,7 +196,8 @@
           <div>
             <h4 class="text-h6 mb-1">Total Companies</h4>
             <p class="text-muted text-sm">
-              {companies.length} compan{companies.length !== 1 ? 'ies' : 'y'} across all verticals
+              {companies.length} compan{companies.length !== 1 ? "ies" : "y"} across
+              all verticals
             </p>
           </div>
           <div class="text-h3 font-bold text-primary">
@@ -236,7 +248,11 @@
     width: 48px;
     height: 48px;
     border-radius: var(--radius-lg);
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+    background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-accent)
+    );
     color: white;
     display: flex;
     align-items: center;
@@ -304,4 +320,4 @@
   .company-summary {
     margin-top: var(--space-4);
   }
-</style> 
+</style>

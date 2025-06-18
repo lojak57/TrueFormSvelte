@@ -1,6 +1,9 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import type { BasicInfoData, StepValidationEvent } from '$lib/types/wizard.types';
+  import { createEventDispatcher } from "svelte";
+  import type {
+    BasicInfoData,
+    StepValidationEvent,
+  } from "$lib/types/wizard.types";
 
   const dispatch = createEventDispatcher<{
     validation: StepValidationEvent;
@@ -9,26 +12,49 @@
   export let formData: BasicInfoData;
 
   const industries = [
-    'Technology/Software', 'Healthcare', 'Finance', 'Real Estate', 'E-commerce/Retail',
-    'Education', 'Non-Profit', 'Professional Services', 'Manufacturing', 'Hospitality',
-    'Creative/Media', 'Fitness/Wellness', 'Automotive', 'Food & Beverage', 'Other'
+    "Technology/Software",
+    "Healthcare",
+    "Finance",
+    "Real Estate",
+    "E-commerce/Retail",
+    "Education",
+    "Non-Profit",
+    "Professional Services",
+    "Manufacturing",
+    "Hospitality",
+    "Creative/Media",
+    "Fitness/Wellness",
+    "Automotive",
+    "Food & Beverage",
+    "Other",
   ];
 
   const companySizes = [
-    'Solo Entrepreneur', '2-10 employees', '11-50 employees', '51-200 employees', '200+ employees'
+    "Solo Entrepreneur",
+    "2-10 employees",
+    "11-50 employees",
+    "51-200 employees",
+    "200+ employees",
   ];
 
   // Validation
-  $: isValid = !!(formData.companyName?.trim() && formData.contactName?.trim() && formData.contactEmail?.trim());
+  $: isValid = !!(
+    formData.companyName?.trim() &&
+    formData.contactName?.trim() &&
+    formData.contactEmail?.trim()
+  );
 
   // Emit validation state changes
-  $: dispatch('validation', { isValid, errors: [] });
+  $: dispatch("validation", { isValid, errors: [] });
 </script>
 
 <div class="space-y-6">
   <div class="grid md:grid-cols-2 gap-6">
     <div>
-      <label for="companyName" class="block text-sm font-medium text-gray-700 mb-2">
+      <label
+        for="companyName"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
         Company/Organization Name *
       </label>
       <input
@@ -59,7 +85,10 @@
 
   <div class="grid md:grid-cols-2 gap-6">
     <div>
-      <label for="contactName" class="block text-sm font-medium text-gray-700 mb-2">
+      <label
+        for="contactName"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
         Your Name *
       </label>
       <input
@@ -89,7 +118,10 @@
 
   <div class="grid md:grid-cols-2 gap-6">
     <div>
-      <label for="contactEmail" class="block text-sm font-medium text-gray-700 mb-2">
+      <label
+        for="contactEmail"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
         Email Address *
       </label>
       <input
@@ -102,7 +134,10 @@
       />
     </div>
     <div>
-      <label for="contactPhone" class="block text-sm font-medium text-gray-700 mb-2">
+      <label
+        for="contactPhone"
+        class="block text-sm font-medium text-gray-700 mb-2"
+      >
         Phone Number
       </label>
       <input

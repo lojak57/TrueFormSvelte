@@ -1,22 +1,22 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  
+  import { createEventDispatcher } from "svelte";
+
   export let company: any = {
-    name: '',
-    website: '',
-    billing_street: '',
-    billing_city: '',
-    billing_state: '',
-    billing_zip: '',
-    billing_country: '',
-    notes: '',
-    status: 'active'
+    name: "",
+    website: "",
+    billing_street: "",
+    billing_city: "",
+    billing_state: "",
+    billing_zip: "",
+    billing_country: "",
+    notes: "",
+    status: "active",
   };
-  
+
   const dispatch = createEventDispatcher();
 
   function handleSubmit() {
-    dispatch('submit', company);
+    dispatch("submit", company);
   }
 </script>
 
@@ -101,7 +101,7 @@
       bind:value={company.notes}
       placeholder="Additional notes about this company"
       rows="3"
-    ></textarea>
+    />
   </div>
 
   <div class="form-group">
@@ -115,7 +115,11 @@
 
   <div class="form-actions">
     <button type="submit" class="submit">Save Company</button>
-    <button type="button" class="cancel-btn" on:click={() => dispatch('cancel')}>
+    <button
+      type="button"
+      class="cancel-btn"
+      on:click={() => dispatch("cancel")}
+    >
       Cancel
     </button>
   </div>
@@ -145,7 +149,9 @@
     color: #374151;
   }
 
-  input, select, textarea {
+  input,
+  select,
+  textarea {
     padding: 0.5rem;
     border: 1px solid #d1d5db;
     border-radius: 0.25rem;
@@ -155,7 +161,9 @@
     background-color: #ffffff;
   }
 
-  input:focus, select:focus, textarea:focus {
+  input:focus,
+  select:focus,
+  textarea:focus {
     outline: none;
     border-color: #3b82f6;
     box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
@@ -200,4 +208,4 @@
   .cancel-btn:hover {
     background-color: #e5e7eb;
   }
-</style> 
+</style>

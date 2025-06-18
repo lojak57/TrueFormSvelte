@@ -1,33 +1,33 @@
 <script lang="ts">
-  import { goto } from '$app/navigation';
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
+  import { goto } from "$app/navigation";
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
 
   let formData = {
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: '',
-    title: '',
-    company_id: '',
-    status: 'active'
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone: "",
+    title: "",
+    company_id: "",
+    status: "active",
   };
 
   let companies: any[] = [];
   let loading = false;
-  let error = '';
+  let error = "";
 
   // Load companies for the dropdown
   async function loadCompanies() {
     try {
-      const response = await fetch('/api/companies');
+      const response = await fetch("/api/companies");
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
       companies = await response.json();
     } catch (err) {
-      console.error('Failed to load companies:', err);
-      error = 'Failed to load companies';
+      console.error("Failed to load companies:", err);
+      error = "Failed to load companies";
     }
   }
 
@@ -36,22 +36,22 @@
 
   async function handleSubmit(event: Event) {
     event.preventDefault();
-    
+
     if (!formData.first_name || !formData.last_name || !formData.email) {
-      error = 'Please fill in all required fields';
+      error = "Please fill in all required fields";
       return;
     }
 
     try {
       loading = true;
-      error = '';
+      error = "";
 
-      const response = await fetch('/api/contacts', {
-        method: 'POST',
+      const response = await fetch("/api/contacts", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
@@ -59,19 +59,19 @@
       }
 
       const newContact = await response.json();
-      
+
       // Redirect to the contacts list
-      goto('/admin/contacts');
+      goto("/admin/contacts");
     } catch (err) {
-      console.error('Failed to create contact:', err);
-      error = err instanceof Error ? err.message : 'Failed to create contact';
+      console.error("Failed to create contact:", err);
+      error = err instanceof Error ? err.message : "Failed to create contact";
     } finally {
       loading = false;
     }
   }
 
   function handleCancel() {
-    goto('/admin/contacts');
+    goto("/admin/contacts");
   }
 </script>
 
@@ -87,9 +87,7 @@
         <h1 class="text-h1 mb-2">Create New Contact</h1>
         <p class="text-muted">Add a new contact to your database</p>
       </div>
-      <BaseButton variant="outline" on:click={handleCancel}>
-        Cancel
-      </BaseButton>
+      <BaseButton variant="outline" on:click={handleCancel}>Cancel</BaseButton>
     </div>
   </BaseCard>
 
@@ -172,11 +170,7 @@
 
         <div class="form-group">
           <label for="status">Status</label>
-          <select
-            id="status"
-            bind:value={formData.status}
-            class="form-input"
-          >
+          <select id="status" bind:value={formData.status} class="form-input">
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
           </select>
@@ -188,7 +182,7 @@
           Cancel
         </BaseButton>
         <BaseButton type="submit" variant="primary" disabled={loading}>
-          {loading ? 'Creating...' : 'Create Contact'}
+          {loading ? "Creating..." : "Create Contact"}
         </BaseButton>
       </div>
     </form>
@@ -272,4 +266,4 @@
       flex-direction: column;
     }
   }
-</style> 
+</style>

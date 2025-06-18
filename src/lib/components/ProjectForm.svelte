@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import type { Project, CreateProjectDTO, UpdateProjectDTO } from '$lib/types';
-  
+  import { createEventDispatcher } from "svelte";
+  import type { Project, CreateProjectDTO, UpdateProjectDTO } from "$lib/types";
+
   export let project: Project | null = null;
   export let companyId: string | undefined;
-  
-  let name = project?.name ?? '';
-  let description = project?.description ?? '';
+
+  let name = project?.name ?? "";
+  let description = project?.description ?? "";
   let error: string | null = null;
-  
+
   const dispatch = createEventDispatcher<{
     submit: CreateProjectDTO | UpdateProjectDTO;
     cancel: void;
@@ -16,22 +16,22 @@
 
   function handleSubmit() {
     if (!name.trim()) {
-      error = 'Project name is required';
+      error = "Project name is required";
       return;
     }
 
     if (!companyId) {
-      error = 'Company ID is required';
+      error = "Company ID is required";
       return;
     }
 
     const dto = {
       name: name.trim(),
       description: description.trim() || undefined,
-      company_id: companyId
+      company_id: companyId,
     };
 
-    dispatch('submit', dto);
+    dispatch("submit", dto);
   }
 </script>
 
@@ -62,8 +62,8 @@
   {/if}
 
   <div class="actions">
-    <button type="submit">{project ? 'Update' : 'Create'} Project</button>
-    <button type="button" class="cancel" on:click={() => dispatch('cancel')}>
+    <button type="submit">{project ? "Update" : "Create"} Project</button>
+    <button type="button" class="cancel" on:click={() => dispatch("cancel")}>
       Cancel
     </button>
   </div>
@@ -86,14 +86,16 @@
     font-weight: 500;
   }
 
-  input, textarea {
+  input,
+  textarea {
     padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 0.25rem;
     font-family: inherit;
   }
 
-  input:focus, textarea:focus {
+  input:focus,
+  textarea:focus {
     outline: none;
     border-color: #2563eb;
     box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
@@ -133,4 +135,4 @@
   .error {
     color: #dc2626;
   }
-</style> 
+</style>

@@ -1,23 +1,29 @@
-import { error, json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
+import { json } from "@sveltejs/kit";
+import type { RequestHandler } from "./$types";
 
 // TODO: Re-enable when Stripe is integrated (next week)
 // Temporarily disabled for deployment since Stripe isn't integrated yet
 
 export const POST: RequestHandler = async ({ params, request, url }) => {
-  return json({
-    message: 'Payment links not yet available - Stripe integration pending',
-    status: 'disabled_pending_stripe_integration',
-    proposalId: params.id
-  }, { status: 503 });
+  return json(
+    {
+      message: "Payment links not yet available - Stripe integration pending",
+      status: "disabled_pending_stripe_integration",
+      proposalId: params.id,
+    },
+    { status: 503 }
+  );
 };
 
 export const GET: RequestHandler = async ({ params, url }) => {
-  return json({
-    message: 'Payment links not yet available - Stripe integration pending', 
-    status: 'disabled_pending_stripe_integration',
-    proposalId: params.id
-  }, { status: 503 });
+  return json(
+    {
+      message: "Payment links not yet available - Stripe integration pending",
+      status: "disabled_pending_stripe_integration",
+      proposalId: params.id,
+    },
+    { status: 503 }
+  );
 };
 
 /* 

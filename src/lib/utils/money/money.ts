@@ -3,14 +3,18 @@
  * Core money operations with precision handling
  */
 
-export type CurrencyCode = 'USD' | 'EUR' | 'GBP' | 'CAD' | 'AUD' | 'JPY';
+export type CurrencyCode = "USD" | "EUR" | "GBP" | "CAD" | "AUD" | "JPY";
 
 export class Money {
   private readonly amount: number;
   private readonly currency: CurrencyCode;
   private readonly decimalPlaces: number;
 
-  constructor(amount: number, currency: CurrencyCode = 'USD', decimalPlaces?: number) {
+  constructor(
+    amount: number,
+    currency: CurrencyCode = "USD",
+    decimalPlaces?: number
+  ) {
     this.currency = currency;
     this.decimalPlaces = decimalPlaces ?? this.getDecimalPlaces(currency);
     // Round to prevent floating point precision issues
@@ -23,12 +27,20 @@ export class Money {
 
   add(other: Money): Money {
     this.validateCurrency(other);
-    return new Money(this.amount + other.amount, this.currency, this.decimalPlaces);
+    return new Money(
+      this.amount + other.amount,
+      this.currency,
+      this.decimalPlaces
+    );
   }
 
   subtract(other: Money): Money {
     this.validateCurrency(other);
-    return new Money(this.amount - other.amount, this.currency, this.decimalPlaces);
+    return new Money(
+      this.amount - other.amount,
+      this.currency,
+      this.decimalPlaces
+    );
   }
 
   multiply(factor: number): Money {
@@ -37,7 +49,7 @@ export class Money {
 
   divide(divisor: number): Money {
     if (divisor === 0) {
-      throw new Error('Cannot divide by zero');
+      throw new Error("Cannot divide by zero");
     }
     return new Money(this.amount / divisor, this.currency, this.decimalPlaces);
   }
@@ -48,7 +60,7 @@ export class Money {
 
   calculateTax(rate: number): Money {
     if (rate < 0 || rate > 1) {
-      throw new Error('Tax rate must be between 0 and 1');
+      throw new Error("Tax rate must be between 0 and 1");
     }
     return new Money(this.amount * rate, this.currency, this.decimalPlaces);
   }
@@ -104,24 +116,24 @@ export class Money {
   // STATIC FACTORY METHODS
   // ============================================================================
 
-  static fromCents(cents: number, currency: CurrencyCode = 'USD'): Money {
+  static fromCents(cents: number, currency: CurrencyCode = "USD"): Money {
     const decimalPlaces = Money.prototype.getDecimalPlaces(currency);
     const amount = cents / Math.pow(10, decimalPlaces);
     return new Money(amount, currency, decimalPlaces);
   }
 
-  static fromString(value: string, currency: CurrencyCode = 'USD'): Money {
-    const cleanValue = value.replace(/[^\d.-]/g, '');
+  static fromString(value: string, currency: CurrencyCode = "USD"): Money {
+    const cleanValue = value.replace(/[^\d.-]/g, "");
     const amount = parseFloat(cleanValue);
-    
+
     if (isNaN(amount)) {
       throw new Error(`Invalid money string: ${value}`);
     }
-    
+
     return new Money(amount, currency);
   }
 
-  static zero(currency: CurrencyCode = 'USD'): Money {
+  static zero(currency: CurrencyCode = "USD"): Money {
     return new Money(0, currency);
   }
 
@@ -153,7 +165,7 @@ export class Money {
   private getDecimalPlaces(currency: CurrencyCode): number {
     // JPY typically has 0 decimal places, others have 2
     switch (currency) {
-      case 'JPY':
+      case "JPY":
         return 0;
       default:
         return 2;
@@ -162,4 +174,4 @@ export class Money {
 }
 
 // Default export
-export default Money; 
+export default Money;

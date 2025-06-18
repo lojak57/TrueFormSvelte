@@ -1,32 +1,31 @@
 <script lang="ts">
-  import ModernCard from './ModernCard.svelte';
+  import ModernCard from "./ModernCard.svelte";
 
   export let title: string;
   export let value: string;
   export let change: number | null = null;
-  export let changeLabel: string = 'vs last period';
-  export let trend: 'up' | 'down' | 'neutral' = 'neutral';
-  export let icon: string = '';
+  export let changeLabel: string = "vs last period";
+  export let trend: "up" | "down" | "neutral" = "neutral";
+  export let icon: string = "";
   export let href: string | undefined = undefined;
   export let loading: boolean = false;
-  export let size: 'sm' | 'md' | 'lg' = 'md';
+  export let size: "sm" | "md" | "lg" = "md";
 
   $: isPositiveChange = change !== null && change > 0;
   $: isNegativeChange = change !== null && change < 0;
-  $: changeColor = isPositiveChange ? 'positive' : isNegativeChange ? 'negative' : 'neutral';
+  $: changeColor = isPositiveChange
+    ? "positive"
+    : isNegativeChange
+    ? "negative"
+    : "neutral";
 
   function formatChange(change: number): string {
-    const prefix = change > 0 ? '+' : '';
+    const prefix = change > 0 ? "+" : "";
     return `${prefix}${change.toFixed(1)}%`;
   }
 </script>
 
-<ModernCard 
-  variant={href ? 'interactive' : 'elevated'} 
-  {size} 
-  {href}
-  {loading}
->
+<ModernCard variant={href ? "interactive" : "elevated"} {size} {href} {loading}>
   <div class="stats-card-content">
     <div class="stats-header">
       {#if icon}
@@ -34,7 +33,7 @@
           <span class="icon">{icon}</span>
         </div>
       {/if}
-      
+
       <div class="title-section">
         <h3 class="stats-title">{title}</h3>
       </div>
@@ -47,17 +46,29 @@
     {#if change !== null}
       <div class="stats-change">
         <span class="change-indicator change-{changeColor}">
-          {#if trend === 'up'}
+          {#if trend === "up"}
             <svg class="change-icon" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              <path
+                fill-rule="evenodd"
+                d="M3.293 9.707a1 1 0 010-1.414l6-6a1 1 0 011.414 0l6 6a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L4.707 9.707a1 1 0 01-1.414 0z"
+                clip-rule="evenodd"
+              />
             </svg>
-          {:else if trend === 'down'}
+          {:else if trend === "down"}
             <svg class="change-icon" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+              <path
+                fill-rule="evenodd"
+                d="M16.707 10.293a1 1 0 010 1.414l-6 6a1 1 0 01-1.414 0l-6-6a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l4.293-4.293a1 1 0 011.414 0z"
+                clip-rule="evenodd"
+              />
             </svg>
           {:else}
             <svg class="change-icon" viewBox="0 0 20 20" fill="currentColor">
-              <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+              <path
+                fill-rule="evenodd"
+                d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                clip-rule="evenodd"
+              />
             </svg>
           {/if}
           {formatChange(change)}

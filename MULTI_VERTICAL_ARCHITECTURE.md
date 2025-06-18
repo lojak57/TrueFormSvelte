@@ -13,7 +13,7 @@ Pillar Apps (Platform)
 │   ├── TrueForm Kanban
 │   └── TrueForm Analytics
 └── Baseform (Branch) - E-commerce Solutions
-    ├── Baseform Opportunities  
+    ├── Baseform Opportunities
     ├── Baseform Kanban
     └── Baseform Analytics
 ```
@@ -23,16 +23,19 @@ Pillar Apps (Platform)
 ### Core Tables
 
 #### Organizations (Hierarchical Structure)
+
 - **Platform**: `Pillar Apps` - Main organization
 - **Vertical**: `TrueForm` - Website development vertical
 - **Branch**: `Baseform` - E-commerce solutions branch
 - **Customer**: Individual client organizations
 
 #### Opportunity Tables
+
 - **`opportunities`** - TrueForm website development leads
 - **`baseform_opportunities`** - Baseform e-commerce leads
 
 ### Supporting Tables
+
 - `users`, `profiles`, `memberships` - User management
 - `brand_kits`, `proposals`, `invoices` - Business operations
 - `activities`, `documents`, `tags` - CRM functionality
@@ -41,12 +44,14 @@ Pillar Apps (Platform)
 ## 🎯 Vertical Separation
 
 ### TrueForm (Website Development)
+
 - **Pipeline**: Custom website projects
 - **Workflow**: Discovery → Design → Development → Launch
 - **Data**: Website requirements, design preferences, technical specs
 - **Pricing**: Project-based pricing models
 
 ### Baseform (E-commerce Solutions)
+
 - **Pipeline**: E-commerce store development
 - **Workflow**: Store Setup → Product Import → Design → Launch
 - **Data**: Product catalogs, inventory, payment processing
@@ -55,11 +60,13 @@ Pillar Apps (Platform)
 ## 🔄 Shared Admin Dashboard
 
 ### Unified View
+
 - **Combined Analytics**: Total revenue, leads, conversion rates
 - **Cross-Vertical Insights**: Performance comparison between verticals
 - **Resource Management**: Team allocation across verticals
 
 ### Vertical-Specific Views
+
 - **TrueForm Dashboard**: Website project pipeline, design workflows
 - **Baseform Dashboard**: E-commerce store pipeline, product management
 - **Individual KPIs**: Separate metrics for each vertical
@@ -67,12 +74,14 @@ Pillar Apps (Platform)
 ## 📈 Scalability Design
 
 ### Adding New Verticals
+
 1. Create new organization entry with `org_type: "vertical"`
 2. Add vertical-specific opportunity table (e.g., `mobileform_opportunities`)
 3. Implement vertical-specific workflows and UI components
 4. Configure analytics and reporting for the new vertical
 
 ### Multi-Tenant Architecture
+
 - **Organization Hierarchy**: Uses ltree for efficient hierarchical queries
 - **Data Isolation**: Each vertical maintains separate data pipelines
 - **Shared Resources**: Common components (users, billing, analytics)
@@ -80,6 +89,7 @@ Pillar Apps (Platform)
 ## 🛠️ Technical Implementation
 
 ### Frontend (SvelteKit)
+
 ```
 src/
 ├── routes/
@@ -99,6 +109,7 @@ src/
 ```
 
 ### Backend (Supabase)
+
 - **Row Level Security**: Org-based data access control
 - **Real-time Subscriptions**: Live updates for each vertical
 - **Custom Functions**: Vertical-specific business logic
@@ -106,6 +117,7 @@ src/
 ## 📋 Current Status
 
 ### ✅ Completed
+
 - [x] Database schema with multi-vertical support
 - [x] Organizational hierarchy (Platform → Vertical → Branch)
 - [x] Separate opportunity tables for TrueForm and Baseform
@@ -113,12 +125,14 @@ src/
 - [x] Supabase integration with real credentials
 
 ### 🚧 In Progress
+
 - [ ] Vertical-specific Kanban boards
 - [ ] Cross-vertical analytics dashboard
 - [ ] Baseform-specific UI components
 - [ ] Advanced workflow automation
 
 ### 🎯 Next Steps
+
 1. **Implement Baseform Frontend**: Create Baseform-specific pages and components
 2. **Enhanced Analytics**: Build cross-vertical reporting dashboard
 3. **Workflow Automation**: Implement vertical-specific business logic
@@ -127,6 +141,7 @@ src/
 ## 🔧 Development Workflow
 
 ### Adding a New Vertical
+
 1. **Database**: Create `{vertical}_opportunities` table
 2. **API**: Add vertical-specific API endpoints
 3. **Frontend**: Create vertical-specific routes and components
@@ -134,6 +149,7 @@ src/
 5. **Analytics**: Integrate vertical metrics into reporting
 
 ### Data Flow
+
 ```
 Lead Capture → Vertical Router → Specific Pipeline → Unified Analytics
 ```
@@ -141,11 +157,13 @@ Lead Capture → Vertical Router → Specific Pipeline → Unified Analytics
 ## 🎨 UI/UX Strategy
 
 ### Brand Consistency
+
 - **Shared Design System**: Common components and styling
 - **Vertical Branding**: Subtle color/icon differences per vertical
 - **Unified Navigation**: Seamless switching between verticals
 
 ### User Experience
+
 - **Role-Based Access**: Users see relevant verticals only
 - **Context Switching**: Easy navigation between vertical dashboards
 - **Unified Search**: Cross-vertical search and filtering
@@ -153,10 +171,12 @@ Lead Capture → Vertical Router → Specific Pipeline → Unified Analytics
 ## 📊 Analytics & Reporting
 
 ### Vertical-Specific Metrics
+
 - **TrueForm**: Project completion rates, design approval times
 - **Baseform**: Store launch times, product import success rates
 
 ### Cross-Vertical Insights
+
 - **Revenue Comparison**: Performance across verticals
 - **Resource Allocation**: Team efficiency per vertical
 - **Market Opportunities**: Growth potential analysis
@@ -164,13 +184,15 @@ Lead Capture → Vertical Router → Specific Pipeline → Unified Analytics
 ## 🚀 Go-to-Market Strategy
 
 ### TrueForm (Primary)
+
 - **Target**: Small to medium businesses needing websites
 - **Positioning**: Professional, fast, conversion-optimized websites
 - **Pricing**: Project-based with clear packages
 
 ### Baseform (Secondary)
+
 - **Target**: Businesses needing e-commerce solutions
 - **Positioning**: Quick store setup with professional design
 - **Pricing**: Subscription tiers based on features
 
-This architecture positions TrueForm as a scalable platform ready for rapid growth and expansion into new business verticals while maintaining operational efficiency and data integrity. 
+This architecture positions TrueForm as a scalable platform ready for rapid growth and expansion into new business verticals while maintaining operational efficiency and data integrity.

@@ -1,20 +1,20 @@
-import { json, redirect } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
-import { logoutUser } from '$lib/services/authService';
+import { logoutUser } from "$lib/services/authService";
+import { json, redirect } from "@sveltejs/kit";
+import type { RequestHandler } from "./$types";
 
 export const POST: RequestHandler = async () => {
   try {
     const { error } = await logoutUser();
-    
+
     if (error) {
       return json({ error }, { status: 500 });
     }
-    
+
     // Successful logout
     return json({ success: true });
   } catch (error) {
-    console.error('Signout error:', error);
-    return json({ error: 'Failed to sign out' }, { status: 500 });
+    console.error("Signout error:", error);
+    return json({ error: "Failed to sign out" }, { status: 500 });
   }
 };
 
@@ -22,12 +22,12 @@ export const POST: RequestHandler = async () => {
 export const GET: RequestHandler = async () => {
   try {
     await logoutUser();
-    throw redirect(302, '/');
+    throw redirect(302, "https://true-form-apps.com");
   } catch (error) {
     if (error instanceof Response) {
       return error; // This is the redirect
     }
-    console.error('Signout error:', error);
-    throw redirect(302, '/');
+    console.error("Signout error:", error);
+    throw redirect(302, "https://true-form-apps.com");
   }
-}; 
+};

@@ -13,9 +13,9 @@
 
   // Format currency
   function formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(amount);
@@ -23,42 +23,56 @@
 
   // Format date
   function formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
     });
   }
 
   // Get status variant
   function getStatusVariant(status: string): string {
     switch (status) {
-      case 'completed': return 'success';
-      case 'in_progress': return 'primary';
-      case 'proposal': return 'warning';
-      case 'on_hold': return 'secondary';
-      case 'cancelled': return 'danger';
-      default: return 'secondary';
+      case "completed":
+        return "success";
+      case "in_progress":
+        return "primary";
+      case "proposal":
+        return "warning";
+      case "on_hold":
+        return "secondary";
+      case "cancelled":
+        return "danger";
+      default:
+        return "secondary";
     }
   }
 
   // Get status label
   function getStatusLabel(status: string): string {
     switch (status) {
-      case 'in_progress': return 'In Progress';
-      case 'on_hold': return 'On Hold';
-      default: return status.charAt(0).toUpperCase() + status.slice(1);
+      case "in_progress":
+        return "In Progress";
+      case "on_hold":
+        return "On Hold";
+      default:
+        return status.charAt(0).toUpperCase() + status.slice(1);
     }
   }
 
   // Get project type icon
   function getProjectTypeIcon(type?: string): string {
     switch (type) {
-      case 'website': return '🌐';
-      case 'web_app': return '💻';
-      case 'booking_system': return '📅';
-      case 'ecommerce': return '🛒';
-      default: return '📋';
+      case "website":
+        return "🌐";
+      case "web_app":
+        return "💻";
+      case "booking_system":
+        return "📅";
+      case "ecommerce":
+        return "🛒";
+      default:
+        return "📋";
     }
   }
 </script>
@@ -72,7 +86,9 @@
     <div class="empty-state">
       <div class="empty-icon">📋</div>
       <h4>No projects yet</h4>
-      <p class="text-muted">Projects will appear here once they're created for this company.</p>
+      <p class="text-muted">
+        Projects will appear here once they're created for this company.
+      </p>
     </div>
   {:else}
     <div class="project-grid">
@@ -320,4 +336,4 @@
       justify-content: space-between;
     }
   }
-</style> 
+</style>

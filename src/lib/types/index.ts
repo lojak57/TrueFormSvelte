@@ -1,6 +1,6 @@
 /**
  * TrueForm Types - Barrel Export
- * 
+ *
  * Centralized export for all type definitions.
  * Import types from this single location: `import type { UserSession } from '$lib/types'`
  */
@@ -9,126 +9,110 @@
 // DATABASE TYPES
 // ============================================================================
 export type {
-  // User & Authentication
-  UserSession,
-  LoginCredentials,
   AuthResponse,
-  
-  // Organization & Branding
-  Organization,
-  BrandKit,
-  
   // Leads & Opportunities
   BaseformLead,
   BaseformOpportunity,
-  TrueFormLead,
+  BrandKit,
   Contact,
-  
-  // Proposals
-  Proposal,
-  ProposalDraft,
-  DraftData,
-  
-  // Billing & Payments
-  Invoice,
-  
   // Settings & Configuration
   CurrencyCode,
-  OrganizationProposalSettings,
-  
   // Utility Types
   DatabaseInsert,
   DatabaseUpdate,
-  SupabaseResponse,
+  DraftData,
+
+  // Billing & Payments
+  Invoice,
+  LoginCredentials,
+  // Organization & Branding
+  Organization,
+  OrganizationProposalSettings,
+  // Proposals
+  Proposal,
+  ProposalDraft,
   SupabaseListResponse,
-} from './database.types';
+  SupabaseResponse,
+  TrueFormLead,
+  // User & Authentication
+  UserSession,
+} from "./database.types";
 
 // Export database constants
-export { DATABASE_TABLES } from './database.types';
+export { DATABASE_TABLES } from "./database.types";
 
 // ============================================================================
 // WIZARD TYPES
 // ============================================================================
 export type {
+  BasicInfoData,
+  ContentStructureData,
+  DesignBrandingData,
+  FieldValidationError,
+  ProjectTypeData,
+  ProjectVisionData,
   // Site Request Wizard
   SiteRequestFormData,
-  BasicInfoData,
-  ProjectVisionData,
-  ProjectTypeData,
-  DesignBrandingData,
-  ContentStructureData,
-  UserExperienceData,
+  StepValidationEvent,
   TechnicalRequirementsData,
   TimelineBudgetData,
-  
+  UserExperienceData,
   // Validation
   ValidationResult,
-  FieldValidationError,
-  StepValidationEvent,
-} from './wizard.types';
+} from "./wizard.types";
 
 // ============================================================================
 // UI COMPONENT TYPES
 // ============================================================================
 export type {
+  AccessibilityProps,
+  AlertProps,
+  // Feedback & Status
+  AlertType,
+  BreadcrumbItem,
+  BreakpointConfig,
+  ButtonProps,
+  ButtonSize,
   // Button
   ButtonVariant,
-  ButtonSize,
-  ButtonProps,
-  
+  CardProps,
   // Card
   CardVariant,
-  CardProps,
-  
-  // Form & Input
-  InputType,
+  // Event Handlers
+  ClickHandler,
+  FormSubmitHandler,
+  IconProps,
+  // Icon & Media
+  IconSize,
+  ImageProps,
+  InputChangeHandler,
+  InputProps,
   InputSize,
   InputState,
-  InputProps,
-  SelectOption,
-  SelectProps,
-  
+  // Form & Input
+  InputType,
+  KeyboardHandler,
+  LoadingProps,
+  ModalProps,
   // Layout & Navigation
   NavItem,
-  BreadcrumbItem,
-  ModalProps,
-  
+  PaginationProps,
+  // Responsive & Accessibility
+  ResponsiveValue,
+  SelectOption,
+  SelectProps,
   // Data Display
   TableColumn,
   TableProps,
-  PaginationProps,
-  
-  // Feedback & Status
-  AlertType,
-  ToastType,
-  AlertProps,
-  ToastProps,
-  LoadingProps,
-  
+  ThemeColors,
   // Theme & Styling
   ThemeMode,
-  ThemeColors,
-  BreakpointConfig,
-  
+  ToastProps,
+  ToastType,
+  TransitionProps,
   // Animation & Transition
   TransitionType,
-  TransitionProps,
-  
-  // Icon & Media
-  IconSize,
-  IconProps,
-  ImageProps,
-  
-  // Event Handlers
-  ClickHandler,
-  KeyboardHandler,
-  FormSubmitHandler,
-  InputChangeHandler,
-  
-  // Responsive & Accessibility
-  ResponsiveValue,
-  AccessibilityProps,
-} from './ui.types';
+} from "./ui.types";
 
 // ============================================================================
 // RE-EXPORT COMMON UTILITY TYPES
@@ -169,8 +153,9 @@ export interface PaginatedResponse<T> {
 
 // Type guard utilities
 export const isNotNull = <T>(value: T | null): value is T => value !== null;
-export const isNotUndefined = <T>(value: T | undefined): value is T => value !== undefined;
-export const isDefined = <T>(value: T | null | undefined): value is T => 
+export const isNotUndefined = <T>(value: T | undefined): value is T =>
+  value !== undefined;
+export const isDefined = <T>(value: T | null | undefined): value is T =>
   value !== null && value !== undefined;
 
 // ============================================================================
@@ -182,4 +167,4 @@ export interface ValidationSchema<T = any> {
   schema: any; // Will be properly typed when Zod schemas are implemented
   parse: (data: unknown) => T;
   safeParse: (data: unknown) => { success: boolean; data?: T; error?: any };
-} 
+}

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { wizardStore, WIZARD_STEPS } from '../stores/wizardStore';
-  import { onMount, onDestroy } from 'svelte';
-  
+  import { wizardStore, WIZARD_STEPS } from "../stores/wizardStore";
+  import { onMount, onDestroy } from "svelte";
+
   let estimatedTimeRemaining = 0;
   let startTime = 0;
   let interval: any;
@@ -12,26 +12,37 @@
 
   // Calculate steps remaining based on path
   function getStepsRemaining(): number {
-    if (quotePath === 'express_quote') {
+    if (quotePath === "express_quote") {
       // Express path streamlined steps
       const expressStepIds = [
-        'quotePath', 'companyName', 'contactName', 'contactEmail', 
-        'contactPhone', 'industry', 'websiteType', 'coreFeatures', 
-        'timeline', 'summary'
+        "quotePath",
+        "companyName",
+        "contactName",
+        "contactEmail",
+        "contactPhone",
+        "industry",
+        "websiteType",
+        "coreFeatures",
+        "timeline",
+        "summary",
       ];
-      
+
       const currentStepId = WIZARD_STEPS[currentIndex]?.id;
-      const currentExpressIndex = expressStepIds.findIndex(s => s === currentStepId);
-      
+      const currentExpressIndex = expressStepIds.findIndex(
+        (s) => s === currentStepId
+      );
+
       if (currentExpressIndex >= 0) {
         return expressStepIds.length - currentExpressIndex - 1;
       }
       return 0;
-    } else if (quotePath === 'custom_solution') {
+    } else if (quotePath === "custom_solution") {
       // Custom solution uses most steps but skips some
-      const skipStepsForCustom = ['contactPhone']; // Steps we skip for custom
+      const skipStepsForCustom = ["contactPhone"]; // Steps we skip for custom
       const remainingSteps = WIZARD_STEPS.slice(currentIndex + 1);
-      const relevantSteps = remainingSteps.filter(step => !skipStepsForCustom.includes(step.id));
+      const relevantSteps = remainingSteps.filter(
+        (step) => !skipStepsForCustom.includes(step.id)
+      );
       return relevantSteps.length;
     } else {
       // Before path selection or unknown path
@@ -41,9 +52,9 @@
 
   // Estimate time per step (in seconds) - more realistic timing
   function getTimePerStep(): number {
-    if (quotePath === 'express_quote') {
+    if (quotePath === "express_quote") {
       return 6; // 6 seconds per step for express (quicker decisions)
-    } else if (quotePath === 'custom_solution') {
+    } else if (quotePath === "custom_solution") {
       return 15; // 15 seconds per step for custom (more thoughtful responses)
     } else {
       return 10; // Default before path selection
@@ -61,14 +72,14 @@
       return `${Math.max(10, seconds)} seconds`;
     } else {
       const minutes = Math.ceil(seconds / 60);
-      return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+      return `${minutes} minute${minutes > 1 ? "s" : ""}`;
     }
   }
 
   onMount(() => {
     startTime = $wizardStore.startTime || Date.now();
     updateTimeEstimate();
-    
+
     // Update estimate every 5 seconds
     interval = setInterval(() => {
       updateTimeEstimate();
@@ -99,11 +110,11 @@
       {/if}
     </span>
   </div>
-  
+
   <div class="path-indicator">
-    {#if quotePath === 'express_quote'}
+    {#if quotePath === "express_quote"}
       <span class="path-badge express">⚡ Express Quote</span>
-    {:else if quotePath === 'custom_solution'}
+    {:else if quotePath === "custom_solution"}
       <span class="path-badge custom">🎯 Custom Solution</span>
     {:else}
       <span class="path-badge">Getting Started</span>

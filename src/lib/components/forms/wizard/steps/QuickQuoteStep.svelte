@@ -1,40 +1,52 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { fade } from 'svelte/transition';
+  import { createEventDispatcher } from "svelte";
+  import { fade } from "svelte/transition";
 
   const dispatch = createEventDispatcher();
 
-  let selectedPath = '';
+  let selectedPath = "";
 
   const pathOptions = [
     {
-      id: 'express_quote',
-      title: 'Express Quote',
-      subtitle: 'Get a quick estimate',
-      description: 'Simple website with core features - get pricing in 60 seconds',
-      icon: '⚡',
-      time: '1 minute',
-      features: ['Professional design', 'Mobile responsive', 'Contact forms', 'SEO basics'],
-      price: 'Starting at $999',
-      color: '#10b981'
+      id: "express_quote",
+      title: "Express Quote",
+      subtitle: "Get a quick estimate",
+      description:
+        "Simple website with core features - get pricing in 60 seconds",
+      icon: "⚡",
+      time: "1 minute",
+      features: [
+        "Professional design",
+        "Mobile responsive",
+        "Contact forms",
+        "SEO basics",
+      ],
+      price: "Starting at $999",
+      color: "#10b981",
     },
     {
-      id: 'custom_solution',
-      title: 'Custom Solution',
-      subtitle: 'Detailed consultation',
-      description: 'Complex project with specific requirements - personalized approach',
-      icon: '🎯',
-      time: '3-4 minutes',
-      features: ['Advanced features', 'Custom design', 'E-commerce', 'Integrations'],
-      price: 'Custom pricing',
-      color: '#3b82f6'
-    }
+      id: "custom_solution",
+      title: "Custom Solution",
+      subtitle: "Detailed consultation",
+      description:
+        "Complex project with specific requirements - personalized approach",
+      icon: "🎯",
+      time: "3-4 minutes",
+      features: [
+        "Advanced features",
+        "Custom design",
+        "E-commerce",
+        "Integrations",
+      ],
+      price: "Custom pricing",
+      color: "#3b82f6",
+    },
   ];
 
   function selectPath(path: string) {
     selectedPath = path;
     setTimeout(() => {
-      dispatch('complete', { value: path });
+      dispatch("complete", { value: path });
     }, 300);
   }
 </script>
@@ -47,26 +59,31 @@
 
   <div class="path-options">
     {#each pathOptions as option (option.id)}
-      <button 
+      <button
         class="path-option"
         class:selected={selectedPath === option.id}
-        style="border-color: {selectedPath === option.id ? option.color : '#e5e7eb'}"
+        style="border-color: {selectedPath === option.id
+          ? option.color
+          : '#e5e7eb'}"
         on:click={() => selectPath(option.id)}
       >
         <div class="option-header">
-          <div class="option-icon" style="background-color: {option.color}20; color: {option.color}">
+          <div
+            class="option-icon"
+            style="background-color: {option.color}20; color: {option.color}"
+          >
             {option.icon}
           </div>
           <div class="option-meta">
             <span class="time-badge">{option.time}</span>
           </div>
         </div>
-        
+
         <div class="option-content">
           <h3 class="option-title">{option.title}</h3>
           <p class="option-subtitle">{option.subtitle}</p>
           <p class="option-description">{option.description}</p>
-          
+
           <div class="features-list">
             {#each option.features as feature}
               <div class="feature-item">
@@ -75,21 +92,21 @@
               </div>
             {/each}
           </div>
-          
+
           <div class="price-info" style="color: {option.color}">
             {option.price}
           </div>
         </div>
-        
-        <div class="option-arrow" style="color: {option.color}">
-          →
-        </div>
+
+        <div class="option-arrow" style="color: {option.color}">→</div>
       </button>
     {/each}
   </div>
 
   <div class="help-text">
-    <p>💡 Don't worry - you can always upgrade or customize your solution later</p>
+    <p>
+      💡 Don't worry - you can always upgrade or customize your solution later
+    </p>
   </div>
 </div>
 

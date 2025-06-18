@@ -1,13 +1,13 @@
 <script lang="ts">
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
 
   export let company: any;
 
   function formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
     });
   }
 
@@ -16,9 +16,9 @@
       company.billing_street,
       company.billing_city,
       company.billing_state,
-      company.billing_zip
+      company.billing_zip,
     ].filter(Boolean);
-    return parts.join(', ');
+    return parts.join(", ");
   }
 </script>
 
@@ -31,7 +31,7 @@
         <div class="info-item">
           <span class="label">Website</span>
           <a href={company.website} target="_blank" rel="noopener" class="link">
-            {company.website.replace(/^https?:\/\//, '')}
+            {company.website.replace(/^https?:\/\//, "")}
           </a>
         </div>
       {/if}
@@ -126,4 +126,4 @@
       grid-template-columns: 1fr;
     }
   }
-</style> 
+</style>

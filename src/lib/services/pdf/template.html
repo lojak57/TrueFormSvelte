@@ -1,60 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Proposal - {{proposal.title}}</title>
-  <style>{{styles}}</style>
-</head>
-<body>
-  <!-- Page 1: Cover & Overview -->
-  <div class="page">
-    <div class="header-card">
-      <div class="header-content">
-        <div class="logo-section">
-          {{#if logoUrl}}
-            <img src="{{logoUrl}}" alt="TrueForm" class="logo">
-          {{else}}
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Proposal - {{proposal.title}}</title>
+    <style>
+      {{styles}}
+    </style>
+  </head>
+  <body>
+    <!-- Page 1: Cover & Overview -->
+    <div class="page">
+      <div class="header-card">
+        <div class="header-content">
+          <div class="logo-section">
+            {{#if logoUrl}}
+            <img src="{{logoUrl}}" alt="TrueForm" class="logo" />
+            {{else}}
             <div class="logo-text">TrueForm</div>
-          {{/if}}
-        </div>
-        <div class="proposal-meta">
-          <div class="proposal-number">#{{proposalNumber}}</div>
-          <div class="proposal-date">{{proposalDate}}</div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="hero-section">
-      <div class="proposal-title">{{proposal.title}}</div>
-      <div class="client-card">
-        <div class="client-info">
-          <div class="company-name">{{company.name}}</div>
-          {{#if contact}}
-            <div class="contact-details">{{contact.first_name}} {{contact.last_name}}{{#if contact.title}} • {{contact.title}}{{/if}}</div>
-          {{/if}}
-          {{#if contact.email}}
-            <div class="contact-email">{{contact.email}}</div>
-          {{/if}}
-        </div>
-        <div class="total-investment">
-          <div class="investment-label">Total Investment</div>
-          <div class="investment-amount">{{totalAmount}}</div>
+            {{/if}}
+          </div>
+          <div class="proposal-meta">
+            <div class="proposal-number">#{{proposalNumber}}</div>
+            <div class="proposal-date">{{proposalDate}}</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="services-overview">
-      <h2>What's Included</h2>
-      <div class="services-grid">
-        {{#each proposal.line_items}}
+      <div class="hero-section">
+        <div class="proposal-title">{{proposal.title}}</div>
+        <div class="client-card">
+          <div class="client-info">
+            <div class="company-name">{{company.name}}</div>
+            {{#if contact}}
+            <div class="contact-details">
+              {{contact.first_name}} {{contact.last_name}}{{#if contact.title}}
+              • {{contact.title}}{{/if}}
+            </div>
+            {{/if}} {{#if contact.email}}
+            <div class="contact-email">{{contact.email}}</div>
+            {{/if}}
+          </div>
+          <div class="total-investment">
+            <div class="investment-label">Total Investment</div>
+            <div class="investment-amount">{{totalAmount}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="services-overview">
+        <h2>What's Included</h2>
+        <div class="services-grid">
+          {{#each proposal.line_items}}
           <div class="service-card">
             <div class="service-header">
               <div class="service-name">{{name}}</div>
               <div class="service-price">{{total}}</div>
             </div>
             {{#if description}}
-              <div class="service-description">{{description}}</div>
+            <div class="service-description">{{description}}</div>
             {{/if}}
             <div class="service-meta">
               <span>Qty: {{quantity}}</span>
@@ -62,126 +66,134 @@
               <span>{{unitPrice}} each</span>
             </div>
           </div>
-        {{/each}}
+          {{/each}}
+        </div>
       </div>
-    </div>
 
-    <div class="pricing-breakdown">
-      <h2>Investment Breakdown</h2>
-      <div class="breakdown-card">
-        {{#each proposal.line_items}}
+      <div class="pricing-breakdown">
+        <h2>Investment Breakdown</h2>
+        <div class="breakdown-card">
+          {{#each proposal.line_items}}
           <div class="breakdown-item">
             <span class="item-name">{{name}}</span>
             <span class="item-total">{{total}}</span>
           </div>
-        {{/each}}
-        <div class="breakdown-subtotal">
-          <span>Subtotal</span>
-          <span>{{subtotal}}</span>
-        </div>
-        <div class="breakdown-tax">
-          <span>Tax ({{proposal.tax_rate}}%)</span>
-          <span>{{tax}}</span>
-        </div>
-        <div class="breakdown-total">
-          <span>Total Investment</span>
-          <span>{{totalAmount}}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Page 2: Payment & Next Steps -->
-  <div class="page">
-    <div class="header-minimal">
-      <div class="logo-small">
-        {{#if logoUrl}}
-          <img src="{{logoUrl}}" alt="TrueForm" class="logo-sm">
-        {{else}}
-          <div class="logo-text-sm">TrueForm</div>
-        {{/if}}
-      </div>
-      <div class="page-title">Payment & Next Steps</div>
-    </div>
-
-    <div class="payment-methods">
-      <h2>Choose Your Payment Method</h2>
-      <div class="payment-grid">
-        <div class="payment-card primary">
-          <div class="payment-header">
-            <div class="payment-icon">💳</div>
-            <div class="payment-title">Instant Payment</div>
+          {{/each}}
+          <div class="breakdown-subtotal">
+            <span>Subtotal</span>
+            <span>{{subtotal}}</span>
           </div>
-          <div class="payment-description">Pay securely with credit card</div>
-          {{#if paymentQR}}
-            <div class="qr-container">
-              <img src="data:image/png;base64,{{paymentQR}}" alt="Payment QR" class="qr-code">
-              <div class="qr-label">Scan to pay {{totalAmount}}</div>
-            </div>
+          <div class="breakdown-tax">
+            <span>Tax ({{proposal.tax_rate}}%)</span>
+            <span>{{tax}}</span>
+          </div>
+          <div class="breakdown-total">
+            <span>Total Investment</span>
+            <span>{{totalAmount}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page 2: Payment & Next Steps -->
+    <div class="page">
+      <div class="header-minimal">
+        <div class="logo-small">
+          {{#if logoUrl}}
+          <img src="{{logoUrl}}" alt="TrueForm" class="logo-sm" />
+          {{else}}
+          <div class="logo-text-sm">TrueForm</div>
           {{/if}}
         </div>
-        
-        <div class="payment-card">
-          <div class="payment-header">
-            <div class="payment-icon">🏛️</div>
-            <div class="payment-title">ACH Transfer</div>
+        <div class="page-title">Payment & Next Steps</div>
+      </div>
+
+      <div class="payment-methods">
+        <h2>Choose Your Payment Method</h2>
+        <div class="payment-grid">
+          <div class="payment-card primary">
+            <div class="payment-header">
+              <div class="payment-icon">💳</div>
+              <div class="payment-title">Instant Payment</div>
+            </div>
+            <div class="payment-description">Pay securely with credit card</div>
+            {{#if paymentQR}}
+            <div class="qr-container">
+              <img
+                src="data:image/png;base64,{{paymentQR}}"
+                alt="Payment QR"
+                class="qr-code"
+              />
+              <div class="qr-label">Scan to pay {{totalAmount}}</div>
+            </div>
+            {{/if}}
           </div>
-          <div class="payment-description">Save 3% with bank transfer</div>
-          <div class="payment-note">Contact us for wire instructions</div>
+
+          <div class="payment-card">
+            <div class="payment-header">
+              <div class="payment-icon">🏛️</div>
+              <div class="payment-title">ACH Transfer</div>
+            </div>
+            <div class="payment-description">Save 3% with bank transfer</div>
+            <div class="payment-note">Contact us for wire instructions</div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="next-steps-section">
-      <h2>Let's Get Started</h2>
-      <div class="steps-card">
-        {{#if acceptanceQR}}
+      <div class="next-steps-section">
+        <h2>Let's Get Started</h2>
+        <div class="steps-card">
+          {{#if acceptanceQR}}
           <div class="acceptance-qr">
-            <img src="data:image/png;base64,{{acceptanceQR}}" alt="Accept Proposal" class="qr-code">
+            <img
+              src="data:image/png;base64,{{acceptanceQR}}"
+              alt="Accept Proposal"
+              class="qr-code"
+            />
             <div class="qr-label">Scan to accept proposal</div>
           </div>
-        {{/if}}
-        <div class="steps-content">
-          <div class="step">
-            <div class="step-number">1</div>
-            <div class="step-text">Review proposal details and pricing</div>
-          </div>
-          <div class="step">
-            <div class="step-number">2</div>
-            <div class="step-text">Choose your preferred payment method</div>
-          </div>
-          <div class="step">
-            <div class="step-number">3</div>
-            <div class="step-text">We'll schedule your project kickoff</div>
+          {{/if}}
+          <div class="steps-content">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-text">Review proposal details and pricing</div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-text">Choose your preferred payment method</div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-text">We'll schedule your project kickoff</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="footer-contact">
-      <div class="contact-card">
-        <div class="contact-header">
-          <h3>Questions? Let's Talk</h3>
-        </div>
-        <div class="contact-grid">
-          <div class="contact-item">
-            <div class="contact-label">Email</div>
-            <div class="contact-value">hello@trueform.com</div>
+      <div class="footer-contact">
+        <div class="contact-card">
+          <div class="contact-header">
+            <h3>Questions? Let's Talk</h3>
           </div>
-          <div class="contact-item">
-            <div class="contact-label">Phone</div>
-            <div class="contact-value">(555) 123-4567</div>
+          <div class="contact-grid">
+            <div class="contact-item">
+              <div class="contact-label">Email</div>
+              <div class="contact-value">hello@trueform.com</div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">Phone</div>
+              <div class="contact-value">(555) 123-4567</div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-label">Web</div>
+              <div class="contact-value">www.trueform.com</div>
+            </div>
           </div>
-          <div class="contact-item">
-            <div class="contact-label">Web</div>
-            <div class="contact-value">www.trueform.com</div>
+          <div class="validity-notice">
+            This proposal is valid until {{expiryDate}}
           </div>
-        </div>
-        <div class="validity-notice">
-          This proposal is valid until {{expiryDate}}
         </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>

@@ -1,7 +1,7 @@
-import { json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
-import { createClient } from '@supabase/supabase-js';
-import type { CreateProposalDTO } from '$lib/types';
+import type { CreateProposalDTO } from "$lib/types";
+import { createClient } from "@supabase/supabase-js";
+import { json } from "@sveltejs/kit";
+import type { RequestHandler } from "./$types";
 
 const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_URL,
@@ -11,42 +11,52 @@ const supabase = createClient(
 export const GET: RequestHandler = async () => {
   try {
     const { data: proposals, error } = await supabase
-      .from('tf_proposals')
-      .select('*')
-      .order('created_at', { ascending: false });
-    
+      .from("tf_proposals")
+      .select("*")
+      .order("created_at", { ascending: false });
+
     if (error) {
-      console.error('Error fetching proposals:', error);
-      return json({ error: 'Failed to fetch proposals' }, { status: 500 });
+      console.error("Error fetching proposals:", error);
+      return json({ error: "Failed to fetch proposals" }, { status: 500 });
     }
-    
+
     return json(proposals || []);
   } catch (error) {
-    console.error('Error fetching proposals:', error);
-    return json({ error: 'Failed to fetch proposals' }, { status: 500 });
+    console.error("Error fetching proposals:", error);
+    return json({ error: "Failed to fetch proposals" }, { status: 500 });
   }
 };
 
 export const POST: RequestHandler = async ({ request }) => {
   try {
-    console.log('=== PROPOSAL CREATION START ===');
+    console.log("=== PROPOSAL CREATION START ===");
     const proposalData: CreateProposalDTO = await request.json();
-    console.log('Received proposal data:', JSON.stringify(proposalData, null, 2));
-    
+    console.log(
+      "Received proposal data:",
+      JSON.stringify(proposalData, null, 2)
+    );
+
     // Validate required fields
-    if (!proposalData.title || !proposalData.company_id || !proposalData.line_items?.length) {
-      console.log('Validation failed - missing required fields');
-      return json({ error: 'Missing required fields' }, { status: 400 });
+    if (
+      !proposalData.title ||
+      !proposalData.company_id ||
+      !proposalData.line_items?.length
+    ) {
+      console.log("Validation failed - missing required fields");
+      return json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    console.log('Validation passed, calculating totals...');
-    
+    console.log("Validation passed, calculating totals...");
+
     // Calculate totals
-    const subtotal = proposalData.line_items.reduce((sum, item) => sum + (item.quantity * item.unitPrice), 0);
+    const subtotal = proposalData.line_items.reduce(
+      (sum, item) => sum + item.quantity * item.unitPrice,
+      0
+    );
     const tax = subtotal * ((proposalData.tax_rate || 0) / 100);
     const total = subtotal + tax;
-    
-    console.log('Calculated totals:', { subtotal, tax, total });
+
+    console.log("Calculated totals:", { subtotal, tax, total });
 
     // Use the actual data from the form
     const dbData = {
@@ -58,49 +68,61 @@ export const POST: RequestHandler = async ({ request }) => {
       tax,
       tax_rate: proposalData.tax_rate || 0,
       total,
-      notes: proposalData.notes || '',
-      status: 'draft'
+      notes: proposalData.notes || "",
+      status: "draft",
     };
 
-    console.log('Attempting database insert with actual data:', JSON.stringify(dbData, null, 2));
+    console.log(
+      "Attempting database insert with actual data:",
+      JSON.stringify(dbData, null, 2)
+    );
 
     // Insert into database
     const { data: proposal, error } = await supabase
-      .from('tf_proposals')
+      .from("tf_proposals")
       .insert(dbData)
       .select()
       .single();
 
     if (error) {
-      console.error('Supabase error creating proposal:', error);
-      console.error('Error details:', JSON.stringify(error, null, 2));
+      console.error("Supabase error creating proposal:", error);
+      console.error("Error details:", JSON.stringify(error, null, 2));
       throw new Error(`Database error: ${error.message}`);
     }
 
-    console.log('Created proposal successfully:', proposal);
+    console.log("Created proposal successfully:", proposal);
     return json(proposal, { status: 201 });
   } catch (error) {
-    console.error('=== PROPOSAL CREATION ERROR ===');
-    console.error('Error type:', typeof error);
-    console.error('Error constructor:', error?.constructor?.name);
-    console.error('Error message:', error instanceof Error ? error.message : 'No message');
-    console.error('Full error object:', error);
-    
+    console.error("=== PROPOSAL CREATION ERROR ===");
+    console.error("Error type:", typeof error);
+    console.error("Error constructor:", error?.constructor?.name);
+    console.error(
+      "Error message:",
+      error instanceof Error ? error.message : "No message"
+    );
+    console.error("Full error object:", error);
+
     // Check if it's a Supabase error
-    if (error && typeof error === 'object' && 'code' in error) {
-      console.error('Supabase error code:', (error as any).code);
-      console.error('Supabase error details:', (error as any).details);
-      console.error('Supabase error hint:', (error as any).hint);
+    if (error && typeof error === "object" && "code" in error) {
+      console.error("Supabase error code:", (error as any).code);
+      console.error("Supabase error details:", (error as any).details);
+      console.error("Supabase error hint:", (error as any).hint);
     }
-    
-    return json({ 
-      error: 'Failed to create proposal',
-      details: error instanceof Error ? error.message : 'Unknown error',
-      supabaseError: error && typeof error === 'object' && 'code' in error ? {
-        code: (error as any).code,
-        details: (error as any).details,
-        hint: (error as any).hint
-      } : null
-    }, { status: 500 });
+
+    return json(
+      {
+        error: "Failed to create proposal",
+        details: error instanceof Error ? error.message : "Unknown error",
+        supabaseError:
+          error && typeof error === "object" && "code" in error
+            ? {
+                code: (error as any).code,
+                details: (error as any).details,
+                hint: (error as any).hint,
+              }
+            : null,
+      },
+      { status: 500 }
+    );
   }
-}; 
+};

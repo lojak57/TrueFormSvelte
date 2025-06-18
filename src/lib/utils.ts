@@ -1,5 +1,5 @@
-import { type ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 /**
  * Utility function to merge Tailwind CSS classes
@@ -12,9 +12,9 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Format currency values
  */
-export function formatCurrency(amount: number, currency = 'USD'): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
+export function formatCurrency(amount: number, currency = "USD"): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
     currency,
   }).format(amount);
 }
@@ -22,13 +22,16 @@ export function formatCurrency(amount: number, currency = 'USD'): string {
 /**
  * Format dates consistently
  */
-export function formatDate(date: string | Date, options?: Intl.DateTimeFormatOptions): string {
-  const dateObj = typeof date === 'string' ? new Date(date) : date;
-  
-  return new Intl.DateTimeFormat('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
+export function formatDate(
+  date: string | Date,
+  options?: Intl.DateTimeFormatOptions
+): string {
+  const dateObj = typeof date === "string" ? new Date(date) : date;
+
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
     ...options,
   }).format(dateObj);
 }
@@ -41,7 +44,7 @@ export function debounce<T extends (...args: any[]) => any>(
   wait: number
 ): (...args: Parameters<T>) => void {
   let timeout: NodeJS.Timeout;
-  
+
   return (...args: Parameters<T>) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => func(...args), wait);
@@ -51,7 +54,7 @@ export function debounce<T extends (...args: any[]) => any>(
 /**
  * Generate a random ID
  */
-export function generateId(prefix = ''): string {
+export function generateId(prefix = ""): string {
   const id = Math.random().toString(36).substr(2, 9);
   return prefix ? `${prefix}-${id}` : id;
 }
@@ -61,14 +64,15 @@ export function generateId(prefix = ''): string {
  */
 export function truncate(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
-  return text.substr(0, maxLength).trim() + '...';
+  return text.substr(0, maxLength).trim() + "...";
 }
 
 /**
  * Capitalize first letter of each word
  */
 export function titleCase(text: string): string {
-  return text.replace(/\w\S*/g, (txt) => 
-    txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
+  return text.replace(
+    /\w\S*/g,
+    (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase()
   );
-} 
+}

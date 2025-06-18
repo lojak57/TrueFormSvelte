@@ -1,6 +1,6 @@
 <script lang="ts">
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
 
   export let company: any;
   export let onEditCompany: () => void;
@@ -9,18 +9,22 @@
 
   function getCompanyInitials(name: string): string {
     return name
-      .split(' ')
-      .map(word => word.charAt(0).toUpperCase())
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase())
       .slice(0, 2)
-      .join('');
+      .join("");
   }
 
   function getStatusVariant(status: string): string {
     switch (status) {
-      case 'active': return 'success';
-      case 'prospect': return 'warning';
-      case 'inactive': return 'secondary';
-      default: return 'secondary';
+      case "active":
+        return "success";
+      case "prospect":
+        return "warning";
+      case "inactive":
+        return "secondary";
+      default:
+        return "secondary";
     }
   }
 </script>
@@ -50,8 +54,12 @@
       </div>
       <div class="company-actions">
         <BaseButton on:click={onEditCompany}>Edit Company</BaseButton>
-        <BaseButton variant="outline" on:click={onNewProject}>New Project</BaseButton>
-        <BaseButton variant="outline" on:click={onNewContact}>Add Contact</BaseButton>
+        <BaseButton variant="outline" on:click={onNewProject}
+          >New Project</BaseButton
+        >
+        <BaseButton variant="outline" on:click={onNewContact}
+          >Add Contact</BaseButton
+        >
       </div>
     </div>
   </div>
@@ -160,4 +168,4 @@
       justify-content: center;
     }
   }
-</style> 
+</style>

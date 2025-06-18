@@ -1,15 +1,15 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { page } from '$app/stores';
-  import { goto } from '$app/navigation';
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
-  import ContactHeader from '$lib/components/business/ContactHeader.svelte';
-  import ContactInteractionHistory from '$lib/components/business/ContactInteractionHistory.svelte';
+  import { onMount } from "svelte";
+  import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
+  import ContactHeader from "$lib/components/business/ContactHeader.svelte";
+  import ContactInteractionHistory from "$lib/components/business/ContactInteractionHistory.svelte";
 
   let contact: any = null;
   let loading = true;
-  let error = '';
+  let error = "";
 
   onMount(async () => {
     await loadContact();
@@ -19,15 +19,15 @@
     try {
       loading = true;
       const response = await fetch(`/api/contacts/${$page.params.id}`);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${response.statusText}`);
       }
-      
+
       contact = await response.json();
     } catch (err) {
-      console.error('Failed to load contact:', err);
-      error = err instanceof Error ? err.message : 'Failed to load contact';
+      console.error("Failed to load contact:", err);
+      error = err instanceof Error ? err.message : "Failed to load contact";
     } finally {
       loading = false;
     }
@@ -41,7 +41,7 @@
 
   function handleEditContact() {
     // TODO: Open contact edit modal or navigate to edit page
-    console.log('Edit contact:', contact.id);
+    console.log("Edit contact:", contact.id);
   }
 
   function handleInteractionAdded() {
@@ -50,16 +50,20 @@
   }
 
   function formatDate(dateString: string): string {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric'
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "long",
+      day: "numeric",
+      year: "numeric",
     });
   }
 </script>
 
 <svelte:head>
-  <title>{contact ? `${contact.first_name} ${contact.last_name} - Contact Details` : 'Loading...'} | TrueForm Admin</title>
+  <title
+    >{contact
+      ? `${contact.first_name} ${contact.last_name} - Contact Details`
+      : "Loading..."} | TrueForm Admin</title
+  >
 </svelte:head>
 
 <div class="contact-detail">
@@ -79,7 +83,7 @@
     </BaseCard>
   {:else if contact}
     <!-- Contact Header -->
-    <ContactHeader 
+    <ContactHeader
       {contact}
       onEditContact={handleEditContact}
       onViewCompany={handleViewCompany}
@@ -94,7 +98,12 @@
           {#if contact.linkedin}
             <div class="info-item">
               <span class="label">LinkedIn</span>
-              <a href={contact.linkedin} target="_blank" rel="noopener" class="link">
+              <a
+                href={contact.linkedin}
+                target="_blank"
+                rel="noopener"
+                class="link"
+              >
                 View Profile
               </a>
             </div>
@@ -153,7 +162,7 @@
     </div>
 
     <!-- Interaction History -->
-    <ContactInteractionHistory 
+    <ContactInteractionHistory
       interactions={contact.interactions}
       contactId={contact.id}
       onInteractionAdded={handleInteractionAdded}
@@ -243,4 +252,4 @@
       grid-template-columns: 1fr;
     }
   }
-</style> 
+</style>

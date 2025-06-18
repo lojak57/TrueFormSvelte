@@ -118,7 +118,7 @@ export interface Proposal {
   tax_rate: number;
   total: number;
   notes?: string;
-  status: 'draft' | 'sent' | 'accepted' | 'rejected';
+  status: "draft" | "sent" | "accepted" | "rejected";
   created_at: string;
   updated_at: string;
 }
@@ -127,7 +127,7 @@ export interface CreateProposalDTO {
   title: string;
   company_id: string;
   contact_id?: string;
-  line_items: Omit<LineItem, 'id' | 'total'>[];
+  line_items: Omit<LineItem, "id" | "total">[];
   tax_rate?: number;
   notes?: string;
-} 
+}

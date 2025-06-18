@@ -1,16 +1,16 @@
-import '@testing-library/jest-dom';
-import { vi, beforeEach, afterEach } from 'vitest';
+import "@testing-library/jest-dom";
+import { afterEach, beforeEach, vi } from "vitest";
 
 // Mock environment variables for testing
-process.env.PUBLIC_SUPABASE_URL = 'https://test.supabase.co';
-process.env.PUBLIC_SUPABASE_ANON_KEY = 'test-anon-key';
-process.env.SUPABASE_SERVICE_ROLE_KEY = 'test-service-role-key';
-process.env.PUBLIC_STRIPE_PUBLISHABLE_KEY = 'pk_test_123';
-process.env.STRIPE_SECRET_KEY = 'sk_test_123';
-process.env.STRIPE_WEBHOOK_SECRET = 'whsec_test_123';
-process.env.STRIPE_STARTER_PRICE = '9900';
-process.env.STRIPE_STANDARD_PRICE = '19900';
-process.env.STRIPE_PRO_PRICE = '39900';
+process.env.PUBLIC_SUPABASE_URL = "https://test.supabase.co";
+process.env.PUBLIC_SUPABASE_ANON_KEY = "test-anon-key";
+process.env.SUPABASE_SERVICE_ROLE_KEY = "test-service-role-key";
+process.env.PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_123";
+process.env.STRIPE_SECRET_KEY = "sk_test_123";
+process.env.STRIPE_WEBHOOK_SECRET = "whsec_test_123";
+process.env.STRIPE_STARTER_PRICE = "9900";
+process.env.STRIPE_STANDARD_PRICE = "19900";
+process.env.STRIPE_PRO_PRICE = "39900";
 
 // Mock IntersectionObserver for tests
 (global as any).IntersectionObserver = class MockIntersectionObserver {
@@ -29,7 +29,7 @@ process.env.STRIPE_PRO_PRICE = '39900';
 };
 
 // Mock window.matchMedia
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: (query: string) => ({
     matches: false,
@@ -49,7 +49,7 @@ Object.defineProperty(window, 'matchMedia', {
 // Suppress console.warn in tests unless explicitly needed
 const originalWarn = console.warn;
 console.warn = (...args: any[]) => {
-  if (args[0]?.includes && args[0].includes('SvelteKit')) {
+  if (args[0]?.includes && args[0].includes("SvelteKit")) {
     return;
   }
   originalWarn(...args);
@@ -63,4 +63,4 @@ beforeEach(() => {
 afterEach(() => {
   vi.runOnlyPendingTimers();
   vi.useRealTimers();
-}); 
+});

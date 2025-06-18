@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ProjectList from '$lib/components/ProjectList.svelte';
+  import ProjectList from "$lib/components/ProjectList.svelte";
 </script>
 
 <div class="admin-projects">
@@ -88,4 +88,4 @@
     padding: 2rem;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
   }
-</style> 
+</style>

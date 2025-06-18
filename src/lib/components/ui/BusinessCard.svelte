@@ -1,46 +1,50 @@
 <script lang="ts">
-  import ModernCard from './ModernCard.svelte';
-  import { createEventDispatcher } from 'svelte';
+  import ModernCard from "./ModernCard.svelte";
+  import { createEventDispatcher } from "svelte";
 
   export let title: string;
-  export let subtitle: string = '';
-  export let description: string = '';
-  export let status: 'active' | 'inactive' | 'pending' | 'draft' = 'active';
-  export let priority: 'low' | 'medium' | 'high' | null = null;
-  export let value: string = '';
-  export let valueLabel: string = '';
+  export let subtitle: string = "";
+  export let description: string = "";
+  export let status: "active" | "inactive" | "pending" | "draft" = "active";
+  export let priority: "low" | "medium" | "high" | null = null;
+  export let value: string = "";
+  export let valueLabel: string = "";
   export let href: string | undefined = undefined;
   export let loading: boolean = false;
-  export let actions: Array<{label: string, action: string, variant?: 'primary' | 'secondary' | 'danger'}> = [];
+  export let actions: Array<{
+    label: string;
+    action: string;
+    variant?: "primary" | "secondary" | "danger";
+  }> = [];
 
   const dispatch = createEventDispatcher();
 
   const statusColors = {
-    active: '#10b981',
-    inactive: '#6b7280', 
-    pending: '#f59e0b',
-    draft: '#8b5cf6'
+    active: "#10b981",
+    inactive: "#6b7280",
+    pending: "#f59e0b",
+    draft: "#8b5cf6",
   };
 
   const priorityColors = {
-    low: '#06b6d4',
-    medium: '#f59e0b', 
-    high: '#ef4444'
+    low: "#06b6d4",
+    medium: "#f59e0b",
+    high: "#ef4444",
   };
 
   function handleAction(action: string) {
-    dispatch('action', { action });
+    dispatch("action", { action });
   }
 
   function handleCardClick() {
     if (href) return; // Let the link handle it
-    dispatch('click');
+    dispatch("click");
   }
 </script>
 
-<ModernCard 
-  variant="interactive" 
-  size="md" 
+<ModernCard
+  variant="interactive"
+  size="md"
   accent={statusColors[status]}
   {href}
   {loading}
@@ -55,7 +59,7 @@
           <p class="card-subtitle">{subtitle}</p>
         {/if}
       </div>
-      
+
       <div class="badges">
         {#if priority}
           <span class="priority-badge priority-{priority}">
@@ -87,7 +91,7 @@
     {#if actions.length > 0}
       <div class="card-actions">
         {#each actions as action}
-          <button 
+          <button
             class="action-btn action-{action.variant || 'secondary'}"
             on:click|stopPropagation={() => handleAction(action.action)}
           >

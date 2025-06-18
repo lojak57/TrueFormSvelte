@@ -1,5 +1,5 @@
 <script lang="ts">
-  import TrueFormKanban from '$lib/components/admin/TrueFormKanban.svelte';
+  import TrueFormKanban from "$lib/components/admin/TrueFormKanban.svelte";
 </script>
 
 <svelte:head>
@@ -8,9 +8,13 @@
 
 <div class="space-y-6">
   <div>
-    <h1 class="text-3xl font-semibold text-gray-900 mb-2">TrueForm Opportunities</h1>
-    <p class="text-gray-600">Manage your website development pipeline with drag-and-drop Kanban board</p>
+    <h1 class="text-3xl font-semibold text-gray-900 mb-2">
+      TrueForm Opportunities
+    </h1>
+    <p class="text-gray-600">
+      Manage your website development pipeline with drag-and-drop Kanban board
+    </p>
   </div>
 
   <TrueFormKanban />
-</div> 
+</div>

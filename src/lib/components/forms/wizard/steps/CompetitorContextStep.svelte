@@ -1,67 +1,71 @@
 <script lang="ts">
-  import { createEventDispatcher } from 'svelte';
-  import { fade } from 'svelte/transition';
+  import { createEventDispatcher } from "svelte";
+  import { fade } from "svelte/transition";
 
   const dispatch = createEventDispatcher();
 
-  let selectedContext = '';
+  let selectedContext = "";
 
   const contextOptions = [
     {
-      id: 'quotes_received',
-      title: 'Yes, I have other quotes',
-      description: 'Comparing proposals from multiple providers',
-      icon: '📊',
-      urgency: 'High',
-      score: 20
+      id: "quotes_received",
+      title: "Yes, I have other quotes",
+      description: "Comparing proposals from multiple providers",
+      icon: "📊",
+      urgency: "High",
+      score: 20,
     },
     {
-      id: 'quotes_pending',
-      title: 'Waiting on other quotes',
-      description: 'You\'re one of several I\'m talking to',
-      icon: '⏰',
-      urgency: 'Medium',
-      score: 15
+      id: "quotes_pending",
+      title: "Waiting on other quotes",
+      description: "You're one of several I'm talking to",
+      icon: "⏰",
+      urgency: "Medium",
+      score: 15,
     },
     {
-      id: 'researching',
-      title: 'Still researching options',
-      description: 'Learning about different providers and approaches',
-      icon: '🔍',
-      urgency: 'Low',
-      score: 10
+      id: "researching",
+      title: "Still researching options",
+      description: "Learning about different providers and approaches",
+      icon: "🔍",
+      urgency: "Low",
+      score: 10,
     },
     {
-      id: 'referral',
-      title: 'You came recommended',
-      description: 'Someone referred me to you specifically',
-      icon: '🌟',
-      urgency: 'Medium',
-      score: 25
+      id: "referral",
+      title: "You came recommended",
+      description: "Someone referred me to you specifically",
+      icon: "🌟",
+      urgency: "Medium",
+      score: 25,
     },
     {
-      id: 'first_choice',
-      title: 'You\'re my first choice',
-      description: 'I like what I see and want to work with you',
-      icon: '🎯',
-      urgency: 'High',
-      score: 30
-    }
+      id: "first_choice",
+      title: "You're my first choice",
+      description: "I like what I see and want to work with you",
+      icon: "🎯",
+      urgency: "High",
+      score: 30,
+    },
   ];
 
   function selectContext(context: string) {
     selectedContext = context;
     setTimeout(() => {
-      dispatch('complete', { value: context });
+      dispatch("complete", { value: context });
     }, 300);
   }
 
   function getUrgencyColor(urgency: string) {
     switch (urgency) {
-      case 'High': return '#dc2626';
-      case 'Medium': return '#d97706';
-      case 'Low': return '#059669';
-      default: return '#6b7280';
+      case "High":
+        return "#dc2626";
+      case "Medium":
+        return "#d97706";
+      case "Low":
+        return "#059669";
+      default:
+        return "#6b7280";
     }
   }
 </script>
@@ -69,26 +73,28 @@
 <div class="competitor-context-step" in:fade={{ duration: 300 }}>
   <div class="context-options">
     {#each contextOptions as option (option.id)}
-      <button 
+      <button
         class="context-option"
         class:selected={selectedContext === option.id}
         on:click={() => selectContext(option.id)}
       >
         <div class="option-header">
           <div class="option-icon">{option.icon}</div>
-          <span 
+          <span
             class="urgency-badge"
-            style="background-color: {getUrgencyColor(option.urgency)}20; color: {getUrgencyColor(option.urgency)}"
+            style="background-color: {getUrgencyColor(
+              option.urgency
+            )}20; color: {getUrgencyColor(option.urgency)}"
           >
             {option.urgency} Priority
           </span>
         </div>
-        
+
         <div class="option-content">
           <h3 class="option-title">{option.title}</h3>
           <p class="option-description">{option.description}</p>
         </div>
-        
+
         <div class="option-check">
           {#if selectedContext === option.id}
             <div class="checkmark">✓</div>
@@ -103,9 +109,9 @@
   </div>
 
   <div class="skip-option">
-    <button 
+    <button
       class="skip-button"
-      on:click={() => dispatch('complete', { value: 'skipped', skipped: true })}
+      on:click={() => dispatch("complete", { value: "skipped", skipped: true })}
     >
       Prefer not to share
     </button>

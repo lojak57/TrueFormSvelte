@@ -1,5 +1,5 @@
 <script lang="ts">
-  import VerticalList from '$lib/components/VerticalList.svelte';
+  import VerticalList from "$lib/components/VerticalList.svelte";
 </script>
 
 <div class="admin-verticals">
@@ -88,4 +88,4 @@
     padding: 2rem;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
   }
-</style> 
+</style>

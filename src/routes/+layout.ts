@@ -1,19 +1,21 @@
-import { supabase } from '$lib/supabaseClient';
-import { userSession, isAuthenticated } from '$lib/stores/user';
-import { redirect } from '@sveltejs/kit';
-import type { LayoutLoad } from './$types';
+import { isAuthenticated, userSession } from "$lib/stores/user";
+import { supabase } from "$lib/supabaseClient";
+import { redirect } from "@sveltejs/kit";
+import type { LayoutLoad } from "./$types";
 
 export const load: LayoutLoad = async ({ url }) => {
   // Get current session
-  const { data: { session } } = await supabase.auth.getSession();
-  
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
   // Update stores
   if (session?.user) {
     userSession.set({
       id: session.user.id,
-      email: session.user.email || '',
+      email: session.user.email || "",
       role: session.user.user_metadata?.role,
-      organization_id: session.user.user_metadata?.organization_id
+      organization_id: session.user.user_metadata?.organization_id,
     });
     isAuthenticated.set(true);
   } else {
@@ -22,11 +24,11 @@ export const load: LayoutLoad = async ({ url }) => {
   }
 
   // Route guard: redirect to login if accessing admin routes without session
-  if (url.pathname.startsWith('/admin') && !session) {
-    throw redirect(303, '/login');
+  if (url.pathname.startsWith("/admin") && !session) {
+    throw redirect(303, "/login");
   }
 
   return {
-    session: session?.user || null
+    session: session?.user || null,
   };
-}; 
+};

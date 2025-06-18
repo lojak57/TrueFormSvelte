@@ -1,6 +1,6 @@
 <script lang="ts">
-  import BaseCard from '$lib/components/base/BaseCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
+  import BaseCard from "$lib/components/base/BaseCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
 
   export let contacts: any[];
   export let onContactClick: (contactId: string) => void;
@@ -10,43 +10,62 @@
 <BaseCard padding="lg">
   <div class="section-header">
     <h3 class="text-h3">Contacts ({contacts.length})</h3>
-    <BaseButton variant="outline" size="sm" on:click={onNewContact}>Add Contact</BaseButton>
+    <BaseButton variant="outline" size="sm" on:click={onNewContact}
+      >Add Contact</BaseButton
+    >
   </div>
 
   {#if contacts.length === 0}
     <div class="empty-state">
       <div class="empty-icon">👥</div>
       <h4>No contacts yet</h4>
-      <p class="text-muted">Add contacts to start managing relationships with this company.</p>
+      <p class="text-muted">
+        Add contacts to start managing relationships with this company.
+      </p>
       <BaseButton on:click={onNewContact}>Add First Contact</BaseButton>
     </div>
   {:else}
     <div class="contacts-grid">
       {#each contacts as contact}
-        <div class="contact-card" on:click={() => onContactClick(contact.id)} on:keydown>
+        <div
+          class="contact-card"
+          on:click={() => onContactClick(contact.id)}
+          on:keydown
+        >
           <div class="contact-avatar">
             {contact.first_name.charAt(0)}{contact.last_name.charAt(0)}
           </div>
           <div class="contact-info">
-            <h4 class="contact-name">{contact.first_name} {contact.last_name}</h4>
+            <h4 class="contact-name">
+              {contact.first_name}
+              {contact.last_name}
+            </h4>
             {#if contact.title}
               <p class="contact-title">{contact.title}</p>
             {/if}
             <div class="contact-details">
               {#if contact.email}
-                <a href="mailto:{contact.email}" class="contact-link" on:click|stopPropagation>
+                <a
+                  href="mailto:{contact.email}"
+                  class="contact-link"
+                  on:click|stopPropagation
+                >
                   {contact.email}
                 </a>
               {/if}
               {#if contact.phone}
-                <a href="tel:{contact.phone}" class="contact-link" on:click|stopPropagation>
+                <a
+                  href="tel:{contact.phone}"
+                  class="contact-link"
+                  on:click|stopPropagation
+                >
                   {contact.phone}
                 </a>
               {/if}
             </div>
           </div>
           <div class="contact-status">
-            <div class="status-dot {contact.status}"></div>
+            <div class="status-dot {contact.status}" />
           </div>
         </div>
       {/each}
@@ -189,4 +208,4 @@
       gap: 1rem;
     }
   }
-</style> 
+</style>

@@ -1,6 +1,6 @@
 /**
  * UI Component Types - TrueForm Application
- * 
+ *
  * Type definitions for UI components, themes, and interface elements.
  */
 
@@ -8,8 +8,14 @@
 // COMPONENT PROPS & VARIANTS
 // ============================================================================
 
-export type ButtonVariant = 'primary' | 'secondary' | 'accent' | 'ghost' | 'outline' | 'destructive';
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "accent"
+  | "ghost"
+  | "outline"
+  | "destructive";
+export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 export interface ButtonProps {
   variant?: ButtonVariant;
@@ -18,15 +24,15 @@ export interface ButtonProps {
   loading?: boolean;
   fullWidth?: boolean;
   href?: string;
-  type?: 'button' | 'submit' | 'reset';
+  type?: "button" | "submit" | "reset";
   class?: string;
 }
 
-export type CardVariant = 'default' | 'elevated' | 'outlined' | 'ghost';
+export type CardVariant = "default" | "elevated" | "outlined" | "ghost";
 
 export interface CardProps {
   variant?: CardVariant;
-  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  padding?: "none" | "sm" | "md" | "lg" | "xl";
   class?: string;
 }
 
@@ -34,9 +40,16 @@ export interface CardProps {
 // FORM & INPUT TYPES
 // ============================================================================
 
-export type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
-export type InputSize = 'sm' | 'md' | 'lg';
-export type InputState = 'default' | 'error' | 'success' | 'warning';
+export type InputType =
+  | "text"
+  | "email"
+  | "password"
+  | "number"
+  | "tel"
+  | "url"
+  | "search";
+export type InputSize = "sm" | "md" | "lg";
+export type InputState = "default" | "error" | "success" | "warning";
 
 export interface InputProps {
   type?: InputType;
@@ -97,7 +110,7 @@ export interface BreadcrumbItem {
 export interface ModalProps {
   isOpen: boolean;
   title?: string;
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  size?: "sm" | "md" | "lg" | "xl" | "full";
   closable?: boolean;
   persistent?: boolean;
   class?: string;
@@ -113,7 +126,7 @@ export interface TableColumn<T = any> {
   sortable?: boolean;
   filterable?: boolean;
   width?: string;
-  align?: 'left' | 'center' | 'right';
+  align?: "left" | "center" | "right";
   render?: (value: any, row: T) => string;
   class?: string;
 }
@@ -144,7 +157,7 @@ export interface PaginationProps {
 // FEEDBACK & STATUS TYPES
 // ============================================================================
 
-export type AlertType = 'info' | 'success' | 'warning' | 'error';
+export type AlertType = "info" | "success" | "warning" | "error";
 export type ToastType = AlertType;
 
 export interface AlertProps {
@@ -172,7 +185,7 @@ export interface ToastProps {
 }
 
 export interface LoadingProps {
-  size?: 'sm' | 'md' | 'lg';
+  size?: "sm" | "md" | "lg";
   text?: string;
   overlay?: boolean;
   class?: string;
@@ -182,7 +195,7 @@ export interface LoadingProps {
 // THEME & STYLING TYPES
 // ============================================================================
 
-export type ThemeMode = 'light' | 'dark' | 'system';
+export type ThemeMode = "light" | "dark" | "system";
 
 export interface ThemeColors {
   primary: string;
@@ -204,21 +217,21 @@ export interface BreakpointConfig {
   md: string;
   lg: string;
   xl: string;
-  '2xl': string;
+  "2xl": string;
 }
 
 // ============================================================================
 // ANIMATION & TRANSITION TYPES
 // ============================================================================
 
-export type TransitionType = 
-  | 'fade' 
-  | 'slide-up' 
-  | 'slide-down' 
-  | 'slide-left' 
-  | 'slide-right' 
-  | 'scale' 
-  | 'flip';
+export type TransitionType =
+  | "fade"
+  | "slide-up"
+  | "slide-down"
+  | "slide-left"
+  | "slide-right"
+  | "scale"
+  | "flip";
 
 export interface TransitionProps {
   type?: TransitionType;
@@ -231,7 +244,7 @@ export interface TransitionProps {
 // ICON & MEDIA TYPES
 // ============================================================================
 
-export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type IconSize = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
 
 export interface IconProps {
   name: string;
@@ -245,7 +258,7 @@ export interface ImageProps {
   alt: string;
   width?: number;
   height?: number;
-  loading?: 'lazy' | 'eager';
+  loading?: "lazy" | "eager";
   placeholder?: string;
   class?: string;
 }
@@ -269,16 +282,16 @@ export interface ResponsiveValue<T> {
   md?: T;
   lg?: T;
   xl?: T;
-  '2xl'?: T;
+  "2xl"?: T;
 }
 
 export interface AccessibilityProps {
-  'aria-label'?: string;
-  'aria-labelledby'?: string;
-  'aria-describedby'?: string;
-  'aria-expanded'?: boolean;
-  'aria-selected'?: boolean;
-  'aria-disabled'?: boolean;
+  "aria-label"?: string;
+  "aria-labelledby"?: string;
+  "aria-describedby"?: string;
+  "aria-expanded"?: boolean;
+  "aria-selected"?: boolean;
+  "aria-disabled"?: boolean;
   role?: string;
   tabindex?: number;
-} 
+}

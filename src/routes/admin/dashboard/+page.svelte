@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import ModernCard from '$lib/components/ui/ModernCard.svelte';
-  import StatsCard from '$lib/components/ui/StatsCard.svelte';
-  import BaseButton from '$lib/components/base/BaseButton.svelte';
+  import { onMount } from "svelte";
+  import ModernCard from "$lib/components/ui/ModernCard.svelte";
+  import StatsCard from "$lib/components/ui/StatsCard.svelte";
+  import BaseButton from "$lib/components/base/BaseButton.svelte";
 
   let stats = {
     companies: 0,
     contacts: 0,
     projects: 0,
-    verticals: 0
+    verticals: 0,
   };
 
   let loading = true;
@@ -16,34 +16,35 @@
   onMount(async () => {
     // Load dashboard statistics
     try {
-      const [companiesRes, contactsRes, projectsRes, verticalsRes] = await Promise.all([
-        fetch('/api/companies'),
-        fetch('/api/contacts'),
-        fetch('/api/projects'),
-        fetch('/api/verticals')
-      ]);
+      const [companiesRes, contactsRes, projectsRes, verticalsRes] =
+        await Promise.all([
+          fetch("/api/companies"),
+          fetch("/api/contacts"),
+          fetch("/api/projects"),
+          fetch("/api/verticals"),
+        ]);
 
       if (companiesRes.ok) {
         const companies = await companiesRes.json();
         stats.companies = companies.length;
       }
-      
+
       if (contactsRes.ok) {
         const contacts = await contactsRes.json();
         stats.contacts = contacts.length;
       }
-      
+
       if (projectsRes.ok) {
         const projects = await projectsRes.json();
         stats.projects = projects.length;
       }
-      
+
       if (verticalsRes.ok) {
         const verticals = await verticalsRes.json();
         stats.verticals = verticals.length;
       }
     } catch (error) {
-      console.error('Error loading dashboard stats:', error);
+      console.error("Error loading dashboard stats:", error);
     } finally {
       loading = false;
     }
@@ -58,7 +59,9 @@
         <div class="welcome-text">
           <h1 class="dashboard-title">Welcome to TrueForm</h1>
           <p class="dashboard-subtitle">
-            Professional website development platform. Manage clients across golf, oilfield, healthcare, and technology industries from this unified dashboard.
+            Professional website development platform. Manage clients across
+            golf, oilfield, healthcare, and technology industries from this
+            unified dashboard.
           </p>
         </div>
         <div class="welcome-visual">
@@ -86,9 +89,9 @@
         change={12.5}
         changeLabel="vs last month"
       />
-      
+
       <StatsCard
-        title="Contacts" 
+        title="Contacts"
         value={stats.contacts.toString()}
         icon="👥"
         href="/admin/contacts"
@@ -97,23 +100,23 @@
         change={8.3}
         changeLabel="vs last month"
       />
-      
+
       <StatsCard
         title="Active Projects"
         value={stats.projects.toString()}
-        icon="🚀" 
+        icon="🚀"
         href="/admin/projects"
         {loading}
         trend="up"
         change={15.7}
         changeLabel="vs last month"
       />
-      
+
       <StatsCard
         title="Verticals"
         value={stats.verticals.toString()}
         icon="📈"
-        href="/admin/verticals" 
+        href="/admin/verticals"
         {loading}
         trend="neutral"
         change={0}
@@ -134,7 +137,7 @@
             <p class="action-desc">Add a new client company</p>
           </div>
         </a>
-        
+
         <a href="/admin/contacts/create" class="action-card">
           <div class="action-icon">👤</div>
           <div class="action-content">
@@ -142,7 +145,7 @@
             <p class="action-desc">Add a contact person</p>
           </div>
         </a>
-        
+
         <a href="/admin/projects/create" class="action-card">
           <div class="action-icon">🚀</div>
           <div class="action-content">
@@ -150,7 +153,7 @@
             <p class="action-desc">Start a new project</p>
           </div>
         </a>
-        
+
         <a href="/admin/proposals/new" class="action-card">
           <div class="action-icon">📋</div>
           <div class="action-content">
@@ -373,4 +376,4 @@
       font-size: 20px;
     }
   }
-</style> 
+</style>

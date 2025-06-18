@@ -1,6 +1,6 @@
-import { json } from '@sveltejs/kit';
-import type { RequestHandler } from './$types';
-import { ProjectService } from '$lib/services/ProjectService';
+import { ProjectService } from "$lib/services/ProjectService";
+import { json } from "@sveltejs/kit";
+import type { RequestHandler } from "./$types";
 
 const projectService = new ProjectService();
 
@@ -9,7 +9,7 @@ export const GET: RequestHandler = async ({ params }) => {
     const project = await projectService.getProject(params.id);
     return json(project);
   } catch (error) {
-    return json({ error: 'Failed to fetch project' }, { status: 500 });
+    return json({ error: "Failed to fetch project" }, { status: 500 });
   }
 };
 
@@ -19,7 +19,7 @@ export const PUT: RequestHandler = async ({ params, request }) => {
     const project = await projectService.updateProject(params.id, dto);
     return json(project);
   } catch (error) {
-    return json({ error: 'Failed to update project' }, { status: 500 });
+    return json({ error: "Failed to update project" }, { status: 500 });
   }
 };
 
@@ -28,6 +28,6 @@ export const DELETE: RequestHandler = async ({ params }) => {
     await projectService.deleteProject(params.id);
     return new Response(null, { status: 204 });
   } catch (error) {
-    return json({ error: 'Failed to delete project' }, { status: 500 });
+    return json({ error: "Failed to delete project" }, { status: 500 });
   }
-}; 
+};

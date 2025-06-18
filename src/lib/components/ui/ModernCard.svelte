@@ -1,6 +1,11 @@
 <script lang="ts">
-  export let variant: 'default' | 'elevated' | 'interactive' | 'minimal' | 'feature' = 'default';
-  export let size: 'sm' | 'md' | 'lg' | 'xl' = 'md';
+  export let variant:
+    | "default"
+    | "elevated"
+    | "interactive"
+    | "minimal"
+    | "feature" = "default";
+  export let size: "sm" | "md" | "lg" | "xl" = "md";
   export let accent: string | null = null;
   export let href: string | undefined = undefined;
   export let loading: boolean = false;
@@ -10,19 +15,21 @@
 
   // Determine if this should be a link
   $: isLink = href !== undefined;
-  $: isInteractive = variant === 'interactive' || isLink;
+  $: isInteractive = variant === "interactive" || isLink;
 
   // Build classes
   $: cardClasses = [
-    'modern-card',
+    "modern-card",
     `size-${size}`,
     `variant-${variant}`,
-    borderless && 'borderless',
-    glass && 'glass',
-    isInteractive && 'interactive',
-    loading && 'loading',
-    disabled && 'disabled'
-  ].filter(Boolean).join(' ');
+    borderless && "borderless",
+    glass && "glass",
+    isInteractive && "interactive",
+    loading && "loading",
+    disabled && "disabled",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   // Handle click events
   function handleClick(event: MouseEvent | KeyboardEvent) {
@@ -34,7 +41,7 @@
 </script>
 
 {#if isLink}
-  <a 
+  <a
     {href}
     class={cardClasses}
     style:--accent-color={accent}
@@ -44,7 +51,7 @@
   >
     {#if loading}
       <div class="loading-state">
-        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton" />
       </div>
     {:else}
       <slot />
@@ -60,20 +67,17 @@
   >
     {#if loading}
       <div class="loading-state">
-        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton" />
       </div>
     {:else}
       <slot />
     {/if}
   </button>
 {:else}
-  <div
-    class={cardClasses}
-    style:--accent-color={accent}
-  >
+  <div class={cardClasses} style:--accent-color={accent}>
     {#if loading}
       <div class="loading-state">
-        <div class="loading-skeleton"></div>
+        <div class="loading-skeleton" />
       </div>
     {:else}
       <slot />
@@ -134,13 +138,14 @@
   }
 
   .variant-feature {
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
     border: 1px solid rgb(209, 213, 219);
   }
 
   /* Accent bar for cards with accent color */
   .modern-card[style*="--accent-color"]::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -159,7 +164,8 @@
 
   .interactive:hover {
     transform: translateY(-1px);
-    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 
   .interactive:hover::before {
@@ -213,7 +219,12 @@
   .loading-skeleton {
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, rgb(243, 244, 246) 25%, rgb(229, 231, 235) 50%, rgb(243, 244, 246) 75%);
+    background: linear-gradient(
+      90deg,
+      rgb(243, 244, 246) 25%,
+      rgb(229, 231, 235) 50%,
+      rgb(243, 244, 246) 75%
+    );
     background-size: 200% 100%;
     animation: loading 1.5s infinite;
     border-radius: inherit;
@@ -256,7 +267,12 @@
   }
 
   :global(.dark) .loading-skeleton {
-    background: linear-gradient(90deg, rgb(31, 41, 55) 25%, rgb(55, 65, 81) 50%, rgb(31, 41, 55) 75%);
+    background: linear-gradient(
+      90deg,
+      rgb(31, 41, 55) 25%,
+      rgb(55, 65, 81) 50%,
+      rgb(31, 41, 55) 75%
+    );
   }
 
   /* Responsive adjustments */

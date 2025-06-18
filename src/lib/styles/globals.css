@@ -1,5 +1,5 @@
 /* TrueForm Global Styles */
-@import './tokens.css';
+@import "./tokens.css";
 
 /* ============================================================================
    RESET & BASE STYLES
@@ -175,15 +175,15 @@ a:focus {
   text-align: right;
 }
 
-  .text-muted {
-    color: var(--color-text-muted);
-    font-weight: var(--font-medium);
-  }
+.text-muted {
+  color: var(--color-text-muted);
+  font-weight: var(--font-medium);
+}
 
-  .text-subtle {
-    color: var(--color-text-subtle);
-    font-weight: var(--font-medium);
-  }
+.text-subtle {
+  color: var(--color-text-subtle);
+  font-weight: var(--font-medium);
+}
 
 .text-primary {
   color: var(--color-primary);
@@ -439,7 +439,7 @@ a:focus {
   .sm\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  
+
   .sm\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
@@ -449,11 +449,11 @@ a:focus {
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  
+
   .md\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  
+
   .md\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -463,7 +463,7 @@ a:focus {
   .lg\:grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  
+
   .lg\:grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -571,4 +571,4 @@ a:focus {
   .container {
     max-width: 1536px;
   }
-} 
+}

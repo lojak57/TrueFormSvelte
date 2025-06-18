@@ -1,5 +1,5 @@
 <script lang="ts">
-  import CompanyList from '$lib/components/CompanyList.svelte';
+  import CompanyList from "$lib/components/CompanyList.svelte";
 </script>
 
 <div class="companies-page">
@@ -19,4 +19,4 @@
     font-weight: 600;
     color: #111827;
   }
-</style> 
+</style>
