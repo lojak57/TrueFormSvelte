@@ -2,17 +2,23 @@
   import { onMount } from "svelte";
   import Hero from "$lib/components/sections/Hero.svelte";
   import Button from "$lib/components/ui/Button.svelte";
-  import ConversationalWizard from "$lib/components/forms/wizard/ConversationalWizard.svelte";
-  import { wizardStore } from "$lib/components/forms/wizard/stores/wizardStore";
+  import ConversationalWizardContainer from "$lib/components/conversational-wizard/ConversationalWizardContainer.svelte";
+  import { conversationalWizard } from "$lib/components/conversational-wizard/conversationalWizardStore";
   import { Sparkles, Clock, Shield, Zap } from "lucide-svelte";
+
+  let showWizard = false;
 
   // Auto-open wizard on mount if coming from a CTA
   onMount(() => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get("start") === "true") {
-      wizardStore.open();
+      showWizard = true;
     }
   });
+
+  function startWizard() {
+    showWizard = true;
+  }
 </script>
 
 <svelte:head>
@@ -55,7 +61,7 @@
         <Button
           variant="accent"
           size="lg"
-          on:click={() => wizardStore.open()}
+          on:click={startWizard}
           class="group px-8 py-4 text-lg shadow-2xl hover:shadow-accent-500/25 transition-all duration-300 hover:scale-105"
         >
           <Sparkles
@@ -185,7 +191,7 @@
           <Button
             variant="accent"
             size="lg"
-            on:click={() => wizardStore.open()}
+            on:click={startWizard}
           >
             <Sparkles size={20} class="mr-2" />
             Start Your Project Now
@@ -196,8 +202,11 @@
   </div>
 </section>
 
-<!-- Add the wizard component -->
-<ConversationalWizard />
+{#if showWizard}
+  <div class="fixed inset-0 z-50 bg-white overflow-y-auto">
+    <ConversationalWizardContainer />
+  </div>
+{/if}
 
 <style>
   .bg-grid-white\/\[0\.02\] {

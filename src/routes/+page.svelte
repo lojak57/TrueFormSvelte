@@ -3,6 +3,7 @@
   import Hero from "$lib/components/sections/Hero.svelte";
   import Industries from "$lib/components/sections/Industries.svelte";
   import Features from "$lib/components/sections/Features.svelte";
+  import WebsiteEditor from "$lib/components/sections/WebsiteEditor.svelte";
   import AdvancedFeatures from "$lib/components/sections/AdvancedFeatures.svelte";
   import Pricing from "$lib/components/sections/Pricing.svelte";
   import CallToAction from "$lib/components/sections/CallToAction.svelte";
@@ -19,9 +20,10 @@
 <!-- Clean, focused page composition -->
 <div class="min-h-screen">
   <Hero />
-  <Industries />
   <Features />
+  <WebsiteEditor />
   <AdvancedFeatures />
   <Pricing />
+  <Industries />
   <CallToAction />
 </div>

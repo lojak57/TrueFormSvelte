@@ -57,14 +57,14 @@
           </tr>
           <tr class="bg-gray-50">
             <td class="p-4 font-medium">Custom Design</td>
-            <td class="p-4 text-center text-gray-400">Limited templates</td>
+            <td class="p-4 text-center text-gray-800">Limited templates</td>
             <td class="p-4 text-center">Yes</td>
             <td class="p-4 text-center bg-accent-50 font-bold">Yes</td>
           </tr>
           <tr>
             <td class="p-4 font-medium">Hosting + Support Included</td>
-            <td class="p-4 text-center text-gray-400">Extra $$</td>
-            <td class="p-4 text-center text-gray-400">Extra $$$</td>
+            <td class="p-4 text-center text-gray-800">Extra $$</td>
+            <td class="p-4 text-center text-gray-800">Extra $$$</td>
             <td class="p-4 text-center bg-accent-50 font-bold text-green-600"
               >First year FREE</td
             >
@@ -114,10 +114,10 @@
           </div>
 
           {#if tier.monthlyPrice}
-            <p class="text-sm text-gray-500 mb-4">{tier.monthlyPrice}</p>
+            <p class="text-sm text-gray-600 mb-4">{tier.monthlyPrice}</p>
           {/if}
 
-          <p class="text-gray-600 mb-8">{tier.description}</p>
+          <p class="text-gray-700 mb-8">{tier.description}</p>
 
           <ul class="text-left space-y-3 mb-8">
             {#each tier.features as feature}
@@ -141,7 +141,7 @@
           </Button>
 
           {#if tier.isPopular}
-            <p class="text-xs text-gray-500">
+            <p class="text-xs text-gray-700">
               Buy now, pay later options available
             </p>
           {/if}
@@ -151,7 +151,7 @@
 
     <!-- BNPL Info -->
     <div class="text-center mt-12">
-      <p class="text-gray-600 max-w-2xl mx-auto">
+      <p class="text-gray-700 max-w-2xl mx-auto">
         🚀 <strong>Fast Track:</strong> Start your project today with our Buy Now,
         Pay Later option. No credit check required - spread your investment over
         12 months at just $83/month.

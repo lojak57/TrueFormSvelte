@@ -31,13 +31,18 @@
         console.error("Auth error:", result.error);
         error = result.error;
       } else if (result.user) {
-        console.log("Login successful, redirecting...");
-        // Login successful - check if we're already on CRM subdomain
-        if (window.location.hostname.startsWith('crm.')) {
-          window.location.href = "/admin/dashboard";
-        } else {
-          window.location.href = "https://crm.true-form-apps.com/admin/dashboard";
-        }
+        console.log("Login successful, waiting for session...");
+        // Login successful - wait for session to propagate, then redirect
+        setTimeout(() => {
+          console.log("Redirecting to admin dashboard...");
+          if (window.location.hostname.startsWith('crm.') || window.location.hostname === 'localhost') {
+            // Use SvelteKit's goto for same-domain navigation
+            goto("/admin/dashboard");
+          } else {
+            // External redirect for different domain
+            window.location.href = "https://crm.true-form-apps.com/admin/dashboard";
+          }
+        }, 1000); // Increased delay for better session propagation
       } else if (isSignupMode) {
         // Signup successful - show confirmation message
         error =

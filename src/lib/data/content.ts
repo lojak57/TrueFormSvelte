@@ -1,4 +1,4 @@
-import { Award, Globe, Palette, Shield, Users, Zap } from "lucide-svelte";
+import { Award, Globe, Palette, Shield, Users, Zap, Settings } from "lucide-svelte";
 import type { ComponentType } from "svelte";
 
 // Type definitions for content structure
@@ -80,6 +80,15 @@ export const FEATURES_DATA: Feature[] = [
       "Start with $999, scale to millions. Add e-commerce, booking systems, or custom features whenever you're ready.",
     category: "scalability",
     colorScheme: "text-indigo-600 bg-indigo-100",
+  },
+  {
+    id: "editor",
+    icon: Settings,
+    title: "Self-Service Editor",
+    description:
+      "Every site includes a custom admin dashboard. Update content, add products, change colors, upload your logo—all without calling us.",
+    category: "control",
+    colorScheme: "text-orange-600 bg-orange-100",
   },
 ];
 

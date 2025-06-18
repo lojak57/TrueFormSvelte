@@ -13,7 +13,7 @@
   } from "$lib/stores/theme";
   import Header from "$lib/components/ui/Header.svelte";
 
-  export let data = undefined;
+  export let data;
 
   onMount(() => {
     const {
@@ -45,14 +45,17 @@
 
 </script>
 
-<!-- Public site: full layout with single navigation -->
+<!-- Conditional layout based on subdomain -->
 <div class="min-h-screen bg-gray-50">
-  <Header />
+  {#if !data?.isCRMSubdomain}
+    <Header />
+  {/if}
 
   <main class="relative">
     <slot />
   </main>
 
+  {#if !data?.isCRMSubdomain}
     <!-- Footer -->
     <footer class="bg-gray-900 text-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -210,6 +213,7 @@
         </div>
       </div>
     </footer>
+  {/if}
 </div>
 
 <style>

@@ -12,7 +12,7 @@
     <h2 class="text-3xl md:text-4xl font-bold mb-6">
       {CTA_CONTENT.title}
     </h2>
-    <p class="text-xl mb-10 text-accent-100">
+    <p class="text-xl mb-10 text-white/90">
       {CTA_CONTENT.description}
     </p>
     <Button

@@ -15,7 +15,8 @@ export const handle: Handle = async ({ event, resolve }) => {
   
   // If CRM subdomain, handle admin routing
   if (isCRMSubdomain) {
-    // Redirect root of CRM to admin dashboard (only if it's exactly '/')
+    // Redirect root of CRM to admin dashboard, but only if authenticated
+    // Let the layout handle auth redirects to avoid conflicts
     if (url.pathname === '/') {
       console.log(`[CRM] Redirecting root to /admin/dashboard`);
       throw redirect(302, '/admin/dashboard');
