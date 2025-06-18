@@ -64,7 +64,6 @@
     "dotenv": "^16.5.0",
     "lucide-svelte": "^0.294.0",
     "pdf-lib": "^1.17.1",
-    "puppeteer": "^24.10.1",
     "qrcode": "^1.5.4",
     "stripe": "^18.2.1",
     "svelte-chartjs": "^3.1.2",

@@ -3,6 +3,14 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
+  "functions": {
+    "src/routes/api/stripe-webhook/+server.ts": {
+      "maxDuration": 30
+    },
+    "src/routes/api/**/+server.ts": {
+      "maxDuration": 15
+    }
+  },
   "headers": [
     {
       "source": "/api/(.*)",
@@ -17,7 +25,7 @@
         },
         {
           "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
+          "value": "Content-Type, Authorization, stripe-signature"
         }
       ]
     }
