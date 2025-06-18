@@ -235,4 +235,3 @@ Built with ❤️ by the TrueForm team.
 ---
 
 **Excellence Refined.** 🎯
-# Trigger deployment
