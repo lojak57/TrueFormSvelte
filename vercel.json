@@ -3,18 +3,6 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "outputDirectory": ".svelte-kit/output/client",
-  "functions": {
-    "src/routes/api/**/+server.ts": {
-      "maxDuration": 30
-    }
-  },
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/"
-    }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",
@@ -33,8 +21,5 @@
         }
       ]
     }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  }
+  ]
 }
