@@ -1,6 +1,6 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { pdfGenerator } from '$lib/services/pdf/pdfGenerator';
+import { vercelPdfGenerator } from '$lib/services/pdf/vercelPdfGenerator';
 import { supabase } from '$lib/supabaseClient';
 
 export const GET: RequestHandler = async ({ params, url }) => {
@@ -80,8 +80,8 @@ export const GET: RequestHandler = async ({ params, url }) => {
       pdfData.acceptanceLink = acceptanceLink;
     }
 
-    // Generate PDF
-    const pdfBuffer = await pdfGenerator.generatePDF(pdfData, {
+    // Generate PDF HTML (Vercel-compatible approach)
+    const htmlResponse = await vercelPdfGenerator.generatePDF(pdfData, {
       includePaymentQR,
       includeAcceptanceQR,
       format,
@@ -89,14 +89,13 @@ export const GET: RequestHandler = async ({ params, url }) => {
     });
 
     // Generate filename
-    const filename = `proposal-${proposal.company?.name?.replace(/[^a-zA-Z0-9]/g, '-') || 'unnamed'}-${proposalId.slice(-8)}.pdf`;
+    const filename = `proposal-${proposal.company?.name?.replace(/[^a-zA-Z0-9]/g, '-') || 'unnamed'}-${proposalId.slice(-8)}.html`;
 
-    // Return PDF response
-    return new Response(pdfBuffer, {
+    // Return HTML that can be printed to PDF by the browser
+    return new Response(await htmlResponse.text(), {
       headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="${filename}"`,
-        'Content-Length': pdfBuffer.length.toString(),
+        'Content-Type': 'text/html',
+        'Content-Disposition': `inline; filename="${filename}"`,
         'Cache-Control': 'no-cache, no-store, must-revalidate',
         'Pragma': 'no-cache',
         'Expires': '0'
@@ -173,27 +172,29 @@ export const POST: RequestHandler = async ({ params, request }) => {
       acceptanceLink: options.acceptanceLink
     };
 
-    // Generate PDF with custom options
-    const pdfBuffer = await pdfGenerator.generatePDF(pdfData, {
+    // Generate HTML with custom options
+    const htmlResponse = await vercelPdfGenerator.generatePDF(pdfData, {
       includePaymentQR: options.includePaymentQR || false,
       includeAcceptanceQR: options.includeAcceptanceQR || false,
       format: options.format || 'Letter',
       logoUrl: options.logoUrl
     });
 
-    // Return PDF as base64 for preview or binary for download
-    if (options.returnBase64) {
+    const htmlContent = await htmlResponse.text();
+
+    // Return HTML for browser PDF generation
+    if (options.returnHtml) {
       return json({
         success: true,
-        pdf: pdfBuffer.toString('base64'),
-        filename: `proposal-${proposalId.slice(-8)}.pdf`
+        html: htmlContent,
+        filename: `proposal-${proposalId.slice(-8)}.html`
       });
     }
 
-    return new Response(pdfBuffer, {
+    return new Response(htmlContent, {
       headers: {
-        'Content-Type': 'application/pdf',
-        'Content-Disposition': `attachment; filename="proposal-${proposalId.slice(-8)}.pdf"`
+        'Content-Type': 'text/html',
+        'Content-Disposition': `inline; filename="proposal-${proposalId.slice(-8)}.html"`
       }
     });
 

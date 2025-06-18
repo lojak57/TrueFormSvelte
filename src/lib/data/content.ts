@@ -44,51 +44,51 @@ export interface PricingTier {
 // Features data
 export const FEATURES_DATA: Feature[] = [
   {
-    id: 'architecture',
-    icon: Shield,
-    title: "Enterprise Architecture",
-    description: "PostgreSQL with RLS security, TypeScript strictness, and SvelteKit performance. The same tech stack that powers billion-dollar companies.",
-    category: 'technical',
+    id: 'boutique',
+    icon: Palette,
+    title: "Boutique Quality",
+    description: "Hand-crafted by real designers who care about your brand. No cookie-cutter templates or offshore outsourcing.",
+    category: 'quality',
     colorScheme: "text-blue-600 bg-blue-100"
   },
   {
-    id: 'components',
-    icon: Zap,
-    title: "74 Custom Components",
-    description: "Pre-built UI library with base, business, and layout components. No dependencies on external libraries that break or charge fees.",
-    category: 'development',
+    id: 'price',
+    icon: Award,
+    title: "Fixed-Price Clarity",
+    description: "$999 all-in or 12 × $89 with Klarna. No hidden fees, no surprise invoices, no hourly billing nightmares.",
+    category: 'value',
     colorScheme: "text-purple-600 bg-purple-100"
   },
   {
-    id: 'testing',
-    icon: Award,
-    title: "136 E2E Tests Passing",
-    description: "Full Playwright test suite with cross-browser validation. Every feature tested before deployment - zero surprises.",
-    category: 'quality',
+    id: 'support',
+    icon: Users,
+    title: "Human Support",
+    description: "Real people answer in 24 hours. Not a chatbot, not a ticket system - actual humans who know your site.",
+    category: 'service',
     colorScheme: "text-green-600 bg-green-100"
   },
   {
-    id: 'workflow',
-    icon: Users,
-    title: "Production Workflow",
-    description: "Danger.js code review, ESLint security scanning, and automated deployment. The same standards as FAANG companies.",
-    category: 'process',
+    id: 'speed',
+    icon: Zap,
+    title: "7-Day Delivery",
+    description: "From idea to live website in one week. While others quote 6-12 weeks, we're already launching your site.",
+    category: 'speed',
     colorScheme: "text-yellow-600 bg-yellow-100"
   },
   {
-    id: 'scalability',
-    icon: Globe,
-    title: "Built to Scale",
-    description: "Multi-tenant ready, API-first design, and modular architecture. Your $999 site can grow into a million-dollar platform.",
-    category: 'growth',
+    id: 'hosting',
+    icon: Shield,
+    title: "Year 1 Included",
+    description: "First year of hosting, SSL, backups, and support included. That's $600+ of value built into your $999.",
+    category: 'value',
     colorScheme: "text-pink-600 bg-pink-100"
   },
   {
-    id: 'performance',
-    icon: Palette,
-    title: "Lighthouse Perfect",
-    description: "Optimized bundle splitting, lazy loading, and edge caching. Sub-second load times that convert visitors into customers.",
-    category: 'speed',
+    id: 'growth',
+    icon: Globe,
+    title: "Built to Grow",
+    description: "Start with $999, scale to millions. Add e-commerce, booking systems, or custom features whenever you're ready.",
+    category: 'scalability',
     colorScheme: "text-indigo-600 bg-indigo-100"
   }
 ];
@@ -155,51 +155,52 @@ export const STATS_DATA: Stat[] = [
 // Pricing data
 export const PRICING_DATA: PricingTier[] = [
   {
-    id: 'architecture-demo',
-    name: 'See The Foundation',
+    id: 'free-demo',
+    name: 'Free Demo',
     price: '$0',
-    description: 'Experience enterprise-grade architecture',
+    description: 'See what we can build for you',
     features: [
-      'Live demo of our tech stack',
-      'Code architecture walkthrough',
-      'Performance benchmarks',
-      'Security audit overview'
+      'Custom homepage mockup',
+      '30-min strategy call',
+      'No commitment required',
+      'Get inspired by possibilities'
     ],
-    buttonText: 'Explore The Code',
+    buttonText: 'Get Free Demo',
     buttonHref: '/request',
-    badge: 'Technical Deep Dive'
+    badge: 'Risk Free'
   },
   {
-    id: 'production-ready',
-    name: 'Production Platform',
+    id: 'professional',
+    name: 'Professional Site',
     price: '$999',
-    monthlyPrice: 'Worth $50k+ in dev time',
-    description: 'Enterprise foundation, startup speed',
+    monthlyPrice: 'Or $89/mo for 12 months',
+    description: 'Everything you need to succeed online',
     features: [
-      '74 pre-built components included',
-      'PostgreSQL + RLS security setup',
-      '136 E2E tests for reliability',
-      'TypeScript strict mode enabled',
-      'Scalable multi-tenant architecture',
-      'Production deployment ready'
+      'Custom design (no templates!)',
+      'Mobile-optimized & lightning fast',
+      'First year hosting included ($180 value)',
+      '24/7 human support for 1 year',
+      'DIY would take 40-50+ hours',
+      'Ready in 7 days, not months'
     ],
-    buttonText: 'Build My Platform',
+    buttonText: 'Start Your Journey',
     buttonHref: '/request',
     isPopular: true,
-    badge: 'Best Value'
+    badge: 'Most Popular'
   },
   {
-    id: 'custom-platform',
-    name: 'Custom Architecture',
-    price: "Let's Build",
-    description: 'When you need something truly unique',
+    id: 'enterprise',
+    name: 'Custom Enterprise',
+    price: "$10k+",
+    description: 'Complex sites & applications',
     features: [
-      'Custom component libraries',
-      'Advanced integrations & APIs',
-      'Multi-platform deployments',
-      'Ongoing technical partnership'
+      'E-commerce platforms',
+      'Booking & scheduling systems',
+      'Multi-location businesses',
+      'Custom integrations',
+      'Dedicated project manager'
     ],
-    buttonText: 'Discuss Project',
+    buttonText: 'Let\'s Talk',
     buttonHref: '/contact'
   }
 ];
@@ -207,98 +208,98 @@ export const PRICING_DATA: PricingTier[] = [
 // Hero content
 export const HERO_CONTENT = {
   badge: {
-    text: 'Enterprise Architecture. Startup Speed. Fixed Price.',
-    icon: Shield
+    text: 'Custom Sites. Fixed Price. Real Humans.',
+    icon: Award
   },
   title: {
-    main: 'We Build Real Software Companies',
-    highlight: 'Not Just Websites'
+    main: 'Your Business\' Digital Soul,',
+    highlight: 'In Its True Form'
   },
-  description: 'While others sell templates, we deliver production-ready platforms with 150+ custom components, enterprise security, and scalable architecture. The same foundation that powers million-dollar SaaS products, for just $999.',
+  description: 'Custom-built sites for less than a year of Wix. First year of hosting & white-glove support included. Ready in 7 days, not months.',
   buttons: {
     primary: {
-      text: 'See The Difference',
+      text: 'Start Your Journey',
       href: '/request',
       icon: Zap
     },
     secondary: {
-      text: 'View Architecture',
+      text: 'See How It Works',
       href: '#features'
     }
   },
   trustIndicators: [
-    { icon: Shield, text: '202 SQL Tables Ready' },
-    { icon: Zap, text: '136 E2E Tests Passing' },
-    { icon: Award, text: 'TypeScript + RLS Security' }
+    { icon: Shield, text: 'First Year Hosting Free' },
+    { icon: Zap, text: '7-Day Delivery' },
+    { icon: Award, text: '24hr Human Support' }
   ]
 };
 
 // Advanced features content
 export const ADVANCED_FEATURES_CONTENT = {
   badge: {
-    text: 'Beyond Templates & Junior Developers',
-    icon: Shield
+    text: 'What Makes TrueForm Different',
+    icon: Award
   },
-  title: 'The Technical Foundation That Others Can\'t Deliver',
-  description: 'Most "custom" developers give you basic features on WordPress. Template builders limit you to their constraints. TrueForm delivers enterprise-grade architecture that scales from startup to IPO.',
+  title: 'Built Right From Day One',
+  description: 'We don\'t cut corners on the foundation. Every site is built with modern architecture, tested thoroughly, and designed to grow with your business.',
   features: [
     {
-      title: '202-Line Database Schema:',
-      description: 'Production-ready PostgreSQL with proper relationships, RLS security, and performance optimization'
+      title: 'Performance That Matters:',
+      description: 'Fast-loading sites that keep visitors engaged and convert better.'
     },
     {
-      title: '74 Custom Components:',
-      description: 'No external dependencies that break or charge fees. Complete UI library built for extensibility'
+      title: 'Rock-Solid Security:',
+      description: 'Enterprise-grade security standards protect your business and customers.'
     },
     {
-      title: 'TypeScript Strict Mode:',
-      description: 'Type safety across 150+ files prevents runtime errors and enables confident refactoring'
+      title: 'Mobile-First Design:',
+      description: 'Looks perfect on every device because most of your traffic is mobile.'
     },
     {
-      title: '136 E2E Tests Passing:',
-      description: 'Full Playwright test suite ensures every feature works across browsers and devices'
+      title: 'Built to Scale:',
+      description: 'Start simple, grow complex. Add features when you need them, not before.'
     },
     {
-      title: 'Enterprise Authentication:',
-      description: 'Supabase Auth with JWT tokens, role-based access, and security middleware'
+      title: 'Quality Code Foundation:',
+      description: 'Clean, maintainable code that won\'t break when you need changes.'
     },
     {
-      title: 'Production Infrastructure:',
-      description: 'Code review automation, security scanning, and deployment pipelines from day one'
+      title: 'Future-Proof Technology:',
+      description: 'Modern tech stack that stays current and performs reliably.'
     }
   ],
   comparison: {
     competitors: [
       {
-        name: 'Template Builders',
+        name: 'DIY Builders',
         issues: [
-          'Locked into their ecosystem',
-          'Monthly fees forever',
-          'No real customization',
-          'Performance bottlenecks'
+          '50+ hours of your time',
+          'Cookie-cutter templates',
+          'Slow loading speeds',
+          'Monthly fees forever'
         ]
       },
       {
-        name: 'Basic Custom Dev',
+        name: 'Traditional Developers',
         issues: [
-          'WordPress vulnerabilities',
-          'No testing infrastructure',
-          'Junior-level architecture',
-          'Technical debt from day one'
+          '$10-15k minimum cost',
+          '6-12 week timelines',
+          'Hourly billing surprises',
+          'Hosting costs extra'
         ]
       }
     ],
-    advantage: 'Production-ready codebase with enterprise patterns, comprehensive testing, and scalable architecture that grows with your business.'
+    advantage: 'Professional quality, honest pricing, and everything included. The smart choice for serious businesses.'
   }
 };
 
 // CTA section content
 export const CTA_CONTENT = {
-  title: 'Stop Buying Websites. Start Building Platforms.',
-  description: 'While your competitors use templates, you\'ll have enterprise-grade software. The same technical foundation that powers billion-dollar companies, delivered in days for $999.',
+  title: 'Ready to Skip 50 Hours of DIY Frustration?',
+  description: 'Join hundreds of businesses who got professional sites without the headaches. First year hosting included, human support on tap, and live in just 7 days.',
   button: {
-    text: 'Build My Platform',
+    text: 'Start Your $999 Journey →',
     href: '/request',
-    icon: Shield
+    icon: Zap
   }
 }; 

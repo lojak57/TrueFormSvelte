@@ -178,26 +178,26 @@
               <div class="p-6 pb-4">
                 <div class="flex items-start justify-between gap-4">
                   <!-- Main proposal info -->
-                  <div class="flex-1 min-w-0">
+                <div class="flex-1 min-w-0">
                     <div class="flex items-center gap-3 mb-2">
                       <h3 class="text-xl font-semibold text-gray-900 truncate group-hover:text-blue-600 transition-colors">
                         {proposal.title}
                       </h3>
                       <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium {getStatusColor(proposal.status)} flex-shrink-0">
                         <span class="w-1.5 h-1.5 rounded-full {getStatusDot(proposal.status)} mr-1.5"></span>
-                        {proposal.status}
-                      </span>
-                    </div>
-                    
+                      {proposal.status}
+                    </span>
+                  </div>
+                  
                     <!-- Company info with icon -->
                     <div class="flex items-center text-sm text-gray-600 mb-3">
                       <div class="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-1.5">
                         <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
-                          <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd" />
-                        </svg>
+                        <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
+                        <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd" />
+                      </svg>
                         <span class="font-medium">Company #{proposal.company_id?.slice(-8)}</span>
-                      </div>
+                    </div>
                     </div>
                   </div>
 
@@ -213,7 +213,7 @@
             <!-- Card Body -->
             <div class="px-6 pb-4">
               <!-- Services preview -->
-              {#if proposal.line_items && proposal.line_items.length > 0}
+                  {#if proposal.line_items && proposal.line_items.length > 0}
                 <div class="mb-4">
                   <div class="flex items-center gap-2 text-sm text-gray-600 mb-2">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -231,8 +231,8 @@
                       <span class="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-medium bg-gray-50 text-gray-600 border border-gray-200">
                         +{proposal.line_items.length - 3} more
                       </span>
-                    {/if}
-                  </div>
+                      {/if}
+                    </div>
                 </div>
               {/if}
 
@@ -245,26 +245,26 @@
                     </svg>
                     <span>Created {formatDate(proposal.created_at)}</span>
                   </div>
-                </div>
-
+                  </div>
+                  
                 <!-- Action buttons -->
                 <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button 
+                    <button 
                     class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 hover:text-gray-900 transition-colors" 
-                    on:click={(e) => downloadPDF(proposal.id, e)}
-                    title="Download PDF"
-                  >
+                      on:click={(e) => downloadPDF(proposal.id, e)}
+                      title="Download PDF"
+                    >
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                      </svg>
                     PDF
-                  </button>
+                    </button>
                   
                   <div class="flex items-center gap-1.5 text-blue-600 text-xs font-medium">
                     <span>View Details</span>
                     <svg class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                      </svg>
                   </div>
                 </div>
               </div>

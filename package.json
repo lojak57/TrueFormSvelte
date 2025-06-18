@@ -26,6 +26,7 @@
   "devDependencies": {
     "@playwright/test": "^1.52.0",
     "@sveltejs/adapter-auto": "^2.0.0",
+    "@sveltejs/adapter-vercel": "^1.0.6",
     "@sveltejs/kit": "^1.20.4",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/svelte": "^4.0.0",
