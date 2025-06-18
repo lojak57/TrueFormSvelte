@@ -1,8 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-
-// Get environment variables directly (more reliable for build)
-const PUBLIC_SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
-const PUBLIC_SUPABASE_ANON_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
 
 if (!PUBLIC_SUPABASE_URL) {
   throw new Error('PUBLIC_SUPABASE_URL is required');
