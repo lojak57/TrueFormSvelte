@@ -32,8 +32,12 @@
         error = result.error;
       } else if (result.user) {
         console.log("Login successful, redirecting...");
-        // Login successful
-        window.location.href = "https://crm.true-form-apps.com/admin/dashboard";
+        // Login successful - check if we're already on CRM subdomain
+        if (window.location.hostname.startsWith('crm.')) {
+          window.location.href = "/admin/dashboard";
+        } else {
+          window.location.href = "https://crm.true-form-apps.com/admin/dashboard";
+        }
       } else if (isSignupMode) {
         // Signup successful - show confirmation message
         error =
