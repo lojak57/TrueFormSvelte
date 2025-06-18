@@ -1,6 +1,7 @@
-import Stripe from 'stripe';
-import { STRIPE_SECRET_KEY } from '$env/static/private';
 import type { Proposal, Company, Contact } from '$lib/types';
+
+// TODO: Re-enable when Stripe is integrated (next week)
+// Temporarily disabled for deployment since Stripe isn't integrated yet
 
 export interface PaymentLinkOptions {
   proposal: Proposal;
@@ -9,8 +10,32 @@ export interface PaymentLinkOptions {
   successUrl?: string;
   cancelUrl?: string;
   allowPromotionCodes?: boolean;
-  paymentMethodTypes?: Stripe.Checkout.SessionCreateParams.PaymentMethodType[];
+  paymentMethodTypes?: any[];
 }
+
+// Temporary placeholder service for deployment
+export const stripeService = {
+  createPaymentLink: async (): Promise<string> => { 
+    throw new Error('Stripe not integrated yet - available next week'); 
+  },
+  createACHPaymentLink: async (): Promise<string> => { 
+    throw new Error('Stripe not integrated yet - available next week'); 
+  },
+  createInstallmentPlan: async (): Promise<string[]> => { 
+    throw new Error('Stripe not integrated yet - available next week'); 
+  },
+  verifyPayment: async () => ({ success: false }),
+  refundPayment: async () => false,
+  createCustomer: async (): Promise<string> => { 
+    throw new Error('Stripe not integrated yet - available next week'); 
+  }
+};
+
+/* 
+TODO: Uncomment when ready to integrate Stripe (next week)
+
+import Stripe from 'stripe';
+import { STRIPE_SECRET_KEY } from '$env/static/private';
 
 export class StripePaymentService {
   private stripe: Stripe;
@@ -245,3 +270,4 @@ export class StripePaymentService {
 
 // Export singleton instance
 export const stripeService = new StripePaymentService();
+*/

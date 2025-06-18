@@ -19,7 +19,7 @@ export {};
 
 declare module '$env/static/private' {
 	export const SUPABASE_SERVICE_ROLE_KEY: string;
-	export const STRIPE_SECRET_KEY: string;
+	export const STRIPE_SECRET_KEY: string | undefined;
 }
 
 declare module '$env/static/public' {

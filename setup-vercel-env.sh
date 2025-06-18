@@ -15,6 +15,7 @@ vercel env add PUBLIC_STRIPE_PUBLISHABLE_KEY production <<< "your_stripe_publish
 # Private variables (server-side only)
 vercel env add SUPABASE_SERVICE_ROLE_KEY production <<< "your_supabase_service_role_key_here"
 vercel env add STRIPE_SECRET_KEY production <<< "your_stripe_secret_key_here"
+vercel env add STRIPE_WEBHOOK_SECRET production <<< "your_stripe_webhook_secret_here"
 
 echo "Environment variables added! Now add them for preview and development:"
 

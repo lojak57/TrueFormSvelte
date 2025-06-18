@@ -1,5 +1,28 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+
+// TODO: Re-enable when Stripe is integrated (next week)
+// Temporarily disabled for deployment since Stripe isn't integrated yet
+
+export const POST: RequestHandler = async ({ params, request, url }) => {
+  return json({
+    message: 'Payment links not yet available - Stripe integration pending',
+    status: 'disabled_pending_stripe_integration',
+    proposalId: params.id
+  }, { status: 503 });
+};
+
+export const GET: RequestHandler = async ({ params, url }) => {
+  return json({
+    message: 'Payment links not yet available - Stripe integration pending', 
+    status: 'disabled_pending_stripe_integration',
+    proposalId: params.id
+  }, { status: 503 });
+};
+
+/* 
+TODO: Uncomment when ready to integrate Stripe (next week)
+
 import { stripeService } from '$lib/services/payments/stripeService';
 import { supabase } from '$lib/supabaseClient';
 
@@ -210,3 +233,4 @@ export const GET: RequestHandler = async ({ params, url }) => {
     throw error(500, 'Failed to generate payment link');
   }
 };
+*/

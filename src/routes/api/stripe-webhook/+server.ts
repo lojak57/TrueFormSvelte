@@ -1,5 +1,20 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
+
+// TODO: Re-enable Stripe webhook when ready to launch
+// Temporarily disabled for deployment since Stripe isn't integrated yet
+
+export const POST: RequestHandler = async ({ request }) => {
+  // Return early since Stripe isn't integrated yet
+  return json({ 
+    message: 'Stripe webhook endpoint - not yet implemented',
+    status: 'disabled_pending_stripe_integration'
+  }, { status: 200 });
+};
+
+/* 
+TODO: Uncomment when ready to integrate Stripe (next week)
+
 import Stripe from 'stripe';
 import { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } from '$env/static/private';
 
@@ -140,3 +155,4 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
     console.error('Error handling invoice payment success:', error);
   }
 }
+*/
