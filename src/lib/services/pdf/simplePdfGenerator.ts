@@ -56,33 +56,74 @@ export function generateSimplePDF(data: SimplePDFData): string {
     }
     
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       font-size: 14px;
-      line-height: 1.5;
-      color: #333;
+      line-height: 1.6;
+      color: #1a1a1a;
       margin: 0;
-      padding: 0;
-      background: white;
+      padding: 20px;
+      background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+      min-height: 100vh;
     }
     
     .container {
-      max-width: 100%;
+      max-width: 800px;
       margin: 0 auto;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+      position: relative;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
     }
     
     .header {
-      border-bottom: 3px solid #2563eb;
-      padding-bottom: 20px;
-      margin-bottom: 30px;
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      color: white;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::after {
+      content: '✨';
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      font-size: 24px;
+      opacity: 0.3;
+    }
+    
+    .header-content {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+      position: relative;
+      z-index: 2;
     }
     
     .logo {
-      font-size: 28px;
-      font-weight: bold;
-      color: #2563eb;
+      font-size: 32px;
+      font-weight: 900;
+      color: #f59e0b;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+    }
+    
+    .tagline {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-top: 5px;
+      font-style: italic;
     }
     
     .proposal-info {
@@ -90,64 +131,115 @@ export function generateSimplePDF(data: SimplePDFData): string {
     }
     
     .proposal-number {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
-      color: #2563eb;
+      color: #f59e0b;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
     
     .proposal-date {
-      color: #666;
+      color: #94a3b8;
       margin-top: 5px;
+      font-size: 13px;
+    }
+    
+    .content {
+      padding: 40px;
     }
     
     .title-section {
-      margin-bottom: 30px;
+      margin-bottom: 25px;
+      text-align: center;
     }
     
     .proposal-title {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #1a1a1a;
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      color: #1e293b;
+      background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .proposal-subtitle {
+      font-size: 16px;
+      color: #64748b;
+      font-style: italic;
     }
     
     .client-info {
-      background: #f8fafc;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 30px;
-      border-left: 4px solid #2563eb;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      padding: 24px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      border-left: 5px solid #f59e0b;
+      position: relative;
+    }
+    
+    .client-info::before {
+      content: '🏢';
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      font-size: 20px;
+      opacity: 0.6;
     }
     
     .client-name {
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
       margin-bottom: 8px;
+      color: #1e293b;
     }
     
     .client-details {
-      color: #666;
+      color: #475569;
       line-height: 1.6;
     }
     
     .total-highlight {
-      background: #2563eb;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
       color: white;
-      padding: 15px 20px;
-      border-radius: 8px;
+      padding: 20px 24px;
+      border-radius: 12px;
       text-align: center;
-      margin: 30px 0;
+      margin: 25px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .total-highlight::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+    
+    @keyframes shimmer {
+      0%, 100% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1); opacity: 1; }
     }
     
     .total-label {
       font-size: 14px;
       opacity: 0.9;
       margin-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
     
     .total-amount {
-      font-size: 32px;
-      font-weight: bold;
+      font-size: 36px;
+      font-weight: 900;
+      position: relative;
+      z-index: 2;
     }
     
     .section-title {
@@ -270,17 +362,24 @@ export function generateSimplePDF(data: SimplePDFData): string {
   <div class="container">
     <!-- Header -->
     <div class="header">
-      <div class="logo">TrueForm</div>
-      <div class="proposal-info">
-        <div class="proposal-number">Proposal #${data.proposal.id.slice(-8).toUpperCase()}</div>
-        <div class="proposal-date">${formatDate(data.proposal.created_at)}</div>
+      <div class="header-content">
+        <div>
+          <div class="logo">TrueForm</div>
+          <div class="tagline">Excellence Refined.</div>
+        </div>
+        <div class="proposal-info">
+          <div class="proposal-number">#${data.proposal.id.slice(-8).toUpperCase()}</div>
+          <div class="proposal-date">${formatDate(data.proposal.created_at)}</div>
+        </div>
       </div>
     </div>
     
-    <!-- Title -->
-    <div class="title-section">
-      <h1 class="proposal-title">${data.proposal.title}</h1>
-    </div>
+    <div class="content">
+      <!-- Title -->
+      <div class="title-section">
+        <h1 class="proposal-title">${data.proposal.title}</h1>
+        <p class="proposal-subtitle">Let's build something amazing together</p>
+      </div>
     
     <!-- Client Info -->
     <div class="client-info">
@@ -345,10 +444,11 @@ export function generateSimplePDF(data: SimplePDFData): string {
       </ul>
     </div>
     
-    <!-- Footer -->
-    <div class="footer">
-      <p>This proposal is valid for 30 days from the date above.</p>
-      <p>TrueForm • Professional Website Development • hello@true-form-apps.com</p>
+      <!-- Footer -->
+      <div class="footer">
+        <p>This proposal is valid for 30 days from the date above.</p>
+        <p>TrueForm • Professional Website Development • hello@true-form-apps.com</p>
+      </div>
     </div>
   </div>
 </body>
