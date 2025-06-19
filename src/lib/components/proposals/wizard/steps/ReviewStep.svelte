@@ -36,7 +36,7 @@
   <!-- Header -->
   <div class="text-center">
     <h3 class="tf-heading-3 mb-2">Review Your Proposal</h3>
-    <p class="tf-text-muted">Take a final look before creating your proposal</p>
+    <p class="text-gray-900">Take a final look before creating your proposal</p>
   </div>
 
   <div class="tf-grid tf-grid-cols-1 lg:grid-cols-3 gap-8">
@@ -161,7 +161,7 @@
       <div class="tf-card">
         <div class="tf-card-header">
           <h4 class="tf-heading-4">Services Included</h4>
-          <p class="tf-text-muted text-sm">
+          <p class="text-gray-900 text-sm">
             {lineItems.length} services • {formatCurrency(subtotal)} subtotal
           </p>
         </div>
@@ -304,15 +304,15 @@
           </div>
           <div class="tf-card-body space-y-4">
             <div class="flex justify-between items-center">
-              <span class="tf-text-muted">Services</span>
+              <span class="text-gray-900">Services</span>
               <span class="font-semibold">{lineItems.length}</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="tf-text-muted">Tax Rate</span>
+              <span class="text-gray-900">Tax Rate</span>
               <span class="font-semibold">{taxRate}%</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="tf-text-muted">Valid For</span>
+              <span class="text-gray-900">Valid For</span>
               <span class="font-semibold">30 days</span>
             </div>
             <hr class="border-gray-200" />

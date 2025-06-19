@@ -82,7 +82,7 @@
   <!-- Header -->
   <div class="text-center">
     <h3 class="tf-heading-3 mb-2">Review & Customize Pricing</h3>
-    <p class="tf-text-muted">
+    <p class="text-gray-900">
       Fine-tune your line items, set tax rates, and add terms
     </p>
   </div>
@@ -94,7 +94,7 @@
       <div class="tf-card">
         <div class="tf-card-header">
           <h4 class="tf-heading-4">Line Items ({lineItems.length})</h4>
-          <p class="tf-text-muted text-sm">
+          <p class="text-gray-900 text-sm">
             Review and edit your selected services
           </p>
         </div>
@@ -130,7 +130,7 @@
               />
             </svg>
             <h4 class="tf-heading-4 text-gray-500">No services selected</h4>
-            <p class="tf-text-muted">
+            <p class="text-gray-900">
               Go back to add services to your proposal
             </p>
           </div>
@@ -141,7 +141,7 @@
       <div class="tf-card">
         <div class="tf-card-header">
           <h4 class="tf-heading-4">Tax Settings</h4>
-          <p class="tf-text-muted text-sm">
+          <p class="text-gray-900 text-sm">
             Set the tax rate for this proposal
           </p>
         </div>
@@ -157,7 +157,7 @@
                 on:click={() => handleTaxRateChange(rate)}
               >
                 <div class="font-medium text-sm">{rate}%</div>
-                <div class="text-sm tf-text-muted">{label.split("(")[0]}</div>
+                <div class="text-sm text-gray-900">{label.split("(")[0]}</div>
               </button>
             {/each}
           </div>
@@ -176,7 +176,7 @@
                 step="0.01"
                 placeholder="0.00"
               />
-              <span class="tf-text-muted text-sm">%</span>
+              <span class="text-gray-900 text-sm">%</span>
             </div>
           </div>
         </div>
@@ -186,7 +186,7 @@
       <div class="tf-card">
         <div class="tf-card-header">
           <h4 class="tf-heading-4">Payment Terms</h4>
-          <p class="tf-text-muted text-sm">
+          <p class="text-gray-900 text-sm">
             Choose payment terms for this proposal
           </p>
         </div>
@@ -215,7 +215,7 @@
                     </span>
                   {/if}
                 </div>
-                <p class="text-sm tf-text-muted mt-1">{term.description}</p>
+                <p class="text-sm text-gray-900 mt-1">{term.description}</p>
               </div>
             </label>
           {/each}
@@ -226,7 +226,7 @@
       <div class="tf-card">
         <div class="tf-card-header">
           <h4 class="tf-heading-4">Additional Notes</h4>
-          <p class="tf-text-muted text-sm">
+          <p class="text-gray-900 text-sm">
             Add any special terms, conditions, or notes
           </p>
         </div>
@@ -241,7 +241,7 @@
 
           <!-- Quick Note Templates -->
           <div class="mt-4">
-            <p class="text-sm tf-text-muted mb-2">Quick templates:</p>
+            <p class="text-sm text-gray-900 mb-2">Quick templates:</p>
             <div class="flex flex-wrap gap-2">
               {#each ["Project timeline: 4-6 weeks from deposit", "Includes 2 rounds of revisions", "Final payment due before project delivery", "Monthly maintenance available after launch"] as template}
                 <button
@@ -297,7 +297,7 @@
                 {/each}
               </div>
             {:else}
-              <p class="text-center tf-text-muted py-4">
+              <p class="text-center text-gray-900 py-4">
                 Add services to see breakdown
               </p>
             {/if}

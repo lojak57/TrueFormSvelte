@@ -71,6 +71,6 @@
   <!-- Current Step Info -->
   <div class="mt-6 text-center">
     <h2 class="tf-heading-2">{stepTitles[currentStep - 1]}</h2>
-    <p class="tf-text-muted mt-2">Step {currentStep} of {totalSteps}</p>
+    <p class="text-gray-900 mt-2">Step {currentStep} of {totalSteps}</p>
   </div>
 </div>

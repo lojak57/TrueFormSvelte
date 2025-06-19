@@ -17,7 +17,7 @@
 <div class="tf-card">
   <div class="tf-card-header">
     <h3 class="tf-heading-4">Pricing Summary</h3>
-    <p class="tf-text-muted text-sm">
+    <p class="text-gray-900 text-sm">
       {lineItemCount}
       {lineItemCount === 1 ? "item" : "items"}
     </p>
@@ -27,12 +27,12 @@
     <!-- Breakdown -->
     <div class="space-y-3">
       <div class="flex justify-between items-center">
-        <span class="tf-text-muted">Subtotal</span>
+        <span class="text-gray-900">Subtotal</span>
         <span class="font-medium">{formatCurrency(subtotal)}</span>
       </div>
 
       <div class="flex justify-between items-center">
-        <span class="tf-text-muted">Tax ({taxRate}%)</span>
+        <span class="text-gray-900">Tax ({taxRate}%)</span>
         <span class="font-medium">{formatCurrency(tax)}</span>
       </div>
 

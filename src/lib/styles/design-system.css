@@ -437,8 +437,8 @@
 }
 
 .tf-text-muted {
-  /* Increased contrast for accessibility */
-  color: var(--color-gray-800);
+  /* Replaced with text-gray-900 for better visibility */
+  color: var(--color-gray-900);
 }
 
 .tf-text-subtle {

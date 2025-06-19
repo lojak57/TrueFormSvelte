@@ -117,9 +117,9 @@
         <div class="flex-1">
           <h4 class="tf-heading-4 mb-2">{item.name}</h4>
           {#if item.description}
-            <p class="tf-text-muted text-sm mb-3">{item.description}</p>
+            <p class="text-gray-900 text-sm mb-3">{item.description}</p>
           {/if}
-          <div class="flex items-center gap-4 text-sm tf-text-subtle">
+          <div class="flex items-center gap-4 text-sm text-gray-900">
             <span>Qty: {item.quantity}</span>
             <span>×</span>
             <span>{formatCurrency(item.unitPrice)}</span>

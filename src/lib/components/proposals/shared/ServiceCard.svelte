@@ -49,7 +49,7 @@
             </span>
           {/if}
         </div>
-        <p class="tf-text-muted text-sm leading-relaxed">
+        <p class="text-gray-900 text-sm leading-relaxed">
           {service.description}
         </p>
       </div>
@@ -58,7 +58,7 @@
         <div class="tf-heading-3 text-gray-900">
           {formatPrice(service.basePrice, service.unit)}
         </div>
-        <div class="text-sm tf-text-subtle">per {service.unit}</div>
+        <div class="text-sm text-gray-900">per {service.unit}</div>
       </div>
     </div>
 

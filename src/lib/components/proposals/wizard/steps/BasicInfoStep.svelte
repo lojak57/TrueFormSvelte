@@ -39,7 +39,7 @@
   <!-- Header -->
   <div class="text-center mb-8">
     <h3 class="tf-heading-3 mb-2">Let's start with the basics</h3>
-    <p class="tf-text-muted">
+    <p class="text-gray-900">
       Choose the company and give your proposal a descriptive title
     </p>
   </div>
@@ -48,7 +48,7 @@
   <div class="tf-card">
     <div class="tf-card-header">
       <h4 class="tf-heading-4">Select Company</h4>
-      <p class="tf-text-muted text-sm">
+      <p class="text-gray-900 text-sm">
         Choose the company this proposal is for
       </p>
     </div>
@@ -105,7 +105,7 @@
     <div class="tf-card">
       <div class="tf-card-header">
         <h4 class="tf-heading-4">Primary Contact</h4>
-        <p class="tf-text-muted text-sm">
+        <p class="text-gray-900 text-sm">
           Select the main contact for this proposal (optional)
         </p>
       </div>
@@ -169,7 +169,7 @@
   <div class="tf-card">
     <div class="tf-card-header">
       <h4 class="tf-heading-4">Proposal Title</h4>
-      <p class="tf-text-muted text-sm">
+      <p class="text-gray-900 text-sm">
         Give your proposal a clear, descriptive title
       </p>
     </div>
@@ -185,7 +185,7 @@
       <!-- Title Suggestions -->
       {#if selectedCompany && !proposalTitle}
         <div class="mt-4">
-          <p class="text-sm tf-text-muted mb-3">Suggested titles:</p>
+          <p class="text-sm text-gray-900 mb-3">Suggested titles:</p>
           <div class="flex flex-wrap gap-2">
             {#each [`Website Development for ${selectedCompany.name}`, `Digital Marketing Package - ${selectedCompany.name}`, `Complete Web Solution for ${selectedCompany.name}`] as suggestion}
               <button

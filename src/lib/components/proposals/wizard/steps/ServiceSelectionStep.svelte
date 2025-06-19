@@ -68,7 +68,7 @@
   <!-- Header -->
   <div class="text-center">
     <h3 class="tf-heading-3 mb-2">Choose your services</h3>
-    <p class="tf-text-muted">
+    <p class="text-gray-900">
       Select from our template services or add custom items
     </p>
   </div>
@@ -156,7 +156,7 @@
     </div>
   {:else if searchQuery}
     <div class="text-center py-8">
-      <p class="tf-text-muted">No services found for "{searchQuery}"</p>
+      <p class="text-gray-900">No services found for "{searchQuery}"</p>
       <button
         class="tf-btn tf-btn-outline mt-4"
         on:click={() => (showCustomForm = true)}
@@ -193,7 +193,7 @@
   <div class="tf-card">
     <div class="tf-card-header">
       <h4 class="tf-heading-4">Add Custom Service</h4>
-      <p class="tf-text-muted text-sm">
+      <p class="text-gray-900 text-sm">
         Create a custom line item not covered by our templates
       </p>
     </div>

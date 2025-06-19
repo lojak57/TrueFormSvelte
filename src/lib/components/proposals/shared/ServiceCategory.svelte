@@ -36,7 +36,7 @@
     </div>
     <div>
       <h3 class="tf-heading-3">{categoryInfo.name}</h3>
-      <p class="tf-text-muted text-sm">{services.length} services available</p>
+      <p class="text-gray-900 text-sm">{services.length} services available</p>
     </div>
   </div>
 
