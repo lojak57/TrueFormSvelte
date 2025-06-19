@@ -98,7 +98,74 @@
     <!-- Comparison Chart -->
     <div class="overflow-x-auto">
       <div class="inline-block min-w-full align-middle">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 lg:gap-4">
+        <!-- Mobile Cards View -->
+        <div class="block md:hidden space-y-6">
+          {#each competitors as competitor}
+            <div class="relative">
+              {#if competitor.isUs}
+                <!-- TrueForm mobile highlight card -->
+                <div class="absolute -inset-1 bg-gradient-to-r from-accent-600 to-accent-400 rounded-2xl blur opacity-75"></div>
+                <div class="relative bg-white rounded-2xl border-2 border-accent-200 shadow-xl overflow-hidden">
+                  <!-- Header -->
+                  <div class="bg-gradient-to-r from-accent-600 to-accent-500 p-4 text-center">
+                    <div class="inline-flex items-center px-3 py-1 bg-white/20 text-white text-xs font-semibold rounded-full mb-2">
+                      <Zap size={12} class="mr-1" />
+                      BEST VALUE
+                    </div>
+                    <h3 class="text-xl font-bold text-white">{competitor.name}</h3>
+                    <p class="text-sm text-accent-100 mb-2">{competitor.subtitle}</p>
+                    <div class="text-2xl font-bold text-white">{competitor.price}</div>
+                    <p class="text-sm text-accent-100">{competitor.totalCost}</p>
+                  </div>
+                  
+                  <!-- Features -->
+                  <div class="p-4 space-y-3">
+                    {#each competitor.features as feature}
+                      {@const display = getFeatureDisplay(feature.value)}
+                      <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                        <span class="text-sm font-medium text-gray-900">{feature.name}</span>
+                        {#if display.icon}
+                          <svelte:component this={display.icon} size={20} class="{display.class}" />
+                        {:else}
+                          <span class="text-sm {display.class} font-medium">{display.text}</span>
+                        {/if}
+                      </div>
+                    {/each}
+                  </div>
+                </div>
+              {:else}
+                <!-- Regular competitor mobile card -->
+                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                  <!-- Header -->
+                  <div class="bg-gray-50 p-4 text-center border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-900">{competitor.name}</h3>
+                    <p class="text-sm text-gray-500 mb-2">{competitor.subtitle}</p>
+                    <div class="text-xl font-bold text-gray-900">{competitor.price}</div>
+                    <p class="text-sm text-gray-500">{competitor.totalCost}</p>
+                  </div>
+                  
+                  <!-- Features -->
+                  <div class="p-4 space-y-3">
+                    {#each competitor.features as feature}
+                      {@const display = getFeatureDisplay(feature.value)}
+                      <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
+                        <span class="text-sm font-medium text-gray-700">{feature.name}</span>
+                        {#if display.icon}
+                          <svelte:component this={display.icon} size={18} class="{display.class}" />
+                        {:else}
+                          <span class="text-xs {display.class} font-medium px-2 py-1 rounded">{display.text}</span>
+                        {/if}
+                      </div>
+                    {/each}
+                  </div>
+                </div>
+              {/if}
+            </div>
+          {/each}
+        </div>
+
+        <!-- Desktop Grid View -->
+        <div class="hidden md:grid grid-cols-1 md:grid-cols-4 gap-6 lg:gap-4">
           {#each competitors as competitor}
             <div class="relative">
               {#if competitor.isUs}
@@ -135,8 +202,8 @@
           {/each}
         </div>
 
-        <!-- Features comparison table -->
-        <div class="mt-12 bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
+        <!-- Features comparison table - Desktop Only -->
+        <div class="mt-12 bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden hidden md:block">
           <div class="overflow-x-auto">
             <table class="w-full min-w-[800px]">
               <!-- Header -->
@@ -185,8 +252,8 @@
         </div>
 
         <!-- Bottom CTA -->
-        <div class="text-center mt-12">
-          <div class="inline-flex items-center px-6 py-3 bg-accent-600 text-white rounded-lg font-semibold hover:bg-accent-700 transition-colors cursor-pointer"
+        <div class="text-center mt-8 md:mt-12 px-4">
+          <div class="inline-flex items-center px-6 py-3 bg-accent-600 text-white rounded-lg font-semibold hover:bg-accent-700 transition-colors cursor-pointer text-center"
                on:click={() => window.location.href = '/request'}>
             <Zap size={20} class="mr-2" />
             Get Your TrueForm Site Today →

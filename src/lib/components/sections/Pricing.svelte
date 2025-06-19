@@ -6,19 +6,121 @@
 </script>
 
 <!-- Pricing Section -->
-<section class="py-20 bg-gray-50">
+<section class="py-16 sm:py-20 bg-gray-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+    <div class="text-center mb-12 sm:mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
         DIY vs. Developer vs. <span class="text-accent-600">TrueForm</span>
       </h2>
-      <p class="text-xl text-gray-600">
+      <p class="text-lg sm:text-xl text-gray-600 px-4 sm:px-0">
         Why spend 50+ hours or $10k+ when you can get better results for $999?
       </p>
     </div>
 
-    <!-- Comparison Table -->
-    <div class="mb-20 overflow-x-auto">
+    <!-- Mobile Comparison Cards -->
+    <div class="block lg:hidden mb-16 space-y-6">
+      <!-- TrueForm Card (Featured) -->
+      <div class="relative">
+        <div class="absolute -inset-1 bg-gradient-to-r from-accent-600 to-accent-400 rounded-2xl blur opacity-75"></div>
+        <div class="relative bg-white rounded-2xl border-2 border-accent-200 shadow-xl overflow-hidden">
+          <div class="bg-accent-600 p-4 text-center">
+            <div class="inline-flex items-center px-3 py-1 bg-white/20 text-white text-xs font-semibold rounded-full mb-2">
+              ⚡ BEST VALUE
+            </div>
+            <h3 class="text-xl font-bold text-white">TrueForm</h3>
+            <div class="text-2xl font-bold text-white mt-2">$999</div>
+            <p class="text-sm text-accent-100">Year 1 Total Cost</p>
+          </div>
+          <div class="p-4 space-y-3">
+            <div class="flex justify-between py-2 border-b border-gray-100">
+              <span class="text-sm font-medium text-gray-900">DIY Hours Required</span>
+              <span class="text-sm font-bold text-green-600">&lt; 2 hours</span>
+            </div>
+            <div class="flex justify-between py-2 border-b border-gray-100">
+              <span class="text-sm font-medium text-gray-900">Time to Launch</span>
+              <span class="text-sm font-bold text-accent-600">7 days</span>
+            </div>
+            <div class="flex justify-between py-2 border-b border-gray-100">
+              <span class="text-sm font-medium text-gray-900">Custom Design</span>
+              <span class="text-sm font-bold text-green-600">Yes</span>
+            </div>
+            <div class="flex justify-between py-2 border-b border-gray-100">
+              <span class="text-sm font-medium text-gray-900">Hosting + Support</span>
+              <span class="text-sm font-bold text-green-600">First year FREE</span>
+            </div>
+            <div class="flex justify-between py-2">
+              <span class="text-sm font-medium text-gray-900">Year 2+ Hosting</span>
+              <span class="text-sm font-bold text-accent-600">$179/year</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DIY Builders -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div class="bg-gray-50 p-4 text-center border-b">
+          <h3 class="text-lg font-semibold text-gray-900">Wix/Squarespace</h3>
+          <div class="text-xl font-bold text-gray-900 mt-2">$600-700</div>
+          <p class="text-sm text-gray-600">Year 1 Total Cost</p>
+        </div>
+        <div class="p-4 space-y-3">
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm font-medium text-gray-700">DIY Hours Required</span>
+            <span class="text-sm font-semibold text-red-600">40-50+ hours</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm font-medium text-gray-700">Time to Launch</span>
+            <span class="text-sm text-gray-600">Weeks of DIY work</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm font-medium text-gray-700">Custom Design</span>
+            <span class="text-sm text-gray-600">Limited templates</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm font-medium text-gray-700">Hosting + Support</span>
+            <span class="text-sm text-gray-600">Extra $$</span>
+          </div>
+          <div class="flex justify-between py-2">
+            <span class="text-sm font-medium text-gray-700">Year 2+ Hosting</span>
+            <span class="text-sm text-gray-600">$300+/year</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Local Developer -->
+      <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+        <div class="bg-gray-50 p-4 text-center border-b">
+          <h3 class="text-lg font-semibold text-gray-900">Local Developer</h3>
+          <div class="text-xl font-bold text-gray-900 mt-2">$10-15k</div>
+          <p class="text-sm text-gray-600">Year 1 Total Cost</p>
+        </div>
+        <div class="p-4 space-y-3">
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm font-medium text-gray-700">DIY Hours Required</span>
+            <span class="text-sm text-gray-600">~10 oversight</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm font-medium text-gray-700">Time to Launch</span>
+            <span class="text-sm text-gray-600">6-12 weeks</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm font-medium text-gray-700">Custom Design</span>
+            <span class="text-sm text-green-600">Yes</span>
+          </div>
+          <div class="flex justify-between py-2 border-b border-gray-100">
+            <span class="text-sm font-medium text-gray-700">Hosting + Support</span>
+            <span class="text-sm text-gray-600">Extra $$$</span>
+          </div>
+          <div class="flex justify-between py-2">
+            <span class="text-sm font-medium text-gray-700">Year 2+ Hosting</span>
+            <span class="text-sm text-gray-600">$600+/year</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desktop Comparison Table -->
+    <div class="mb-16 sm:mb-20 overflow-x-auto hidden lg:block">
       <table
         class="w-full max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden"
       >
@@ -79,10 +181,10 @@
       </table>
     </div>
 
-    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    <div class="grid md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
       {#each PRICING_DATA as tier}
         <Card
-          class="p-8 text-center hover:shadow-xl transition-all duration-300 relative {tier.isPopular
+          class="p-6 sm:p-8 text-center hover:shadow-xl transition-all duration-300 relative {tier.isPopular
             ? 'border-2 border-accent-500 transform scale-105'
             : ''}"
         >
@@ -99,14 +201,14 @@
           {/if}
 
           <h3
-            class="text-2xl font-semibold text-gray-900 mb-2 {tier.badge
+            class="text-xl sm:text-2xl font-semibold text-gray-900 mb-2 {tier.badge
               ? 'mt-4'
               : ''}"
           >
             {tier.name}
           </h3>
           <div
-            class="text-5xl font-bold text-{tier.isPopular
+            class="text-4xl sm:text-5xl font-bold text-{tier.isPopular
               ? 'accent'
               : 'green'}-600 mb-{tier.monthlyPrice ? '2' : '4'}"
           >
@@ -117,13 +219,13 @@
             <p class="text-sm text-gray-600 mb-4">{tier.monthlyPrice}</p>
           {/if}
 
-          <p class="text-gray-700 mb-8">{tier.description}</p>
+          <p class="text-gray-700 mb-6 sm:mb-8">{tier.description}</p>
 
-          <ul class="text-left space-y-3 mb-8">
+          <ul class="text-left space-y-2 sm:space-y-3 mb-6 sm:mb-8">
             {#each tier.features as feature}
               <li class="flex items-start gap-2">
-                <Check size={20} class="text-green-500 mt-0.5" />
-                <span>{feature}</span>
+                <Check size={20} class="text-green-500 mt-0.5 flex-shrink-0" />
+                <span class="text-sm sm:text-base">{feature}</span>
               </li>
             {/each}
           </ul>
@@ -150,8 +252,8 @@
     </div>
 
     <!-- BNPL Info -->
-    <div class="text-center mt-12">
-      <p class="text-gray-700 max-w-2xl mx-auto">
+    <div class="text-center mt-8 sm:mt-12 px-4">
+      <p class="text-gray-700 max-w-2xl mx-auto text-sm sm:text-base">
         🚀 <strong>Fast Track:</strong> Start your project today with our Buy Now,
         Pay Later option. No credit check required - spread your investment over
         12 months at just $83/month.

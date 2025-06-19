@@ -226,14 +226,112 @@
 
   /* Mobile responsive */
   @media (max-width: 640px) {
+    .stats-card-content {
+      gap: 8px;
+    }
+    
+    .stats-header {
+      gap: 8px;
+    }
+    
+    .icon-container {
+      width: 36px;
+      height: 36px;
+    }
+    
+    .icon {
+      font-size: 18px;
+    }
+    
+    .stats-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
     .stats-value {
       font-size: 24px;
+      font-weight: 800;
+      margin: 2px 0;
     }
 
     .stats-change {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    
+    .change-indicator {
+      padding: 1px 4px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    
+    .change-icon {
+      width: 10px;
+      height: 10px;
+    }
+    
+    .change-label {
+      font-size: 11px;
+      font-weight: 500;
+    }
+  }
+  
+  /* Extra small mobile */
+  @media (max-width: 480px) {
+    .stats-value {
+      font-size: 20px;
+    }
+    
+    .stats-title {
+      font-size: 12px;
+    }
+    
+    .icon-container {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .icon {
+      font-size: 16px;
+    }
+  }
+  
+  /* Mobile-first improvements */
+  @media (max-width: 640px) {
+    /* Better mobile shadows */
+    :global(.size-md) .stats-card-content {
+      padding: 12px;
+    }
+    
+    /* Enhanced mobile contrast */
+    .stats-title {
+      color: rgb(75, 85, 99);
+    }
+    
+    .stats-value {
+      color: rgb(17, 24, 39);
+      text-shadow: none;
+    }
+    
+    /* Mobile-optimized change indicators */
+    .change-positive {
+      background: rgb(34, 197, 94);
+      color: white;
+      border-radius: 12px;
+    }
+    
+    .change-negative {
+      background: rgb(239, 68, 68);
+      color: white;
+      border-radius: 12px;
+    }
+    
+    .change-neutral {
+      background: rgb(107, 114, 128);
+      color: white;
+      border-radius: 12px;
     }
   }
 </style>

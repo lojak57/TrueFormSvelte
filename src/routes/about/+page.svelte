@@ -293,20 +293,72 @@
       </div>
     </section>
 
-    <!-- CTA Section -->
+    <!-- Special Doesn't Scale Section -->
     <section class="py-20 bg-gray-900 text-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold mb-6">
+            Special Doesn't Scale
+          </h2>
+          <p class="text-xl text-gray-300 max-w-3xl mx-auto">
+            Unlike where the rest of the industry is going, you won't see us advertising "Go live tonight!" or "Millions served!" 
+          </p>
+        </div>
+
+        <div class="bg-gray-800 rounded-2xl p-8 md:p-12 mb-12">
+          <div class="prose prose-lg prose-invert max-w-none">
+            <p class="text-gray-300 leading-relaxed text-lg mb-6">
+              <strong>No.</strong> If you look at our workflow, we aren't set up to serve millions. Every single request that comes through our site is reviewed and then designed by a real designer.
+            </p>
+            <p class="text-gray-300 leading-relaxed text-lg mb-6">
+              That real designer delivers you your site, complete with your authentication into the platform, as well as either a demo call or demo walkthrough video of your site with your actual designer.
+            </p>
+            <p class="text-accent-400 leading-relaxed text-lg font-semibold">
+              That's what makes us special, and why we will never "scale" in the traditional sense. We want to scale with YOU, our loyal clients.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="text-center">
+            <div class="w-16 h-16 bg-accent-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Globe size={32} class="text-white" />
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Real Designers</h3>
+            <p class="text-gray-400">Every project is handled by an actual human designer, not a template generator.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-accent-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Heart size={32} class="text-white" />
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Personal Touch</h3>
+            <p class="text-gray-400">Demo calls and walkthrough videos with your designer, not a support ticket system.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 bg-accent-600 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Award size={32} class="text-white" />
+            </div>
+            <h3 class="text-xl font-semibold mb-3">Quality Over Quantity</h3>
+            <p class="text-gray-400">We'd rather do fewer projects exceptionally well than millions mediocrely.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-accent-600 text-white">
       <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
         <h2 class="text-3xl md:text-4xl font-bold mb-6">
           Ready to Experience the Difference?
         </h2>
-        <p class="text-xl mb-10 text-gray-300">
+        <p class="text-xl mb-10 text-accent-100">
           Join the businesses who've discovered there really is a better way to get professional websites built.
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
-            variant="accent"
+            variant="outline"
             size="lg"
-            class="px-8 py-4 text-lg shadow-2xl hover:shadow-accent-500/25 transition-all duration-300 hover:scale-105"
+            class="border-white text-white hover:bg-white hover:text-accent-600 font-semibold px-8 py-4 text-lg transition-all duration-300"
           >
             <a href="/request?start=true" class="flex items-center gap-2">
               Start Your Project Today
@@ -316,7 +368,7 @@
           <Button
             variant="outline"
             size="lg"
-            class="border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white backdrop-blur-sm font-semibold px-8 py-4 text-lg"
+            class="border-white/70 bg-white/10 text-white hover:bg-white/20 hover:text-white backdrop-blur-sm font-semibold px-8 py-4 text-lg"
           >
             <a href="/contact"> Get in Touch </a>
           </Button>
