@@ -4,7 +4,7 @@
   import Industries from "$lib/components/sections/Industries.svelte";
   import Features from "$lib/components/sections/Features.svelte";
   import WebsiteEditor from "$lib/components/sections/WebsiteEditor.svelte";
-  import AdvancedFeatures from "$lib/components/sections/AdvancedFeatures.svelte";
+  import ComparisonChart from "$lib/components/sections/ComparisonChart.svelte";
   import Pricing from "$lib/components/sections/Pricing.svelte";
   import CallToAction from "$lib/components/sections/CallToAction.svelte";
 </script>
@@ -22,7 +22,7 @@
   <Hero />
   <Features />
   <WebsiteEditor />
-  <AdvancedFeatures />
+  <ComparisonChart />
   <Pricing />
   <Industries />
   <CallToAction />

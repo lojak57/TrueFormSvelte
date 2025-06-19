@@ -158,7 +158,7 @@ export const HERO_CONTENT = {
     highlight: "In Its True Form",
   },
   description:
-    "Custom-built sites for less than a year of Wix. First year of hosting & white-glove support included. Ready in 7 days, not months.",
+    "Professional custom websites at a fraction of agency prices. First year of hosting & white-glove support included. Ready in 7 days, not months.",
   buttons: {
     primary: {
       text: "Start Your Journey",
