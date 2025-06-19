@@ -28,12 +28,6 @@
       isActive: false,
     },
     {
-      id: "portfolio",
-      label: "Portfolio",
-      href: "/portfolio",
-      isActive: currentPath === "/portfolio",
-    },
-    {
       id: "about",
       label: "About",
       href: "/about",

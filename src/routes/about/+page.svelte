@@ -47,7 +47,7 @@
     {
       icon: DollarSign,
       title: "Outrageous Agency Pricing",
-      description: "Software companies charging $10,000-15,000 for what seemed like relatively simple websites.",
+      description: "Software companies charging $5,000-10,000+ for what seemed like relatively simple websites.",
       color: "text-purple-600 bg-purple-100",
     },
     {
@@ -171,7 +171,7 @@
               </p>
               <p class="text-gray-700 leading-relaxed text-lg">
                 After months of frustration and a site that still looked amateur, I decided to get quotes from professional developers. 
-                The prices were <strong>shocking</strong> - $10,000, $15,000, even $20,000+ for what seemed like relatively straightforward websites.
+                The prices were <strong>shocking</strong> - $5,000, $10,000, even $15,000+ for what seemed like relatively straightforward websites.
               </p>
               <p class="text-gray-700 leading-relaxed text-lg">
                 That's when it hit me: <strong>there had to be a better way.</strong> 
@@ -239,7 +239,7 @@
                   </div>
                   <div>
                     <h3 class="font-semibold text-gray-900 mb-2">Professional Quality</h3>
-                    <p class="text-gray-600">Custom-designed websites that look and perform like they cost $15k</p>
+                    <p class="text-gray-600">Custom-designed websites that look and perform like they cost $10k</p>
                   </div>
                 </div>
                 
@@ -279,7 +279,7 @@
               <div class="bg-accent-600 text-white p-8 rounded-2xl">
                 <h3 class="text-2xl font-bold mb-4">The TrueForm Promise</h3>
                 <p class="text-accent-100 text-lg leading-relaxed">
-                  "Professional websites shouldn't cost $15,000 or take 6 months to build. 
+                  "Professional websites shouldn't cost $10,000 or take 6 months to build. 
                   They shouldn't require you to wrestle with terrible DIY tools either. 
                   There's a better way - and that's what TrueForm is all about."
                 </p>

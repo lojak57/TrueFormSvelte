@@ -150,13 +150,6 @@
               </li>
               <li>
                 <a
-                  href="/portfolio"
-                  class="text-gray-300 hover:text-white transition-colors duration-200"
-                  >Portfolio</a
-                >
-              </li>
-              <li>
-                <a
                   href="/about"
                   class="text-gray-300 hover:text-white transition-colors duration-200"
                   >About Us</a
