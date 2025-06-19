@@ -181,7 +181,7 @@
     <div
       class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"
     />
-    <span class="ml-3 tf-text-muted">Loading proposal...</span>
+    <span class="ml-3 text-gray-600">Loading proposal...</span>
   </div>
 {:else if error}
   <div class="tf-card border-red-200 bg-red-50">
@@ -247,7 +247,7 @@
           </span>
         </div>
         <h1 class="tf-heading-1">{proposal.title}</h1>
-        <p class="tf-text-muted">
+        <p class="text-gray-600">
           Created {formatDate(proposal.created_at)}
           {#if proposal.proposal_number}
             • #{proposal.proposal_number}
@@ -260,7 +260,7 @@
           <div class="text-2xl font-bold text-primary-600">
             {formatCurrency(proposal.total)}
           </div>
-          <div class="text-sm tf-text-muted">Total Amount</div>
+          <div class="text-sm text-gray-600">Total Amount</div>
         </div>
         <div class="flex flex-col gap-2">
           <button class="tf-btn tf-btn-primary" on:click={downloadPDF}>
@@ -329,10 +329,10 @@
                 <div class="flex-1">
                   <h4 class="font-semibold text-gray-900">{company.name}</h4>
                   {#if company.website}
-                    <p class="text-sm tf-text-muted">{company.website}</p>
+                    <p class="text-sm text-gray-600">{company.website}</p>
                   {/if}
                   {#if company.billing_city && company.billing_state}
-                    <p class="text-sm tf-text-muted">
+                    <p class="text-sm text-gray-600">
                       {company.billing_city}, {company.billing_state}
                     </p>
                   {/if}
@@ -358,22 +358,22 @@
                       </svg>
                     </div>
                     <div>
-                      <p class="font-medium">
+                      <p class="font-medium text-gray-900">
                         {contact.first_name}
                         {contact.last_name}
                       </p>
                       {#if contact.title}
-                        <p class="text-sm tf-text-muted">{contact.title}</p>
+                        <p class="text-sm text-gray-600">{contact.title}</p>
                       {/if}
                       {#if contact.email}
-                        <p class="text-sm tf-text-muted">{contact.email}</p>
+                        <p class="text-sm text-gray-600">{contact.email}</p>
                       {/if}
                     </div>
                   </div>
                 </div>
               {/if}
             {:else}
-              <p class="tf-text-muted">Company information not available</p>
+              <p class="text-gray-600">Company information not available</p>
             {/if}
           </div>
         </div>
@@ -382,7 +382,7 @@
         <div class="tf-card">
           <div class="tf-card-header">
             <h3 class="tf-heading-3">Services & Products</h3>
-            <p class="tf-text-muted text-sm">
+            <p class="text-gray-600 text-sm">
               {proposal.line_items?.length || 0} items
             </p>
           </div>
@@ -399,21 +399,21 @@
                     <div class="flex-1">
                       <h4 class="font-medium text-gray-900">{item.name}</h4>
                       {#if item.description}
-                        <p class="text-sm tf-text-muted mt-1">
+                        <p class="text-sm text-gray-600 mt-1">
                           {item.description}
                         </p>
                       {/if}
                       <div
-                        class="flex items-center gap-4 mt-2 text-sm tf-text-muted"
+                        class="flex items-center gap-4 mt-2 text-sm text-gray-700"
                       >
-                        <span>Qty: {item.quantity}</span>
-                        <span>•</span>
-                        <span>Unit Price: {formatCurrency(item.unitPrice)}</span
+                        <span class="text-gray-700 font-medium">Qty: {item.quantity}</span>
+                        <span class="text-gray-500">•</span>
+                        <span class="text-gray-700 font-medium">Unit Price: {formatCurrency(item.unitPrice)}</span
                         >
                       </div>
                     </div>
                     <div class="ml-6 text-right">
-                      <div class="font-semibold text-lg">
+                      <div class="font-semibold text-lg text-gray-900">
                         {formatCurrency(item.quantity * item.unitPrice)}
                       </div>
                     </div>
@@ -421,7 +421,7 @@
                 {/each}
               </div>
             {:else}
-              <p class="tf-text-muted">No line items found</p>
+              <p class="text-gray-600">No line items found</p>
             {/if}
           </div>
         </div>
@@ -434,7 +434,7 @@
             </div>
             <div class="tf-card-body">
               <div class="prose prose-sm max-w-none">
-                <p class="whitespace-pre-wrap tf-text-muted">
+                <p class="whitespace-pre-wrap text-gray-700">
                   {proposal.notes}
                 </p>
               </div>
@@ -453,18 +453,18 @@
             </div>
             <div class="tf-card-body space-y-3">
               <div class="flex justify-between">
-                <span class="tf-text-muted">Subtotal</span>
-                <span class="font-medium"
+                <span class="text-gray-600">Subtotal</span>
+                <span class="font-medium text-gray-900"
                   >{formatCurrency(proposal.subtotal)}</span
                 >
               </div>
               <div class="flex justify-between">
-                <span class="tf-text-muted">Tax ({proposal.tax_rate}%)</span>
-                <span class="font-medium">{formatCurrency(proposal.tax)}</span>
+                <span class="text-gray-600">Tax ({proposal.tax_rate}%)</span>
+                <span class="font-medium text-gray-900">{formatCurrency(proposal.tax)}</span>
               </div>
               <hr class="border-gray-200" />
               <div class="flex justify-between text-lg">
-                <span class="font-semibold">Total</span>
+                <span class="font-semibold text-gray-900">Total</span>
                 <span class="font-bold text-primary-600"
                   >{formatCurrency(proposal.total)}</span
                 >
@@ -479,7 +479,7 @@
             </div>
             <div class="tf-card-body space-y-3">
               <div class="flex justify-between">
-                <span class="tf-text-muted">Status</span>
+                <span class="text-gray-600">Status</span>
                 <span
                   class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {getStatusColor(
                     proposal.status
@@ -489,21 +489,21 @@
                 </span>
               </div>
               <div class="flex justify-between">
-                <span class="tf-text-muted">Created</span>
-                <span class="font-medium"
+                <span class="text-gray-600">Created</span>
+                <span class="font-medium text-gray-900"
                   >{formatDate(proposal.created_at)}</span
                 >
               </div>
               <div class="flex justify-between">
-                <span class="tf-text-muted">Updated</span>
-                <span class="font-medium"
+                <span class="text-gray-600">Updated</span>
+                <span class="font-medium text-gray-900"
                   >{formatDate(proposal.updated_at)}</span
                 >
               </div>
               {#if proposal.valid_until}
                 <div class="flex justify-between">
-                  <span class="tf-text-muted">Valid Until</span>
-                  <span class="font-medium"
+                  <span class="text-gray-600">Valid Until</span>
+                  <span class="font-medium text-gray-900"
                     >{formatDate(proposal.valid_until)}</span
                   >
                 </div>
@@ -575,7 +575,7 @@
   </div>
 {:else}
   <div class="text-center py-12">
-    <h3 class="tf-heading-3 tf-text-muted">Proposal not found</h3>
+    <h3 class="tf-heading-3 text-gray-600">Proposal not found</h3>
     <button
       class="tf-btn tf-btn-primary mt-4"
       on:click={() => goto("/admin/proposals")}
