@@ -5,7 +5,6 @@
   import Features from "$lib/components/sections/Features.svelte";
   import WebsiteEditor from "$lib/components/sections/WebsiteEditor.svelte";
   import ComparisonChart from "$lib/components/sections/ComparisonChart.svelte";
-  import Pricing from "$lib/components/sections/Pricing.svelte";
   import CallToAction from "$lib/components/sections/CallToAction.svelte";
 </script>
 
@@ -23,7 +22,6 @@
   <Features />
   <WebsiteEditor />
   <ComparisonChart />
-  <Pricing />
   <Industries />
   <CallToAction />
 </div>
