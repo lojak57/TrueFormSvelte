@@ -137,39 +137,50 @@
 
         <!-- Features comparison table -->
         <div class="mt-12 bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
-          <div class="grid grid-cols-1 md:grid-cols-5 gap-0">
-            <!-- Feature names column -->
-            <div class="bg-gray-50 border-r border-gray-200">
-              <div class="p-4 border-b border-gray-200">
-                <h4 class="font-semibold text-gray-900">Features</h4>
-              </div>
-              {#each competitors[0].features as feature}
-                <div class="p-4 border-b border-gray-200 last:border-b-0">
-                  <span class="text-sm font-medium text-gray-700">{feature.name}</span>
-                </div>
-              {/each}
-            </div>
-
-            <!-- Competitor columns -->
-            {#each competitors as competitor}
-              <div class="border-r border-gray-200 last:border-r-0 {competitor.isUs ? 'bg-accent-50' : ''}">
-                <div class="p-4 border-b border-gray-200 text-center">
-                  <span class="text-sm font-semibold {competitor.isUs ? 'text-accent-700' : 'text-gray-700'}">
-                    {competitor.name}
-                  </span>
-                </div>
-                {#each competitor.features as feature}
-                  {@const display = getFeatureDisplay(feature.value)}
-                  <div class="p-4 border-b border-gray-200 last:border-b-0 text-center">
-                    {#if display.icon}
-                      <svelte:component this={display.icon} size={20} class="mx-auto {display.class}" />
-                    {:else}
-                      <span class="text-sm {display.class} font-medium">{display.text}</span>
-                    {/if}
-                  </div>
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-[800px]">
+              <!-- Header -->
+              <thead>
+                <tr class="bg-gray-50">
+                  <th class="text-left p-6 font-semibold text-gray-900 border-r border-gray-200">Features</th>
+                  {#each competitors as competitor}
+                    <th class="text-center p-6 border-r border-gray-200 last:border-r-0 {competitor.isUs ? 'bg-accent-50' : ''}">
+                      <div class="font-semibold {competitor.isUs ? 'text-accent-700' : 'text-gray-700'}">
+                        {competitor.name}
+                      </div>
+                      {#if competitor.isUs}
+                        <div class="inline-flex items-center px-2 py-1 bg-accent-600 text-white text-xs font-semibold rounded-full mt-2">
+                          <Zap size={10} class="mr-1" />
+                          RECOMMENDED
+                        </div>
+                      {/if}
+                    </th>
+                  {/each}
+                </tr>
+              </thead>
+              <!-- Body -->
+              <tbody>
+                {#each competitors[0].features as feature, index}
+                  <tr class="border-b border-gray-100 hover:bg-gray-25">
+                    <td class="p-6 font-medium text-gray-900 border-r border-gray-200 bg-gray-50/50">
+                      {feature.name}
+                    </td>
+                    {#each competitors as competitor}
+                      {@const display = getFeatureDisplay(competitor.features[index].value)}
+                      <td class="p-6 text-center border-r border-gray-200 last:border-r-0 {competitor.isUs ? 'bg-accent-25' : ''}">
+                        {#if display.icon}
+                          <div class="flex justify-center">
+                            <svelte:component this={display.icon} size={24} class="{display.class}" />
+                          </div>
+                        {:else}
+                          <span class="text-sm {display.class} font-medium">{display.text}</span>
+                        {/if}
+                      </td>
+                    {/each}
+                  </tr>
                 {/each}
-              </div>
-            {/each}
+              </tbody>
+            </table>
           </div>
         </div>
 
