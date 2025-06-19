@@ -1,8 +1,7 @@
 <script lang="ts">
   import ServiceHero from "./ServiceHero.svelte";
   import ServiceFeatures from "./ServiceFeatures.svelte";
-  import ServiceGallery from "./ServiceGallery.svelte";
-  import ServiceTestimonial from "./ServiceTestimonial.svelte";
+  import ServiceMarketing from "./ServiceMarketing.svelte";
   import ServiceCTA from "./ServiceCTA.svelte";
   import type { ServiceData } from "$lib/types/service.types";
 
@@ -31,12 +30,8 @@
     features={service.features}
   />
   
-  <ServiceGallery
-    gallery={service.gallery}
-  />
-  
-  <ServiceTestimonial
-    testimonial={service.testimonial}
+  <ServiceMarketing
+    marketingContent={service.marketingContent}
   />
   
   <ServiceCTA

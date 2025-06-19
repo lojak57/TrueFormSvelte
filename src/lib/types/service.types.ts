@@ -6,19 +6,11 @@ export interface ServiceFeature {
   description: string;
 }
 
-export interface ServiceGalleryItem {
-  src: string;
-  alt: string;
-  title?: string;
-  description?: string;
-}
-
-export interface ServiceTestimonial {
-  quote: string;
-  author: string;
-  company: string;
-  role: string;
-  avatar?: string;
+export interface ServiceMarketingSection {
+  title: string;
+  description: string;
+  highlights: string[];
+  benefits: string[];
 }
 
 export interface ServiceData {
@@ -32,11 +24,8 @@ export interface ServiceData {
   // Features
   features: ServiceFeature[];
   
-  // Gallery
-  gallery: ServiceGalleryItem[];
-  
-  // Testimonial
-  testimonial: ServiceTestimonial;
+  // Marketing Content
+  marketingContent: ServiceMarketingSection;
   
   // CTA
   ctaTitle: string;

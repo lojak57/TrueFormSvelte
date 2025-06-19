@@ -62,31 +62,29 @@ export const servicesData: Record<string, ServiceData> = {
         description: "Built-in contact forms, newsletter signups, and lead magnets to grow your customer list."
       }
     ],
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Modern marketing website hero section",
-        title: "Hero Sections That Convert",
-        description: "Clear messaging, compelling CTAs, and stunning visuals that capture attention instantly."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Services showcase section",
-        title: "Service Showcases",
-        description: "Present your offerings with clarity and visual appeal that builds trust."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Customer testimonials section",
-        title: "Social Proof That Works",
-        description: "Testimonials, reviews, and case studies that build credibility and trust."
-      }
-    ],
-    testimonial: {
-      quote: "Our new website increased our leads by 340% in the first month. The design is beautiful and the performance is incredible.",
-      author: "Sarah Martinez",
-      company: "Growth Marketing Agency",
-      role: "Founder & CEO"
+    marketingContent: {
+      title: "Professional Marketing Websites That Drive Results",
+      description: "Every element is strategically designed to convert visitors into customers. No generic templates—just custom solutions that reflect your brand and drive business growth.",
+      highlights: [
+        "Custom design tailored to your brand and industry",
+        "Conversion-optimized layout and user experience",
+        "Mobile-first responsive design for all devices",
+        "SEO-optimized structure for better search rankings",
+        "Fast loading speeds (under 3 seconds)",
+        "Professional copywriting and content strategy",
+        "Contact forms and lead capture systems",
+        "Analytics and tracking setup included"
+      ],
+      benefits: [
+        "Increase online credibility and trust",
+        "Generate more qualified leads 24/7",
+        "Reduce bounce rates with engaging design",
+        "Improve search engine visibility",
+        "Streamline customer acquisition process",
+        "Professional brand presence that stands out",
+        "Better return on marketing investment",
+        "Easy content updates with admin dashboard"
+      ]
     },
     ctaTitle: "Ready to Transform Your Marketing?",
     ctaDescription: "Join hundreds of businesses that have increased their conversions with a TrueForm marketing website. Professional design, proven conversion tactics, and ongoing support.",
@@ -133,31 +131,29 @@ export const servicesData: Record<string, ServiceData> = {
         description: "SSL certificates, PCI compliance, and secure customer data handling built-in."
       }
     ],
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "E-commerce product showcase",
-        title: "Beautiful Product Displays",
-        description: "High-quality product galleries with zoom, multiple views, and detailed descriptions."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Shopping cart and checkout",
-        title: "Streamlined Checkout",
-        description: "Optimized checkout process that reduces cart abandonment and increases sales."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Admin dashboard",
-        title: "Powerful Admin Dashboard",
-        description: "Manage products, orders, customers, and analytics from one beautiful interface."
-      }
-    ],
-    testimonial: {
-      quote: "Sales increased 280% after launching our new TrueForm store. The checkout process is so smooth, and managing inventory is a breeze.",
-      author: "Michael Chen",
-      company: "Artisan Leather Co.",
-      role: "Owner"
+    marketingContent: {
+      title: "Complete E-commerce Solutions That Sell",
+      description: "From product showcase to checkout optimization, we build online stores that convert browsers into buyers. Professional e-commerce platforms with all the features you need to succeed online.",
+      highlights: [
+        "Complete product catalog with search and filtering",
+        "Secure payment processing with Stripe integration",
+        "Inventory management with low-stock alerts",
+        "Mobile-optimized shopping experience",
+        "Order management and customer notifications",
+        "SEO-optimized product pages",
+        "Analytics and sales reporting dashboard",
+        "Customer account creation and order history"
+      ],
+      benefits: [
+        "Expand your market reach beyond local customers",
+        "Automate sales processes and reduce manual work",
+        "Professional credibility builds customer trust",
+        "24/7 sales capability increases revenue potential",
+        "Detailed analytics help optimize performance",
+        "Scalable platform grows with your business",
+        "Reduced overhead compared to physical retail",
+        "Easy product and inventory management"
+      ]
     },
     ctaTitle: "Ready to Launch Your Online Store?",
     ctaDescription: "Start selling online with a professional e-commerce store that's built for conversions. Complete with payment processing, inventory management, and mobile optimization.",
@@ -204,31 +200,29 @@ export const servicesData: Record<string, ServiceData> = {
         description: "Customers can book from any device with a mobile-optimized booking experience."
       }
     ],
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Booking calendar interface",
-        title: "Intuitive Booking Calendar",
-        description: "Clean, easy-to-use calendar interface that customers love to use."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Service selection screen",
-        title: "Service Selection",
-        description: "Let customers choose services, duration, and pricing before booking."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Admin booking management",
-        title: "Admin Management",
-        description: "Manage bookings, view schedules, and handle customer communications effortlessly."
-      }
-    ],
-    testimonial: {
-      quote: "The booking system has been a game-changer. We've reduced phone calls by 80% and bookings increased 150% since launching.",
-      author: "Lisa Thompson",
-      company: "Serenity Spa & Wellness",
-      role: "Business Owner"
+    marketingContent: {
+      title: "Professional Booking Systems That Work 24/7",
+      description: "Automate appointment scheduling and reduce administrative overhead with intelligent booking systems. Customers can book appointments anytime while you focus on delivering great service.",
+      highlights: [
+        "Real-time availability and automated scheduling",
+        "Service selection with duration and pricing",
+        "Automated confirmation and reminder emails",
+        "Payment processing and deposit collection",
+        "Customer history and preference tracking",
+        "Mobile-optimized booking experience",
+        "Calendar integration with staff schedules",
+        "Booking analytics and no-show tracking"
+      ],
+      benefits: [
+        "Reduce phone calls and administrative time",
+        "Accept bookings 24/7 without staff involvement",
+        "Minimize no-shows with automated reminders",
+        "Improve customer experience with easy booking",
+        "Better staff scheduling and resource management",
+        "Increase revenue with deposit collection",
+        "Professional image builds customer trust",
+        "Detailed booking analytics improve operations"
+      ]
     },
     ctaTitle: "Automate Your Booking Process",
     ctaDescription: "Stop playing phone tag and let customers book online 24/7. Professional booking systems that integrate seamlessly with your workflow.",
@@ -275,31 +269,29 @@ export const servicesData: Record<string, ServiceData> = {
         description: "Built to handle growth from hundreds to millions of users with automatic scaling."
       }
     ],
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "SaaS dashboard interface",
-        title: "Beautiful Dashboard",
-        description: "Intuitive admin dashboards with real-time data and actionable insights."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "User management system",
-        title: "User Management",
-        description: "Complete user lifecycle management with roles, permissions, and billing integration."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Analytics dashboard",
-        title: "Advanced Analytics",
-        description: "Detailed analytics and reporting to track usage, performance, and business metrics."
-      }
-    ],
-    testimonial: {
-      quote: "TrueForm built our SaaS platform from the ground up. We now serve 10,000+ users across 40 countries with zero downtime.",
-      author: "David Park",
-      company: "CloudFlow Solutions",
-      role: "CTO & Co-founder"
+    marketingContent: {
+      title: "Enterprise-Grade SaaS Platforms Built to Scale",
+      description: "Transform your software idea into a professional SaaS business with multi-tenant architecture, subscription billing, and enterprise security. Built for growth from day one.",
+      highlights: [
+        "Multi-tenant architecture with data isolation",
+        "Subscription billing and payment processing",
+        "User management with roles and permissions",
+        "RESTful APIs and webhook integrations",
+        "Analytics dashboards and usage tracking",
+        "Enterprise security and compliance features",
+        "Scalable infrastructure for growth",
+        "Admin panel for platform management"
+      ],
+      benefits: [
+        "Generate recurring revenue with subscriptions",
+        "Scale to thousands of users efficiently",
+        "Reduce development time with proven architecture",
+        "Enterprise-ready security builds trust",
+        "Data-driven insights improve product decisions",
+        "Automated billing reduces manual work",
+        "API integrations expand platform value",
+        "Professional platform attracts enterprise clients"
+      ]
     },
     ctaTitle: "Build Your SaaS Platform",
     ctaDescription: "Transform your idea into a scalable SaaS business. From MVP to enterprise-grade platforms with all the features you need to succeed.",
@@ -346,31 +338,29 @@ export const servicesData: Record<string, ServiceData> = {
         description: "Analytics to track which projects get the most attention and drive inquiries."
       }
     ],
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Creative portfolio homepage",
-        title: "Striking Homepage Design",
-        description: "Make a powerful first impression with bold, creative homepage designs."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Project gallery layout",
-        title: "Project Galleries",
-        description: "Beautiful grid and masonry layouts that showcase your work professionally."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Project detail page",
-        title: "Detailed Case Studies",
-        description: "Tell the story behind each project with rich media and compelling narratives."
-      }
-    ],
-    testimonial: {
-      quote: "My portfolio site has generated over $100k in new business this year. The design perfectly represents my brand and converts visitors into clients.",
-      author: "Emma Rodriguez",
-      company: "Rodriguez Design Studio",
-      role: "Creative Director"
+    marketingContent: {
+      title: "Portfolio Websites That Win Clients",
+      description: "Showcase your creative work with professional portfolio sites that impress potential clients and communicate your expertise. Clean, modern designs that let your work speak for itself.",
+      highlights: [
+        "Custom design tailored to your creative style",
+        "High-quality image galleries and project showcases",
+        "Detailed case studies with project narratives",
+        "Professional contact forms and inquiry systems",
+        "SEO optimization for online visibility",
+        "Mobile-responsive design for all devices",
+        "Fast loading speeds for image-heavy content",
+        "Analytics tracking for portfolio performance"
+      ],
+      benefits: [
+        "Professional credibility attracts better clients",
+        "24/7 showcase of your best work",
+        "Streamlined client inquiry process",
+        "Better project communication through case studies",
+        "Improved search engine visibility",
+        "Reduced time spent on client presentations",
+        "Higher conversion rates from inquiries",
+        "Professional brand presence that stands out"
+      ]
     },
     ctaTitle: "Showcase Your Best Work",
     ctaDescription: "Create a portfolio that wins clients and showcases your expertise. Professional design that reflects your creative abilities and drives business results.",
@@ -417,31 +407,29 @@ export const servicesData: Record<string, ServiceData> = {
         description: "Easy-to-use system for uploading courses, videos, documents, and organizing content."
       }
     ],
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Membership dashboard",
-        title: "Member Dashboard",
-        description: "Personalized dashboards showing progress, achievements, and available content."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1515378791036-0648a814c963?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Course content interface",
-        title: "Course Content",
-        description: "Structured learning paths with videos, documents, and progress tracking."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Community forum",
-        title: "Community Forums",
-        description: "Engage members with discussion forums, Q&A sections, and peer interaction."
-      }
-    ],
-    testimonial: {
-      quote: "Our membership site has grown to 2,500+ active members generating $50k monthly recurring revenue. The platform handles everything seamlessly.",
-      author: "James Wilson",
-      company: "Digital Marketing Mastery",
-      role: "Founder"
+    marketingContent: {
+      title: "Membership Platforms That Build Communities",
+      description: "Create recurring revenue streams with professional membership sites that engage your audience and deliver exclusive value. Complete platforms for courses, communities, and premium content.",
+      highlights: [
+        "Secure member registration and access control",
+        "Subscription billing with multiple membership tiers",
+        "Protected content delivery and course management",
+        "Community forums and member interaction tools",
+        "Progress tracking and achievement systems",
+        "Member directory and networking features",
+        "Email automation and member communications",
+        "Analytics and engagement reporting"
+      ],
+      benefits: [
+        "Generate predictable monthly recurring revenue",
+        "Build loyal community around your expertise",
+        "Scale knowledge delivery beyond 1-on-1 time",
+        "Create premium value proposition for customers",
+        "Reduce customer acquisition costs through retention",
+        "Automate content delivery and member management",
+        "Establish thought leadership in your industry",
+        "Higher lifetime customer value than one-time sales"
+      ]
     },
     ctaTitle: "Launch Your Membership Community",
     ctaDescription: "Build recurring revenue with a professional membership platform. Engage your audience, deliver value, and create a thriving community around your expertise.",
@@ -488,31 +476,29 @@ export const servicesData: Record<string, ServiceData> = {
         description: "Perfect mobile experience for clients browsing properties on-the-go."
       }
     ],
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Property listing page",
-        title: "Stunning Property Pages",
-        description: "Showcase properties with high-quality photos, virtual tours, and detailed information."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Property search interface",
-        title: "Advanced Search",
-        description: "Intuitive search and filtering system that helps clients find their perfect property."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Agent profile pages",
-        title: "Agent Profiles",
-        description: "Professional agent pages with listings, testimonials, and contact information."
-      }
-    ],
-    testimonial: {
-      quote: "Our new real estate platform has increased our lead generation by 400%. The property search is incredibly intuitive and clients love the virtual tours.",
-      author: "Robert Taylor",
-      company: "Premier Properties Group",
-      role: "Managing Broker"
+    marketingContent: {
+      title: "Real Estate Platforms That Generate Leads",
+      description: "Professional real estate websites with advanced search, property showcases, and lead capture systems. Built for agents, brokers, and property management companies to drive business growth.",
+      highlights: [
+        "Beautiful property listings with photo galleries",
+        "Advanced search and filtering by criteria",
+        "MLS integration for automatic updates",
+        "Lead capture forms and inquiry management",
+        "Agent profiles and team showcases",
+        "Market reports and neighborhood analytics",
+        "Mobile-optimized property browsing",
+        "Contact management and follow-up systems"
+      ],
+      benefits: [
+        "Generate more qualified property leads",
+        "Professional credibility builds client trust",
+        "24/7 property showcase without staff time",
+        "Better client experience drives referrals",
+        "Automated lead capture and management",
+        "Competitive advantage with advanced features",
+        "Improved agent productivity and efficiency",
+        "Data insights help optimize marketing efforts"
+      ]
     },
     ctaTitle: "Elevate Your Real Estate Business",
     ctaDescription: "Showcase properties professionally and generate more leads with a custom real estate platform. MLS integration, virtual tours, and powerful search features included.",
@@ -559,31 +545,29 @@ export const servicesData: Record<string, ServiceData> = {
         description: "Handle course payments, installments, and scholarship management seamlessly."
       }
     ],
-    gallery: [
-      {
-        src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Learning dashboard",
-        title: "Student Dashboard",
-        description: "Intuitive dashboards that help students track their learning progress and achievements."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Course content interface",
-        title: "Course Content",
-        description: "Rich course content with videos, documents, interactive elements, and assessments."
-      },
-      {
-        src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1074&q=80",
-        alt: "Assessment system",
-        title: "Assessment Tools",
-        description: "Comprehensive testing and grading systems with automated feedback and analytics."
-      }
-    ],
-    testimonial: {
-      quote: "Our online learning platform has enabled us to reach 5,000+ students globally. The system handles everything from enrollment to certification seamlessly.",
-      author: "Dr. Amanda Foster",
-      company: "Digital Skills Institute",
-      role: "Academic Director"
+    marketingContent: {
+      title: "Educational Platforms That Enhance Learning",
+      description: "Comprehensive learning management systems with course delivery, student tracking, and assessment tools. Perfect for schools, training companies, and online educators seeking to deliver quality education at scale.",
+      highlights: [
+        "Complete course management and content delivery",
+        "Student portals with progress tracking",
+        "Assessment tools with automated grading",
+        "Interactive learning materials and multimedia",
+        "Communication tools for student-teacher interaction",
+        "Enrollment management and payment processing",
+        "Certification and credential management",
+        "Analytics and performance reporting"
+      ],
+      benefits: [
+        "Scale education delivery beyond physical limits",
+        "Improve student engagement and outcomes",
+        "Reduce administrative overhead and costs",
+        "Professional platform builds institutional credibility",
+        "Data-driven insights improve course effectiveness",
+        "Flexible learning accommodates diverse schedules",
+        "Automated processes reduce manual work",
+        "Revenue opportunities through online course sales"
+      ]
     },
     ctaTitle: "Transform Education Delivery",
     ctaDescription: "Create engaging learning experiences with a professional educational platform. Course management, student tracking, and assessment tools all included.",
