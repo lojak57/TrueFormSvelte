@@ -89,7 +89,7 @@ export function generateSimplePDF(data: SimplePDFData): string {
     .header {
       background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
       color: #1e293b;
-      padding: 32px 40px;
+      padding: 24px 40px;
       position: relative;
       border-bottom: 1px solid #e2e8f0;
     }
@@ -106,7 +106,7 @@ export function generateSimplePDF(data: SimplePDFData): string {
     }
     
     .logo {
-      height: 48px;
+      height: 80px;
       width: auto;
     }
     
