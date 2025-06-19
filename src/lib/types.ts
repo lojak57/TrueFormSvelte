@@ -80,6 +80,12 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface AuthResponse {
+  success: boolean;
+  user?: UserSession;
+  error?: string;
+}
+
 export interface NavItem {
   label: string;
   href: string;
@@ -93,12 +99,23 @@ export interface WizardStep {
   title: string;
   description?: string;
   isComplete: boolean;
+  isValid?: boolean;
 }
 
 export interface CreateProjectDTO {
   name: string;
   description?: string;
   company_id: string;
+  status?: string;
+  project_type?: string;
+  start_date?: string;
+  end_date?: string;
+  budget?: number;
+}
+
+export interface UpdateProjectDTO {
+  name?: string;
+  description?: string;
   status?: string;
   project_type?: string;
   start_date?: string;

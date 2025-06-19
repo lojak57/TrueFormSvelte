@@ -1,13 +1,21 @@
 import { error } from '@sveltejs/kit';
 import { supabase } from '$lib/supabaseClient';
 import type { UserSession } from '$lib/types';
+import { rateLimiters, createRateLimitResponse } from './rateLimit';
 
 /**
- * Authentication middleware for API routes
+ * Authentication middleware for API routes with rate limiting
  * Verifies the user's session and returns user data
- * Throws 401 error if authentication fails
+ * Throws 401 error if authentication fails or 429 if rate limited
  */
-export async function requireAuth(request: Request): Promise<UserSession> {
+export async function requireAuth(request: Request, useRateLimit = true): Promise<UserSession> {
+  // Apply rate limiting for auth endpoints
+  if (useRateLimit) {
+    const rateLimitResult = rateLimiters.auth.middleware(request);
+    if (!rateLimitResult.allowed) {
+      throw createRateLimitResponse(rateLimitResult.resetTime);
+    }
+  }
   try {
     // Get authorization header
     const authHeader = request.headers.get('authorization');

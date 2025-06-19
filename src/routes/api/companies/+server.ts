@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { requireAuth } from "$lib/utils/auth";
+import { rateLimiters, createRateLimitResponse } from "$lib/utils/rateLimit";
 
 const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_URL,
@@ -11,6 +12,12 @@ const supabase = createClient(
 export const GET: RequestHandler = async ({ request }) => {
   // 🔒 SECURE: Require authentication for CRM data
   await requireAuth(request);
+  
+  // Apply rate limiting for admin endpoints
+  const rateLimitResult = rateLimiters.admin.middleware(request);
+  if (!rateLimitResult.allowed) {
+    return createRateLimitResponse(rateLimitResult.resetTime);
+  }
   try {
     const { data: companies, error } = await supabase
       .from("tf_companies")
@@ -38,6 +45,12 @@ export const GET: RequestHandler = async ({ request }) => {
 export const POST: RequestHandler = async ({ request }) => {
   // 🔒 SECURE: Require authentication for creating companies
   await requireAuth(request);
+  
+  // Apply rate limiting for admin endpoints
+  const rateLimitResult = rateLimiters.admin.middleware(request);
+  if (!rateLimitResult.allowed) {
+    return createRateLimitResponse(rateLimitResult.resetTime);
+  }
   try {
     const dto = await request.json();
 
