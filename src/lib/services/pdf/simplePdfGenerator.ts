@@ -89,40 +89,38 @@ export function generateSimplePDF(data: SimplePDFData): string {
     .header {
       background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
       color: white;
-      padding: 40px;
+      padding: 32px 40px;
       position: relative;
-      overflow: hidden;
-    }
-    
-    .header::after {
-      content: '✨';
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      font-size: 24px;
-      opacity: 0.3;
     }
     
     .header-content {
       display: flex;
       justify-content: space-between;
-      align-items: flex-end;
-      position: relative;
-      z-index: 2;
+      align-items: center;
+    }
+    
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     
     .logo {
-      font-size: 32px;
-      font-weight: 900;
-      color: #f59e0b;
-      text-transform: uppercase;
-      letter-spacing: -1px;
+      height: 32px;
+      width: auto;
+    }
+    
+    .logo-text {
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.5px;
     }
     
     .tagline {
-      font-size: 12px;
+      font-size: 11px;
       color: #94a3b8;
-      margin-top: 5px;
+      margin-top: 2px;
       font-style: italic;
     }
     
@@ -179,14 +177,6 @@ export function generateSimplePDF(data: SimplePDFData): string {
       position: relative;
     }
     
-    .client-info::before {
-      content: '🏢';
-      position: absolute;
-      top: 16px;
-      right: 20px;
-      font-size: 20px;
-      opacity: 0.6;
-    }
     
     .client-name {
       font-size: 20px;
@@ -201,45 +191,29 @@ export function generateSimplePDF(data: SimplePDFData): string {
     }
     
     .total-highlight {
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
       color: white;
-      padding: 20px 24px;
+      padding: 24px;
       border-radius: 12px;
       text-align: center;
       margin: 25px 0;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .total-highlight::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-      animation: shimmer 3s ease-in-out infinite;
-    }
-    
-    @keyframes shimmer {
-      0%, 100% { transform: scale(0); opacity: 0; }
-      50% { transform: scale(1); opacity: 1; }
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
     
     .total-label {
-      font-size: 14px;
-      opacity: 0.9;
-      margin-bottom: 5px;
+      font-size: 13px;
+      opacity: 0.8;
+      margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 1px;
+      color: #cbd5e1;
     }
     
     .total-amount {
-      font-size: 36px;
-      font-weight: 900;
-      position: relative;
-      z-index: 2;
+      font-size: 32px;
+      font-weight: 800;
+      color: white;
     }
     
     .section-title {
@@ -363,9 +337,12 @@ export function generateSimplePDF(data: SimplePDFData): string {
     <!-- Header -->
     <div class="header">
       <div class="header-content">
-        <div>
-          <div class="logo">TrueForm</div>
-          <div class="tagline">Excellence Refined.</div>
+        <div class="logo-section">
+          <img src="https://true-form-apps.com/logo.svg" alt="TrueForm" class="logo" />
+          <div>
+            <div class="logo-text">TrueForm</div>
+            <div class="tagline">Excellence Refined.</div>
+          </div>
         </div>
         <div class="proposal-info">
           <div class="proposal-number">#${data.proposal.id.slice(-8).toUpperCase()}</div>
