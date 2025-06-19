@@ -77,7 +77,7 @@
           <Button
             variant="outline"
             size="lg"
-            class="px-8 py-4 text-lg border-white/30 text-white hover:bg-white/10 hover:text-white backdrop-blur-sm font-semibold"
+            class="px-8 py-4 text-lg border-white bg-white/10 text-white hover:bg-white/20 hover:text-white backdrop-blur-sm font-bold"
             on:click={() =>
               (window.location.href = HERO_CONTENT.buttons.secondary.href)}
           >
