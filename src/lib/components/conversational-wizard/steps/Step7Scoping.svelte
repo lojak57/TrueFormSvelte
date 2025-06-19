@@ -2,7 +2,7 @@
   import { conversationalWizard } from '../conversationalWizardStore';
   import InlineReassurance from '../reassurance/InlineReassurance.svelte';
   import { fade, fly } from 'svelte/transition';
-  import { ShoppingCart, Calendar, Camera, Edit3, FileText, Users, Globe, Sparkles, Mail, PenTool } from 'lucide-svelte';
+  import { ShoppingCart, Calendar, Camera, Edit3, FileText, Users, Globe, Sparkles, Mail, PenTool, Database } from 'lucide-svelte';
   
   let selectedAddons = [];
   const basePrice = 999;
@@ -17,6 +17,17 @@
   }
   
   const addons = [
+    {
+      id: 'crm',
+      title: 'CRM Integration',
+      price: 200,
+      description: 'Custom-branded CRM with lead management ($49/month after launch)',
+      icon: Database,
+      imageBg: 'from-blue-500 to-blue-700',
+      iconColor: 'text-white',
+      benefits: ['Lead tracking', 'Customer management', 'Custom branding', 'Monthly service: $49'],
+      popular: true
+    },
     {
       id: 'ecommerce',
       title: 'eCommerce (Lite)',
@@ -198,6 +209,9 @@
             <!-- Visual Header -->
             <div class="addon-visual bg-gradient-to-br {addon.imageBg}">
               <svelte:component this={addon.icon} size={32} class={addon.iconColor} />
+              {#if addon.popular}
+                <div class="popular-badge">POPULAR</div>
+              {/if}
             </div>
             
             <!-- Content -->
@@ -256,9 +270,9 @@
         </p>
         
         <p class="pricing-anchor" in:fade={{ duration: 400, delay: 2900 }}>
-          <strong>Most clients land between $1,200 and $1,500.</strong><br>
+          <strong>Most clients add CRM Integration and land between $1,200 and $1,500.</strong><br>
           <span class="text-sm text-gray-500">
-            Compare to dev firms: $5,000+ • DIY builders: $684/yr + your time
+            Compare to dev firms: $5,000+ • DIY builders: $684/yr + your time • CRM monthly: $49
           </span>
         </p>
       </div>
@@ -385,6 +399,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+  }
+  
+  .popular-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #1d4ed8;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
   }
   
   .addon-content {

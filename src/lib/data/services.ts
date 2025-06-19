@@ -71,9 +71,9 @@ export const servicesData: Record<string, ServiceData> = {
         "Mobile-first responsive design for all devices",
         "SEO-optimized structure for better search rankings",
         "Fast loading speeds (under 3 seconds)",
-        "Professional copywriting and content strategy",
+        "Content guidance and copywriting support",
         "Contact forms and lead capture systems",
-        "Analytics and tracking setup included"
+        "Basic analytics and tracking setup included"
       ],
       benefits: [
         "Increase online credibility and trust",
@@ -86,10 +86,10 @@ export const servicesData: Record<string, ServiceData> = {
         "Easy content updates with admin dashboard"
       ]
     },
-    ctaTitle: "Ready to Transform Your Marketing?",
-    ctaDescription: "Join hundreds of businesses that have increased their conversions with a TrueForm marketing website. Professional design, proven conversion tactics, and ongoing support.",
+    ctaTitle: "Start Your Marketing Website Project",
+    ctaDescription: "Transform your marketing with a professional website designed to convert. Starting at $999. Most clients add CRM integration (+$200) for complete lead management.",
     metaTitle: "Marketing Websites That Convert | TrueForm",
-    metaDescription: "Professional marketing websites designed to convert visitors into customers. Mobile-first, SEO-optimized, and built for results. Starting at $999."
+    metaDescription: "Professional marketing websites designed to convert visitors into customers. Mobile-first, SEO-optimized, and built for results. Starting at $999. CRM integration commonly added."
   },
 
   ecommerce: {
@@ -135,13 +135,13 @@ export const servicesData: Record<string, ServiceData> = {
       title: "Complete E-commerce Solutions That Sell",
       description: "From product showcase to checkout optimization, we build online stores that convert browsers into buyers. Professional e-commerce platforms with all the features you need to succeed online.",
       highlights: [
-        "Complete product catalog with search and filtering",
+        "Product catalog with basic search and filtering",
         "Secure payment processing with Stripe integration",
-        "Inventory management with low-stock alerts",
+        "Basic inventory tracking and management",
         "Mobile-optimized shopping experience",
         "Order management and customer notifications",
         "SEO-optimized product pages",
-        "Analytics and sales reporting dashboard",
+        "Basic sales analytics and reporting",
         "Customer account creation and order history"
       ],
       benefits: [
@@ -155,10 +155,10 @@ export const servicesData: Record<string, ServiceData> = {
         "Easy product and inventory management"
       ]
     },
-    ctaTitle: "Ready to Launch Your Online Store?",
-    ctaDescription: "Start selling online with a professional e-commerce store that's built for conversions. Complete with payment processing, inventory management, and mobile optimization.",
+    ctaTitle: "Start Your E-commerce Store Project",
+    ctaDescription: "Launch your online store with professional e-commerce features. Starting at $1,199 (includes E-commerce Lite). Most clients add CRM integration (+$200) for customer management.",
     metaTitle: "Professional E-commerce Stores | TrueForm",
-    metaDescription: "Complete online stores with secure payments, inventory management, and conversion optimization. Mobile-first design that drives sales. Starting at $999."
+    metaDescription: "Professional e-commerce stores with product catalogs, secure payments, and mobile optimization. Starting at $1,199 (includes E-commerce Lite). CRM integration commonly added."
   },
 
   booking: {
@@ -210,8 +210,8 @@ export const servicesData: Record<string, ServiceData> = {
         "Payment processing and deposit collection",
         "Customer history and preference tracking",
         "Mobile-optimized booking experience",
-        "Calendar integration with staff schedules",
-        "Booking analytics and no-show tracking"
+        "Basic calendar integration",
+        "Simple booking tracking and reporting"
       ],
       benefits: [
         "Reduce phone calls and administrative time",
@@ -224,10 +224,10 @@ export const servicesData: Record<string, ServiceData> = {
         "Detailed booking analytics improve operations"
       ]
     },
-    ctaTitle: "Automate Your Booking Process",
-    ctaDescription: "Stop playing phone tag and let customers book online 24/7. Professional booking systems that integrate seamlessly with your workflow.",
+    ctaTitle: "Start Your Booking System Project",
+    ctaDescription: "Automate appointment scheduling with professional booking systems. Starting at $1,199 (includes Booking/Scheduling). Most clients add CRM integration (+$200).",
     metaTitle: "Booking & Scheduling Systems | TrueForm",
-    metaDescription: "Professional booking systems for appointments and services. Automated scheduling, payments, and customer management. Perfect for service businesses."
+    metaDescription: "Professional booking systems for appointments and services. Starting at $1,199 (includes Booking/Scheduling). CRM integration commonly added for complete client management."
   },
 
 
@@ -278,11 +278,11 @@ export const servicesData: Record<string, ServiceData> = {
         "Secure member registration and access control",
         "Subscription billing with multiple membership tiers",
         "Protected content delivery and course management",
-        "Community forums and member interaction tools",
-        "Progress tracking and achievement systems",
-        "Member directory and networking features",
+        "Basic member interaction and messaging",
+        "Simple progress tracking",
+        "Member directory and profiles",
         "Email automation and member communications",
-        "Analytics and engagement reporting"
+        "Basic member analytics and reporting"
       ],
       benefits: [
         "Generate predictable monthly recurring revenue",
@@ -295,10 +295,10 @@ export const servicesData: Record<string, ServiceData> = {
         "Higher lifetime customer value than one-time sales"
       ]
     },
-    ctaTitle: "Launch Your Membership Community",
-    ctaDescription: "Build recurring revenue with a professional membership platform. Engage your audience, deliver value, and create a thriving community around your expertise.",
+    ctaTitle: "Start Your Membership Site Project",
+    ctaDescription: "Build your membership community with professional platform features. Starting at $1,499 (includes Client Portal + CRM Integration required). $49/month CRM included.",
     metaTitle: "Membership Site Development | TrueForm",
-    metaDescription: "Professional membership platforms with gated content, community features, and subscription billing. Perfect for online courses and exclusive communities."
+    metaDescription: "Professional membership platforms with gated content and user management. Starting at $1,499 (includes Client Portal + CRM Integration required). Community features available."
   },
 
   realestate: {
@@ -321,8 +321,8 @@ export const servicesData: Record<string, ServiceData> = {
       },
       {
         icon: Database,
-        title: "MLS Integration",
-        description: "Seamless integration with MLS systems for automatic property updates and synchronization."
+        title: "Property Integration",
+        description: "Property data integration capabilities for showcasing listings and availability."
       },
       {
         icon: Mail,
@@ -331,8 +331,8 @@ export const servicesData: Record<string, ServiceData> = {
       },
       {
         icon: TrendingUp,
-        title: "Market Analytics",
-        description: "Market reports, price trends, and neighborhood statistics to assist buyers and sellers."
+        title: "Property Analytics",
+        description: "Basic property information and lead tracking to assist with client management."
       },
       {
         icon: Smartphone,
@@ -346,10 +346,10 @@ export const servicesData: Record<string, ServiceData> = {
       highlights: [
         "Beautiful property listings with photo galleries",
         "Advanced search and filtering by criteria",
-        "MLS integration for automatic updates",
+        "Property integration capabilities",
         "Lead capture forms and inquiry management",
         "Agent profiles and team showcases",
-        "Market reports and neighborhood analytics",
+        "Basic market information display",
         "Mobile-optimized property browsing",
         "Contact management and follow-up systems"
       ],
@@ -364,10 +364,10 @@ export const servicesData: Record<string, ServiceData> = {
         "Data insights help optimize marketing efforts"
       ]
     },
-    ctaTitle: "Elevate Your Real Estate Business",
-    ctaDescription: "Showcase properties professionally and generate more leads with a custom real estate platform. MLS integration, virtual tours, and powerful search features included.",
+    ctaTitle: "Start Your Real Estate Platform Project",
+    ctaDescription: "Professional real estate platform with property showcases and lead management. Starting at $1,899 (includes Portfolio Builder + Client Portal + CRM Integration required).",
     metaTitle: "Real Estate Website Development | TrueForm",
-    metaDescription: "Professional real estate websites with property listings, MLS integration, and lead generation. Perfect for agents, brokers, and property management companies."
+    metaDescription: "Professional real estate platforms with property showcases and lead generation. Starting at $1,899 (includes Portfolio Builder + Client Portal + CRM Integration required). $49/month CRM included."
   },
 
   education: {
@@ -391,12 +391,12 @@ export const servicesData: Record<string, ServiceData> = {
       {
         icon: Award,
         title: "Assessment Tools",
-        description: "Quizzes, exams, assignments with automated grading and detailed feedback systems."
+        description: "Basic quizzes, assignments, and simple grading tools for course evaluation."
       },
       {
         icon: TrendingUp,
-        title: "Progress Analytics",
-        description: "Track student performance, course completion rates, and learning outcomes."
+        title: "Progress Tracking",
+        description: "Basic student progress monitoring and course completion tracking."
       },
       {
         icon: Mail,
@@ -415,12 +415,12 @@ export const servicesData: Record<string, ServiceData> = {
       highlights: [
         "Complete course management and content delivery",
         "Student portals with progress tracking",
-        "Assessment tools with automated grading",
-        "Interactive learning materials and multimedia",
+        "Basic assessment and quiz tools",
+        "Course content delivery and organization",
         "Communication tools for student-teacher interaction",
         "Enrollment management and payment processing",
-        "Certification and credential management",
-        "Analytics and performance reporting"
+        "Simple certification tracking",
+        "Basic student progress reporting"
       ],
       benefits: [
         "Scale education delivery beyond physical limits",
@@ -433,10 +433,10 @@ export const servicesData: Record<string, ServiceData> = {
         "Revenue opportunities through online course sales"
       ]
     },
-    ctaTitle: "Transform Education Delivery",
-    ctaDescription: "Create engaging learning experiences with a professional educational platform. Course management, student tracking, and assessment tools all included.",
+    ctaTitle: "Start Your Educational Platform Project",
+    ctaDescription: "Professional educational platform with course delivery and student management. Starting at $1,499 (includes Client Portal + CRM Integration required).",
     metaTitle: "Educational Platform Development | TrueForm",
-    metaDescription: "Learning management systems with course delivery, student tracking, and assessment tools. Perfect for schools, training companies, and online educators."
+    metaDescription: "Educational platforms with course delivery and student management. Starting at $1,499 (includes Client Portal + CRM Integration required). Perfect for online educators. $49/month CRM included."
   }
 };
 

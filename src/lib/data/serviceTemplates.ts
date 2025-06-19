@@ -17,38 +17,89 @@ export interface ServiceTemplate {
 }
 
 export const SERVICE_TEMPLATES: ServiceTemplate[] = [
-  // Web Development
+  // Web Development - TrueForm New Pricing Model
   {
-    id: "web-basic",
-    name: "Basic Website",
+    id: "web-marketing",
+    name: "Marketing Website",
     description:
-      "Professional 5-page website with modern design and mobile optimization",
+      "Professional marketing website with conversion optimization and mobile design",
     category: "web-development",
-    basePrice: 2500,
+    basePrice: 999,
     unit: "project",
     popular: true,
-    tags: ["responsive", "modern", "seo-ready"],
+    tags: ["conversion-focused", "mobile-first", "seo-optimized"],
   },
   {
-    id: "web-business",
-    name: "Business Website",
-    description:
-      "Complete business website with contact forms, gallery, and CMS",
-    category: "web-development",
-    basePrice: 4500,
-    unit: "project",
-    popular: true,
-    tags: ["cms", "forms", "analytics"],
-  },
-  {
-    id: "web-ecommerce",
+    id: "web-ecommerce-lite",
     name: "E-commerce Store",
     description:
-      "Full e-commerce solution with payment processing and inventory management",
+      "Professional e-commerce store with product catalog and secure payments",
     category: "web-development",
-    basePrice: 8500,
+    basePrice: 1199,
     unit: "project",
-    tags: ["payment-processing", "inventory", "shipping"],
+    popular: true,
+    tags: ["product-catalog", "secure-payments", "mobile-optimized"],
+  },
+  {
+    id: "web-booking",
+    name: "Booking System Website",
+    description:
+      "Professional website with automated appointment booking and scheduling",
+    category: "web-development",
+    basePrice: 1199,
+    unit: "project",
+    tags: ["booking-system", "automated-scheduling", "calendar-integration"],
+  },
+  {
+    id: "web-membership",
+    name: "Membership Site",
+    description:
+      "Professional membership platform with user management and gated content",
+    category: "web-development",
+    basePrice: 1499,
+    unit: "project",
+    tags: ["membership", "user-management", "gated-content", "crm-included"],
+  },
+  {
+    id: "web-realestate",
+    name: "Real Estate Platform",
+    description:
+      "Professional real estate website with property showcases and lead management",
+    category: "web-development",
+    basePrice: 1899,
+    unit: "project",
+    tags: ["property-showcase", "lead-management", "crm-included"],
+  },
+  {
+    id: "web-education",
+    name: "Educational Platform",
+    description:
+      "Professional educational platform with course delivery and student management",
+    category: "web-development",
+    basePrice: 1499,
+    unit: "project",
+    tags: ["course-delivery", "student-management", "crm-included"],
+  },
+  {
+    id: "crm-integration",
+    name: "CRM Integration",
+    description:
+      "Custom-branded CRM integration with your website for lead and customer management",
+    category: "web-development",
+    basePrice: 200,
+    unit: "project",
+    popular: true,
+    tags: ["crm", "lead-management", "customer-tracking", "integration"],
+  },
+  {
+    id: "web-ecommerce-full",
+    name: "Advanced E-commerce Store",
+    description:
+      "Full-featured e-commerce solution with advanced inventory and analytics",
+    category: "web-development",
+    basePrice: 3500,
+    unit: "project",
+    tags: ["advanced-inventory", "analytics", "full-featured"],
   },
   {
     id: "web-custom",
@@ -184,6 +235,16 @@ export const SERVICE_TEMPLATES: ServiceTemplate[] = [
   },
 
   // Maintenance & Support
+  {
+    id: "crm-monthly",
+    name: "CRM Monthly Service",
+    description: "Custom-branded CRM with lead management and customer tracking",
+    category: "maintenance",
+    basePrice: 49,
+    unit: "month",
+    popular: true,
+    tags: ["crm", "lead-management", "customer-tracking", "monthly"],
+  },
   {
     id: "maintenance-basic",
     name: "Basic Maintenance",

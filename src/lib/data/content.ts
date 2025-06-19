@@ -39,9 +39,9 @@ export const FEATURES_DATA: Feature[] = [
   {
     id: "price",
     icon: Award,
-    title: "Fixed-Price Clarity",
+    title: "Transparent Pricing",
     description:
-      "$999 all-in or 12 × $89 with Klarna. No hidden fees, no surprise invoices, no hourly billing nightmares.",
+      "Starting at $999 with clear add-on pricing. Most clients add CRM integration and land between $1,200-$1,500. No hidden fees or hourly billing.",
     category: "value",
     colorScheme: "text-purple-600 bg-purple-100",
   },
@@ -68,7 +68,7 @@ export const FEATURES_DATA: Feature[] = [
     icon: Shield,
     title: "Year 1 Included",
     description:
-      "First year of hosting, SSL, backups, and support included. That's $600+ of value built into your $999.",
+      "First year of hosting, SSL, backups, and support included. That's $600+ of value built into your starting price.",
     category: "value",
     colorScheme: "text-pink-600 bg-pink-100",
   },
@@ -114,8 +114,8 @@ export const PRICING_DATA: PricingTier[] = [
   {
     id: "professional",
     name: "Professional Site",
-    price: "$999",
-    monthlyPrice: "Or $89/mo for 12 months",
+    price: "Starting at $999",
+    monthlyPrice: "Most clients: $1,200-$1,500",
     description: "Everything you need to succeed online",
     features: [
       "Custom design (no templates!)",
@@ -248,9 +248,9 @@ export const ADVANCED_FEATURES_CONTENT = {
 export const CTA_CONTENT = {
   title: "Ready to Skip 50 Hours of DIY Frustration?",
   description:
-    "Join hundreds of businesses who got professional sites without the headaches. First year hosting included, human support on tap, and live in just 7 days.",
+    "Join hundreds of businesses who got professional sites without the headaches. Starting at $999 with transparent add-on pricing. Most clients add CRM integration.",
   button: {
-    text: "Start Your $999 Journey →",
+    text: "Start Your Project →",
     href: "/request",
     icon: Zap,
   },

@@ -33,8 +33,6 @@
     { name: "Marketing Websites", href: "/services/marketing", icon: Zap },
     { name: "E-commerce Stores", href: "/services/ecommerce", icon: Award },
     { name: "Booking Systems", href: "/services/booking", icon: Users },
-    { name: "SaaS Platforms", href: "/services/saas", icon: Phone },
-    { name: "Portfolio Sites", href: "/services/portfolio", icon: Users },
     { name: "Membership Sites", href: "/services/membership", icon: Award },
     { name: "Real Estate", href: "/services/realestate", icon: Zap },
     { name: "Educational", href: "/services/education", icon: Phone },
