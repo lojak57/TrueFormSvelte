@@ -6,7 +6,7 @@
     Users, 
     FolderOpen, 
     FileText, 
-    Invoice, 
+    Receipt, 
     Target, 
     Settings,
     LogOut 
@@ -18,7 +18,7 @@
     { href: '/admin/contacts', icon: Users, label: 'Contacts' },
     { href: '/admin/projects', icon: FolderOpen, label: 'Projects' },
     { href: '/admin/proposals', icon: FileText, label: 'Proposals' },
-    { href: '/admin/invoices', icon: Invoice, label: 'Invoices' },
+    { href: '/admin/invoices', icon: Receipt, label: 'Invoices' },
     { href: '/admin/opportunities', icon: Target, label: 'Opportunities' },
     { href: '/admin/verticals', icon: Building2, label: 'Verticals' },
     { href: '/admin/settings', icon: Settings, label: 'Settings' },
