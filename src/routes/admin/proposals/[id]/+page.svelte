@@ -101,6 +101,7 @@
       `;
       button.disabled = true;
 
+      // Get the HTML content from the API
       const response = await fetch(
         `/api/proposals/${proposal.id}/pdf?payment_qr=true&acceptance_qr=true`
       );
@@ -109,29 +110,56 @@
         throw new Error("Failed to generate PDF");
       }
 
-      // Get the PDF blob and filename
-      const blob = await response.blob();
-      const contentDisposition = response.headers.get("content-disposition");
-      const filename = contentDisposition
-        ? contentDisposition.split("filename=")[1]?.replace(/"/g, "")
-        : `proposal-${proposal.id}.pdf`;
+      const htmlContent = await response.text();
+      
+      // Create a new window with the PDF content
+      const printWindow = window.open('', '_blank');
+      if (!printWindow) {
+        throw new Error("Please allow popups for this site to download PDFs");
+      }
 
-      // Create download link
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      // Write the HTML content and add auto-print script
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Proposal PDF</title>
+          <style>
+            @media print {
+              @page { margin: 0.5in; size: letter; }
+              body { margin: 0; }
+              .no-print { display: none !important; }
+            }
+          </style>
+        </head>
+        <body>
+          ${htmlContent}
+          <script>
+            // Auto-trigger print dialog and suggest PDF save
+            window.onload = function() {
+              setTimeout(() => {
+                window.print();
+                // Close window after print dialog
+                window.onafterprint = function() {
+                  window.close();
+                };
+              }, 500);
+            };
+          </script>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
 
       // Restore button
-      button.innerHTML = originalText;
-      button.disabled = false;
+      setTimeout(() => {
+        button.innerHTML = originalText;
+        button.disabled = false;
+      }, 1000);
+      
     } catch (err) {
       console.error("Error downloading PDF:", err);
-      alert("Failed to download PDF. Please try again.");
+      alert("Failed to generate PDF. Please try again.");
 
       // Restore button
       const button = event.target as HTMLButtonElement;
