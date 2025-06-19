@@ -119,36 +119,34 @@
       }
 
       // Write the HTML content and add auto-print script
-      printWindow.document.write(`
-        <!DOCTYPE html>
-        <html>
-        <head>
-          <title>Proposal PDF</title>
-          <style>
-            @media print {
-              @page { margin: 0.5in; size: letter; }
-              body { margin: 0; }
-              .no-print { display: none !important; }
-            }
-          </style>
-        </head>
-        <body>
-          ${htmlContent}
-          <script>
-            // Auto-trigger print dialog and suggest PDF save
-            window.onload = function() {
-              setTimeout(() => {
-                window.print();
-                // Close window after print dialog
-                window.onafterprint = function() {
-                  window.close();
-                };
-              }, 500);
-            };
-          </script>
-        </body>
-        </html>
-      `);
+      printWindow.document.write(
+        '<!DOCTYPE html>' +
+        '<html>' +
+        '<head>' +
+        '<title>Proposal PDF</title>' +
+        '<style>' +
+        '@media print {' +
+        '@page { margin: 0.5in; size: letter; }' +
+        'body { margin: 0; }' +
+        '.no-print { display: none !important; }' +
+        '}' +
+        '</style>' +
+        '</head>' +
+        '<body>' +
+        htmlContent +
+        '<script>' +
+        'window.onload = function() {' +
+        'setTimeout(function() {' +
+        'window.print();' +
+        'window.onafterprint = function() {' +
+        'window.close();' +
+        '};' +
+        '}, 500);' +
+        '};' +
+        '</script>' +
+        '</body>' +
+        '</html>'
+      );
       printWindow.document.close();
 
       // Restore button
