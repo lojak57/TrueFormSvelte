@@ -1,4 +1,4 @@
-import { puppeteerPdfGenerator } from "$lib/services/pdf/puppeteerPdfGenerator";
+import { generateProposalPDF } from "$lib/services/pdf/pdfGenerator";
 import { supabase } from "$lib/supabaseClient";
 import { error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
@@ -87,8 +87,8 @@ export const GET: RequestHandler = async ({ params, url }) => {
       acceptanceLink,
     };
 
-    // Generate actual PDF using Puppeteer
-    const pdfBuffer = await puppeteerPdfGenerator.generatePDF(completePdfData as any, {
+    // Generate PDF using the existing PDF generator
+    const htmlContent = await generateProposalPDF(completePdfData as any, {
       includePaymentQR,
       includeAcceptanceQR,
       format,
@@ -99,11 +99,10 @@ export const GET: RequestHandler = async ({ params, url }) => {
     const companyName = (proposal.company as any)?.name || "unnamed";
     const filename = `proposal-${companyName.replace(/[^a-zA-Z0-9]/g, "-")}-${proposalId.slice(-8)}.pdf`;
 
-    // Return actual PDF file
-    return new Response(pdfBuffer, {
+    // Return HTML for now (browser can print to PDF)
+    return new Response(htmlContent, {
       headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="${filename}"`,
+        "Content-Type": "text/html",
         "Cache-Control": "no-cache, no-store, must-revalidate",
         Pragma: "no-cache",
         Expires: "0",
@@ -186,7 +185,7 @@ export const POST: RequestHandler = async ({ params, request }) => {
     };
 
     // Generate PDF with custom options
-    const pdfBuffer = await puppeteerPdfGenerator.generatePDF(pdfData as any, {
+    const htmlContent = await generateProposalPDF(pdfData as any, {
       includePaymentQR: options.includePaymentQR || false,
       includeAcceptanceQR: options.includeAcceptanceQR || false,
       format: options.format || "Letter",
@@ -195,11 +194,10 @@ export const POST: RequestHandler = async ({ params, request }) => {
 
     const filename = `proposal-${proposalId.slice(-8)}.pdf`;
 
-    // Return actual PDF file
-    return new Response(pdfBuffer, {
+    // Return HTML file
+    return new Response(htmlContent, {
       headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="${filename}"`,
+        "Content-Type": "text/html",
       },
     });
   } catch (err) {
