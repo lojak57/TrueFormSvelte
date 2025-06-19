@@ -12,13 +12,6 @@ describe("Logo Component", () => {
     expect(logoImage).toHaveClass("w-full", "h-full", "object-contain");
   });
 
-  it("renders the company name and tagline", () => {
-    render(Logo);
-
-    expect(screen.getByText("TrueForm")).toBeInTheDocument();
-    expect(screen.getByText("Excellence Refined.")).toBeInTheDocument();
-  });
-
   it("has a clickable link to home page", () => {
     render(Logo);
 
@@ -31,10 +24,7 @@ describe("Logo Component", () => {
     render(Logo);
 
     const logoContainer = screen.getByAltText("TrueForm Logo").parentElement;
-    expect(logoContainer).toHaveClass("w-12", "h-12", "md:w-16", "md:h-16");
-
-    const textContainer = screen.getByText("TrueForm").parentElement;
-    expect(textContainer).toHaveClass("ml-3", "hidden", "sm:block");
+    expect(logoContainer).toHaveClass("h-12", "w-32", "md:h-14", "md:w-40", "lg:h-16", "lg:w-48");
   });
 
   it("applies hover effect classes", () => {
@@ -50,37 +40,10 @@ describe("Logo Component", () => {
 
     const logoImage = screen.getByAltText("TrueForm Logo");
     expect(logoImage).toHaveClass(
+      "drop-shadow-md",
       "group-hover:drop-shadow-lg",
       "transition-all",
       "duration-300"
-    );
-
-    const companyName = screen.getByText("TrueForm");
-    expect(companyName).toHaveClass(
-      "group-hover:text-accent-600",
-      "transition-colors",
-      "duration-300"
-    );
-  });
-
-  it("has proper typography classes", () => {
-    render(Logo);
-
-    const companyName = screen.getByText("TrueForm");
-    expect(companyName).toHaveClass(
-      "text-xl",
-      "md:text-2xl",
-      "font-bold",
-      "text-gray-900"
-    );
-
-    const tagline = screen.getByText("Excellence Refined.");
-    expect(tagline).toHaveClass(
-      "text-xs",
-      "md:text-sm",
-      "text-gray-600",
-      "font-medium",
-      "italic"
     );
   });
 
@@ -103,8 +66,8 @@ describe("Logo Component", () => {
     const outerDiv = container.firstChild as HTMLElement;
     expect(outerDiv).toHaveClass("flex", "items-center");
 
-    // Link should contain both image and text elements
+    // Link should contain one image container
     const logoLink = screen.getByRole("link");
-    expect(logoLink.children).toHaveLength(2); // Image container + text container
+    expect(logoLink.children).toHaveLength(1); // Image container only
   });
 });

@@ -1,14 +1,12 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition';
-  
-  export let text: string = "Not sure? Just pick what feels close. You'll get a chance to revise with your designer.";
+  import { fade } from "svelte/transition";
+
+  export let text: string =
+    "Not sure? Just pick what feels close. You'll get a chance to revise with your designer.";
   export let delay: number = 800;
 </script>
 
-<p 
-  class="inline-reassurance"
-  in:fade={{ duration: 400, delay }}
->
+<p class="inline-reassurance" in:fade={{ duration: 400, delay }}>
   {text}
 </p>
 

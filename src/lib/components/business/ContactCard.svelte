@@ -1,7 +1,7 @@
 <script lang="ts">
   import BaseCard from "$lib/components/base/BaseCard.svelte";
   import BaseButton from "$lib/components/base/BaseButton.svelte";
-  import type { Contact } from "$lib/types/index.js";
+  import type { Contact } from "$lib/types.js";
 
   export let contact: Contact;
   export let variant: "hero" | "compact" | "mini" = "compact";

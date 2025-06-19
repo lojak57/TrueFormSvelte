@@ -7,7 +7,7 @@
   } from "$lib/components/business/index.js";
   import BaseCard from "$lib/components/base/BaseCard.svelte";
   import BaseButton from "$lib/components/base/BaseButton.svelte";
-  import type { Company, Contact, Project } from "$lib/types/index.js";
+  import type { Company, Contact, Project } from "$lib/types.js";
 
   // Sample data
   const sampleCompanies: Company[] = [
@@ -68,8 +68,8 @@
       title: "CEO",
       notes: "Visionary leader driving innovation in mobile technology.",
       status: "active",
-      vertical_id: "technology",
       created_at: "2024-01-15T10:00:00Z",
+      updated_at: "2024-01-15T10:00:00Z",
     },
     {
       id: "2",
@@ -80,8 +80,8 @@
       phone: "+1-480-555-0456",
       title: "General Manager",
       status: "active",
-      vertical_id: "golf",
       created_at: "2024-02-01T14:30:00Z",
+      updated_at: "2024-02-01T14:30:00Z",
     },
     {
       id: "3",
@@ -92,8 +92,8 @@
       phone: "+1-713-555-0789",
       title: "Operations Director",
       status: "active",
-      vertical_id: "oilfield",
       created_at: "2024-02-15T09:15:00Z",
+      updated_at: "2024-02-15T09:15:00Z",
     },
     {
       id: "4",
@@ -103,8 +103,8 @@
       email: "emily@medtechsolutions.com",
       title: "Chief Technology Officer",
       status: "active",
-      vertical_id: "healthcare",
       created_at: "2024-01-20T16:45:00Z",
+      updated_at: "2024-01-20T16:45:00Z",
     },
   ];
 

@@ -1,27 +1,27 @@
 <script lang="ts">
-  import { page } from '$app/stores';
-  import { 
-    Home, 
-    Building2, 
-    Users, 
-    FolderOpen, 
-    FileText, 
-    Receipt, 
-    Target, 
+  import { page } from "$app/stores";
+  import {
+    Home,
+    Building2,
+    Users,
+    FolderOpen,
+    FileText,
+    Receipt,
+    Target,
     Settings,
-    LogOut 
-  } from 'lucide-svelte';
+    LogOut,
+  } from "lucide-svelte";
 
   const navigationItems = [
-    { href: '/admin/dashboard', icon: Home, label: 'Dashboard' },
-    { href: '/admin/companies', icon: Building2, label: 'Companies' },
-    { href: '/admin/contacts', icon: Users, label: 'Contacts' },
-    { href: '/admin/projects', icon: FolderOpen, label: 'Projects' },
-    { href: '/admin/proposals', icon: FileText, label: 'Proposals' },
-    { href: '/admin/invoices', icon: Receipt, label: 'Invoices' },
-    { href: '/admin/opportunities', icon: Target, label: 'Opportunities' },
-    { href: '/admin/verticals', icon: Building2, label: 'Verticals' },
-    { href: '/admin/settings', icon: Settings, label: 'Settings' },
+    { href: "/admin/dashboard", icon: Home, label: "Dashboard" },
+    { href: "/admin/companies", icon: Building2, label: "Companies" },
+    { href: "/admin/contacts", icon: Users, label: "Contacts" },
+    { href: "/admin/projects", icon: FolderOpen, label: "Projects" },
+    { href: "/admin/proposals", icon: FileText, label: "Proposals" },
+    { href: "/admin/invoices", icon: Receipt, label: "Invoices" },
+    { href: "/admin/opportunities", icon: Target, label: "Opportunities" },
+    { href: "/admin/verticals", icon: Building2, label: "Verticals" },
+    { href: "/admin/settings", icon: Settings, label: "Settings" },
   ];
 
   $: currentPath = $page.url.pathname;
@@ -46,7 +46,7 @@
     <ul class="nav-list">
       {#each navigationItems as item}
         <li class="nav-item">
-          <a 
+          <a
             href={item.href}
             class="nav-link {currentPath === item.href ? 'active' : ''}"
           >

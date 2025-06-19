@@ -1,13 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
+import { requireAuth } from "$lib/utils/auth";
 
 const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_URL,
   import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 );
 
-export const GET: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ url, request }) => {
+  // 🔒 SECURE: Require authentication for contact data
+  await requireAuth(request);
   try {
     // Add query parameter support for filtering
     const companyId = url.searchParams.get("company_id");
@@ -38,6 +41,8 @@ export const GET: RequestHandler = async ({ url }) => {
 };
 
 export const POST: RequestHandler = async ({ request }) => {
+  // 🔒 SECURE: Require authentication for creating contacts
+  await requireAuth(request);
   try {
     const contactData = await request.json();
 

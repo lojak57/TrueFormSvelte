@@ -1,13 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
+import { requireAuth } from "$lib/utils/auth";
 
 const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_URL,
   import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 );
 
-export const GET: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params, request }) => {
+  // 🔒 SECURE: Require authentication for proposal details
+  await requireAuth(request);
   try {
     const { id } = params;
 

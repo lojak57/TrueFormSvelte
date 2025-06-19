@@ -1,4 +1,4 @@
-import type { BaseformLead } from "../supabaseClient";
+import type { BaseformLead } from "../types/database.types";
 import { supabase } from "../supabaseClient";
 
 export async function createLead(leadData: Partial<BaseformLead>) {

@@ -84,6 +84,15 @@ export interface NavItem {
   label: string;
   href: string;
   icon?: string;
+  children?: NavItem[];
+  isActive?: boolean;
+}
+
+export interface WizardStep {
+  id: number;
+  title: string;
+  description?: string;
+  isComplete: boolean;
 }
 
 export interface CreateProjectDTO {

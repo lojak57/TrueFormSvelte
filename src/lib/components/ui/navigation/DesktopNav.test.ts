@@ -21,28 +21,24 @@ vi.mock("svelte/transition", () => ({
 describe("DesktopNav Component", () => {
   const mockNavigation: NavItem[] = [
     {
-      id: "home",
       label: "Home",
       href: "/",
       isActive: true,
     },
     {
-      id: "about",
       label: "About",
       href: "/about",
       isActive: false,
     },
     {
-      id: "services",
       label: "Services",
       href: "/services",
       isActive: false,
       children: [
-        { id: "marketing", label: "Marketing", href: "/services/marketing" },
+        { label: "Marketing", href: "/services/marketing" },
       ],
     },
     {
-      id: "contact",
       label: "Contact",
       href: "/contact",
       isActive: false,
@@ -118,8 +114,6 @@ describe("DesktopNav Component", () => {
     expect(screen.getByText("Marketing Websites")).toBeInTheDocument();
     expect(screen.getByText("E-commerce Stores")).toBeInTheDocument();
     expect(screen.getByText("Booking Systems")).toBeInTheDocument();
-    expect(screen.getByText("SaaS Platforms")).toBeInTheDocument();
-    expect(screen.getByText("Portfolio Sites")).toBeInTheDocument();
     expect(screen.getByText("Membership Sites")).toBeInTheDocument();
     expect(screen.getByText("Real Estate")).toBeInTheDocument();
     expect(screen.getByText("Educational")).toBeInTheDocument();

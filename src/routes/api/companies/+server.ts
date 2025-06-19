@@ -1,13 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
+import { requireAuth } from "$lib/utils/auth";
 
 const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_URL,
   import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 );
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ request }) => {
+  // 🔒 SECURE: Require authentication for CRM data
+  await requireAuth(request);
   try {
     const { data: companies, error } = await supabase
       .from("tf_companies")
@@ -33,6 +36,8 @@ export const GET: RequestHandler = async () => {
 };
 
 export const POST: RequestHandler = async ({ request }) => {
+  // 🔒 SECURE: Require authentication for creating companies
+  await requireAuth(request);
   try {
     const dto = await request.json();
 

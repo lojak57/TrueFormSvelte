@@ -1,6 +1,6 @@
 <script lang="ts">
   import { conversationalWizard } from '../conversationalWizardStore';
-  import TextInputStep from '../../forms/wizard/components/TextInputStep.svelte';
+  import TextInputStep from '../../ui/TextInputStep.svelte';
   import VisualVibeSelector from '../components/VisualVibeSelector.svelte';
   import VisualFontSelector from '../components/VisualFontSelector.svelte';
   import VisualColorSelector from '../components/VisualColorSelector.svelte';

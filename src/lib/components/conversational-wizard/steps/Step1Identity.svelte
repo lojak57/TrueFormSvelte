@@ -1,60 +1,60 @@
 <script lang="ts">
-  import { conversationalWizard } from '../conversationalWizardStore';
-  import TextInputStep from '../../forms/wizard/components/TextInputStep.svelte';
-  import InlineReassurance from '../reassurance/InlineReassurance.svelte';
-  import { fade, fly } from 'svelte/transition';
-  
+  import { conversationalWizard } from "../conversationalWizardStore";
+  import TextInputStep from "../../ui/TextInputStep.svelte";
+  import InlineReassurance from "../reassurance/InlineReassurance.svelte";
+  import { fade, fly } from "svelte/transition";
+
   let currentField = 0;
   let formData = {
-    name: '',
-    email: '',
-    phone: '',
-    businessName: '',
-    businessWebsite: ''
+    name: "",
+    email: "",
+    phone: "",
+    businessName: "",
+    businessWebsite: "",
   };
-  
+
   // Subscribe to store data
   $: if ($conversationalWizard.data) {
     formData = {
-      name: $conversationalWizard.data.name || '',
-      email: $conversationalWizard.data.email || '',
-      phone: $conversationalWizard.data.phone || '',
-      businessName: $conversationalWizard.data.businessName || '',
-      businessWebsite: $conversationalWizard.data.businessWebsite || ''
+      name: $conversationalWizard.data.name || "",
+      email: $conversationalWizard.data.email || "",
+      phone: $conversationalWizard.data.phone || "",
+      businessName: $conversationalWizard.data.businessName || "",
+      businessWebsite: $conversationalWizard.data.businessWebsite || "",
     };
   }
-  
+
   const fields = [
     {
-      key: 'name',
+      key: "name",
       title: "What's your name?",
       placeholder: "John Smith",
       inputType: "text",
       autocomplete: "name",
       starterPrompts: [],
-      reassurance: "Just your first name is fine too!"
+      reassurance: "Just your first name is fine too!",
     },
     {
-      key: 'email',
+      key: "email",
       title: "What's your email?",
       placeholder: "john@company.com",
       inputType: "email",
       autocomplete: "email",
       starterPrompts: [],
-      reassurance: "We'll only use this to send you important updates."
+      reassurance: "We'll only use this to send you important updates.",
     },
     {
-      key: 'phone',
+      key: "phone",
       title: "Phone number? (Optional)",
       placeholder: "(555) 123-4567",
       inputType: "tel",
       autocomplete: "tel",
       skipLabel: "Skip this",
       starterPrompts: [],
-      reassurance: "In case we need to reach you quickly."
+      reassurance: "In case we need to reach you quickly.",
     },
     {
-      key: 'businessName',
+      key: "businessName",
       title: "What's your business called?",
       placeholder: "Acme Corp",
       inputType: "text",
@@ -62,12 +62,12 @@
       starterPrompts: [
         "We're still figuring out the name",
         "It's a personal project",
-        "We're rebranding soon"
+        "We're rebranding soon",
       ],
-      reassurance: "No business yet? Just put your project name."
+      reassurance: "No business yet? Just put your project name.",
     },
     {
-      key: 'businessWebsite',
+      key: "businessWebsite",
       title: "Current website? (Optional)",
       placeholder: "www.example.com",
       inputType: "text",
@@ -76,19 +76,19 @@
       starterPrompts: [
         "We're starting fresh",
         "It's embarrassingly outdated",
-        "Check our social media instead"
+        "Check our social media instead",
       ],
-      reassurance: "This helps us understand where you're starting from."
-    }
+      reassurance: "This helps us understand where you're starting from.",
+    },
   ];
-  
+
   function handleFieldComplete(event: CustomEvent) {
     const { value } = event.detail;
     const field = fields[currentField];
-    
+
     // Update store
     conversationalWizard.updateData({ [field.key]: value });
-    
+
     // Move to next field or complete step
     if (currentField < fields.length - 1) {
       currentField++;
@@ -96,7 +96,7 @@
       conversationalWizard.nextStep();
     }
   }
-  
+
   function goBack() {
     if (currentField > 0) {
       currentField--;
@@ -110,7 +110,7 @@
       <h2 class="step-title" in:fly={{ y: 20, duration: 400, delay: 200 }}>
         {fields[currentField].title}
       </h2>
-      
+
       <div class="input-wrapper" in:fly={{ y: 30, duration: 500, delay: 300 }}>
         <TextInputStep
           value={formData[fields[currentField].key]}
@@ -121,15 +121,15 @@
           starterPrompts={fields[currentField].starterPrompts}
           on:complete={handleFieldComplete}
         />
-        
+
         {#if fields[currentField].reassurance}
-          <InlineReassurance 
+          <InlineReassurance
             text={fields[currentField].reassurance}
             delay={1200}
           />
         {/if}
       </div>
-      
+
       {#if currentField > 0}
         <button
           on:click={goBack}
@@ -151,7 +151,7 @@
     height: auto;
     min-height: auto;
   }
-  
+
   .step-title {
     font-size: 2rem;
     font-weight: 700;
@@ -159,11 +159,11 @@
     margin-bottom: 2rem;
     line-height: 1.2;
   }
-  
+
   .input-wrapper {
     margin-bottom: 2rem;
   }
-  
+
   .back-button {
     color: #6b7280;
     font-size: 0.875rem;
@@ -171,17 +171,17 @@
     border-radius: 0.375rem;
     transition: all 0.2s;
   }
-  
+
   .back-button:hover {
     color: #374151;
     background-color: #f3f4f6;
   }
-  
+
   @media (max-width: 640px) {
     .step-container {
       padding: 1rem;
     }
-    
+
     .step-title {
       font-size: 1.5rem;
     }

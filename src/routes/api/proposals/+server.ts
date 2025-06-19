@@ -2,13 +2,16 @@ import type { CreateProposalDTO } from "$lib/types";
 import { createClient } from "@supabase/supabase-js";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
+import { requireAuth } from "$lib/utils/auth";
 
 const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_URL,
   import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 );
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ request }) => {
+  // 🔒 SECURE: Require authentication for proposal data
+  await requireAuth(request);
   try {
     const { data: proposals, error } = await supabase
       .from("tf_proposals")
@@ -28,6 +31,8 @@ export const GET: RequestHandler = async () => {
 };
 
 export const POST: RequestHandler = async ({ request }) => {
+  // 🔒 SECURE: Require authentication for creating proposals
+  await requireAuth(request);
   try {
     console.log("=== PROPOSAL CREATION START ===");
     const proposalData: CreateProposalDTO = await request.json();

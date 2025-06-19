@@ -3,11 +3,11 @@
 declare global {
   namespace App {
     interface Locals {
-      user: import("@supabase/supabase-js").User | null;
+      user: import("$lib/types").UserSession | null;
     }
 
     interface PageData {
-      user?: import("@supabase/supabase-js").User | null;
+      user?: import("$lib/types").UserSession | null;
     }
 
     // interface Error {}

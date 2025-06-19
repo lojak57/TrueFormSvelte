@@ -3,23 +3,12 @@ import { describe, expect, it } from "vitest";
 import CTAButtons from "./CTAButtons.svelte";
 
 describe("CTAButtons Component", () => {
-  it("renders both CTA buttons", () => {
+  it("renders Get Started button", () => {
     render(CTAButtons);
 
-    expect(screen.getByRole("link", { name: /admin/i })).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /get started/i })
+      screen.getByRole("button", { name: /get started/i })
     ).toBeInTheDocument();
-  });
-
-  it("has correct navigation links", () => {
-    render(CTAButtons);
-
-    const adminLink = screen.getByRole("link", { name: /admin/i });
-    expect(adminLink).toHaveAttribute("href", "/admin/opportunities");
-
-    const getStartedLink = screen.getByRole("link", { name: /get started/i });
-    expect(getStartedLink).toHaveAttribute("href", "/request");
   });
 
   it("applies responsive visibility classes", () => {
@@ -34,39 +23,20 @@ describe("CTAButtons Component", () => {
     );
   });
 
-  it("renders buttons with correct variants and sizes", () => {
+  it("renders button with correct variant and size", () => {
     render(CTAButtons);
 
-    const buttons = screen.getAllByRole("button");
-    expect(buttons).toHaveLength(2);
-
-    // Admin button should be outline variant
-    const adminButton = buttons[0];
-    expect(adminButton).toHaveClass(
-      "border",
-      "border-gray-300",
-      "bg-white",
-      "text-gray-900"
-    );
-    expect(adminButton).toHaveClass("px-3", "py-1.5", "text-sm"); // size="sm"
-
-    // Get Started button should be accent variant
-    const getStartedButton = buttons[1];
-    expect(getStartedButton).toHaveClass("bg-accent-600", "text-white");
-    expect(getStartedButton).toHaveClass("px-3", "py-1.5", "text-sm"); // size="sm"
+    const button = screen.getByRole("button", { name: /get started/i });
+    expect(button).toHaveClass("bg-accent-600", "text-white");
+    expect(button).toHaveClass("px-3", "py-1.5", "text-sm"); // size="sm"
   });
 
   it("applies custom styling classes", () => {
     render(CTAButtons);
 
-    const buttons = screen.getAllByRole("button");
-
-    // Both buttons should have text-sm class
-    expect(buttons[0]).toHaveClass("text-sm");
-    expect(buttons[1]).toHaveClass("text-sm");
-
-    // Get Started button should have shadow effects
-    expect(buttons[1]).toHaveClass(
+    const button = screen.getByRole("button", { name: /get started/i });
+    expect(button).toHaveClass("text-sm");
+    expect(button).toHaveClass(
       "shadow-lg",
       "hover:shadow-xl",
       "transition-shadow",
@@ -77,29 +47,11 @@ describe("CTAButtons Component", () => {
   it("renders Zap icon in Get Started button", () => {
     render(CTAButtons);
 
-    const getStartedLink = screen.getByRole("link", { name: /get started/i });
-    expect(getStartedLink).toHaveClass("flex", "items-center", "gap-2");
-
+    const button = screen.getByRole("button", { name: /get started/i });
+    
     // Check for SVG icon (Lucide icons render as SVGs)
-    const icon = getStartedLink.querySelector("svg");
+    const icon = button.querySelector("svg");
     expect(icon).toBeInTheDocument();
-  });
-
-  it("has proper accessibility structure", () => {
-    render(CTAButtons);
-
-    // Should have exactly 2 buttons and 2 links
-    const buttons = screen.getAllByRole("button");
-    const links = screen.getAllByRole("link");
-
-    expect(buttons).toHaveLength(2);
-    expect(links).toHaveLength(2);
-
-    // Links should have meaningful text
-    expect(screen.getByRole("link", { name: /admin/i })).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: /get started/i })
-    ).toBeInTheDocument();
   });
 
   it("maintains semantic structure", () => {
@@ -115,25 +67,16 @@ describe("CTAButtons Component", () => {
       "space-x-4"
     );
 
-    // Should contain 2 button elements
+    // Should contain 1 button element
     const buttons = outerDiv.querySelectorAll("button");
-    expect(buttons).toHaveLength(2);
+    expect(buttons).toHaveLength(1);
   });
 
   it("uses imported Button component with correct props", () => {
     render(CTAButtons);
 
-    const buttons = screen.getAllByRole("button");
-
-    // First button (Admin) should have outline variant
-    expect(buttons[0]).toHaveClass("border-gray-300"); // outline variant
-
-    // Second button (Get Started) should have accent variant
-    expect(buttons[1]).toHaveClass("bg-accent-600"); // accent variant
-
-    // Both should have small size
-    buttons.forEach((button) => {
-      expect(button).toHaveClass("px-3", "py-1.5"); // sm size
-    });
+    const button = screen.getByRole("button", { name: /get started/i });
+    expect(button).toHaveClass("bg-accent-600"); // accent variant
+    expect(button).toHaveClass("px-3", "py-1.5"); // sm size
   });
 });

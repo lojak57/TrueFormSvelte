@@ -1,6 +1,6 @@
 <script lang="ts">
   import { conversationalWizard } from '../conversationalWizardStore';
-  import TextInputStep from '../../forms/wizard/components/TextInputStep.svelte';
+  import TextInputStep from '../../ui/TextInputStep.svelte';
   import InlineReassurance from '../reassurance/InlineReassurance.svelte';
   import { fade, fly } from 'svelte/transition';
   

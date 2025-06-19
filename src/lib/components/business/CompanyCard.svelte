@@ -51,8 +51,8 @@
   function getDescription(): string {
     let parts = [];
 
-    if (company.industry || company.vertical_id) {
-      parts.push(company.industry || formatVertical(company.vertical_id));
+    if (company.vertical_id) {
+      parts.push(formatVertical(company.vertical_id));
     }
 
     if (company.website) {

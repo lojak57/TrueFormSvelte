@@ -1,13 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
+import { requireAuth } from "$lib/utils/auth";
 
 const supabase = createClient(
   import.meta.env.PUBLIC_SUPABASE_URL,
   import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 );
 
-export const GET: RequestHandler = async ({ params }) => {
+export const GET: RequestHandler = async ({ params, request }) => {
+  // 🔒 SECURE: Require authentication for detailed company data
+  await requireAuth(request);
   try {
     const { id } = params;
 
@@ -72,6 +75,8 @@ export const GET: RequestHandler = async ({ params }) => {
 };
 
 export const PUT: RequestHandler = async ({ params, request }) => {
+  // 🔒 SECURE: Require authentication for updating companies
+  await requireAuth(request);
   try {
     const { id } = params;
     const updateData = await request.json();
@@ -97,7 +102,9 @@ export const PUT: RequestHandler = async ({ params, request }) => {
   }
 };
 
-export const DELETE: RequestHandler = async ({ params }) => {
+export const DELETE: RequestHandler = async ({ params, request }) => {
+  // 🔒 SECURE: Require authentication for deleting companies
+  await requireAuth(request);
   try {
     const { id } = params;
 

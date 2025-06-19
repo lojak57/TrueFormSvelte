@@ -11,28 +11,24 @@ vi.mock("svelte/transition", () => ({
 describe("MobileNav Component", () => {
   const mockNavigation: NavItem[] = [
     {
-      id: "home",
       label: "Home",
       href: "/",
       isActive: true,
     },
     {
-      id: "about",
       label: "About",
       href: "/about",
       isActive: false,
     },
     {
-      id: "services",
       label: "Services",
       href: "/services",
       isActive: false,
       children: [
-        { id: "marketing", label: "Marketing", href: "/services/marketing" },
+        { label: "Marketing", href: "/services/marketing" },
       ],
     },
     {
-      id: "contact",
       label: "Contact",
       href: "/contact",
       isActive: false,

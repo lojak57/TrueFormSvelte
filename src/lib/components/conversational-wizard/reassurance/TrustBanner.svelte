@@ -1,12 +1,9 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition';
-  import { Sparkles } from 'lucide-svelte';
+  import { fade } from "svelte/transition";
+  import { Sparkles } from "lucide-svelte";
 </script>
 
-<div 
-  class="trust-banner"
-  in:fade={{ duration: 300, delay: 500 }}
->
+<div class="trust-banner" in:fade={{ duration: 300, delay: 500 }}>
   <Sparkles size={14} class="icon" />
   <span>You're not locked in. Everything here is editable later.</span>
 </div>
