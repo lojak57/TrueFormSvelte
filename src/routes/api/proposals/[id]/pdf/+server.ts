@@ -1,4 +1,4 @@
-import { pdfGenerator } from "$lib/services/pdf/pdfGenerator";
+import { generateSimplePDF } from "$lib/services/pdf/simplePdfGenerator";
 import { supabase } from "$lib/supabaseClient";
 import { error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
@@ -54,46 +54,24 @@ export const GET: RequestHandler = async ({ params, url }) => {
       })
     ) : [];
 
-    // Build the PDF data structure
+    // Build the simplified PDF data structure
     const pdfData = {
       proposal: {
-        ...proposal,
+        id: proposal.id,
+        title: proposal.title,
         line_items: formattedLineItems,
         subtotal: parseFloat(String(proposal.subtotal)) || 0,
         tax: parseFloat(String(proposal.tax)) || 0,
         tax_rate: parseFloat(String(proposal.tax_rate)) || 0,
         total: parseFloat(String(proposal.total)) || 0,
+        created_at: proposal.created_at,
       },
       company: proposal.company,
       contact: proposal.contact,
     };
 
-    // Check for query parameters
-    const includePaymentQR = url.searchParams.get("payment_qr") === "true";
-    const includeAcceptanceQR =
-      url.searchParams.get("acceptance_qr") === "true";
-    const format =
-      (url.searchParams.get("format") as "A4" | "Letter") || "Letter";
-
-    // Generate payment and acceptance links
-    const baseUrl = url.origin;
-    const paymentLink = includePaymentQR ? `${baseUrl}/api/proposals/${proposalId}/payment-link?type=standard` : undefined;
-    const acceptanceLink = includeAcceptanceQR ? `${baseUrl}/proposals/${proposalId}/accept` : undefined;
-
-    // Update PDF data with optional links
-    const completePdfData = {
-      ...pdfData,
-      paymentLink,
-      acceptanceLink,
-    };
-
-    // Generate HTML using the PDF generator
-    const htmlContent = await pdfGenerator.generateHTML(completePdfData as any, {
-      includePaymentQR,
-      includeAcceptanceQR,
-      format,
-      logoUrl: `${baseUrl}/logo.svg`,
-    });
+    // Generate clean HTML for PDF
+    const htmlContent = generateSimplePDF(pdfData as any);
 
     // Generate filename
     const companyName = (proposal.company as any)?.name || "unnamed";
@@ -171,26 +149,21 @@ export const POST: RequestHandler = async ({ params, request }) => {
 
     const pdfData = {
       proposal: {
-        ...proposal,
+        id: proposal.id,
+        title: proposal.title,
         line_items: formattedLineItems,
         subtotal: parseFloat(String(proposal.subtotal)) || 0,
         tax: parseFloat(String(proposal.tax)) || 0,
         tax_rate: parseFloat(String(proposal.tax_rate)) || 0,
         total: parseFloat(String(proposal.total)) || 0,
+        created_at: proposal.created_at,
       },
       company: proposal.company,
       contact: proposal.contact,
-      paymentLink: options.paymentLink,
-      acceptanceLink: options.acceptanceLink,
     };
 
-    // Generate HTML with custom options
-    const htmlContent = await pdfGenerator.generateHTML(pdfData as any, {
-      includePaymentQR: options.includePaymentQR || false,
-      includeAcceptanceQR: options.includeAcceptanceQR || false,
-      format: options.format || "Letter",
-      logoUrl: options.logoUrl,
-    });
+    // Generate clean HTML for PDF
+    const htmlContent = generateSimplePDF(pdfData as any);
 
     const filename = `proposal-${proposalId.slice(-8)}.pdf`;
 
