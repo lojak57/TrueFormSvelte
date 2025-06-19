@@ -22,98 +22,131 @@
       <!-- TrueForm Card (Featured) -->
       <div class="relative">
         <div class="absolute -inset-1 bg-gradient-to-r from-accent-600 to-accent-400 rounded-2xl blur opacity-75"></div>
-        <div class="relative bg-white rounded-2xl border-2 border-accent-200 shadow-xl overflow-hidden">
-          <div class="bg-accent-600 p-4 text-center">
-            <div class="inline-flex items-center px-3 py-1 bg-white/20 text-white text-xs font-semibold rounded-full mb-2">
-              ⚡ BEST VALUE
+        <div class="relative bg-white rounded-2xl border-2 border-accent-200 shadow-xl overflow-hidden transform hover:scale-[1.02] transition-all duration-300">
+          <div class="bg-gradient-to-br from-accent-600 via-accent-500 to-accent-700 p-6 text-center relative overflow-hidden">
+            <!-- Background pattern -->
+            <div class="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent"></div>
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16"></div>
+            
+            <div class="relative z-10">
+              <div class="inline-flex items-center px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-bold rounded-full mb-3 shadow-lg">
+                ⚡ BEST VALUE
+              </div>
+              <h3 class="text-2xl font-black text-white mb-1 tracking-tight">TrueForm</h3>
+              <div class="text-3xl font-black text-white mt-3 mb-1 tracking-tight">$999</div>
+              <p class="text-sm text-accent-100 font-medium">Year 1 Total Cost</p>
             </div>
-            <h3 class="text-xl font-bold text-white">TrueForm</h3>
-            <div class="text-2xl font-bold text-white mt-2">$999</div>
-            <p class="text-sm text-accent-100">Year 1 Total Cost</p>
           </div>
-          <div class="p-4 space-y-3">
-            <div class="flex justify-between py-2 border-b border-gray-100">
-              <span class="text-sm font-medium text-gray-900">DIY Hours Required</span>
-              <span class="text-sm font-bold text-green-600">&lt; 2 hours</span>
+          <div class="p-5 space-y-4 bg-gradient-to-b from-white to-gray-50">
+            <div class="flex justify-between items-center py-3 px-2 rounded-lg hover:bg-accent-50/50 transition-colors duration-200">
+              <span class="text-sm font-semibold text-gray-800">DIY Hours Required</span>
+              <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span class="text-sm font-bold text-green-600">&lt; 2 hours</span>
+              </div>
             </div>
-            <div class="flex justify-between py-2 border-b border-gray-100">
-              <span class="text-sm font-medium text-gray-900">Time to Launch</span>
-              <span class="text-sm font-bold text-accent-600">7 days</span>
+            <div class="flex justify-between items-center py-3 px-2 rounded-lg hover:bg-accent-50/50 transition-colors duration-200">
+              <span class="text-sm font-semibold text-gray-800">Time to Launch</span>
+              <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-accent-500 rounded-full"></div>
+                <span class="text-sm font-bold text-accent-600">7 days</span>
+              </div>
             </div>
-            <div class="flex justify-between py-2 border-b border-gray-100">
-              <span class="text-sm font-medium text-gray-900">Custom Design</span>
-              <span class="text-sm font-bold text-green-600">Yes</span>
+            <div class="flex justify-between items-center py-3 px-2 rounded-lg hover:bg-accent-50/50 transition-colors duration-200">
+              <span class="text-sm font-semibold text-gray-800">Custom Design</span>
+              <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span class="text-sm font-bold text-green-600">Yes</span>
+              </div>
             </div>
-            <div class="flex justify-between py-2 border-b border-gray-100">
-              <span class="text-sm font-medium text-gray-900">Hosting + Support</span>
-              <span class="text-sm font-bold text-green-600">First year FREE</span>
+            <div class="flex justify-between items-center py-3 px-2 rounded-lg hover:bg-accent-50/50 transition-colors duration-200">
+              <span class="text-sm font-semibold text-gray-800">Hosting + Support</span>
+              <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span class="text-sm font-bold text-green-600">First year FREE</span>
+              </div>
             </div>
-            <div class="flex justify-between py-2">
-              <span class="text-sm font-medium text-gray-900">Year 2+ Hosting</span>
-              <span class="text-sm font-bold text-accent-600">$179/year</span>
+            <div class="flex justify-between items-center py-3 px-2 rounded-lg hover:bg-accent-50/50 transition-colors duration-200">
+              <span class="text-sm font-semibold text-gray-800">Year 2+ Hosting</span>
+              <div class="flex items-center gap-2">
+                <div class="w-2 h-2 bg-accent-500 rounded-full"></div>
+                <span class="text-sm font-bold text-accent-600">$179/year</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- DIY Builders -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div class="bg-gray-50 p-4 text-center border-b">
-          <h3 class="text-lg font-semibold text-gray-900">Wix/Squarespace</h3>
-          <div class="text-xl font-bold text-gray-900 mt-2">$600-700</div>
-          <p class="text-sm text-gray-600">Year 1 Total Cost</p>
+      <div class="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-[1.01]">
+        <div class="bg-gradient-to-r from-red-50 to-red-100 p-5 text-center border-b border-red-200 relative">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-red-200/30 rounded-full -translate-y-12 translate-x-12"></div>
+          <div class="relative z-10">
+            <h3 class="text-xl font-bold text-gray-900 mb-1 tracking-tight">Wix/Squarespace</h3>
+            <div class="text-2xl font-bold text-gray-900 mt-3 mb-1">$600-700</div>
+            <p class="text-sm text-gray-600 font-medium">Year 1 Total Cost</p>
+          </div>
         </div>
-        <div class="p-4 space-y-3">
-          <div class="flex justify-between py-2 border-b border-gray-100">
-            <span class="text-sm font-medium text-gray-700">DIY Hours Required</span>
-            <span class="text-sm font-semibold text-red-600">40-50+ hours</span>
+        <div class="p-5 space-y-3">
+          <div class="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <span class="text-sm font-semibold text-gray-700">DIY Hours Required</span>
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+              <span class="text-sm font-bold text-red-600">40-50+ hours</span>
+            </div>
           </div>
-          <div class="flex justify-between py-2 border-b border-gray-100">
-            <span class="text-sm font-medium text-gray-700">Time to Launch</span>
-            <span class="text-sm text-gray-600">Weeks of DIY work</span>
+          <div class="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <span class="text-sm font-semibold text-gray-700">Time to Launch</span>
+            <span class="text-sm text-gray-600 font-medium">Weeks of DIY work</span>
           </div>
-          <div class="flex justify-between py-2 border-b border-gray-100">
-            <span class="text-sm font-medium text-gray-700">Custom Design</span>
-            <span class="text-sm text-gray-600">Limited templates</span>
+          <div class="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <span class="text-sm font-semibold text-gray-700">Custom Design</span>
+            <span class="text-sm text-gray-600 font-medium">Limited templates</span>
           </div>
-          <div class="flex justify-between py-2 border-b border-gray-100">
-            <span class="text-sm font-medium text-gray-700">Hosting + Support</span>
-            <span class="text-sm text-gray-600">Extra $$</span>
+          <div class="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <span class="text-sm font-semibold text-gray-700">Hosting + Support</span>
+            <span class="text-sm text-gray-600 font-medium">Extra $$</span>
           </div>
-          <div class="flex justify-between py-2">
-            <span class="text-sm font-medium text-gray-700">Year 2+ Hosting</span>
-            <span class="text-sm text-gray-600">$300+/year</span>
+          <div class="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <span class="text-sm font-semibold text-gray-700">Year 2+ Hosting</span>
+            <span class="text-sm text-gray-600 font-medium">$300+/year</span>
           </div>
         </div>
       </div>
 
       <!-- Local Developer -->
-      <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-        <div class="bg-gray-50 p-4 text-center border-b">
-          <h3 class="text-lg font-semibold text-gray-900">Local Developer</h3>
-          <div class="text-xl font-bold text-gray-900 mt-2">$10-15k</div>
-          <p class="text-sm text-gray-600">Year 1 Total Cost</p>
+      <div class="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-[1.01]">
+        <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-5 text-center border-b border-blue-200 relative">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-blue-200/30 rounded-full -translate-y-12 translate-x-12"></div>
+          <div class="relative z-10">
+            <h3 class="text-xl font-bold text-gray-900 mb-1 tracking-tight">Local Developer</h3>
+            <div class="text-2xl font-bold text-gray-900 mt-3 mb-1">$10-15k</div>
+            <p class="text-sm text-gray-600 font-medium">Year 1 Total Cost</p>
+          </div>
         </div>
-        <div class="p-4 space-y-3">
-          <div class="flex justify-between py-2 border-b border-gray-100">
-            <span class="text-sm font-medium text-gray-700">DIY Hours Required</span>
-            <span class="text-sm text-gray-600">~10 oversight</span>
+        <div class="p-5 space-y-3">
+          <div class="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <span class="text-sm font-semibold text-gray-700">DIY Hours Required</span>
+            <span class="text-sm text-gray-600 font-medium">~10 oversight</span>
           </div>
-          <div class="flex justify-between py-2 border-b border-gray-100">
-            <span class="text-sm font-medium text-gray-700">Time to Launch</span>
-            <span class="text-sm text-gray-600">6-12 weeks</span>
+          <div class="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <span class="text-sm font-semibold text-gray-700">Time to Launch</span>
+            <span class="text-sm text-gray-600 font-medium">6-12 weeks</span>
           </div>
-          <div class="flex justify-between py-2 border-b border-gray-100">
-            <span class="text-sm font-medium text-gray-700">Custom Design</span>
-            <span class="text-sm text-green-600">Yes</span>
+          <div class="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <span class="text-sm font-semibold text-gray-700">Custom Design</span>
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span class="text-sm font-bold text-green-600">Yes</span>
+            </div>
           </div>
-          <div class="flex justify-between py-2 border-b border-gray-100">
-            <span class="text-sm font-medium text-gray-700">Hosting + Support</span>
-            <span class="text-sm text-gray-600">Extra $$$</span>
+          <div class="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <span class="text-sm font-semibold text-gray-700">Hosting + Support</span>
+            <span class="text-sm text-gray-600 font-medium">Extra $$$</span>
           </div>
-          <div class="flex justify-between py-2">
-            <span class="text-sm font-medium text-gray-700">Year 2+ Hosting</span>
-            <span class="text-sm text-gray-600">$600+/year</span>
+          <div class="flex justify-between items-center py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+            <span class="text-sm font-semibold text-gray-700">Year 2+ Hosting</span>
+            <span class="text-sm text-gray-600 font-medium">$600+/year</span>
           </div>
         </div>
       </div>

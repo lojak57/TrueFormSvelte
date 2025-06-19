@@ -105,29 +105,37 @@
               {#if competitor.isUs}
                 <!-- TrueForm mobile highlight card -->
                 <div class="absolute -inset-1 bg-gradient-to-r from-accent-600 to-accent-400 rounded-2xl blur opacity-75"></div>
-                <div class="relative bg-white rounded-2xl border-2 border-accent-200 shadow-xl overflow-hidden">
+                <div class="relative bg-white rounded-2xl border-2 border-accent-200 shadow-xl overflow-hidden transform hover:scale-[1.02] transition-all duration-300">
                   <!-- Header -->
-                  <div class="bg-gradient-to-r from-accent-600 to-accent-500 p-4 text-center">
-                    <div class="inline-flex items-center px-3 py-1 bg-white/20 text-white text-xs font-semibold rounded-full mb-2">
-                      <Zap size={12} class="mr-1" />
-                      BEST VALUE
+                  <div class="bg-gradient-to-br from-accent-600 via-accent-500 to-accent-700 p-6 text-center relative overflow-hidden">
+                    <!-- Background pattern -->
+                    <div class="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent"></div>
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16"></div>
+                    
+                    <div class="relative z-10">
+                      <div class="inline-flex items-center px-3 py-1 bg-white/20 backdrop-blur-sm text-white text-xs font-bold rounded-full mb-3 shadow-lg">
+                        <Zap size={12} class="mr-1" />
+                        BEST VALUE
+                      </div>
+                      <h3 class="text-2xl font-black text-white mb-1 tracking-tight">{competitor.name}</h3>
+                      <p class="text-sm text-accent-100 mb-3 font-medium">{competitor.subtitle}</p>
+                      <div class="text-3xl font-black text-white mb-1 tracking-tight">{competitor.price}</div>
+                      <p class="text-sm text-accent-100 font-medium">{competitor.totalCost}</p>
                     </div>
-                    <h3 class="text-xl font-bold text-white">{competitor.name}</h3>
-                    <p class="text-sm text-accent-100 mb-2">{competitor.subtitle}</p>
-                    <div class="text-2xl font-bold text-white">{competitor.price}</div>
-                    <p class="text-sm text-accent-100">{competitor.totalCost}</p>
                   </div>
                   
                   <!-- Features -->
-                  <div class="p-4 space-y-3">
+                  <div class="p-5 space-y-4 bg-gradient-to-b from-white to-gray-50">
                     {#each competitor.features as feature}
                       {@const display = getFeatureDisplay(feature.value)}
-                      <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
-                        <span class="text-sm font-medium text-gray-900">{feature.name}</span>
+                      <div class="flex items-center justify-between py-3 px-2 rounded-lg hover:bg-accent-50/50 transition-colors duration-200">
+                        <span class="text-sm font-semibold text-gray-800">{feature.name}</span>
                         {#if display.icon}
-                          <svelte:component this={display.icon} size={20} class="{display.class}" />
+                          <div class="flex items-center justify-center w-8 h-8 rounded-full bg-green-100">
+                            <svelte:component this={display.icon} size={18} class="{display.class}" />
+                          </div>
                         {:else}
-                          <span class="text-sm {display.class} font-medium">{display.text}</span>
+                          <span class="text-sm {display.class} font-bold px-3 py-1 rounded-full bg-accent-100 text-accent-700">{display.text}</span>
                         {/if}
                       </div>
                     {/each}
@@ -135,25 +143,30 @@
                 </div>
               {:else}
                 <!-- Regular competitor mobile card -->
-                <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+                <div class="bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-[1.01]">
                   <!-- Header -->
-                  <div class="bg-gray-50 p-4 text-center border-b border-gray-200">
-                    <h3 class="text-lg font-semibold text-gray-900">{competitor.name}</h3>
-                    <p class="text-sm text-gray-500 mb-2">{competitor.subtitle}</p>
-                    <div class="text-xl font-bold text-gray-900">{competitor.price}</div>
-                    <p class="text-sm text-gray-500">{competitor.totalCost}</p>
+                  <div class="bg-gradient-to-r from-gray-50 to-gray-100 p-5 text-center border-b border-gray-200 relative">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gray-200/30 rounded-full -translate-y-12 translate-x-12"></div>
+                    <div class="relative z-10">
+                      <h3 class="text-xl font-bold text-gray-900 mb-1 tracking-tight">{competitor.name}</h3>
+                      <p class="text-sm text-gray-600 mb-3 font-medium">{competitor.subtitle}</p>
+                      <div class="text-2xl font-bold text-gray-900 mb-1">{competitor.price}</div>
+                      <p class="text-sm text-gray-600 font-medium">{competitor.totalCost}</p>
+                    </div>
                   </div>
                   
                   <!-- Features -->
-                  <div class="p-4 space-y-3">
+                  <div class="p-5 space-y-3">
                     {#each competitor.features as feature}
                       {@const display = getFeatureDisplay(feature.value)}
-                      <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-b-0">
-                        <span class="text-sm font-medium text-gray-700">{feature.name}</span>
+                      <div class="flex items-center justify-between py-2 px-2 rounded-lg hover:bg-gray-50 transition-colors duration-200">
+                        <span class="text-sm font-semibold text-gray-700">{feature.name}</span>
                         {#if display.icon}
-                          <svelte:component this={display.icon} size={18} class="{display.class}" />
+                          <div class="flex items-center justify-center w-7 h-7 rounded-full {display.class === 'text-green-600' ? 'bg-green-100' : 'bg-red-100'}">
+                            <svelte:component this={display.icon} size={16} class="{display.class}" />
+                          </div>
                         {:else}
-                          <span class="text-xs {display.class} font-medium px-2 py-1 rounded">{display.text}</span>
+                          <span class="text-xs {display.class} font-bold px-2 py-1 rounded-full {display.class.includes('yellow') ? 'bg-yellow-100 text-yellow-800' : 'bg-gray-100 text-gray-700'}">{display.text}</span>
                         {/if}
                       </div>
                     {/each}
