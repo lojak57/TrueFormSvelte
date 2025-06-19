@@ -9,17 +9,30 @@
   export let badge: string = "";
 </script>
 
-<section class="relative bg-gradient-to-br from-gray-900 via-gray-800 to-accent-900 text-white overflow-hidden">
+<section class="relative bg-gradient-to-br from-white via-gray-50 to-accent-50 text-gray-900 overflow-hidden">
   <!-- Background Effects -->
-  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent-900/20 via-transparent to-transparent" />
-  <div class="absolute inset-0 bg-grid-white/[0.02] bg-[size:32px_32px]" />
+  <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent-100/50 via-transparent to-transparent" />
+  <!-- Geometric Background Pattern -->
+  <div class="absolute inset-0 opacity-5">
+    <svg class="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+      <defs>
+        <pattern id="services-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+          <circle cx="10" cy="10" r="1" fill="#0284c7"/>
+          <rect x="5" y="5" width="10" height="10" fill="none" stroke="#0284c7" stroke-width="0.5"/>
+        </pattern>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#services-pattern)"/>
+    </svg>
+  </div>
+  <!-- Top accent border -->
+  <div class="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-accent-500 via-accent-600 to-accent-500"></div>
 
   <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
     <div class="grid lg:grid-cols-2 gap-12 items-center">
       <!-- Content -->
       <div>
         {#if badge}
-          <div class="inline-flex items-center px-4 py-2 mb-8 bg-accent-600/20 border border-accent-400/30 rounded-full text-accent-300 text-sm font-medium backdrop-blur-sm">
+          <div class="inline-flex items-center px-4 py-2 mb-8 bg-accent-600 border border-accent-700 rounded-full text-white text-sm font-medium shadow-lg">
             <Zap size={16} class="mr-2" />
             {badge}
           </div>
@@ -32,7 +45,7 @@
           </span>
         </h1>
 
-        <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+        <p class="text-xl text-gray-700 mb-8 leading-relaxed">
           {description}
         </p>
 
@@ -49,7 +62,7 @@
           <Button
             variant="outline"
             size="lg"
-            class="px-8 py-4 text-lg border-white bg-white/10 text-white hover:bg-white/20 hover:text-white backdrop-blur-sm font-semibold"
+            class="px-8 py-4 text-lg border-gray-300 bg-white text-gray-900 hover:bg-gray-50 hover:border-gray-400 shadow-md font-semibold"
             on:click={() => window.location.href = '/contact'}
           >
             Discuss Your Needs
@@ -59,18 +72,18 @@
 
       <!-- Hero Image -->
       <div class="relative">
-        <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10">
+        <div class="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-200">
           <img
             src={heroImage}
             alt={title}
             class="w-full h-auto object-cover aspect-[4/3]"
             loading="lazy"
           />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          <div class="absolute inset-0 bg-gradient-to-t from-accent-900/30 to-transparent" />
         </div>
         <!-- Floating elements -->
-        <div class="absolute -top-4 -right-4 w-24 h-24 bg-accent-500 rounded-full opacity-20 blur-xl" />
-        <div class="absolute -bottom-8 -left-8 w-32 h-32 bg-yellow-400 rounded-full opacity-10 blur-2xl" />
+        <div class="absolute -top-4 -right-4 w-24 h-24 bg-accent-500 rounded-full opacity-30 blur-xl" />
+        <div class="absolute -bottom-8 -left-8 w-32 h-32 bg-accent-400 rounded-full opacity-20 blur-2xl" />
       </div>
     </div>
   </div>
@@ -83,8 +96,3 @@
   </div>
 </section>
 
-<style>
-  .bg-grid-white\/\[0\.02\] {
-    background-image: radial-gradient(circle, white 1px, transparent 1px);
-  }
-</style>
