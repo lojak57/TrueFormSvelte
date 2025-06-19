@@ -26,7 +26,7 @@
   <!-- Mobile overlay for better contrast -->
   <div class="absolute inset-0 bg-gray-900/40 md:bg-transparent" />
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-32">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-20 lg:py-32 mobile-content">
     <div class="text-center">
         <!-- Premium Badge -->
         <div
@@ -52,13 +52,13 @@
         </h1>
 
         <p
-          class="text-lg sm:text-xl md:text-2xl text-gray-200 sm:text-gray-300 mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0"
+          class="text-lg sm:text-xl md:text-2xl text-gray-200 sm:text-gray-300 mb-8 sm:mb-12 max-w-4xl mx-auto leading-relaxed px-2 sm:px-0"
         >
           {HERO_CONTENT.description}
         </p>
 
         <div
-          class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-12 sm:mb-16 px-4 sm:px-0"
+          class="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center mb-12 sm:mb-16 px-2 sm:px-0"
         >
           <Button
             variant="accent"
@@ -90,7 +90,7 @@
 
         <!-- Trust Indicators -->
         <div
-          class="flex flex-wrap justify-center items-center gap-4 sm:gap-8 text-gray-300 sm:text-gray-400 px-4 sm:px-0"
+          class="flex flex-wrap justify-center items-center gap-4 sm:gap-8 text-gray-300 sm:text-gray-400 px-2 sm:px-0"
         >
           {#each HERO_CONTENT.trustIndicators as indicator}
             <div class="flex items-center gap-2">
@@ -119,13 +119,22 @@
   
   /* Mobile-first hero improvements */
   .mobile-hero {
-    min-height: 100vh;
+    min-height: 85vh;
+    position: relative;
+  }
+  
+  .mobile-content {
+    min-height: calc(85vh - 120px); /* Account for wave */
     display: flex;
     align-items: center;
   }
   
   @media (min-width: 768px) {
     .mobile-hero {
+      min-height: auto;
+    }
+    
+    .mobile-content {
       min-height: auto;
       display: block;
     }
@@ -137,6 +146,12 @@
     .mobile-hero p,
     .mobile-hero span {
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    /* Better mobile spacing */
+    .mobile-content {
+      padding-top: 3rem;
+      padding-bottom: 3rem;
     }
   }
 </style>
