@@ -18,11 +18,20 @@
   import Step8Submission from "./steps/Step8Submission.svelte";
 
   let showTrustBreaker = false;
+  let previousStep = -1;
 
   // Start the wizard on mount
   onMount(() => {
     conversationalWizard.start();
   });
+
+  // Scroll to top when step changes
+  $: if ($conversationalWizard.currentStep !== previousStep && previousStep !== -1) {
+    scrollToTop();
+    previousStep = $conversationalWizard.currentStep;
+  } else if (previousStep === -1) {
+    previousStep = $conversationalWizard.currentStep;
+  }
 
   // Show trust breaker after scoping, before final submission step
   $: if (
@@ -32,6 +41,23 @@
     showTrustBreaker = true;
   } else {
     showTrustBreaker = false;
+  }
+
+  function scrollToTop() {
+    // Smooth scroll to top of the wizard container
+    const wizardContainer = document.querySelector('.wizard-container');
+    if (wizardContainer) {
+      wizardContainer.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    } else {
+      // Fallback to window scroll
+      window.scrollTo({ 
+        top: 0, 
+        behavior: 'smooth' 
+      });
+    }
   }
 
   function handleTrustContinue() {
@@ -60,64 +86,64 @@
     {#if showTrustBreaker}
       <div
         class="step-wrapper"
-        in:fly={{ y: 30, duration: 600 }}
-        out:fade={{ duration: 300 }}
+        in:fly={{ y: 40, duration: 700, delay: 300 }}
+        out:fade={{ duration: 200 }}
       >
         <TrustBreaker on:continue={handleTrustContinue} />
       </div>
     {:else if $conversationalWizard.currentStep === 0}
       <div
         class="step-wrapper"
-        in:fly={{ y: 30, duration: 600, delay: 200 }}
-        out:fade={{ duration: 300 }}
+        in:fly={{ y: 40, duration: 700, delay: 400 }}
+        out:fade={{ duration: 200 }}
       >
         <Step1Identity />
       </div>
     {:else if $conversationalWizard.currentStep === 1}
       <div
         class="step-wrapper"
-        in:fly={{ y: 30, duration: 600, delay: 200 }}
-        out:fade={{ duration: 300 }}
+        in:fly={{ y: 40, duration: 700, delay: 400 }}
+        out:fade={{ duration: 200 }}
       >
         <Step2Problem />
       </div>
     {:else if $conversationalWizard.currentStep === 2}
       <div
         class="step-wrapper"
-        in:fly={{ y: 30, duration: 600, delay: 200 }}
-        out:fade={{ duration: 300 }}
+        in:fly={{ y: 40, duration: 700, delay: 400 }}
+        out:fade={{ duration: 200 }}
       >
         <Step3Current />
       </div>
     {:else if $conversationalWizard.currentStep === 3}
       <div
         class="step-wrapper"
-        in:fly={{ y: 30, duration: 600, delay: 200 }}
-        out:fade={{ duration: 300 }}
+        in:fly={{ y: 40, duration: 700, delay: 400 }}
+        out:fade={{ duration: 200 }}
       >
         <Step4Vision />
       </div>
     {:else if $conversationalWizard.currentStep === 4}
       <div
         class="step-wrapper"
-        in:fly={{ y: 30, duration: 600, delay: 200 }}
-        out:fade={{ duration: 300 }}
+        in:fly={{ y: 40, duration: 700, delay: 400 }}
+        out:fade={{ duration: 200 }}
       >
         <Step5Vibe />
       </div>
     {:else if $conversationalWizard.currentStep === 5}
       <div
         class="step-wrapper"
-        in:fly={{ y: 30, duration: 600, delay: 200 }}
-        out:fade={{ duration: 300 }}
+        in:fly={{ y: 40, duration: 700, delay: 400 }}
+        out:fade={{ duration: 200 }}
       >
         <Step6Relationship />
       </div>
     {:else if $conversationalWizard.currentStep === 6}
       <div
         class="step-wrapper"
-        in:fly={{ y: 30, duration: 600, delay: 200 }}
-        out:fade={{ duration: 300 }}
+        in:fly={{ y: 40, duration: 700, delay: 400 }}
+        out:fade={{ duration: 200 }}
       >
         <Step7Scoping />
       </div>
@@ -125,8 +151,8 @@
       <!-- Step8Submission -->
       <div
         class="step-wrapper"
-        in:fly={{ y: 30, duration: 600, delay: 200 }}
-        out:fade={{ duration: 300 }}
+        in:fly={{ y: 40, duration: 700, delay: 400 }}
+        out:fade={{ duration: 200 }}
       >
         <Step8Submission />
       </div>
@@ -134,8 +160,8 @@
       <!-- Step8Submission (fallback) -->
       <div
         class="step-wrapper"
-        in:fly={{ y: 30, duration: 600, delay: 200 }}
-        out:fade={{ duration: 300 }}
+        in:fly={{ y: 40, duration: 700, delay: 400 }}
+        out:fade={{ duration: 200 }}
       >
         <Step8Submission />
       </div>
