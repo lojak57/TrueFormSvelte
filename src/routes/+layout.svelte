@@ -180,12 +180,12 @@
               Contact
             </h3>
             <ul class="space-y-2">
-              <li class="text-gray-300">(555) 123-FORM</li>
+              <li class="text-gray-300">(720) 993-6562</li>
               <li>
                 <a
-                  href="mailto:hello@true-form-apps.com"
+                  href="mailto:mitch.mechelay@true-form-apps.com"
                   class="text-gray-300 hover:text-white transition-colors duration-200"
-                  >hello@true-form-apps.com</a
+                  >mitch.mechelay@true-form-apps.com</a
                 >
               </li>
               <li class="text-gray-300">San Francisco, CA</li>

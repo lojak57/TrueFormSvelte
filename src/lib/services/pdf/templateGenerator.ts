@@ -255,11 +255,11 @@ export class TemplateGenerator {
                 <div class="contact-grid">
                     <div class="contact-item">
                         <div class="contact-label">Email</div>
-                        <div class="contact-value"><a href="mailto:hello@true-form-apps.com">hello@true-form-apps.com</a></div>
+                        <div class="contact-value"><a href="mailto:mitch.mechelay@true-form-apps.com">mitch.mechelay@true-form-apps.com</a></div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-label">Phone</div>
-                        <div class="contact-value"><a href="tel:+15551234567">(555) 123-4567</a></div>
+                        <div class="contact-value"><a href="tel:+17209936562">(720) 993-6562</a></div>
                     </div>
                     <div class="contact-item">
                         <div class="contact-label">Web</div>

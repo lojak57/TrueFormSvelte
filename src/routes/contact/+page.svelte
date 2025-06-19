@@ -41,17 +41,17 @@
     {
       icon: Phone,
       title: "Call Us",
-      detail: "(555) 123-FORM",
+      detail: "(720) 993-6562",
       description: "Speak directly with our team",
-      action: "tel:+15551234676",
+      action: "tel:+17209936562",
       color: "text-blue-600 bg-blue-100",
     },
     {
       icon: Mail,
       title: "Email Us",
-      detail: "hello@true-form-apps.com",
+      detail: "mitch.mechelay@true-form-apps.com",
       description: "Send us a detailed message",
-      action: "mailto:hello@true-form-apps.com",
+      action: "mailto:mitch.mechelay@true-form-apps.com",
       color: "text-green-600 bg-green-100",
     },
     {
@@ -298,9 +298,9 @@
                 <div>
                   <p class="font-medium text-gray-900">Phone</p>
                   <a
-                    href="tel:+15551234676"
+                    href="tel:+17209936562"
                     class="text-accent-600 hover:text-accent-700"
-                    >(555) 123-FORM</a
+                    >(720) 993-6562</a
                   >
                 </div>
               </div>
@@ -314,9 +314,9 @@
                 <div>
                   <p class="font-medium text-gray-900">Email</p>
                   <a
-                    href="mailto:hello@true-form-apps.com"
+                    href="mailto:mitch.mechelay@true-form-apps.com"
                     class="text-accent-600 hover:text-accent-700"
-                    >hello@true-form-apps.com</a
+                    >mitch.mechelay@true-form-apps.com</a
                   >
                 </div>
               </div>

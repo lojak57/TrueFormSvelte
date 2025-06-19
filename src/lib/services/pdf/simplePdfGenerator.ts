@@ -406,7 +406,7 @@ export function generateSimplePDF(data: SimplePDFData): string {
       <!-- Footer -->
       <div class="footer">
         <p>This proposal is valid for 30 days from the date above.</p>
-        <p>TrueForm • Professional Website Development • hello@true-form-apps.com</p>
+        <p>TrueForm • Professional Website Development • mitch.mechelay@true-form-apps.com</p>
       </div>
     </div>
   </div>

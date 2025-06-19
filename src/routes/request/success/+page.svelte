@@ -147,7 +147,7 @@
               <Phone class="text-accent-600" size={20} />
               <div>
                 <p class="font-semibold text-gray-900">Call Us</p>
-                <p class="text-gray-600 text-sm">(555) 123-FORM</p>
+                <p class="text-gray-600 text-sm">(720) 993-6562</p>
               </div>
             </div>
 
@@ -155,7 +155,7 @@
               <Mail class="text-accent-600" size={20} />
               <div>
                 <p class="font-semibold text-gray-900">Email Support</p>
-                <p class="text-gray-600 text-sm">hello@true-form-apps.com</p>
+                <p class="text-gray-600 text-sm">mitch.mechelay@true-form-apps.com</p>
               </div>
             </div>
           </div>
