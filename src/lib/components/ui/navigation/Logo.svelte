@@ -7,7 +7,7 @@
     href="/"
     class="flex items-center group transition-transform duration-300 hover:scale-105"
   >
-    <div class="w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40">
+    <div class="h-12 w-32 md:h-14 md:w-40 lg:h-16 lg:w-48">
       <img
         src="/logo.svg"
         alt="TrueForm Logo"
