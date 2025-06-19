@@ -87,10 +87,11 @@ export function generateSimplePDF(data: SimplePDFData): string {
     }
     
     .header {
-      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-      color: white;
+      background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+      color: #1e293b;
       padding: 32px 40px;
       position: relative;
+      border-bottom: 1px solid #e2e8f0;
     }
     
     .header-content {
@@ -102,26 +103,11 @@ export function generateSimplePDF(data: SimplePDFData): string {
     .logo-section {
       display: flex;
       align-items: center;
-      gap: 12px;
     }
     
     .logo {
-      height: 32px;
+      height: 48px;
       width: auto;
-    }
-    
-    .logo-text {
-      font-size: 28px;
-      font-weight: 800;
-      color: white;
-      letter-spacing: -0.5px;
-    }
-    
-    .tagline {
-      font-size: 11px;
-      color: #94a3b8;
-      margin-top: 2px;
-      font-style: italic;
     }
     
     .proposal-info {
@@ -137,7 +123,7 @@ export function generateSimplePDF(data: SimplePDFData): string {
     }
     
     .proposal-date {
-      color: #94a3b8;
+      color: #64748b;
       margin-top: 5px;
       font-size: 13px;
     }
@@ -339,10 +325,6 @@ export function generateSimplePDF(data: SimplePDFData): string {
       <div class="header-content">
         <div class="logo-section">
           <img src="https://true-form-apps.com/logo.svg" alt="TrueForm" class="logo" />
-          <div>
-            <div class="logo-text">TrueForm</div>
-            <div class="tagline">Excellence Refined.</div>
-          </div>
         </div>
         <div class="proposal-info">
           <div class="proposal-number">#${data.proposal.id.slice(-8).toUpperCase()}</div>
