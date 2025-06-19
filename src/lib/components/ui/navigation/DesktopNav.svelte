@@ -37,18 +37,6 @@
       description: "Appointments & scheduling",
     },
     {
-      name: "SaaS Platforms",
-      href: "/services/saas",
-      icon: Phone,
-      description: "Multi-tenant applications",
-    },
-    {
-      name: "Portfolio Sites",
-      href: "/services/portfolio",
-      icon: Users,
-      description: "Creative showcases",
-    },
-    {
       name: "Membership Sites",
       href: "/services/membership",
       icon: Award,
