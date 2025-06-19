@@ -1,4 +1,4 @@
-import { generateProposalPDF } from "$lib/services/pdf/pdfGenerator";
+import { pdfGenerator } from "$lib/services/pdf/pdfGenerator";
 import { supabase } from "$lib/supabaseClient";
 import { error } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
@@ -87,8 +87,8 @@ export const GET: RequestHandler = async ({ params, url }) => {
       acceptanceLink,
     };
 
-    // Generate PDF using the existing PDF generator
-    const htmlContent = await generateProposalPDF(completePdfData as any, {
+    // Generate HTML using the PDF generator
+    const htmlContent = await pdfGenerator.generateHTML(completePdfData as any, {
       includePaymentQR,
       includeAcceptanceQR,
       format,
@@ -184,8 +184,8 @@ export const POST: RequestHandler = async ({ params, request }) => {
       acceptanceLink: options.acceptanceLink,
     };
 
-    // Generate PDF with custom options
-    const htmlContent = await generateProposalPDF(pdfData as any, {
+    // Generate HTML with custom options
+    const htmlContent = await pdfGenerator.generateHTML(pdfData as any, {
       includePaymentQR: options.includePaymentQR || false,
       includeAcceptanceQR: options.includeAcceptanceQR || false,
       format: options.format || "Letter",
