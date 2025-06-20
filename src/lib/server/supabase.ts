@@ -13,6 +13,10 @@ export function createServerSupabaseClient(cookies: Cookies) {
     throw new Error('Missing Supabase environment variables');
   }
 
+  // Log all available cookies for debugging
+  const allCookies = cookies.getAll();
+  console.log(`[SERVER SUPABASE] All available cookies:`, allCookies.map(c => ({ name: c.name, hasValue: !!c.value })));
+
   return createClient(url, anonKey, {
     auth: {
       autoRefreshToken: false,
@@ -22,6 +26,17 @@ export function createServerSupabaseClient(cookies: Cookies) {
         getItem: (key: string) => {
           const cookie = cookies.get(key);
           console.log(`[SERVER SUPABASE] Getting cookie ${key}:`, cookie ? 'found' : 'not found');
+          
+          // If exact key not found, try to find Supabase auth token
+          if (!cookie && key.includes('auth-token')) {
+            for (const c of allCookies) {
+              if (c.name.includes('auth-token') && c.name.startsWith('sb-')) {
+                console.log(`[SERVER SUPABASE] Found auth cookie with different key: ${c.name}`);
+                return c.value;
+              }
+            }
+          }
+          
           return cookie || null;
         },
         setItem: (key: string, value: string) => {

@@ -4,15 +4,23 @@ import { redirect } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
   // 🔒 AUTHENTICATION: Check user session for all requests
+  console.log(`[HOOKS] Checking session for ${event.url.pathname}`);
   const session = await getServerSession(event.cookies);
+  console.log(`[HOOKS] Session result:`, session ? { email: session.user.email, id: session.user.id } : 'NO SESSION');
 
   // Store user session in locals for use in layouts and pages
-  event.locals.user = session ? {
-    id: session.user.id,
-    email: session.user.email || '',
-    role: session.user.user_metadata?.role,
-    organization_id: session.user.user_metadata?.organization_id,
-  } : null;
+  if (session && session.user) {
+    event.locals.user = {
+      id: session.user.id,
+      email: session.user.email || '',
+      role: session.user.user_metadata?.role,
+      organization_id: session.user.user_metadata?.organization_id,
+    };
+    console.log(`[HOOKS] Set locals.user:`, event.locals.user);
+  } else {
+    event.locals.user = null;
+    console.log(`[HOOKS] No session, locals.user is null`);
+  }
   const url = event.url;
   const hostname = url.hostname;
 
