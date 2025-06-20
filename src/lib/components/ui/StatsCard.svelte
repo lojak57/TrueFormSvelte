@@ -1,12 +1,13 @@
 <script lang="ts">
   import ModernCard from "./ModernCard.svelte";
+  import type { ComponentType } from "svelte";
 
   export let title: string;
   export let value: string;
   export let change: number | null = null;
   export let changeLabel: string = "vs last period";
   export let trend: "up" | "down" | "neutral" = "neutral";
-  export let icon: string = "";
+  export let icon: ComponentType | string = "";
   export let href: string | undefined = undefined;
   export let loading: boolean = false;
   export let size: "sm" | "md" | "lg" = "md";
@@ -30,7 +31,11 @@
     <div class="stats-header">
       {#if icon}
         <div class="icon-container">
-          <span class="icon">{icon}</span>
+          {#if typeof icon === 'string'}
+            <span class="icon">{icon}</span>
+          {:else}
+            <svelte:component this={icon} size={20} class="icon-component" />
+          {/if}
         </div>
       {/if}
 
@@ -97,16 +102,24 @@
     width: 40px;
     height: 40px;
     border-radius: 8px;
-    background: rgb(248, 250, 252);
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(148, 163, 184, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
   }
 
   .icon {
     font-size: 20px;
     line-height: 1;
+  }
+  
+  :global(.icon-component) {
+    color: rgb(71, 85, 105);
+    transition: color 0.2s ease;
   }
 
   .title-section {
@@ -116,21 +129,23 @@
 
   .stats-title {
     font-size: 14px;
-    font-weight: 500;
-    color: rgb(107, 114, 128);
+    font-weight: 600;
+    color: rgb(71, 85, 105);
     margin: 0;
     line-height: 1.4;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    letter-spacing: -0.01em;
   }
 
   .stats-value {
     font-size: 28px;
     font-weight: 700;
-    color: rgb(17, 24, 39);
+    color: rgb(15, 23, 42);
     line-height: 1.2;
     margin: 4px 0;
+    letter-spacing: -0.02em;
   }
 
   .stats-change {

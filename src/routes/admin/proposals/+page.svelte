@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { Proposal } from "$lib/types";
+  import { FileText, Plus, Building2, Download, ChevronRight, Calendar } from "lucide-svelte";
 
   let proposals: Proposal[] = [];
   let loading = true;
@@ -139,83 +140,49 @@
 </script>
 
 <svelte:head>
-  <title>Proposals | TrueForm Admin</title>
+  <title>Strategic Proposals | Command Center</title>
 </svelte:head>
 
 <div class="space-y-6">
-  <!-- Header -->
-  <div class="flex items-center justify-between">
-    <div>
-      <h1 class="text-3xl font-semibold text-gray-900">Proposals</h1>
-      <p class="text-gray-600 mt-1">Create and manage client proposals</p>
-    </div>
-    <a
-      href="/admin/proposals/new"
-      class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
-    >
-      <svg
-        class="w-5 h-5 mr-2"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
+  <!-- Executive Header -->
+  <div class="header-section">
+    <div class="header-content">
+      <div>
+        <h1 class="header-title">
+          <FileText size={32} class="header-icon" />
+          Strategic Proposals Portfolio
+        </h1>
+        <p class="header-subtitle">Craft and oversee high-value client engagements with sophistication</p>
+      </div>
+      <a
+        href="/admin/proposals/new"
+        class="executive-button"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-        />
-      </svg>
-      New Proposal
-    </a>
+        <Plus size={18} class="button-icon" />
+        Draft New Proposal
+      </a>
+    </div>
   </div>
 
   {#if loading}
-    <div class="flex items-center justify-center py-12">
-      <div
-        class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"
-      />
-      <span class="ml-3 text-gray-600">Loading proposals...</span>
+    <div class="loading-state">
+      <div class="loading-spinner" />
+      <span class="loading-text">Retrieving proposals...</span>
     </div>
   {:else if proposals.length === 0}
-    <!-- Empty State -->
-    <div class="text-center py-12">
-      <svg
-        class="mx-auto h-12 w-12 text-gray-400"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-        />
-      </svg>
-      <h3 class="mt-2 text-sm font-medium text-gray-900">No proposals</h3>
-      <p class="mt-1 text-sm text-gray-500">
-        Get started by creating your first proposal.
+    <!-- Elegant Empty State -->
+    <div class="empty-state">
+      <div class="empty-icon">
+        <FileText size={48} class="text-slate-400" />
+      </div>
+      <h3 class="empty-title">No Proposals in Portfolio</h3>
+      <p class="empty-description">
+        Begin crafting your first strategic client proposal.
       </p>
-      <div class="mt-6">
-        <a
-          href="/admin/proposals/new"
-          class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:ring-2 focus:ring-blue-500"
-        >
-          <svg
-            class="w-5 h-5 mr-2"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-            />
-          </svg>
-          Create Your First Proposal
+      <div class="empty-action">
+        <a href="/admin/proposals/new" class="executive-button">
+          <Plus size={18} class="button-icon" />
+          Create Inaugural Proposal
         </a>
       </div>
     </div>
@@ -265,18 +232,7 @@
                       <div
                         class="flex items-center gap-2 bg-gray-50 rounded-lg px-3 py-1.5"
                       >
-                        <svg
-                          class="w-4 h-4 text-gray-500"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                        >
-                          <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
-                          <path
-                            fill-rule="evenodd"
-                            d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
+                        <Building2 size={16} class="text-slate-500" />
                         <span class="font-medium"
                           >Company #{proposal.company_id?.slice(-8)}</span
                         >
@@ -305,19 +261,7 @@
                   <div
                     class="flex items-center gap-2 text-sm text-gray-600 mb-2"
                   >
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
+                    <FileText size={16} class="text-slate-600" />
                     <span class="font-medium"
                       >{proposal.line_items.length} Services</span
                     >
@@ -347,19 +291,7 @@
               >
                 <div class="flex items-center gap-4">
                   <div class="flex items-center gap-1.5">
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M8 7V3a1 1 0 011-1h6a1 1 0 011 1v4m-9 0h10m-10 0l.5 9a1 1 0 001 1h9a1 1 0 001-1l.5-9"
-                      />
-                    </svg>
+                    <Calendar size={16} class="text-slate-500" />
                     <span>Created {formatDate(proposal.created_at)}</span>
                   </div>
                 </div>
@@ -373,19 +305,7 @@
                     on:click={(e) => downloadPDF(proposal.id, e)}
                     title="Download PDF"
                   >
-                    <svg
-                      class="w-3.5 h-3.5"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                      />
-                    </svg>
+                    <Download size={14} />
                     PDF
                   </button>
 
@@ -393,19 +313,7 @@
                     class="flex items-center gap-1.5 text-blue-600 text-xs font-medium"
                   >
                     <span>View Details</span>
-                    <svg
-                      class="w-4 h-4 transform group-hover:translate-x-0.5 transition-transform"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M9 5l7 7-7 7"
-                      />
-                    </svg>
+                    <ChevronRight size={16} class="transform group-hover:translate-x-0.5 transition-transform" />
                   </div>
                 </div>
               </div>
@@ -416,3 +324,182 @@
     </div>
   {/if}
 </div>
+
+<style>
+  .space-y-6 {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    min-height: 100vh;
+  }
+
+  .header-section {
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0.75rem;
+    padding: 2rem;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    box-shadow: 0 4px 12px rgba(71, 85, 105, 0.1);
+  }
+
+  .header-content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .header-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0 0 0.5rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    letter-spacing: -0.025em;
+  }
+
+  .header-icon {
+    color: #475569;
+  }
+
+  .header-subtitle {
+    color: #475569;
+    font-size: 1.125rem;
+    margin: 0;
+    letter-spacing: 0.01em;
+  }
+
+  .executive-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: linear-gradient(135deg, #475569 0%, #64748b 100%);
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 8px rgba(71, 85, 105, 0.2);
+  }
+
+  .executive-button:hover {
+    background: linear-gradient(135deg, #334155 0%, #475569 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(71, 85, 105, 0.3);
+  }
+
+  .button-icon {
+    transition: transform 0.2s ease;
+  }
+
+  .executive-button:hover .button-icon {
+    transform: rotate(90deg);
+  }
+
+  .loading-state {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0.75rem;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+  }
+
+  .loading-spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid rgba(148, 163, 184, 0.2);
+    border-top: 2px solid #475569;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  .loading-text {
+    margin-left: 0.75rem;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 0.75rem;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+  }
+
+  .empty-icon {
+    margin: 0 auto 1.5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .empty-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #0f172a;
+    margin: 0 0 0.5rem 0;
+  }
+
+  .empty-description {
+    color: #475569;
+    margin: 0 0 1.5rem 0;
+  }
+
+  .empty-action {
+    display: flex;
+    justify-content: center;
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Update existing card styles for luxury theme */
+  :global(.group) {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(148, 163, 184, 0.2) !important;
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease !important;
+  }
+
+  :global(.group:hover) {
+    background: rgba(255, 255, 255, 0.95) !important;
+    border-color: rgba(148, 163, 184, 0.3) !important;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(71, 85, 105, 0.15) !important;
+  }
+
+  :global(.group .text-xl) {
+    color: #0f172a !important;
+    letter-spacing: -0.01em;
+  }
+
+  :global(.group:hover .text-xl) {
+    color: #475569 !important;
+  }
+
+  :global(.group .text-3xl) {
+    color: #475569 !important;
+    letter-spacing: -0.02em;
+  }
+
+  :global(.group .text-sm.text-gray-600) {
+    color: #64748b !important;
+  }
+
+  :global(.group .text-sm.text-gray-500) {
+    color: #64748b !important;
+  }
+</style>
