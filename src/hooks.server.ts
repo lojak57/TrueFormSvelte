@@ -18,7 +18,13 @@ export const handle: Handle = async ({ event, resolve }) => {
     (hostname === "localhost" && url.port === "5175") || // For local dev
     url.searchParams.has("crm"); // Allow ?crm for local testing
 
-  console.log(`[HOOKS] ${hostname}${url.pathname} - CRM: ${isCRMSubdomain}`);
+  console.log(`[HOOKS] ${hostname}${url.pathname} - CRM: ${isCRMSubdomain} - Session: ${session ? 'YES' : 'NO'}`);
+  
+  // Debug: Log all cookies to help identify the auth cookie
+  if (url.pathname.includes('/admin') || url.pathname.includes('/login')) {
+    const allCookies = event.cookies.getAll();
+    console.log(`[COOKIES] Available:`, allCookies.map(c => ({ name: c.name, hasValue: !!c.value })));
+  }
 
   // If CRM subdomain, handle admin routing
   if (isCRMSubdomain) {

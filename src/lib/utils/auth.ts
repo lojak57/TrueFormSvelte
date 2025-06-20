@@ -99,9 +99,32 @@ export function getSessionFromLocals(locals: any): UserSession | null {
  */
 export async function verifySession(cookies: any): Promise<UserSession | null> {
   try {
-    // Get access and refresh tokens from cookies
-    const accessToken = cookies.get('sb-access-token');
-    const refreshToken = cookies.get('sb-refresh-token');
+    // Try various cookie names that Supabase might use
+    const possibleTokenNames = [
+      'sb-access-token',
+      'supabase-auth-token',
+      'supabase.auth.token',
+      // Check for project-specific cookies (Supabase format: sb-<project-id>-auth-token)
+    ];
+    
+    let accessToken: string | null = null;
+    
+    // Try to find the access token with any of the possible names
+    for (const name of possibleTokenNames) {
+      accessToken = cookies.get(name);
+      if (accessToken) break;
+    }
+    
+    // Also try to get all cookies and look for Supabase patterns
+    if (!accessToken) {
+      const allCookies = cookies.getAll();
+      for (const cookie of allCookies) {
+        if (cookie.name.includes('auth-token') || cookie.name.includes('access')) {
+          accessToken = cookie.value;
+          break;
+        }
+      }
+    }
     
     if (!accessToken) {
       return null;
