@@ -33,13 +33,37 @@
       } else if (result.user) {
         console.log("Login successful, redirecting...");
         // Login successful - redirect immediately
-        setTimeout(() => {
-          if (window.location.hostname.startsWith('crm.') || window.location.hostname === 'localhost') {
-            // Force a full page reload to ensure cookies are set properly
+        setTimeout(async () => {
+          try {
+            const hostname = window.location.hostname;
+            const isCRMHostname = hostname.startsWith('crm.') || hostname === 'localhost';
+            
+            console.log("Redirect debug:", {
+              hostname,
+              isCRMHostname,
+              fullLocation: window.location.href
+            });
+            
+            if (isCRMHostname) {
+              console.log("Redirecting to local /admin/dashboard using SvelteKit navigation");
+              try {
+                // Try SvelteKit navigation first
+                await goto("/admin/dashboard", { replaceState: true });
+                console.log("SvelteKit navigation completed successfully");
+              } catch (err) {
+                console.log("SvelteKit navigation failed, using window.location", err);
+                // Fallback to window.location
+                window.location.href = "/admin/dashboard";
+              }
+            } else {
+              console.log("Redirecting to external CRM domain");
+              // External redirect for different domain
+              window.location.href = "https://crm.true-form-apps.com/admin/dashboard";
+            }
+          } catch (error) {
+            console.error("Error during redirect:", error);
+            // Last resort fallback
             window.location.href = "/admin/dashboard";
-          } else {
-            // External redirect for different domain
-            window.location.href = "https://crm.true-form-apps.com/admin/dashboard";
           }
         }, 500); // Shorter delay
       } else if (isSignupMode) {
