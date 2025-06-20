@@ -207,12 +207,12 @@
 
   .dashboard-subtitle {
     font-size: 18px;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.95);
     margin: 0;
     line-height: 1.6;
     font-weight: 400;
     letter-spacing: 0.01em;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
   }
 
   .welcome-visual {
@@ -349,10 +349,10 @@
 
   .action-desc {
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.9);
     margin: 0;
     font-weight: 400;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
   }
 
   /* Dark mode */
