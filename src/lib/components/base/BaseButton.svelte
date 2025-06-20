@@ -8,6 +8,10 @@
   export let type: "button" | "submit" | "reset" = "button";
   export let fullWidth: boolean = false;
   export let icon: boolean = false; // For icon-only buttons
+  
+  // Allow custom CSS classes
+  let className: string = "";
+  export { className as class };
 
   // Determine if this should be a link
   $: isLink = href !== undefined;
@@ -21,6 +25,7 @@
     loading && "loading",
     fullWidth && "full-width",
     icon && "icon-only",
+    className,
   ]
     .filter(Boolean)
     .join(" ");

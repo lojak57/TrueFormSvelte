@@ -185,11 +185,15 @@ test.describe("Project Request Form", () => {
     // Submit form
     await page.click('button[type="submit"]');
 
-    // Should handle error gracefully (show error message or retry option)
-    await expect(page.locator("text=error, text=try again, text=problem"))
-      .toBeVisible({ timeout: 10000 })
-      .or(page.locator("text=success, text=submitted"))
-      .toBeVisible({ timeout: 10000 });
+    // Should handle error gracefully (show error message or retry option) or show success
+    try {
+      await expect(page.locator("text=error, text=try again, text=problem"))
+        .toBeVisible({ timeout: 10000 });
+    } catch {
+      // If no error message, check for success message
+      await expect(page.locator("text=success, text=submitted"))
+        .toBeVisible({ timeout: 10000 });
+    }
   });
 
   test("form fields retain values on validation error", async ({ page }) => {

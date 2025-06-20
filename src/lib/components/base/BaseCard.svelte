@@ -6,6 +6,10 @@
   export let loading: boolean = false;
   export let elevated: boolean = false;
   export let padding: "none" | "sm" | "md" | "lg" = "md";
+  
+  // Allow custom CSS classes
+  let className: string = "";
+  export { className as class };
 
   // Determine if this should be a link or button
   $: isLink = href !== undefined;
@@ -18,6 +22,7 @@
     `padding-${padding}`,
     isInteractive && "interactive",
     elevated && "elevated",
+    className,
     loading && "loading",
   ]
     .filter(Boolean)

@@ -101,7 +101,7 @@ export async function verifySession(cookies: any): Promise<UserSession | null> {
   try {
     // Log all cookies for debugging
     const allCookies = cookies.getAll();
-    console.log(`[AUTH] All cookies:`, allCookies.map(c => ({ name: c.name, hasValue: !!c.value })));
+    console.log(`[AUTH] All cookies:`, allCookies.map((c: any) => ({ name: c.name, hasValue: !!c.value })));
     
     // Look for Supabase auth cookies (they follow the pattern sb-<project-ref>-auth-token)
     let accessToken: string | null = null;
@@ -117,7 +117,7 @@ export async function verifySession(cookies: any): Promise<UserSession | null> {
           const sessionData = JSON.parse(cookie.value);
           if (sessionData.access_token) {
             accessToken = sessionData.access_token;
-            console.log(`[AUTH] Found access token in cookie: ${cookie.name}`, accessToken.substring(0, 20) + '...');
+            console.log(`[AUTH] Found access token in cookie: ${cookie.name}`, accessToken?.substring(0, 20) + '...');
           }
         } catch (err) {
           console.log(`[AUTH] Failed to parse cookie ${cookie.name}:`, err);

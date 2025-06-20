@@ -133,7 +133,7 @@
 
     <form on:submit|preventDefault={handleSubmit} class="space-y-6">
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">
+        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
           Email Address
         </label>
         <div class="relative">
@@ -142,6 +142,7 @@
             size={20}
           />
           <input
+            id="email"
             type="email"
             bind:value={credentials.email}
             required
@@ -153,7 +154,7 @@
       </div>
 
       <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">
+        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
           Password
         </label>
         <div class="relative">
@@ -162,6 +163,7 @@
             size={20}
           />
           <input
+            id="password"
             type="password"
             bind:value={credentials.password}
             required

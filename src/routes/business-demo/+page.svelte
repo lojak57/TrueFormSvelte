@@ -121,6 +121,7 @@
       end_date: "2024-06-15",
       budget: 150000,
       created_at: "2024-01-15T10:00:00Z",
+      updated_at: "2024-01-15T10:00:00Z",
     },
     {
       id: "2",
@@ -134,6 +135,7 @@
       end_date: "2024-04-01",
       budget: 25000,
       created_at: "2024-02-01T14:30:00Z",
+      updated_at: "2024-02-01T14:30:00Z",
     },
     {
       id: "3",
@@ -146,6 +148,7 @@
       start_date: "2024-03-01",
       budget: 35000,
       created_at: "2024-02-15T09:15:00Z",
+      updated_at: "2024-02-15T09:15:00Z",
     },
     {
       id: "4",
@@ -159,6 +162,7 @@
       end_date: "2024-02-28",
       budget: 75000,
       created_at: "2024-01-20T16:45:00Z",
+      updated_at: "2024-01-20T16:45:00Z",
     },
   ];
 
@@ -188,7 +192,7 @@
 
   // Listen for edit events
   if (typeof document !== "undefined") {
-    document.addEventListener("edit", handleEdit);
+    document.addEventListener("edit", handleEdit as EventListener);
   }
 </script>
 

@@ -42,8 +42,8 @@ export class PDFUtils {
     data: string,
     options?: Partial<QRCodeOptions>
   ): Promise<string> {
-    const defaultOptions: QRCodeOptions = {
-      type: "png",
+    const defaultOptions = {
+      type: "image/png" as const,
       quality: 0.92,
       margin: 1,
       color: {

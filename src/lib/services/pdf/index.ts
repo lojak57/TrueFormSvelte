@@ -7,12 +7,12 @@
 
 // Main PDF Generator
 export {
-  RefactoredPDFGenerator,
-  refactoredPdfGenerator as pdfGenerator,
-} from "./refactoredPdfGenerator";
+  SimplePDFGenerator,
+  simplePdfGenerator as pdfGenerator,
+} from "./simplePdfGenerator";
 
-// Legacy Support
-export { ProposalPDFGenerator } from "./pdfGenerator";
+// Legacy Support (commented out - file doesn't exist)
+// export { ProposalPDFGenerator } from "./pdfGenerator";
 
 // Utilities
 export { ServiceEnhancer, serviceEnhancer } from "./serviceEnhancer";
