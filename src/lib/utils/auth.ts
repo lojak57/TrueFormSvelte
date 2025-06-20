@@ -107,11 +107,21 @@ export async function verifySession(cookies: any): Promise<UserSession | null> {
     let accessToken: string | null = null;
     let refreshToken: string | null = null;
     
-    // Find auth tokens in cookies
+    // Find auth tokens in cookies - look for the specific Supabase pattern
     for (const cookie of allCookies) {
+      console.log(`[AUTH] Checking cookie: ${cookie.name}`);
+      
       if (cookie.name.includes('auth-token') && cookie.name.startsWith('sb-')) {
-        accessToken = cookie.value;
-        console.log(`[AUTH] Found access token in cookie: ${cookie.name}`);
+        // Parse the JSON value to get the access_token
+        try {
+          const sessionData = JSON.parse(cookie.value);
+          if (sessionData.access_token) {
+            accessToken = sessionData.access_token;
+            console.log(`[AUTH] Found access token in cookie: ${cookie.name}`, accessToken.substring(0, 20) + '...');
+          }
+        } catch (err) {
+          console.log(`[AUTH] Failed to parse cookie ${cookie.name}:`, err);
+        }
       }
       if (cookie.name.includes('refresh-token') && cookie.name.startsWith('sb-')) {
         refreshToken = cookie.value;
