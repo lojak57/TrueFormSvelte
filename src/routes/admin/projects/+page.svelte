@@ -1,26 +1,22 @@
 <script lang="ts">
   import ProjectList from "$lib/components/ProjectList.svelte";
+  import CRMHeader from "$lib/components/ui/CRMHeader.svelte";
   import { Rocket, Plus } from "lucide-svelte";
 </script>
 
-<div class="admin-projects">
-  <div class="page-header">
-    <div class="header-content">
-      <div>
-        <h2 class="header-title">
-          <Rocket size={28} class="header-icon" />
-          Active Initiatives Portfolio
-        </h2>
-        <p>Monitor and orchestrate strategic client engagements with precision</p>
-      </div>
-      <div class="quick-actions">
-        <button class="new-project-btn">
-          <Plus size={16} class="plus-icon" />
-          Launch Initiative
-        </button>
-      </div>
+<div class="projects-page">
+  <CRMHeader 
+    title="Active Initiatives Portfolio" 
+    subtitle="Monitor and orchestrate strategic client engagements with precision"
+    icon={Rocket}
+  >
+    <div slot="actions" class="header-actions">
+      <button class="action-button launch-btn">
+        <Plus size={16} class="plus-icon" />
+        Launch Initiative
+      </button>
     </div>
-  </div>
+  </CRMHeader>
 
   <div class="page-content">
     <ProjectList />
@@ -28,55 +24,29 @@
 </div>
 
 <style>
-  .admin-projects {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+  .projects-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   }
 
-  .page-header {
+  .page-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
     background: rgba(255, 255, 255, 0.8);
     border-radius: 0.75rem;
-    padding: 2rem;
     backdrop-filter: blur(8px);
     border: 1px solid rgba(148, 163, 184, 0.2);
     box-shadow: 0 4px 12px rgba(71, 85, 105, 0.1);
   }
 
-  .header-content {
+  .header-actions {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-
-  .header-title {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #0f172a;
-    display: flex;
+    gap: 12px;
     align-items: center;
-    gap: 0.75rem;
-    letter-spacing: -0.01em;
-  }
-  
-  .header-icon {
-    color: #475569;
   }
 
-  .header-content p {
-    margin: 0;
-    color: #475569;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-  }
-
-  .quick-actions {
-    display: flex;
-    gap: 1rem;
-  }
-
-  .new-project-btn {
+  .launch-btn {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -92,7 +62,7 @@
     box-shadow: 0 4px 8px rgba(71, 85, 105, 0.2);
   }
 
-  .new-project-btn:hover {
+  .launch-btn:hover {
     background: linear-gradient(135deg, #334155 0%, #475569 100%);
     transform: translateY(-1px);
     box-shadow: 0 6px 12px rgba(71, 85, 105, 0.3);
@@ -102,16 +72,25 @@
     transition: transform 0.2s ease;
   }
   
-  .new-project-btn:hover .plus-icon {
+  .launch-btn:hover .plus-icon {
     transform: rotate(90deg);
   }
 
-  .page-content {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 0.75rem;
-    padding: 2rem;
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    box-shadow: 0 4px 12px rgba(71, 85, 105, 0.1);
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .page-content {
+      padding: 16px;
+      margin: 16px;
+    }
+
+    .header-actions {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .launch-btn {
+      width: 100%;
+      justify-content: center;
+    }
   }
 </style>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { Proposal } from "$lib/types";
+  import CRMHeader from "$lib/components/ui/CRMHeader.svelte";
   import { FileText, Plus, Building2, Download, ChevronRight, Calendar } from "lucide-svelte";
 
   let proposals: Proposal[] = [];
@@ -143,26 +144,19 @@
   <title>Strategic Proposals | Command Center</title>
 </svelte:head>
 
-<div class="space-y-6">
-  <!-- Executive Header -->
-  <div class="header-section">
-    <div class="header-content">
-      <div>
-        <h1 class="header-title">
-          <FileText size={32} class="header-icon" />
-          Strategic Proposals Portfolio
-        </h1>
-        <p class="header-subtitle">Craft and oversee high-value client engagements with sophistication</p>
-      </div>
-      <a
-        href="/admin/proposals/new"
-        class="executive-button"
-      >
+<div class="proposals-page">
+  <CRMHeader 
+    title="Strategic Proposals Portfolio" 
+    subtitle="Craft and oversee high-value client engagements with sophistication"
+    icon={FileText}
+  >
+    <div slot="actions" class="header-actions">
+      <a href="/admin/proposals/new" class="action-button executive-button">
         <Plus size={18} class="button-icon" />
         Draft New Proposal
       </a>
     </div>
-  </div>
+  </CRMHeader>
 
   {#if loading}
     <div class="loading-state">
@@ -326,51 +320,18 @@
 </div>
 
 <style>
-  .space-y-6 {
+  .proposals-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    padding: 2rem;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    min-height: 100vh;
   }
 
-  .header-section {
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 0.75rem;
-    padding: 2rem;
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    box-shadow: 0 4px 12px rgba(71, 85, 105, 0.1);
-  }
-
-  .header-content {
+  .header-actions {
     display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-
-  .header-title {
-    font-size: 2rem;
-    font-weight: 600;
-    color: #0f172a;
-    margin: 0 0 0.5rem 0;
-    display: flex;
+    gap: 12px;
     align-items: center;
-    gap: 0.75rem;
-    letter-spacing: -0.025em;
-  }
-
-  .header-icon {
-    color: #475569;
-  }
-
-  .header-subtitle {
-    color: #475569;
-    font-size: 1.125rem;
-    margin: 0;
-    letter-spacing: 0.01em;
   }
 
   .executive-button {
@@ -386,6 +347,8 @@
     transition: all 0.3s ease;
     backdrop-filter: blur(8px);
     box-shadow: 0 4px 8px rgba(71, 85, 105, 0.2);
+    border: none;
+    cursor: pointer;
   }
 
   .executive-button:hover {
@@ -411,6 +374,8 @@
     border-radius: 0.75rem;
     backdrop-filter: blur(8px);
     border: 1px solid rgba(148, 163, 184, 0.2);
+    max-width: 1200px;
+    margin: 0 auto 24px;
   }
 
   .loading-spinner {
@@ -435,6 +400,8 @@
     border-radius: 0.75rem;
     backdrop-filter: blur(8px);
     border: 1px solid rgba(148, 163, 184, 0.2);
+    max-width: 1200px;
+    margin: 0 auto 24px;
   }
 
   .empty-icon {
@@ -464,6 +431,15 @@
     to {
       transform: rotate(360deg);
     }
+  }
+
+  /* Proposal cards container */
+  .grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px 24px;
+    gap: 24px;
+    display: grid;
   }
 
   /* Update existing card styles for luxury theme */
@@ -500,6 +476,29 @@
   }
 
   :global(.group .text-sm.text-gray-500) {
-    color: #64748b !important;
+    color: rgba(255, 255, 255, 0.75) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.group .text-sm.text-gray-600) {
+    color: rgba(255, 255, 255, 0.8) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .grid {
+      padding: 0 16px 16px;
+    }
+
+    .header-actions {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .executive-button {
+      width: 100%;
+      justify-content: center;
+    }
   }
 </style>

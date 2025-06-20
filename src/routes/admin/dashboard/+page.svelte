@@ -66,9 +66,9 @@
         </div>
         <div class="welcome-visual">
           <div class="visual-grid">
-            <div class="visual-item"><Building2 size={28} class="text-slate-600" /></div>
-            <div class="visual-item"><Rocket size={28} class="text-slate-600" /></div>
-            <div class="visual-item"><TrendingUp size={28} class="text-slate-600" /></div>
+            <div class="visual-item"><Building2 size={28} class="text-white/70" /></div>
+            <div class="visual-item"><Rocket size={28} class="text-white/70" /></div>
+            <div class="visual-item"><TrendingUp size={28} class="text-white/70" /></div>
           </div>
         </div>
       </div>
@@ -131,7 +131,7 @@
     <ModernCard variant="elevated" size="lg">
       <div class="actions-grid">
         <a href="/admin/companies/create" class="action-card">
-          <div class="action-icon"><Building2 size={24} class="text-slate-600" /></div>
+          <div class="action-icon"><Building2 size={24} class="text-white/70" /></div>
           <div class="action-content">
             <h3 class="action-title">Onboard Organization</h3>
             <p class="action-desc">Register new client entity</p>
@@ -139,7 +139,7 @@
         </a>
 
         <a href="/admin/contacts/create" class="action-card">
-          <div class="action-icon"><Users size={24} class="text-slate-600" /></div>
+          <div class="action-icon"><Users size={24} class="text-white/70" /></div>
           <div class="action-content">
             <h3 class="action-title">Register Contact</h3>
             <p class="action-desc">Add strategic personnel</p>
@@ -147,7 +147,7 @@
         </a>
 
         <a href="/admin/projects/create" class="action-card">
-          <div class="action-icon"><Rocket size={24} class="text-slate-600" /></div>
+          <div class="action-icon"><Rocket size={24} class="text-white/70" /></div>
           <div class="action-content">
             <h3 class="action-title">Launch Initiative</h3>
             <p class="action-desc">Commence new project</p>
@@ -155,7 +155,7 @@
         </a>
 
         <a href="/admin/proposals/new" class="action-card">
-          <div class="action-icon"><FileText size={24} class="text-slate-600" /></div>
+          <div class="action-icon"><FileText size={24} class="text-white/70" /></div>
           <div class="action-content">
             <h3 class="action-title">Draft Proposal</h3>
             <p class="action-desc">Craft strategic offering</p>
@@ -207,11 +207,12 @@
 
   .dashboard-subtitle {
     font-size: 18px;
-    color: rgb(71, 85, 105);
+    color: rgba(255, 255, 255, 0.8);
     margin: 0;
     line-height: 1.6;
     font-weight: 400;
     letter-spacing: 0.01em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
 
   .welcome-visual {
@@ -348,9 +349,10 @@
 
   .action-desc {
     font-size: 14px;
-    color: rgb(71, 85, 105);
+    color: rgba(255, 255, 255, 0.75);
     margin: 0;
     font-weight: 400;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   }
 
   /* Dark mode */
