@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
   import Button from "$lib/components/ui/Button.svelte";
   import Card from "$lib/components/ui/Card.svelte";
   import { Mail, Lock } from "lucide-svelte";
@@ -32,6 +33,10 @@
         error = result.error;
       } else if (result.user) {
         console.log("Login successful, redirecting...");
+        
+        // Debug: Check what cookies are available after login
+        console.log("Cookies after login:", document.cookie);
+        
         // Login successful - redirect immediately
         setTimeout(async () => {
           try {
@@ -44,28 +49,32 @@
               fullLocation: window.location.href
             });
             
+            // Check for redirect parameter
+            const redirectTo = $page.url.searchParams.get('redirect') || '/admin/dashboard';
+            console.log("Redirect destination:", redirectTo);
+            
             if (isCRMHostname) {
-              console.log("Redirecting to local /admin/dashboard using SvelteKit navigation");
+              console.log("Redirecting to local", redirectTo, "using SvelteKit navigation");
               try {
                 // Try SvelteKit navigation first
-                await goto("/admin/dashboard", { replaceState: true });
+                await goto(redirectTo, { replaceState: true });
                 console.log("SvelteKit navigation completed successfully");
               } catch (err) {
                 console.log("SvelteKit navigation failed, using window.location", err);
                 // Fallback to window.location
-                window.location.href = "/admin/dashboard";
+                window.location.href = redirectTo;
               }
             } else {
               console.log("Redirecting to external CRM domain");
               // External redirect for different domain
-              window.location.href = "https://crm.true-form-apps.com/admin/dashboard";
+              window.location.href = "https://crm.true-form-apps.com" + redirectTo;
             }
           } catch (error) {
             console.error("Error during redirect:", error);
             // Last resort fallback
             window.location.href = "/admin/dashboard";
           }
-        }, 500); // Shorter delay
+        }, 1500); // Longer delay to ensure cookies are set
       } else if (isSignupMode) {
         // Signup successful - show confirmation message
         error =
