@@ -1,13 +1,30 @@
-import type { CreateProposalDTO } from "$lib/types";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
+import { z } from 'zod';
 import { supabaseAdmin } from "$lib/supabaseAdmin";
+import { rateLimiters, createRateLimitResponse } from "$lib/utils/rateLimit";
+
+// Schema for validating the incoming request body for creating a proposal
+const createProposalRequestSchema = z.object({
+  title: z.string().min(1, "Title is required").max(255),
+  company_id: z.string().uuid("Invalid company ID"),
+  contact_id: z.string().uuid("Invalid contact ID").optional(),
+  tax_rate: z.number().min(0).max(1).optional().default(0),
+  line_items: z.array(z.object({
+    name: z.string().min(1, "Line item name is required"),
+    description: z.string().optional(),
+    quantity: z.number().min(1, "Quantity must be at least 1"),
+    unitPrice: z.number().min(0, "Unit price must be non-negative"),
+  })).min(1, "At least one line item is required"),
+  notes: z.string().optional(),
+});
 
 export const GET: RequestHandler = async ({ request, locals }) => {
-  // 🔒 SECURE: Require authentication for proposal data
-  if (!locals.user) {
-    return json({ error: "Unauthorized" }, { status: 401 });
-  }
+  // 🔒 SECURE: Rate limiting and authentication
+  const limit = rateLimiters.admin.middleware(request);
+  if (!limit.allowed) return createRateLimitResponse(limit.resetTime);
+  if (!locals.user) return json({ error: "Unauthorized" }, { status: 401 });
+
   try {
     const { data: proposals, error } = await supabaseAdmin
       .from("tf_proposals")
@@ -27,60 +44,38 @@ export const GET: RequestHandler = async ({ request, locals }) => {
 };
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-  // 🔒 SECURE: Require authentication for creating proposals
-  if (!locals.user) {
-    return json({ error: "Unauthorized" }, { status: 401 });
-  }
-  try {
-    console.log("=== PROPOSAL CREATION START ===");
-    const proposalData: CreateProposalDTO = await request.json();
-    console.log(
-      "Received proposal data:",
-      JSON.stringify(proposalData, null, 2)
-    );
+  // 🔒 SECURE: Rate limiting and authentication
+  const limit = rateLimiters.admin.middleware(request);
+  if (!limit.allowed) return createRateLimitResponse(limit.resetTime);
+  if (!locals.user) return json({ error: "Unauthorized" }, { status: 401 });
 
-    // Validate required fields
-    if (
-      !proposalData.title ||
-      !proposalData.company_id ||
-      !proposalData.line_items?.length
-    ) {
-      console.log("Validation failed - missing required fields");
-      return json({ error: "Missing required fields" }, { status: 400 });
+  try {
+    const requestData = await request.json();
+
+    // ✅ VALIDATE: Use Zod to validate the request body
+    const validationResult = createProposalRequestSchema.safeParse(requestData);
+    if (!validationResult.success) {
+      return json({ error: "Invalid input", details: validationResult.error.flatten() }, { status: 400 });
     }
 
-    console.log("Validation passed, calculating totals...");
+    const { line_items, tax_rate, ...restOfProposal } = validationResult.data;
 
-    // Calculate totals
-    const subtotal = proposalData.line_items.reduce(
-      (sum, item) => sum + item.quantity * item.unitPrice,
-      0
-    );
-    const tax = subtotal * ((proposalData.tax_rate || 0) / 100);
+    // 💰 CALCULATE: Server-side calculation of totals
+    const subtotal = line_items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
+    const tax = subtotal * tax_rate;
     const total = subtotal + tax;
 
-    console.log("Calculated totals:", { subtotal, tax, total });
-
-    // Use the actual data from the form
     const dbData = {
-      title: proposalData.title,
-      company_id: proposalData.company_id,
-      contact_id: proposalData.contact_id || null,
-      line_items: proposalData.line_items,
+      ...restOfProposal,
+      line_items, // Storing line items as JSONB
       subtotal,
       tax,
-      tax_rate: proposalData.tax_rate || 0,
+      tax_rate,
       total,
-      notes: proposalData.notes || "",
-      status: "draft",
+      status: "draft", // Default status
     };
 
-    console.log(
-      "Attempting database insert with actual data:",
-      JSON.stringify(dbData, null, 2)
-    );
-
-    // Insert into database using admin client for secure mutations
+    // 🚀 EXECUTE: Insert into database using admin client
     const { data: proposal, error } = await supabaseAdmin
       .from("tf_proposals")
       .insert(dbData)
@@ -89,43 +84,12 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
     if (error) {
       console.error("Supabase error creating proposal:", error);
-      console.error("Error details:", JSON.stringify(error, null, 2));
-      throw new Error(`Database error: ${error.message}`);
+      return json({ error: "Failed to create proposal", details: error.message }, { status: 500 });
     }
 
-    console.log("Created proposal successfully:", proposal);
     return json(proposal, { status: 201 });
   } catch (error) {
-    console.error("=== PROPOSAL CREATION ERROR ===");
-    console.error("Error type:", typeof error);
-    console.error("Error constructor:", error?.constructor?.name);
-    console.error(
-      "Error message:",
-      error instanceof Error ? error.message : "No message"
-    );
-    console.error("Full error object:", error);
-
-    // Check if it's a Supabase error
-    if (error && typeof error === "object" && "code" in error) {
-      console.error("Supabase error code:", (error as any).code);
-      console.error("Supabase error details:", (error as any).details);
-      console.error("Supabase error hint:", (error as any).hint);
-    }
-
-    return json(
-      {
-        error: "Failed to create proposal",
-        details: error instanceof Error ? error.message : "Unknown error",
-        supabaseError:
-          error && typeof error === "object" && "code" in error
-            ? {
-                code: (error as any).code,
-                details: (error as any).details,
-                hint: (error as any).hint,
-              }
-            : null,
-      },
-      { status: 500 }
-    );
+    console.error("Unhandled error creating proposal:", error);
+    return json({ error: "An unexpected error occurred" }, { status: 500 });
   }
 };
