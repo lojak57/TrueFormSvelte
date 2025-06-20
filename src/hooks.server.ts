@@ -1,13 +1,18 @@
-import { verifySession } from "$lib/utils/auth";
+import { getServerSession } from "$lib/server/supabase";
 import type { Handle } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
   // 🔒 AUTHENTICATION: Check user session for all requests
-  const session = await verifySession(event.cookies);
+  const session = await getServerSession(event.cookies);
 
   // Store user session in locals for use in layouts and pages
-  event.locals.user = session;
+  event.locals.user = session ? {
+    id: session.user.id,
+    email: session.user.email || '',
+    role: session.user.user_metadata?.role,
+    organization_id: session.user.user_metadata?.organization_id,
+  } : null;
   const url = event.url;
   const hostname = url.hostname;
 
