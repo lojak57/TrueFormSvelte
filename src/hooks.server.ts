@@ -1,11 +1,19 @@
-import { getServerSession } from "$lib/server/supabase";
+import { createSupabaseServerClient } from "$lib/server/supabase-ssr";
 import type { Handle } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
-  // 🔒 AUTHENTICATION: Check user session for all requests
+  // 🔒 AUTHENTICATION: Create server-side Supabase client for this request
+  const supabase = createSupabaseServerClient(event.cookies);
+  
+  // Get session using the server client
   console.log(`[HOOKS] Checking session for ${event.url.pathname}`);
-  const session = await getServerSession(event.cookies);
+  const { data: { session }, error } = await supabase.auth.getSession();
+  
+  if (error) {
+    console.log(`[HOOKS] Error getting session:`, error.message);
+  }
+  
   console.log(`[HOOKS] Session result:`, session ? { email: session.user.email, id: session.user.id } : 'NO SESSION');
 
   // Store user session in locals for use in layouts and pages
