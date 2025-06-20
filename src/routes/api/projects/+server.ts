@@ -1,13 +1,14 @@
 import { ProjectService } from "$lib/services/ProjectService";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { requireAuth } from "$lib/utils/auth";
 
 const projectService = new ProjectService();
 
-export const GET: RequestHandler = async ({ url, request }) => {
+export const GET: RequestHandler = async ({ url, request, locals }) => {
   // 🔒 SECURE: Require authentication for project data
-  await requireAuth(request);
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const companyId = url.searchParams.get("company_id") || undefined;
     const projects = await projectService.getProjects(companyId);
@@ -17,9 +18,11 @@ export const GET: RequestHandler = async ({ url, request }) => {
   }
 };
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
   // 🔒 SECURE: Require authentication for creating projects
-  await requireAuth(request);
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const dto = await request.json();
     const project = await projectService.createProject(dto);

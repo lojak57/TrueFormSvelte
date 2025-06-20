@@ -5,7 +5,6 @@ import {
 } from "$lib/api/trueform-server";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { requireAuth } from "$lib/utils/auth";
 
 // Lead scoring algorithm
 function calculateLeadScore(data: any): {
@@ -458,9 +457,11 @@ export const POST: RequestHandler = async ({ request }) => {
   }
 };
 
-export const GET: RequestHandler = async ({ request }) => {
+export const GET: RequestHandler = async ({ request, locals }) => {
   // 🔒 SECURE: Require authentication for opportunities data
-  await requireAuth(request);
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const opportunities = await getTrueFormOpportunities();
     return json(opportunities);
@@ -477,9 +478,11 @@ export const GET: RequestHandler = async ({ request }) => {
   }
 };
 
-export const PATCH: RequestHandler = async ({ request }) => {
+export const PATCH: RequestHandler = async ({ request, locals }) => {
   // 🔒 SECURE: Require authentication for updating opportunities
-  await requireAuth(request);
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const { opportunityId, status, notes } = await request.json();
 

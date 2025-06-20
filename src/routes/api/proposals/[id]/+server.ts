@@ -1,11 +1,12 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { requireAuth } from "$lib/utils/auth";
 import { supabaseAdmin } from "$lib/supabaseAdmin";
 
-export const GET: RequestHandler = async ({ params, request }) => {
+export const GET: RequestHandler = async ({ params, request, locals }) => {
   // 🔒 SECURE: Require authentication for proposal details
-  await requireAuth(request);
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const { id } = params;
 
@@ -27,9 +28,11 @@ export const GET: RequestHandler = async ({ params, request }) => {
   }
 };
 
-export const PUT: RequestHandler = async ({ params, request }) => {
+export const PUT: RequestHandler = async ({ params, request, locals }) => {
   // 🔒 SECURE: Require authentication for updating proposals
-  await requireAuth(request);
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const { id } = params;
     const updateData = await request.json();
@@ -55,9 +58,11 @@ export const PUT: RequestHandler = async ({ params, request }) => {
   }
 };
 
-export const DELETE: RequestHandler = async ({ params, request }) => {
+export const DELETE: RequestHandler = async ({ params, request, locals }) => {
   // 🔒 SECURE: Require authentication for deleting proposals
-  await requireAuth(request);
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const { id } = params;
 

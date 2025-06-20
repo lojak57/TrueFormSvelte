@@ -1,13 +1,14 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { requireAuth } from "$lib/utils/auth";
 import { rateLimiters, createRateLimitResponse } from "$lib/utils/rateLimit";
 import { supabaseAdmin } from "$lib/supabaseAdmin";
 import { createCompanySchema, validateSchema } from "$lib/schemas/api";
 
-export const GET: RequestHandler = async ({ request }) => {
-  // 🔒 SECURE: Require authentication for CRM data
-  await requireAuth(request);
+export const GET: RequestHandler = async ({ request, locals }) => {
+  // 🔒 SECURE: Check session from cookies (set by hooks.server.ts)
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   
   // Apply rate limiting for admin endpoints
   const rateLimitResult = rateLimiters.admin.middleware(request);
@@ -38,9 +39,11 @@ export const GET: RequestHandler = async ({ request }) => {
   }
 };
 
-export const POST: RequestHandler = async ({ request }) => {
-  // 🔒 SECURE: Require authentication for creating companies
-  await requireAuth(request);
+export const POST: RequestHandler = async ({ request, locals }) => {
+  // 🔒 SECURE: Check session from cookies (set by hooks.server.ts)
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   
   // Apply rate limiting for admin endpoints
   const rateLimitResult = rateLimiters.admin.middleware(request);

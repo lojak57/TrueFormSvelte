@@ -1,12 +1,13 @@
 import type { CreateProposalDTO } from "$lib/types";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { requireAuth } from "$lib/utils/auth";
 import { supabaseAdmin } from "$lib/supabaseAdmin";
 
-export const GET: RequestHandler = async ({ request }) => {
+export const GET: RequestHandler = async ({ request, locals }) => {
   // 🔒 SECURE: Require authentication for proposal data
-  await requireAuth(request);
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const { data: proposals, error } = await supabaseAdmin
       .from("tf_proposals")
@@ -25,9 +26,11 @@ export const GET: RequestHandler = async ({ request }) => {
   }
 };
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
   // 🔒 SECURE: Require authentication for creating proposals
-  await requireAuth(request);
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     console.log("=== PROPOSAL CREATION START ===");
     const proposalData: CreateProposalDTO = await request.json();

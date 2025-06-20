@@ -1,12 +1,13 @@
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { requireAuth } from "$lib/utils/auth";
 import { supabaseAdmin } from "$lib/supabaseAdmin";
 import { createContactSchema, companyFilterSchema, validateSchema } from "$lib/schemas/api";
 
-export const GET: RequestHandler = async ({ url, request }) => {
+export const GET: RequestHandler = async ({ url, request, locals }) => {
   // 🔒 SECURE: Require authentication for contact data
-  await requireAuth(request);
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     // 🛡️ SECURE: Validate query parameters
     const rawParams = {
@@ -44,9 +45,11 @@ export const GET: RequestHandler = async ({ url, request }) => {
   }
 };
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
   // 🔒 SECURE: Require authentication for creating contacts
-  await requireAuth(request);
+  if (!locals.user) {
+    return json({ error: "Unauthorized" }, { status: 401 });
+  }
   try {
     const rawData = await request.json();
 
