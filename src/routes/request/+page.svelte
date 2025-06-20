@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
+  import { page } from "$app/stores";
   import Hero from "$lib/components/sections/Hero.svelte";
   import Button from "$lib/components/ui/Button.svelte";
   import ConversationalWizardContainer from "$lib/components/conversational-wizard/ConversationalWizardContainer.svelte";
@@ -15,6 +16,8 @@
       showWizard = true;
     }
   });
+
+  $: serviceParam = $page.url.searchParams.get("service");
 
   function startWizard() {
     showWizard = true;
@@ -204,7 +207,7 @@
 
 {#if showWizard}
   <div class="fixed inset-0 z-50 bg-white overflow-y-auto">
-    <ConversationalWizardContainer />
+    <ConversationalWizardContainer {serviceParam} />
   </div>
 {/if}
 

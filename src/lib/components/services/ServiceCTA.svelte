@@ -3,9 +3,23 @@
   import { Zap, Clock, Shield } from "lucide-svelte";
   import Button from "$lib/components/ui/Button.svelte";
   import IntersectionObserver from "$lib/components/ui/IntersectionObserver.svelte";
+  import { page } from "$app/stores";
 
   export let title: string;
   export let description: string;
+
+  const servicePricing: Record<string, { startingPrice: string; typicalRange: string }> = {
+    marketing: { startingPrice: "$999", typicalRange: "$999-$1,199" },
+    ecommerce: { startingPrice: "$1,199", typicalRange: "$1,499-$1,649" },
+    booking: { startingPrice: "$1,199", typicalRange: "$1,499-$1,599" },
+    membership: { startingPrice: "$1,499", typicalRange: "$1,699-$1,899" },
+    realestate: { startingPrice: "$1,899", typicalRange: "$1,999-$2,199" },
+    education: { startingPrice: "$1,499", typicalRange: "$1,799-$1,999" }
+  };
+
+  $: slug = $page.params.slug;
+  $: pricing = servicePricing[slug] || { startingPrice: "$999", typicalRange: "$1,200-$1,500" };
+  $: serviceSpecificCTA = slug && slug !== "/" ? `Start Your ${title} Project` : "Start Your Project Today";
 </script>
 
 <section class="py-20 bg-gray-900 text-white relative overflow-hidden">
@@ -30,10 +44,10 @@
               variant="accent"
               size="lg"
               class="px-10 py-4 text-lg shadow-2xl hover:shadow-accent-500/25 transition-all duration-300 hover:scale-105"
-              on:click={() => window.location.href = '/request?start=true'}
+              on:click={() => window.location.href = slug ? `/request?service=${slug}&start=true` : '/request?start=true'}
             >
               <Zap size={20} class="mr-2" />
-              Start Your Project Today
+              {serviceSpecificCTA}
             </Button>
             <Button
               variant="outline"
@@ -68,8 +82,8 @@
             <div class="w-16 h-16 bg-accent-600 rounded-full flex items-center justify-center mb-4">
               <Zap size={28} class="text-white" />
             </div>
-            <h3 class="text-lg font-semibold mb-2">$999 Fixed Price</h3>
-            <p class="text-gray-300">No surprises, no hourly billing, no hidden costs</p>
+            <h3 class="text-lg font-semibold mb-2">Starting at {pricing.startingPrice}</h3>
+            <p class="text-gray-300">Transparent pricing, no hourly billing, no hidden costs</p>
           </div>
         </div>
 

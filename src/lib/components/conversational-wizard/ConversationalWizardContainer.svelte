@@ -17,6 +17,8 @@
   import Step7Scoping from "./steps/Step7Scoping.svelte";
   import Step8Submission from "./steps/Step8Submission.svelte";
 
+  export let serviceParam: string | null = null;
+
   let showTrustBreaker = false;
   let previousStep = -1;
 
@@ -145,7 +147,7 @@
         in:fly={{ y: 40, duration: 700, delay: 400 }}
         out:fade={{ duration: 200 }}
       >
-        <Step7Scoping />
+        <Step7Scoping {serviceParam} />
       </div>
     {:else if $conversationalWizard.currentStep === 7 && $conversationalWizard.trustAcknowledged}
       <!-- Step8Submission -->

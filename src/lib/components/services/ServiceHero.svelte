@@ -1,12 +1,27 @@
 <script lang="ts">
   import { Zap } from "lucide-svelte";
   import Button from "$lib/components/ui/Button.svelte";
+  import { page } from "$app/stores";
 
   export let title: string;
   export let subtitle: string;
   export let description: string;
   export let heroImage: string;
   export let badge: string = "";
+
+  // Service pricing mapping based on our new business model
+  const servicePricing: Record<string, { startingPrice: string; typicalRange: string }> = {
+    marketing: { startingPrice: "$999", typicalRange: "$999-$1,199" },
+    ecommerce: { startingPrice: "$1,199", typicalRange: "$1,499-$1,649" },
+    booking: { startingPrice: "$1,199", typicalRange: "$1,499-$1,599" },
+    membership: { startingPrice: "$1,499", typicalRange: "$1,699-$1,899" },
+    realestate: { startingPrice: "$1,899", typicalRange: "$1,999-$2,199" },
+    education: { startingPrice: "$1,499", typicalRange: "$1,799-$1,999" }
+  };
+
+  $: slug = $page.params.slug;
+  $: pricing = servicePricing[slug] || { startingPrice: "$999", typicalRange: "$1,200-$1,500" };
+  $: serviceSpecificCTA = `Start Your ${title} Project`;
 </script>
 
 <section class="relative bg-gradient-to-br from-gray-800 via-gray-900 to-slate-900 text-white overflow-hidden">
@@ -45,19 +60,43 @@
           </span>
         </h1>
 
-        <p class="text-xl text-gray-300 mb-8 leading-relaxed">
+        <p class="text-xl text-gray-300 mb-6 leading-relaxed">
           {description}
         </p>
+
+        <!-- Pricing Display -->
+        <div class="mb-8 p-6 bg-white/10 backdrop-blur-sm rounded-xl border border-white/20">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <div class="text-3xl font-bold text-white">
+                Starting at {pricing.startingPrice}
+              </div>
+              <div class="text-sm text-gray-300">
+                Most clients: {pricing.typicalRange}
+              </div>
+            </div>
+            <div class="text-right">
+              <div class="text-sm text-accent-300 font-semibold">
+                CRM Integration Popular
+              </div>
+              <div class="text-xs text-gray-400">
+                +$200 setup, $49/month
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="flex flex-col sm:flex-row gap-4">
           <Button
             variant="accent"
             size="lg"
-            class="px-8 py-4 text-lg shadow-2xl hover:shadow-accent-500/25 transition-all duration-300 hover:scale-105"
-            on:click={() => window.location.href = '/request?start=true'}
+            class="px-8 py-4 text-lg shadow-2xl hover:shadow-accent-500/25 transition-all duration-300 hover:scale-105 relative overflow-hidden"
+            on:click={() => window.location.href = `/request?service=${slug}&start=true`}
           >
             <Zap size={20} class="mr-2" />
-            Start Your Project
+            {serviceSpecificCTA}
+            <!-- Pulse effect for mobile prominence -->
+            <div class="absolute inset-0 bg-white/20 animate-pulse opacity-30 md:opacity-0"></div>
           </Button>
           <Button
             variant="outline"

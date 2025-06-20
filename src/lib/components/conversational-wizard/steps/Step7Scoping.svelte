@@ -4,6 +4,8 @@
   import { fade, fly } from 'svelte/transition';
   import { ShoppingCart, Calendar, Camera, Edit3, FileText, Users, Globe, Sparkles, Mail, PenTool, Database } from 'lucide-svelte';
   
+  export let serviceParam: string | null = null;
+  
   let selectedAddons = [];
   const basePrice = 999;
   let estimatedTotal = basePrice;
@@ -130,7 +132,47 @@
     }
   ];
   
+  // Service-specific required add-ons
+  const serviceRequirements: Record<string, string[]> = {
+    membership: ['crm'],
+    realestate: ['crm'], 
+    education: ['crm'],
+    ecommerce: ['ecommerce'],
+    booking: ['booking']
+  };
+
+  // Service-specific recommendations
+  const serviceRecommendations: Record<string, string[]> = {
+    marketing: ['crm', 'copywriting'],
+    ecommerce: ['crm', 'seo'],
+    booking: ['crm', 'domain-email'],
+    membership: ['social-media', 'domain-email'],
+    realestate: ['social-media', 'seo', 'domain-email'],
+    education: ['social-media', 'copywriting']
+  };
+
+  // Pre-select required add-ons if coming from service page
+  if (serviceParam && serviceRequirements[serviceParam]) {
+    const required = serviceRequirements[serviceParam];
+    required.forEach(addonId => {
+      if (!selectedAddons.includes(addonId)) {
+        selectedAddons = [...selectedAddons, addonId];
+      }
+    });
+    
+    // Update estimated total with required items
+    const addonTotal = selectedAddons.reduce((total, id) => {
+      const addon = addons.find(a => a.id === id);
+      return total + (addon ? addon.price : 0);
+    }, 0);
+    estimatedTotal = basePrice + addonTotal;
+  }
+  
   function toggleAddon(addonId: string) {
+    // Prevent deselecting required add-ons
+    if (serviceParam && serviceRequirements[serviceParam]?.includes(addonId)) {
+      return;
+    }
     if (selectedAddons.includes(addonId)) {
       selectedAddons = selectedAddons.filter(id => id !== addonId);
     } else {
@@ -201,16 +243,22 @@
       
       <div class="addons-grid">
         {#each addons as addon, i}
+          {@const isRequired = serviceParam && serviceRequirements[serviceParam]?.includes(addon.id)}
+          {@const isRecommended = serviceParam && serviceRecommendations[serviceParam]?.includes(addon.id)}
           <div 
             class="addon-card"
             class:selected={selectedAddons.includes(addon.id)}
+            class:required={isRequired}
+            class:recommended={isRecommended}
             in:fly={{ y: 30, duration: 400, delay: 1400 + (i * 80) }}
           >
             <!-- Visual Header -->
             <div class="addon-visual bg-gradient-to-br {addon.imageBg}">
               <svelte:component this={addon.icon} size={32} class={addon.iconColor} />
-              {#if addon.popular}
-                <div class="popular-badge">POPULAR</div>
+              {#if isRequired}
+                <div class="required-badge">REQUIRED</div>
+              {:else if addon.popular || isRecommended}
+                <div class="popular-badge">{isRecommended ? 'RECOMMENDED' : 'POPULAR'}</div>
               {/if}
             </div>
             
@@ -232,9 +280,16 @@
               <button 
                 class="addon-toggle"
                 class:selected={selectedAddons.includes(addon.id)}
+                class:disabled={isRequired}
                 on:click={() => toggleAddon(addon.id)}
               >
-                {selectedAddons.includes(addon.id) ? '✓ Added' : '+ Add This'}
+                {#if isRequired}
+                  ✓ Required
+                {:else if selectedAddons.includes(addon.id)}
+                  ✓ Added
+                {:else}
+                  + Add This
+                {/if}
               </button>
             </div>
           </div>
@@ -413,6 +468,50 @@
     padding: 2px 6px;
     border-radius: 4px;
     letter-spacing: 0.5px;
+  }
+
+  .required-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(255, 255, 255, 0.95);
+    color: #dc2626;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+
+  .addon-card.required {
+    border: 2px solid #ef4444;
+    box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.1);
+  }
+
+  .addon-card.recommended {
+    border: 2px solid #3b82f6;
+    box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.1);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.1);
+    }
+    50% {
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+  }
+
+  .addon-toggle.disabled {
+    background: #6b7280;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .addon-toggle.disabled:hover {
+    background: #6b7280;
+    transform: none;
   }
   
   .addon-content {
