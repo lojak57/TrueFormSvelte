@@ -99,51 +99,76 @@ export function getSessionFromLocals(locals: any): UserSession | null {
  */
 export async function verifySession(cookies: any): Promise<UserSession | null> {
   try {
+    // Import the server-side Supabase client
+    const { supabaseServer } = await import('$lib/supabase.server');
+    
     // Try various cookie names that Supabase might use
     const possibleTokenNames = [
       'sb-access-token',
       'supabase-auth-token',
       'supabase.auth.token',
-      // Check for project-specific cookies (Supabase format: sb-<project-id>-auth-token)
+      // Check for project-specific cookies (format varies by project)
     ];
     
     let accessToken: string | null = null;
+    let refreshToken: string | null = null;
     
-    // Try to find the access token with any of the possible names
+    // Try to find tokens with any of the possible names
     for (const name of possibleTokenNames) {
-      accessToken = cookies.get(name);
-      if (accessToken) break;
+      const token = cookies.get(name);
+      if (token) {
+        accessToken = token;
+        break;
+      }
     }
     
-    // Also try to get all cookies and look for Supabase patterns
+    // Also look for refresh token
+    for (const name of ['sb-refresh-token', 'supabase-refresh-token']) {
+      const token = cookies.get(name);
+      if (token) {
+        refreshToken = token;
+        break;
+      }
+    }
+    
+    // Scan all cookies for Supabase patterns if still not found
     if (!accessToken) {
       const allCookies = cookies.getAll();
+      console.log(`[AUTH] Scanning cookies:`, allCookies.map(c => ({ name: c.name, hasValue: !!c.value })));
+      
       for (const cookie of allCookies) {
-        if (cookie.name.includes('auth-token') || cookie.name.includes('access')) {
+        if (cookie.name.includes('auth-token') || 
+            cookie.name.includes('access') || 
+            cookie.name.startsWith('sb-') && cookie.name.includes('auth')) {
           accessToken = cookie.value;
+          console.log(`[AUTH] Found token in cookie: ${cookie.name}`);
           break;
         }
       }
     }
     
     if (!accessToken) {
+      console.log(`[AUTH] No access token found in cookies`);
       return null;
     }
 
-    // Verify the token with Supabase
-    const { data: { user }, error } = await supabase.auth.getUser(accessToken);
+    // Verify the token with Supabase server client
+    const { data: { user }, error } = await supabaseServer.auth.getUser(accessToken);
     
     if (error || !user) {
+      console.log(`[AUTH] Token verification failed:`, error?.message);
       return null;
     }
 
+    console.log(`[AUTH] Session verified for user: ${user.email}`);
     return {
       id: user.id,
       email: user.email || '',
       role: user.user_metadata?.role,
       organization_id: user.user_metadata?.organization_id,
     };
-  } catch {
+  } catch (err) {
+    console.log(`[AUTH] Session verification error:`, err);
     return null;
   }
 }

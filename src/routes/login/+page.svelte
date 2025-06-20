@@ -31,18 +31,31 @@
         console.error("Auth error:", result.error);
         error = result.error;
       } else if (result.user) {
-        console.log("Login successful, waiting for session...");
-        // Login successful - reload page to get fresh session, then redirect
-        setTimeout(() => {
-          console.log("Refreshing page to get session, then redirecting...");
-          if (window.location.hostname.startsWith('crm.') || window.location.hostname === 'localhost') {
-            // Force a full page reload to ensure cookies are set properly
-            window.location.href = "/admin/dashboard";
-          } else {
-            // External redirect for different domain
-            window.location.href = "https://crm.true-form-apps.com/admin/dashboard";
-          }
-        }, 1500); // Increased delay for better session propagation
+        console.log("Login successful, invalidating auth state...");
+        // Login successful - invalidate auth state and redirect
+        try {
+          // Import invalidate dynamically to avoid SSR issues
+          const { invalidate } = await import('$app/navigation');
+          await invalidate('supabase:auth');
+          
+          console.log("Auth state invalidated, redirecting...");
+          
+          setTimeout(() => {
+            if (window.location.hostname.startsWith('crm.') || window.location.hostname === 'localhost') {
+              // Force a full page reload to ensure cookies are set properly
+              window.location.href = "/admin/dashboard";
+            } else {
+              // External redirect for different domain
+              window.location.href = "https://crm.true-form-apps.com/admin/dashboard";
+            }
+          }, 1000);
+        } catch (err) {
+          console.error("Error invalidating auth state:", err);
+          // Fallback to simple redirect
+          setTimeout(() => {
+            window.location.href = window.location.hostname.startsWith('crm.') ? "/admin/dashboard" : "https://crm.true-form-apps.com/admin/dashboard";
+          }, 1500);
+        }
       } else if (isSignupMode) {
         // Signup successful - show confirmation message
         error =
