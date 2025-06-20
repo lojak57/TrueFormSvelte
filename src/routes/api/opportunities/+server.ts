@@ -293,9 +293,9 @@ export const POST: RequestHandler = async ({ request }) => {
       features: {
         selected: selectedFeatures,
         totalCount: selectedFeatures.length,
-        baseCount: selectedFeatures.filter((f) => f.isBase).length,
-        premiumCount: selectedFeatures.filter((f) => f.isPremium).length,
-        enterpriseCount: selectedFeatures.filter((f) => f.isEnterprise).length,
+        baseCount: selectedFeatures.filter((f: any) => f.isBase).length,
+        premiumCount: selectedFeatures.filter((f: any) => f.isPremium).length,
+        enterpriseCount: selectedFeatures.filter((f: any) => f.isEnterprise).length,
       },
       design: {
         colorPalette: data.colorPalette,

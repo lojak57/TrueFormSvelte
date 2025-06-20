@@ -56,7 +56,7 @@ export class PDFUtils {
     const mergedOptions = { ...defaultOptions, ...options };
 
     try {
-      const qrCodeDataURL = await QRCode.toDataURL(data, mergedOptions);
+      const qrCodeDataURL = await QRCode.toDataURL(data, mergedOptions as any);
       return qrCodeDataURL;
     } catch (error) {
       console.error("Error generating QR code:", error);

@@ -207,10 +207,10 @@ describe("API Authentication & Validation", () => {
 
   describe("Response Format Standards", () => {
     it("should return arrays for list endpoints", () => {
-      const companiesResponse = [];
-      const contactsResponse = [];
-      const projectsResponse = [];
-      const proposalsResponse = [];
+      const companiesResponse: any[] = [];
+      const contactsResponse: any[] = [];
+      const projectsResponse: any[] = [];
+      const proposalsResponse: any[] = [];
 
       expect(Array.isArray(companiesResponse)).toBe(true);
       expect(Array.isArray(contactsResponse)).toBe(true);
