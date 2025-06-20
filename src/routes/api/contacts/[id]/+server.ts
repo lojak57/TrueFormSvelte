@@ -1,12 +1,7 @@
-import { createClient } from "@supabase/supabase-js";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { requireAuth } from "$lib/utils/auth";
-
-const supabase = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL,
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-);
+import { supabaseAdmin } from "$lib/supabaseAdmin";
 
 export const GET: RequestHandler = async ({ params, request }) => {
   // 🔒 SECURE: Require authentication for contact details
@@ -15,7 +10,7 @@ export const GET: RequestHandler = async ({ params, request }) => {
     const { id } = params;
 
     // Get contact details
-    const { data: contact, error: contactError } = await supabase
+    const { data: contact, error: contactError } = await supabaseAdmin
       .from("tf_contacts")
       .select("*")
       .eq("id", id)
@@ -31,7 +26,7 @@ export const GET: RequestHandler = async ({ params, request }) => {
     // Get associated company
     let company = null;
     if (contact.company_id) {
-      const { data: companyData, error: companyError } = await supabase
+      const { data: companyData, error: companyError } = await supabaseAdmin
         .from("tf_companies")
         .select("id, name, industry, size")
         .eq("id", contact.company_id)
@@ -43,7 +38,7 @@ export const GET: RequestHandler = async ({ params, request }) => {
     }
 
     // Get interaction history
-    const { data: interactions, error: interactionsError } = await supabase
+    const { data: interactions, error: interactionsError } = await supabaseAdmin
       .from("tf_contact_interactions")
       .select("*")
       .eq("contact_id", id)
@@ -86,7 +81,7 @@ export const PUT: RequestHandler = async ({ params, request }) => {
     const { id } = params;
     const updateData = await request.json();
 
-    const { data: contact, error } = await supabase
+    const { data: contact, error } = await supabaseAdmin
       .from("tf_contacts")
       .update(updateData)
       .eq("id", id)
@@ -113,7 +108,7 @@ export const DELETE: RequestHandler = async ({ params, request }) => {
   try {
     const { id } = params;
 
-    const { error } = await supabase.from("tf_contacts").delete().eq("id", id);
+    const { error } = await supabaseAdmin.from("tf_contacts").delete().eq("id", id);
 
     if (error) throw error;
 
@@ -141,7 +136,7 @@ export const POST: RequestHandler = async ({ params, request }) => {
         created_at: body.interaction.created_at || new Date().toISOString(),
       };
 
-      const { data: interaction, error } = await supabase
+      const { data: interaction, error } = await supabaseAdmin
         .from("tf_contact_interactions")
         .insert(interactionData)
         .select()

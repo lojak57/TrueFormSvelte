@@ -1,22 +1,26 @@
-import { createClient } from "@supabase/supabase-js";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { requireAuth } from "$lib/utils/auth";
-
-const supabase = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL,
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-);
+import { supabaseAdmin } from "$lib/supabaseAdmin";
+import { createContactSchema, companyFilterSchema, validateSchema } from "$lib/schemas/api";
 
 export const GET: RequestHandler = async ({ url, request }) => {
   // 🔒 SECURE: Require authentication for contact data
   await requireAuth(request);
   try {
-    // Add query parameter support for filtering
-    const companyId = url.searchParams.get("company_id");
-    const verticalId = url.searchParams.get("vertical_id");
+    // 🛡️ SECURE: Validate query parameters
+    const rawParams = {
+      company_id: url.searchParams.get("company_id"),
+      vertical_id: url.searchParams.get("vertical_id"),
+    };
+    const validation = validateSchema(companyFilterSchema, rawParams);
+    if (!validation.success) {
+      return json({ error: validation.error }, { status: 400 });
+    }
+    
+    const { company_id: companyId, vertical_id: verticalId } = validation.data;
 
-    let query = supabase
+    let query = supabaseAdmin
       .from("tf_contacts")
       .select("*")
       .order("created_at", { ascending: false });
@@ -44,9 +48,17 @@ export const POST: RequestHandler = async ({ request }) => {
   // 🔒 SECURE: Require authentication for creating contacts
   await requireAuth(request);
   try {
-    const contactData = await request.json();
+    const rawData = await request.json();
 
-    const { data: contact, error } = await supabase
+    // 🛡️ SECURE: Validate input data with Zod
+    const validation = validateSchema(createContactSchema, rawData);
+    if (!validation.success) {
+      return json({ error: validation.error }, { status: 400 });
+    }
+
+    const contactData = validation.data;
+
+    const { data: contact, error } = await supabaseAdmin
       .from("tf_contacts")
       .insert(contactData)
       .select()

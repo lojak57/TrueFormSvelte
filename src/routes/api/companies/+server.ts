@@ -1,13 +1,9 @@
-import { createClient } from "@supabase/supabase-js";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { requireAuth } from "$lib/utils/auth";
 import { rateLimiters, createRateLimitResponse } from "$lib/utils/rateLimit";
-
-const supabase = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL,
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-);
+import { supabaseAdmin } from "$lib/supabaseAdmin";
+import { createCompanySchema, validateSchema } from "$lib/schemas/api";
 
 export const GET: RequestHandler = async ({ request }) => {
   // 🔒 SECURE: Require authentication for CRM data
@@ -19,7 +15,7 @@ export const GET: RequestHandler = async ({ request }) => {
     return createRateLimitResponse(rateLimitResult.resetTime);
   }
   try {
-    const { data: companies, error } = await supabase
+    const { data: companies, error } = await supabaseAdmin
       .from("tf_companies")
       .select("*")
       .order("name");
@@ -52,28 +48,17 @@ export const POST: RequestHandler = async ({ request }) => {
     return createRateLimitResponse(rateLimitResult.resetTime);
   }
   try {
-    const dto = await request.json();
+    const rawData = await request.json();
 
-    // Validate required fields
-    if (!dto.name || dto.name.trim() === "") {
-      return json({ error: "Company name is required" }, { status: 400 });
+    // 🛡️ SECURE: Validate input data with Zod
+    const validation = validateSchema(createCompanySchema, rawData);
+    if (!validation.success) {
+      return json({ error: validation.error }, { status: 400 });
     }
 
-    // Prepare company data
-    const companyData = {
-      name: dto.name,
-      website: dto.website || null,
-      billing_street: dto.billing_street || null,
-      billing_city: dto.billing_city || null,
-      billing_state: dto.billing_state || null,
-      billing_zip: dto.billing_zip || null,
-      billing_country: dto.billing_country || null,
-      notes: dto.notes || null,
-      status: dto.status || "active",
-      vertical_id: dto.vertical_id || null,
-    };
+    const companyData = validation.data;
 
-    const { data: company, error } = await supabase
+    const { data: company, error } = await supabaseAdmin
       .from("tf_companies")
       .insert(companyData)
       .select()

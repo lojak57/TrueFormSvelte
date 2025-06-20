@@ -1,12 +1,8 @@
-import { createClient } from "@supabase/supabase-js";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 import { requireAuth } from "$lib/utils/auth";
-
-const supabase = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL,
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY
-);
+import { supabaseAdmin } from "$lib/supabaseAdmin";
+import { updateCompanySchema, validateSchema } from "$lib/schemas/api";
 
 export const GET: RequestHandler = async ({ params, request }) => {
   // 🔒 SECURE: Require authentication for detailed company data
@@ -15,7 +11,7 @@ export const GET: RequestHandler = async ({ params, request }) => {
     const { id } = params;
 
     // Get company details
-    const { data: company, error: companyError } = await supabase
+    const { data: company, error: companyError } = await supabaseAdmin
       .from("tf_companies")
       .select("*")
       .eq("id", id)
@@ -29,7 +25,7 @@ export const GET: RequestHandler = async ({ params, request }) => {
     }
 
     // Get associated contacts
-    const { data: contacts, error: contactsError } = await supabase
+    const { data: contacts, error: contactsError } = await supabaseAdmin
       .from("tf_contacts")
       .select("*")
       .eq("company_id", id);
@@ -37,7 +33,7 @@ export const GET: RequestHandler = async ({ params, request }) => {
     if (contactsError) throw contactsError;
 
     // Get associated projects
-    const { data: projects, error: projectsError } = await supabase
+    const { data: projects, error: projectsError } = await supabaseAdmin
       .from("tf_company_projects")
       .select("*")
       .eq("company_id", id);
@@ -79,11 +75,17 @@ export const PUT: RequestHandler = async ({ params, request }) => {
   await requireAuth(request);
   try {
     const { id } = params;
-    const updateData = await request.json();
+    const rawData = await request.json();
 
-    const { data: company, error } = await supabase
+    // 🛡️ SECURE: Validate input data with Zod
+    const validation = validateSchema(updateCompanySchema, rawData);
+    if (!validation.success) {
+      return json({ error: validation.error }, { status: 400 });
+    }
+
+    const { data: company, error } = await supabaseAdmin
       .from("tf_companies")
-      .update(updateData)
+      .update(validation.data)
       .eq("id", id)
       .select()
       .single();
@@ -108,7 +110,7 @@ export const DELETE: RequestHandler = async ({ params, request }) => {
   try {
     const { id } = params;
 
-    const { error } = await supabase.from("tf_companies").delete().eq("id", id);
+    const { error } = await supabaseAdmin.from("tf_companies").delete().eq("id", id);
 
     if (error) throw error;
 
