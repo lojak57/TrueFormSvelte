@@ -23,10 +23,14 @@ if (PUBLIC_SUPABASE_URL && PUBLIC_SUPABASE_ANON_KEY) {
   // Set up auth state change listener to sync with server
   if (browser) {
     supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' || event === 'SIGNED_OUT') {
-        // Invalidate all data to force re-fetch with new auth state
+      console.log(`[SUPABASE CLIENT] Auth state changed: ${event}`, { hasSession: !!session });
+      
+      // Only invalidate on SIGNED_OUT to avoid clearing session after login
+      if (event === 'SIGNED_OUT') {
+        console.log(`[SUPABASE CLIENT] Invalidating auth state for sign out`);
         invalidate('supabase:auth');
       }
+      // For SIGNED_IN, let the session persist naturally
     });
   }
 } else if (browser) {
