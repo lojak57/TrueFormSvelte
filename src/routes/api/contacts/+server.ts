@@ -11,8 +11,8 @@ export const GET: RequestHandler = async ({ url, request, locals }) => {
   try {
     // 🛡️ SECURE: Validate query parameters
     const rawParams = {
-      company_id: url.searchParams.get("company_id"),
-      vertical_id: url.searchParams.get("vertical_id"),
+      company_id: url.searchParams.get("company_id") || undefined,
+      vertical_id: url.searchParams.get("vertical_id") || undefined,
     };
     const validation = validateSchema(companyFilterSchema, rawParams);
     if (!validation.success) {
