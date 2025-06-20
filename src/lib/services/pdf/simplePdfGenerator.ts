@@ -413,3 +413,12 @@ export function generateSimplePDF(data: SimplePDFData): string {
 </body>
 </html>`;
 }
+
+// Export aliases for compatibility
+export class SimplePDFGenerator {
+  static generate = generateSimplePDF;
+}
+
+export const simplePdfGenerator = {
+  generate: generateSimplePDF
+};

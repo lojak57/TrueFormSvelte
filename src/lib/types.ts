@@ -157,3 +157,18 @@ export interface CreateProposalDTO {
   tax_rate?: number;
   notes?: string;
 }
+
+// Missing types for wizard and services
+export interface WizardFormData {
+  [key: string]: any;
+}
+
+export interface ServiceTemplate {
+  id: string;
+  name: string;
+  category: "hosting" | "web-development" | "design" | "marketing" | "consulting" | "maintenance";
+  description: string;
+  price: number;
+  unit?: string;
+  isCustom?: boolean;
+}

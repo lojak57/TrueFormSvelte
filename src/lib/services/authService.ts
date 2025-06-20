@@ -73,12 +73,14 @@ export async function loginUser({
     };
 
     return {
+      success: true,
       user: userSession,
       error: undefined,
     };
   } catch (error) {
     const appError = handleError(error);
     return {
+      success: false,
       user: undefined,
       error: appError.message,
     };
@@ -127,12 +129,14 @@ export async function signupUser({
 
     // Note: User might need email confirmation
     return {
+      success: true,
       user: undefined,
       error: undefined,
     };
   } catch (error) {
     const appError = handleError(error);
     return {
+      success: false,
       user: undefined,
       error: appError.message,
     };

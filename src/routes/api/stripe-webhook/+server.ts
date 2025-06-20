@@ -10,7 +10,7 @@ if (!STRIPE_SECRET_KEY) {
 }
 
 const stripe = STRIPE_SECRET_KEY ? new Stripe(STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
+  apiVersion: '2025-05-28.basil',
 }) : null;
 
 export const POST: RequestHandler = async ({ request }) => {
