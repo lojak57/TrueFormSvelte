@@ -141,3 +141,27 @@ export interface StepValidationEvent {
   isValid: boolean;
   errors?: FieldValidationError[];
 }
+
+// Missing types for wizard components
+export interface BasicInfoStep {
+  companyName: string;
+  contactName: string;
+  contactEmail: string;
+  contactPhone: string;
+}
+
+export interface WizardStep {
+  id: string;
+  title: string;
+  component: any;
+  isValid?: boolean;
+}
+
+export interface WizardValidationResult {
+  isValid: boolean;
+  errors: string[];
+}
+
+export interface WizardSubmitEvent {
+  data: SiteRequestFormData;
+}

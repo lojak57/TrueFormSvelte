@@ -36,3 +36,18 @@ export interface ServiceData {
   metaTitle: string;
   metaDescription: string;
 }
+
+// Missing types for components
+export interface ServiceGalleryItem {
+  src: string;
+  alt: string;
+  title?: string;
+  description?: string;
+}
+
+export interface ServiceTestimonial {
+  quote: string;
+  author: string;
+  company?: string;
+  rating?: number;
+}

@@ -16,16 +16,16 @@
   } from "$lib/types/wizard.types";
   import { handleError, showSuccess } from "$lib/services/errorService";
 
-  // Step components
-  import WizardProgress from "./wizard/WizardProgress.svelte";
-  import BasicInfoStep from "./wizard/steps/BasicInfoStep.svelte";
-  import ProjectVisionStep from "./wizard/steps/ProjectVisionStep.svelte";
-  import ProjectTypeStep from "./wizard/steps/ProjectTypeStep.svelte";
-  import DesignBrandingStep from "./wizard/steps/DesignBrandingStep.svelte";
-  import ContentStructureStep from "./wizard/steps/ContentStructureStep.svelte";
-  import UserExperienceStep from "./wizard/steps/UserExperienceStep.svelte";
-  import TechnicalRequirementsStep from "./wizard/steps/TechnicalRequirementsStep.svelte";
-  import TimelineBudgetStep from "./wizard/steps/TimelineBudgetStep.svelte";
+  // Step components (commented out - missing wizard directory)
+  // import WizardProgress from "./wizard/WizardProgress.svelte";
+  // import BasicInfoStep from "./wizard/steps/BasicInfoStep.svelte";
+  // import ProjectVisionStep from "./wizard/steps/ProjectVisionStep.svelte";
+  // import ProjectTypeStep from "./wizard/steps/ProjectTypeStep.svelte";
+  // import DesignBrandingStep from "./wizard/steps/DesignBrandingStep.svelte";
+  // import ContentStructureStep from "./wizard/steps/ContentStructureStep.svelte";
+  // import UserExperienceStep from "./wizard/steps/UserExperienceStep.svelte";
+  // import TechnicalRequirementsStep from "./wizard/steps/TechnicalRequirementsStep.svelte";
+  // import TimelineBudgetStep from "./wizard/steps/TimelineBudgetStep.svelte";
 
   const dispatch = createEventDispatcher();
 
