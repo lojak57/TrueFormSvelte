@@ -30,14 +30,16 @@ if (PUBLIC_SUPABASE_URL && PUBLIC_SUPABASE_ANON_KEY) {
         },
         setItem: (key: string, value: string) => {
           if (browser) {
-            // Set cookie with proper domain and path for SSR
-            document.cookie = `${key}=${value}; path=/; domain=.true-form-apps.com; secure; samesite=lax; max-age=${60 * 60 * 24 * 7}`; // 7 days
+            // Set cookie without domain restriction for better compatibility
+            // Let the browser handle domain scope automatically
+            document.cookie = `${key}=${value}; path=/; secure; samesite=lax; max-age=${60 * 60 * 24 * 7}`; // 7 days
             console.log(`[SUPABASE] Set cookie: ${key}`, value.substring(0, 20) + '...');
           }
         },
         removeItem: (key: string) => {
           if (browser) {
-            document.cookie = `${key}=; path=/; domain=.true-form-apps.com; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+            // Remove without domain restriction
+            document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
             console.log(`[SUPABASE] Removed cookie: ${key}`);
           }
         }
