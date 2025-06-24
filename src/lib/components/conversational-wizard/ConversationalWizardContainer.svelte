@@ -28,7 +28,10 @@
   });
 
   // Scroll to top when step changes
-  $: if ($conversationalWizard.currentStep !== previousStep && previousStep !== -1) {
+  $: if (
+    $conversationalWizard.currentStep !== previousStep &&
+    previousStep !== -1
+  ) {
     scrollToTop();
     previousStep = $conversationalWizard.currentStep;
   } else if (previousStep === -1) {
@@ -47,17 +50,17 @@
 
   function scrollToTop() {
     // Smooth scroll to top of the wizard container
-    const wizardContainer = document.querySelector('.wizard-container');
+    const wizardContainer = document.querySelector(".wizard-container");
     if (wizardContainer) {
-      wizardContainer.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
+      wizardContainer.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
       });
     } else {
       // Fallback to window scroll
-      window.scrollTo({ 
-        top: 0, 
-        behavior: 'smooth' 
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
       });
     }
   }

@@ -1,5 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
-import type { Cookies } from '@sveltejs/kit';
+import { createClient } from "@supabase/supabase-js";
+import type { Cookies } from "@sveltejs/kit";
 
 /**
  * Create a Supabase client for server-side usage with cookie handling
@@ -10,12 +10,10 @@ export function createServerSupabaseClient(cookies: Cookies) {
   const anonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
   if (!url || !anonKey) {
-    throw new Error('Missing Supabase environment variables');
+    throw new Error("Missing Supabase environment variables");
   }
 
-  // Log all available cookies for debugging
   const allCookies = cookies.getAll();
-  console.log(`[SERVER SUPABASE] All available cookies:`, allCookies.map(c => ({ name: c.name, hasValue: !!c.value })));
 
   return createClient(url, anonKey, {
     auth: {
@@ -25,36 +23,32 @@ export function createServerSupabaseClient(cookies: Cookies) {
       storage: {
         getItem: (key: string) => {
           const cookie = cookies.get(key);
-          console.log(`[SERVER SUPABASE] Getting cookie ${key}:`, cookie ? 'found' : 'not found');
-          
+
           // If exact key not found, try to find Supabase auth token
-          if (!cookie && key.includes('auth-token')) {
+          if (!cookie && key.includes("auth-token")) {
             for (const c of allCookies) {
-              if (c.name.includes('auth-token') && c.name.startsWith('sb-')) {
-                console.log(`[SERVER SUPABASE] Found auth cookie with different key: ${c.name}`);
+              if (c.name.includes("auth-token") && c.name.startsWith("sb-")) {
                 return c.value;
               }
             }
           }
-          
+
           return cookie || null;
         },
         setItem: (key: string, value: string) => {
-          console.log(`[SERVER SUPABASE] Setting cookie ${key}`);
           cookies.set(key, value, {
-            path: '/',
+            path: "/",
             secure: true,
-            sameSite: 'lax',
+            sameSite: "lax",
             httpOnly: true,
-            maxAge: 60 * 60 * 24 * 7 // 7 days
+            maxAge: 60 * 60 * 24 * 7, // 7 days
           });
         },
         removeItem: (key: string) => {
-          console.log(`[SERVER SUPABASE] Removing cookie ${key}`);
-          cookies.delete(key, { path: '/' });
-        }
-      }
-    }
+          cookies.delete(key, { path: "/" });
+        },
+      },
+    },
   });
 }
 
@@ -63,24 +57,23 @@ export function createServerSupabaseClient(cookies: Cookies) {
  */
 export async function getServerSession(cookies: Cookies) {
   const supabase = createServerSupabaseClient(cookies);
-  
+
   try {
-    const { data: { session }, error } = await supabase.auth.getSession();
-    
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.getSession();
+
     if (error) {
-      console.log('[SERVER SESSION] Error getting session:', error.message);
       return null;
     }
-    
+
     if (!session) {
-      console.log('[SERVER SESSION] No session found');
       return null;
     }
-    
-    console.log('[SERVER SESSION] Session found for user:', session.user.email);
+
     return session;
   } catch (err) {
-    console.log('[SERVER SESSION] Exception getting session:', err);
     return null;
   }
 }

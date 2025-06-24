@@ -1,5 +1,5 @@
-import { z } from "zod";
 import type { LoginCredentials, UserSession, WizardFormData } from "$lib/types";
+import { z } from "zod";
 
 // Simple email validation
 export function validateEmail(email: string): boolean {
@@ -39,19 +39,32 @@ export const UserSessionSchema = z.object({
 });
 
 export const LoginCredentialsSchema = z.object({
-  email: z.string().transform(str => str.trim().toLowerCase()).pipe(z.string().email()),
-  password: z.string().min(8, "Password must be at least 8 characters long")
+  email: z
+    .string()
+    .transform((str) => str.trim().toLowerCase())
+    .pipe(z.string().email()),
+  password: z
+    .string()
+    .min(8, "Password must be at least 8 characters long")
     .refine(
-      (password) => /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password),
+      (password) =>
+        /[A-Z]/.test(password) && /[a-z]/.test(password) && /\d/.test(password),
       "Password must contain at least one uppercase letter, one lowercase letter, and one number"
     ),
 });
 
-export const WizardFormSchema = z.object({
-  companyName: z.string().min(1, "Company name is required").optional(),
-  contactEmail: z.string().email("Please enter a valid email address").optional(),
-  websiteType: z.enum(["business", "ecommerce", "portfolio", "blog"]).optional(),
-}).partial();
+export const WizardFormSchema = z
+  .object({
+    companyName: z.string().min(1, "Company name is required").optional(),
+    contactEmail: z
+      .string()
+      .email("Please enter a valid email address")
+      .optional(),
+    websiteType: z
+      .enum(["business", "ecommerce", "portfolio", "blog"])
+      .optional(),
+  })
+  .partial();
 
 // Basic form validation schemas
 export const LoginSchema = z.object({
@@ -89,14 +102,17 @@ export function validateLoginCredentials(data: unknown): LoginCredentials {
   }
 }
 
-export function validateWizardForm(data: Partial<WizardFormData>): { isValid: boolean; errors: Record<string, string> } {
+export function validateWizardForm(data: Partial<WizardFormData>): {
+  isValid: boolean;
+  errors: Record<string, string>;
+} {
   try {
     WizardFormSchema.parse(data);
     return { isValid: true, errors: {} };
   } catch (error) {
     if (error instanceof z.ZodError) {
       const errors: Record<string, string> = {};
-      error.errors.forEach(err => {
+      error.errors.forEach((err) => {
         if (err.path.length > 0) {
           errors[err.path[0] as string] = err.message;
         }
@@ -109,18 +125,24 @@ export function validateWizardForm(data: Partial<WizardFormData>): { isValid: bo
 
 // Validation service with safe parse functionality
 export const validationService = {
-  safeParse<T>(schema: z.ZodSchema<T>, data: unknown): { success: true; data: T } | { success: false; error: { code: string; message: string } } {
+  safeParse<T>(
+    schema: z.ZodSchema<T>,
+    data: unknown
+  ):
+    | { success: true; data: T }
+    | { success: false; error: { code: string; message: string } } {
     try {
       const result = schema.parse(data);
       return { success: true, data: result };
     } catch (error) {
-      return { 
-        success: false, 
-        error: { 
-          code: "VALIDATION_ERROR", 
-          message: error instanceof z.ZodError ? error.message : "Validation failed" 
-        } 
+      return {
+        success: false,
+        error: {
+          code: "VALIDATION_ERROR",
+          message:
+            error instanceof z.ZodError ? error.message : "Validation failed",
+        },
       };
     }
-  }
+  },
 };

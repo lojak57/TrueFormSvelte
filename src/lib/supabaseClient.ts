@@ -1,6 +1,6 @@
 import { browser } from "$app/environment";
-import { createClient } from "@supabase/supabase-js";
 import { invalidate } from "$app/navigation";
+import { createClient } from "@supabase/supabase-js";
 
 // Use import.meta.env for Vercel compatibility
 const PUBLIC_SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
@@ -16,15 +16,17 @@ if (PUBLIC_SUPABASE_URL && PUBLIC_SUPABASE_ANON_KEY) {
       autoRefreshToken: true,
       persistSession: true,
       detectSessionInUrl: true,
-      flowType: 'pkce',
+      flowType: "pkce",
       // Force cookie-based storage for SSR compatibility
       storage: {
         getItem: (key: string) => {
           if (browser) {
-            return document.cookie
-              .split('; ')
-              .find(row => row.startsWith(key + '='))
-              ?.split('=')[1] || null;
+            return (
+              document.cookie
+                .split("; ")
+                .find((row) => row.startsWith(key + "="))
+                ?.split("=")[1] || null
+            );
           }
           return null;
         },
@@ -32,30 +34,27 @@ if (PUBLIC_SUPABASE_URL && PUBLIC_SUPABASE_ANON_KEY) {
           if (browser) {
             // Set cookie without domain restriction for better compatibility
             // Let the browser handle domain scope automatically
-            document.cookie = `${key}=${value}; path=/; secure; samesite=lax; max-age=${60 * 60 * 24 * 7}`; // 7 days
-            console.log(`[SUPABASE] Set cookie: ${key}`, value.substring(0, 20) + '...');
+            document.cookie = `${key}=${value}; path=/; secure; samesite=lax; max-age=${
+              60 * 60 * 24 * 7
+            }`; // 7 days
           }
         },
         removeItem: (key: string) => {
           if (browser) {
             // Remove without domain restriction
             document.cookie = `${key}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-            console.log(`[SUPABASE] Removed cookie: ${key}`);
           }
-        }
-      }
-    }
+        },
+      },
+    },
   });
 
   // Set up auth state change listener to sync with server
   if (browser) {
     supabase.auth.onAuthStateChange((event, session) => {
-      console.log(`[SUPABASE CLIENT] Auth state changed: ${event}`, { hasSession: !!session });
-      
       // Only invalidate on SIGNED_OUT to avoid clearing session after login
-      if (event === 'SIGNED_OUT') {
-        console.log(`[SUPABASE CLIENT] Invalidating auth state for sign out`);
-        invalidate('supabase:auth');
+      if (event === "SIGNED_OUT") {
+        invalidate("supabase:auth");
       }
       // For SIGNED_IN, let the session persist naturally
     });

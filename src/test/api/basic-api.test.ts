@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 describe("API Routes Basic Tests", () => {
   beforeEach(() => {
@@ -9,12 +9,12 @@ describe("API Routes Basic Tests", () => {
     it("should require authentication for all protected routes", () => {
       const protectedRoutes = [
         "/api/companies",
-        "/api/contacts", 
+        "/api/contacts",
         "/api/projects",
         "/api/proposals",
-        "/api/opportunities"
+        "/api/opportunities",
       ];
-      
+
       expect(protectedRoutes).toHaveLength(5);
       expect(protectedRoutes).toContain("/api/companies");
       expect(protectedRoutes).toContain("/api/contacts");
@@ -30,8 +30,8 @@ describe("API Routes Basic Tests", () => {
       const routesWithCrud = [
         "/api/companies",
         "/api/contacts",
-        "/api/projects", 
-        "/api/proposals"
+        "/api/projects",
+        "/api/proposals",
       ];
 
       expect(crudMethods).toContain("GET");
@@ -41,7 +41,7 @@ describe("API Routes Basic Tests", () => {
 
     it("should support PATCH for opportunities status updates", () => {
       const opportunityMethods = ["GET", "POST", "PATCH"];
-      
+
       expect(opportunityMethods).toContain("GET");
       expect(opportunityMethods).toContain("POST");
       expect(opportunityMethods).toContain("PATCH");
@@ -51,9 +51,9 @@ describe("API Routes Basic Tests", () => {
   describe("Response Format", () => {
     it("should return JSON responses", () => {
       const expectedHeaders = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       };
-      
+
       expect(expectedHeaders).toHaveProperty("Content-Type");
       expect(expectedHeaders["Content-Type"]).toBe("application/json");
     });
@@ -61,9 +61,9 @@ describe("API Routes Basic Tests", () => {
     it("should have consistent error response format", () => {
       const errorResponse = {
         error: "Error message",
-        details: "Optional error details"
+        details: "Optional error details",
       };
-      
+
       expect(errorResponse).toHaveProperty("error");
       expect(typeof errorResponse.error).toBe("string");
       expect(errorResponse).toHaveProperty("details");
@@ -78,7 +78,7 @@ describe("API Routes Basic Tests", () => {
         badRequest: 400,
         unauthorized: 401,
         rateLimited: 429,
-        serverError: 500
+        serverError: 500,
       };
 
       expect(statusCodes.success).toBe(200);
@@ -94,9 +94,9 @@ describe("API Routes Basic Tests", () => {
     it("should validate input with Zod schemas", () => {
       const requiredValidation = [
         "createCompanySchema",
-        "createContactSchema", 
+        "createContactSchema",
         "createProposalSchema",
-        "companyFilterSchema"
+        "companyFilterSchema",
       ];
 
       expect(requiredValidation).toContain("createCompanySchema");
@@ -106,10 +106,7 @@ describe("API Routes Basic Tests", () => {
     });
 
     it("should apply rate limiting to admin endpoints", () => {
-      const rateLimitedEndpoints = [
-        "/api/companies",
-        "/api/proposals"
-      ];
+      const rateLimitedEndpoints = ["/api/companies", "/api/proposals"];
 
       expect(rateLimitedEndpoints).toContain("/api/companies");
       expect(rateLimitedEndpoints).toContain("/api/proposals");
@@ -120,7 +117,7 @@ describe("API Routes Basic Tests", () => {
         adminClient: true,
         rowLevelSecurity: true,
         parameterizedQueries: true,
-        inputValidation: true
+        inputValidation: true,
       };
 
       expect(securityFeatures.adminClient).toBe(true);
@@ -134,13 +131,13 @@ describe("API Routes Basic Tests", () => {
     it("should calculate lead scores based on qualification factors", () => {
       const baseScore = 50;
       const maxScore = 100;
-      
+
       // Decision Authority scoring
       const decisionMakerBonus = 25;
       const influencerBonus = 15;
       const teamDecisionBonus = 10;
       const researcherBonus = 5;
-      
+
       expect(baseScore).toBe(50);
       expect(maxScore).toBe(100);
       expect(decisionMakerBonus).toBe(25);
@@ -152,9 +149,9 @@ describe("API Routes Basic Tests", () => {
     it("should classify lead priorities correctly", () => {
       const priorities = {
         critical: 85, // >= 85
-        high: 70,     // >= 70
-        medium: 55,   // >= 55  
-        low: 54       // < 55
+        high: 70, // >= 70
+        medium: 55, // >= 55
+        low: 54, // < 55
       };
 
       expect(priorities.critical).toBeGreaterThanOrEqual(85);
@@ -169,7 +166,7 @@ describe("API Routes Basic Tests", () => {
       const pricingModel = {
         base: 999,
         includedFeatures: 6,
-        rushDelivery: 150
+        rushDelivery: 150,
       };
 
       expect(pricingModel.base).toBe(999);
@@ -179,8 +176,15 @@ describe("API Routes Basic Tests", () => {
 
     it("should identify enterprise features", () => {
       const enterpriseFeatures = ["mobile"];
-      const baseFeatures = ["contact", "gallery", "seo", "analytics", "search", "social"];
-      
+      const baseFeatures = [
+        "contact",
+        "gallery",
+        "seo",
+        "analytics",
+        "search",
+        "social",
+      ];
+
       expect(enterpriseFeatures).toContain("mobile");
       expect(baseFeatures).toHaveLength(6);
       expect(baseFeatures).toContain("contact");
@@ -192,15 +196,20 @@ describe("API Routes Basic Tests", () => {
     it("should require valid email formats", () => {
       const validEmail = "test@example.com";
       const invalidEmail = "invalid-email";
-      
+
       expect(validEmail).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
       expect(invalidEmail).not.toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
     });
 
     it("should validate required fields for companies", () => {
       const requiredCompanyFields = ["name", "email"];
-      const optionalCompanyFields = ["phone", "website", "address", "vertical_id"];
-      
+      const optionalCompanyFields = [
+        "phone",
+        "website",
+        "address",
+        "vertical_id",
+      ];
+
       expect(requiredCompanyFields).toContain("name");
       expect(requiredCompanyFields).toContain("email");
       expect(optionalCompanyFields).toContain("phone");
@@ -210,7 +219,7 @@ describe("API Routes Basic Tests", () => {
     it("should validate required fields for contacts", () => {
       const requiredContactFields = ["name", "email", "company_id"];
       const optionalContactFields = ["phone", "position", "notes"];
-      
+
       expect(requiredContactFields).toContain("name");
       expect(requiredContactFields).toContain("email");
       expect(requiredContactFields).toContain("company_id");
@@ -222,10 +231,10 @@ describe("API Routes Basic Tests", () => {
     it("should use proper table prefixes", () => {
       const tableNames = {
         companies: "tf_companies",
-        contacts: "tf_contacts", 
+        contacts: "tf_contacts",
         projects: "tf_company_projects",
         proposals: "tf_proposals",
-        verticals: "tf_verticals"
+        verticals: "tf_verticals",
       };
 
       expect(tableNames.companies).toBe("tf_companies");
@@ -236,9 +245,10 @@ describe("API Routes Basic Tests", () => {
     });
 
     it("should use UUID primary keys", () => {
-      const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+      const uuidPattern =
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
       const exampleId = "123e4567-e89b-12d3-a456-426614174000";
-      
+
       expect(exampleId).toMatch(uuidPattern);
     });
   });

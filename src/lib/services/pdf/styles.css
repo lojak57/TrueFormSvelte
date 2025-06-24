@@ -12,8 +12,7 @@ body {
   line-height: 1.4;
   color: #1a1a1a;
   background-color: #f5f5f5;
-  background-image: 
-    linear-gradient(#e5e5e5 1px, transparent 1px),
+  background-image: linear-gradient(#e5e5e5 1px, transparent 1px),
     linear-gradient(90deg, #e5e5e5 1px, transparent 1px);
   background-size: 20px 20px;
 }
@@ -79,7 +78,12 @@ body {
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -108,7 +112,14 @@ h2::after {
 }
 
 /* Cards */
-.card, .header-card, .client-card, .service-card, .breakdown-card, .payment-card, .steps-card, .contact-card {
+.card,
+.header-card,
+.client-card,
+.service-card,
+.breakdown-card,
+.payment-card,
+.steps-card,
+.contact-card {
   background: #ffffff;
   border: 2px solid #1a1a1a;
   border-radius: 0;
@@ -172,7 +183,7 @@ h2::after {
   margin-bottom: 24px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  line-height: 1.0;
+  line-height: 1;
 }
 
 .client-card {
@@ -662,7 +673,7 @@ h2::after {
     color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  
+
   body {
     background: #ffffff !important;
     background-image: none !important;
@@ -670,7 +681,7 @@ h2::after {
     margin: 0 !important;
     padding: 0 !important;
   }
-  
+
   .page {
     background: #ffffff !important;
     margin: 0 !important;
@@ -680,20 +691,27 @@ h2::after {
     box-sizing: border-box !important;
     max-width: 100% !important;
   }
-  
+
   .page:last-child {
     page-break-after: auto !important;
   }
-  
+
   .page::before {
     background: linear-gradient(90deg, #d97706, #f59e0b) !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  
+
   /* Preserve all styling for cards */
-  .card, .header-card, .client-card, .service-card, .breakdown-card, .payment-card, .steps-card, .contact-card {
+  .card,
+  .header-card,
+  .client-card,
+  .service-card,
+  .breakdown-card,
+  .payment-card,
+  .steps-card,
+  .contact-card {
     background: #ffffff !important;
     border: 2px solid #1a1a1a !important;
     border-radius: 0 !important;
@@ -705,14 +723,19 @@ h2::after {
     margin-bottom: 16px !important;
     padding: 16px !important;
   }
-  
+
   /* Preserve header styling */
   .header-card {
     border-top: 8px solid #d97706 !important;
   }
-  
+
   /* Preserve typography */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-weight: 800 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.1em !important;
@@ -721,7 +744,7 @@ h2::after {
     color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  
+
   h2 {
     background: #1a1a1a !important;
     color: #ffffff !important;
@@ -729,114 +752,118 @@ h2::after {
     margin-bottom: 16px !important;
     font-size: 16px !important;
   }
-  
+
   h2::after {
     background: #d97706 !important;
     -webkit-print-color-adjust: exact !important;
     color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  
+
   /* Preserve accent colors */
   .accent-orange {
     border-left: 4px solid #d97706 !important;
   }
-  
+
   .accent-green {
     border-left: 4px solid #059669 !important;
   }
-  
+
   .accent-top-orange {
     border-top: 4px solid #d97706 !important;
   }
-  
+
   /* Preserve grids with better sizing */
   .services-grid {
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
     gap: 12px !important;
     max-width: 100% !important;
   }
-  
+
   .overview-grid {
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
     gap: 12px !important;
     max-width: 100% !important;
   }
-  
+
   .payment-grid {
     grid-template-columns: 1fr 1fr !important;
     gap: 16px !important;
     max-width: 100% !important;
   }
-  
+
   .contact-grid {
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 16px !important;
     max-width: 100% !important;
   }
-  
+
   /* Preserve service card styling */
   .service-card {
     border-left: 6px solid #d97706 !important;
   }
-  
+
   .service-price {
     background: #f0fdf4 !important;
     border: 2px solid #059669 !important;
     color: #059669 !important;
     padding: 3px 8px !important;
   }
-  
+
   /* Preserve overview items */
   .overview-item {
     background: #f0fdf4 !important;
     border: 2px solid #059669 !important;
     box-shadow: 2px 2px 0px #059669 !important;
   }
-  
+
   /* Preserve breakdown styling */
   .breakdown-card {
     border-left: 6px solid #059669 !important;
   }
-  
+
   .breakdown-total {
     border-top: 3px solid #059669 !important;
     color: #059669 !important;
   }
-  
+
   /* Preserve payment styling */
   .payment-card.primary {
     border-left: 6px solid #d97706 !important;
     background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%) !important;
   }
-  
+
   .payment-icon {
     background: #d97706 !important;
     border: 2px solid #1a1a1a !important;
     box-shadow: 2px 2px 0px #1a1a1a !important;
   }
-  
+
   /* Preserve contact styling */
   .contact-card {
     background: #1a1a1a !important;
     color: #ffffff !important;
   }
-  
+
   .contact-value a {
     color: #fbbf24 !important;
   }
-  
+
   /* Hide print elements */
-  .no-print, .print-button {
+  .no-print,
+  .print-button {
     display: none !important;
   }
-  
+
   /* Prevent text from being too small */
-  .service-description, .step-text, .contact-value {
+  .service-description,
+  .step-text,
+  .contact-value {
     font-size: 11px !important;
   }
-  
-  .service-name, .payment-title {
+
+  .service-name,
+  .payment-title {
     font-size: 13px !important;
   }
 }

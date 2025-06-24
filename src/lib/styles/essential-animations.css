@@ -1,0 +1,95 @@
+/* TrueForm Essential Animations - Optimized */
+
+/* ============================================================================
+   ESSENTIAL KEYFRAMES - Only what's actively used
+   ============================================================================ */
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================================================
+   LOADING ANIMATIONS - Used in components
+   ============================================================================ */
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Skeleton loading - Used in BaseCard and ModernCard */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.skeleton-card {
+  background: linear-gradient(90deg, #f8f9fa 25%, #e9ecef 50%, #f8f9fa 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.loading-skeleton {
+  background: linear-gradient(90deg, #f8f9fa 25%, #e9ecef 50%, #f8f9fa 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* ============================================================================
+   FORM ANIMATIONS - Floating labels in BaseInput
+   ============================================================================ */
+
+.floating-label {
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.floating-label.active {
+  transform: translateY(-0.5rem) scale(0.875);
+  color: theme('colors.accent.600');
+}
+
+/* ============================================================================
+   ACCESSIBILITY - Respect user preferences
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin {
+    animation: none;
+  }
+  
+  .skeleton,
+  .skeleton-card,
+  .loading-skeleton {
+    animation: none;
+    background: #f0f0f0;
+  }
+  
+  .floating-label {
+    transition: none;
+  }
+}
+
+/* ============================================================================
+   DARK MODE SUPPORT
+   ============================================================================ */
+
+@media (prefers-color-scheme: dark) {
+  .skeleton,
+  .skeleton-card,
+  .loading-skeleton {
+    background: linear-gradient(90deg, #374151 25%, #4b5563 50%, #374151 75%);
+    background-size: 200% 100%;
+  }
+}

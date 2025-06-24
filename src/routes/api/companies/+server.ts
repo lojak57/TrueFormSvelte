@@ -1,15 +1,15 @@
+import { createCompanySchema, validateSchema } from "$lib/schemas/api";
+import { supabaseAdmin } from "$lib/supabaseAdmin";
+import { createRateLimitResponse, rateLimiters } from "$lib/utils/rateLimit";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { rateLimiters, createRateLimitResponse } from "$lib/utils/rateLimit";
-import { supabaseAdmin } from "$lib/supabaseAdmin";
-import { createCompanySchema, validateSchema } from "$lib/schemas/api";
 
 export const GET: RequestHandler = async ({ request, locals }) => {
   // 🔒 SECURE: Check session from cookies (set by hooks.server.ts)
   if (!locals.user) {
     return json({ error: "Unauthorized" }, { status: 401 });
   }
-  
+
   // Apply rate limiting for admin endpoints
   const rateLimitResult = rateLimiters.admin.middleware(request);
   if (!rateLimitResult.allowed) {
@@ -22,13 +22,11 @@ export const GET: RequestHandler = async ({ request, locals }) => {
       .order("name");
 
     if (error) {
-      console.error("Supabase error fetching companies:", error);
       throw new Error(error.message);
     }
 
     return json(companies || []);
   } catch (error) {
-    console.error("Error fetching companies:", error);
     return json(
       {
         error: "Failed to fetch companies",
@@ -44,7 +42,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
   if (!locals.user) {
     return json({ error: "Unauthorized" }, { status: 401 });
   }
-  
+
   // Apply rate limiting for admin endpoints
   const rateLimitResult = rateLimiters.admin.middleware(request);
   if (!rateLimitResult.allowed) {
@@ -68,13 +66,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       .single();
 
     if (error) {
-      console.error("Supabase error creating company:", error);
       throw error;
     }
 
     return json(company, { status: 201 });
   } catch (error) {
-    console.error("Error creating company:", error);
     return json(
       {
         error: "Failed to create company",

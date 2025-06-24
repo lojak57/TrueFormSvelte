@@ -48,7 +48,7 @@ describe("CTAButtons Component", () => {
     render(CTAButtons);
 
     const button = screen.getByRole("button", { name: /get started/i });
-    
+
     // Check for SVG icon (Lucide icons render as SVGs)
     const icon = button.querySelector("svg");
     expect(icon).toBeInTheDocument();

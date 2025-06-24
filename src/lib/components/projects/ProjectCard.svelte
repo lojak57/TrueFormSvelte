@@ -10,79 +10,95 @@
 
   function getStatusColor(status: string): string {
     switch (status) {
-      case 'active': return '#10b981';
-      case 'completed': return '#3b82f6';
-      case 'on_hold': return '#f59e0b';
-      case 'lead': return '#8b5cf6';
-      default: return '#6b7280';
+      case "active":
+        return "#10b981";
+      case "completed":
+        return "#3b82f6";
+      case "on_hold":
+        return "#f59e0b";
+      case "lead":
+        return "#8b5cf6";
+      default:
+        return "#6b7280";
     }
   }
 
   function parseWizardData(description: string) {
     try {
-      const lines = description.split('\n');
+      const lines = description.split("\n");
       const data: Record<string, string> = {};
-      
-      lines.forEach(line => {
-        if (line.includes(':')) {
-          const [key, value] = line.split(':').map(s => s.trim());
+
+      lines.forEach((line) => {
+        if (line.includes(":")) {
+          const [key, value] = line.split(":").map((s) => s.trim());
           data[key] = value;
         }
       });
-      
+
       return data;
     } catch {
       return {};
     }
   }
 
-  $: wizardData = isWizardSubmission ? parseWizardData(project.description || '') : {};
+  $: wizardData = isWizardSubmission
+    ? parseWizardData(project.description || "")
+    : {};
 </script>
 
 {#if isWizardSubmission}
-  <div class="lead-card" on:click={onClick} on:keydown role="button" tabindex="0">
+  <div
+    class="lead-card"
+    on:click={onClick}
+    on:keydown
+    role="button"
+    tabindex="0"
+  >
     <div class="card-header">
       <div class="lead-badge">
         <span class="badge-icon">🎯</span>
         New Lead
       </div>
-      <div class="status-indicator" style="background-color: {getStatusColor(project.status)}">
+      <div
+        class="status-indicator"
+        style="background-color: {getStatusColor(project.status)}"
+      >
         {project.status}
       </div>
     </div>
 
     <div class="card-content">
       <h4 class="project-title">{project.name}</h4>
-      <div class="company-name">{company?.name || 'Unknown Company'}</div>
+      <div class="company-name">{company?.name || "Unknown Company"}</div>
 
-      {#if wizardData['Contact Name'] || wizardData['Email'] || wizardData['Phone']}
+      {#if wizardData["Contact Name"] || wizardData["Email"] || wizardData["Phone"]}
         <div class="contact-info">
-          {#if wizardData['Contact Name']}
+          {#if wizardData["Contact Name"]}
             <div class="contact-item">
               <span class="contact-label">Contact:</span>
-              {wizardData['Contact Name']}
+              {wizardData["Contact Name"]}
             </div>
           {/if}
-          {#if wizardData['Email']}
+          {#if wizardData["Email"]}
             <div class="contact-item">
               <span class="contact-label">Email:</span>
-              {wizardData['Email']}
+              {wizardData["Email"]}
             </div>
           {/if}
-          {#if wizardData['Phone']}
+          {#if wizardData["Phone"]}
             <div class="contact-item">
               <span class="contact-label">Phone:</span>
-              {wizardData['Phone']}
+              {wizardData["Phone"]}
             </div>
           {/if}
         </div>
       {/if}
 
       <div class="project-meta">
-        {#if wizardData['Website Type']}
+        {#if wizardData["Website Type"]}
           <div class="meta-item">
             <Globe size={16} />
-            {wizardData['Website Type']}
+            {wizardData["Website Type"]}
           </div>
         {/if}
         <div class="meta-item">
@@ -91,9 +107,10 @@
         </div>
       </div>
 
-      {#if wizardData['Budget Range']}
+      {#if wizardData["Budget Range"]}
         <div class="budget-info">
-          <strong>Budget:</strong> {wizardData['Budget Range']}
+          <strong>Budget:</strong>
+          {wizardData["Budget Range"]}
         </div>
       {/if}
     </div>
@@ -111,17 +128,26 @@
     </div>
   </div>
 {:else}
-  <div class="project-card" on:click={onClick} on:keydown role="button" tabindex="0">
+  <div
+    class="project-card"
+    on:click={onClick}
+    on:keydown
+    role="button"
+    tabindex="0"
+  >
     <div class="card-header">
-      <div class="status-indicator" style="background-color: {getStatusColor(project.status)}">
+      <div
+        class="status-indicator"
+        style="background-color: {getStatusColor(project.status)}"
+      >
         {project.status}
       </div>
     </div>
 
     <div class="card-content">
       <h4 class="project-title">{project.name}</h4>
-      <div class="company-name">{company?.name || 'Unknown Company'}</div>
-      
+      <div class="company-name">{company?.name || "Unknown Company"}</div>
+
       {#if project.description}
         <p class="project-description">{project.description}</p>
       {/if}

@@ -16,61 +16,42 @@
   let isSignupMode = false;
 
   async function handleSubmit() {
-    console.log("Form submitted!", { credentials, isSignupMode });
     loading = true;
     error = "";
 
     try {
-      console.log("Calling auth service...");
       const result = isSignupMode
         ? await signupUser(credentials)
         : await loginUser(credentials);
 
-      console.log("Auth result:", result);
-
       if (result.error) {
-        console.error("Auth error:", result.error);
         error = result.error;
       } else if (result.user) {
-        console.log("Login successful, redirecting...");
-        
-        // Debug: Check what cookies are available after login
-        console.log("Cookies after login:", document.cookie);
-        
         // Login successful - redirect immediately
         setTimeout(async () => {
           try {
             const hostname = window.location.hostname;
-            const isCRMHostname = hostname.startsWith('crm.') || hostname === 'localhost';
-            
-            console.log("Redirect debug:", {
-              hostname,
-              isCRMHostname,
-              fullLocation: window.location.href
-            });
-            
+            const isCRMHostname =
+              hostname.startsWith("crm.") || hostname === "localhost";
+
             // Check for redirect parameter
-            const redirectTo = $page.url.searchParams.get('redirect') || '/admin/dashboard';
-            console.log("Redirect destination:", redirectTo);
-            
+            const redirectTo =
+              $page.url.searchParams.get("redirect") || "/admin/dashboard";
+
             if (isCRMHostname) {
-              console.log("Redirecting to local", redirectTo, "using SvelteKit navigation");
               try {
                 // Try SvelteKit navigation first
                 await goto(redirectTo, { replaceState: true });
-                console.log("SvelteKit navigation completed successfully");
               } catch (err) {
-                console.log("SvelteKit navigation failed, using window.location", err);
                 // Fallback to window.location
                 window.location.href = redirectTo;
               }
             } else {
-              console.log("Redirecting to external CRM domain");
               // External redirect for different domain
-              window.location.href = "https://crm.true-form-apps.com" + redirectTo;
+              window.location.href =
+                "https://crm.true-form-apps.com" + redirectTo;
             }
           } catch (error) {
-            console.error("Error during redirect:", error);
             // Last resort fallback
             window.location.href = "/admin/dashboard";
           }
@@ -81,7 +62,6 @@
           "Account created! Please check your email for the confirmation link.";
       }
     } catch (err) {
-      console.error("Caught error:", err);
       error = "An unexpected error occurred. Please try again.";
     } finally {
       loading = false;
@@ -154,7 +134,10 @@
       </div>
 
       <div>
-        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+        <label
+          for="password"
+          class="block text-sm font-medium text-gray-700 mb-2"
+        >
           Password
         </label>
         <div class="relative">

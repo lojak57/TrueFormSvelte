@@ -155,7 +155,9 @@
               <Mail class="text-accent-600" size={20} />
               <div>
                 <p class="font-semibold text-gray-900">Email Support</p>
-                <p class="text-gray-600 text-sm">mitch.mechelay@true-form-apps.com</p>
+                <p class="text-gray-600 text-sm">
+                  mitch.mechelay@true-form-apps.com
+                </p>
               </div>
             </div>
           </div>

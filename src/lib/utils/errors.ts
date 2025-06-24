@@ -39,8 +39,6 @@ export class NetworkError extends AppError {
 
 // Error handler utility
 export function handleError(error: unknown): AppError {
-  console.error("Error occurred:", error);
-
   if (error instanceof AppError) {
     return error;
   }
@@ -86,15 +84,9 @@ export function getErrorMessage(error: unknown): string {
 export function logError(error: unknown, context?: string) {
   const appError = handleError(error);
 
-  console.error("🚨 Error logged:", {
-    message: appError.message,
-    code: appError.code,
-    statusCode: appError.statusCode,
-    context,
-    details: appError.details,
-    timestamp: new Date().toISOString(),
-  });
-
   // TODO: Send to monitoring service like Sentry
   // Sentry.captureException(appError);
+
+  // In production, avoid logging sensitive error details to console
+  // Instead, send to a proper error monitoring service
 }

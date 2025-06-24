@@ -6,17 +6,25 @@
 </script>
 
 <div class="companies-page">
-  <CRMHeader 
-    title="Client Organizations Registry" 
+  <CRMHeader
+    title="Client Organizations Registry"
     subtitle="Curate and oversee your distinguished client portfolio across all market verticals"
     icon={Building2}
   >
     <div slot="actions" class="header-actions">
-      <BaseButton variant="outline" href="/admin/companies/import" class="action-button">
+      <BaseButton
+        variant="outline"
+        href="/admin/companies/import"
+        class="action-button"
+      >
         <Upload size={16} class="mr-2" />
         Import Registry
       </BaseButton>
-      <BaseButton variant="primary" href="/admin/companies/create" class="action-button">
+      <BaseButton
+        variant="primary"
+        href="/admin/companies/create"
+        class="action-button"
+      >
         <Plus size={16} class="mr-2" />
         Onboard Organization
       </BaseButton>

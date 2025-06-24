@@ -62,15 +62,22 @@ const rateLimitStore = new RateLimitStore();
  * Rate limiting middleware for API endpoints
  */
 export function rateLimit(options: RateLimitOptions) {
-  const { maxRequests, windowMs, skipSuccessfulRequests = false, skipFailedRequests = false } = options;
+  const {
+    maxRequests,
+    windowMs,
+    skipSuccessfulRequests = false,
+    skipFailedRequests = false,
+  } = options;
 
   const rateLimiter = {
-    check: (identifier: string): { allowed: boolean; remaining: number; resetTime: number } => {
+    check: (
+      identifier: string
+    ): { allowed: boolean; remaining: number; resetTime: number } => {
       const now = Date.now();
       const resetTime = now + windowMs;
-      
+
       const existing = rateLimitStore.get(identifier);
-      
+
       if (!existing) {
         // First request in window
         rateLimitStore.set(identifier, { count: 1, resetTime });
@@ -85,11 +92,11 @@ export function rateLimit(options: RateLimitOptions) {
       // Increment count
       existing.count++;
       rateLimitStore.set(identifier, existing);
-      
-      return { 
-        allowed: true, 
-        remaining: maxRequests - existing.count, 
-        resetTime: existing.resetTime 
+
+      return {
+        allowed: true,
+        remaining: maxRequests - existing.count,
+        resetTime: existing.resetTime,
       };
     },
 
@@ -97,18 +104,24 @@ export function rateLimit(options: RateLimitOptions) {
     middleware: (request: Request, response?: Response) => {
       const identifier = getClientIdentifier(request);
       const result = rateLimiter.check(identifier);
-      
+
       if (response) {
         // Set rate limit headers
-        response.headers.set('X-RateLimit-Limit', maxRequests.toString());
-        response.headers.set('X-RateLimit-Remaining', result.remaining.toString());
-        response.headers.set('X-RateLimit-Reset', new Date(result.resetTime).toISOString());
+        response.headers.set("X-RateLimit-Limit", maxRequests.toString());
+        response.headers.set(
+          "X-RateLimit-Remaining",
+          result.remaining.toString()
+        );
+        response.headers.set(
+          "X-RateLimit-Reset",
+          new Date(result.resetTime).toISOString()
+        );
       }
 
       return result;
-    }
+    },
   };
-  
+
   return rateLimiter;
 }
 
@@ -117,21 +130,22 @@ export function rateLimit(options: RateLimitOptions) {
  */
 function getClientIdentifier(request: Request): string {
   // Try to get IP from various headers (proxy-aware)
-  const forwarded = request.headers.get('x-forwarded-for');
-  const realIp = request.headers.get('x-real-ip');
-  const cfConnectingIp = request.headers.get('cf-connecting-ip');
-  
+  const forwarded = request.headers.get("x-forwarded-for");
+  const realIp = request.headers.get("x-real-ip");
+  const cfConnectingIp = request.headers.get("cf-connecting-ip");
+
   // Use the first IP from forwarded header, or fallback to other headers
-  const ip = forwarded?.split(',')[0]?.trim() || realIp || cfConnectingIp || 'unknown';
-  
+  const ip =
+    forwarded?.split(",")[0]?.trim() || realIp || cfConnectingIp || "unknown";
+
   // For authenticated requests, you might want to use user ID instead
-  const authHeader = request.headers.get('authorization');
+  const authHeader = request.headers.get("authorization");
   if (authHeader) {
     // Simple hash of auth header to create consistent identifier
     const userId = btoa(authHeader).slice(0, 16);
     return `user:${userId}`;
   }
-  
+
   return `ip:${ip}`;
 }
 
@@ -176,24 +190,24 @@ export const rateLimiters = {
 export function createRateLimitResponse(resetTime: number): Response {
   return new Response(
     JSON.stringify({
-      error: 'Rate limit exceeded',
-      message: 'Too many requests. Please try again later.',
+      error: "Rate limit exceeded",
+      message: "Too many requests. Please try again later.",
       resetTime: new Date(resetTime).toISOString(),
     }),
     {
       status: 429,
       headers: {
-        'Content-Type': 'application/json',
-        'Retry-After': Math.ceil((resetTime - Date.now()) / 1000).toString(),
-        'X-RateLimit-Reset': new Date(resetTime).toISOString(),
+        "Content-Type": "application/json",
+        "Retry-After": Math.ceil((resetTime - Date.now()) / 1000).toString(),
+        "X-RateLimit-Reset": new Date(resetTime).toISOString(),
       },
     }
   );
 }
 
 // Cleanup on process exit
-if (typeof process !== 'undefined') {
-  process.on('exit', () => {
+if (typeof process !== "undefined") {
+  process.on("exit", () => {
     rateLimitStore.destroy();
   });
 }

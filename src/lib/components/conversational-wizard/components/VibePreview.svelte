@@ -57,7 +57,8 @@
     <div class="mb-4">
       <div
         class="h-20 rounded-lg flex items-center justify-center"
-        style="background: linear-gradient(135deg, {vibe.elements.accent}20, {vibe.elements.accent}10)"
+        style="background: linear-gradient(135deg, {vibe.elements
+          .accent}20, {vibe.elements.accent}10)"
       >
         <div
           class="w-32 h-4 rounded"

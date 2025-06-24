@@ -33,14 +33,17 @@ export interface SimplePDFData {
 }
 
 export function generateSimplePDF(data: SimplePDFData): string {
-  const formatCurrency = (amount: number) => 
-    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
-  
-  const formatDate = (dateString: string) => 
-    new Date(dateString).toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+  const formatCurrency = (amount: number) =>
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    }).format(amount);
+
+  const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
 
   return `<!DOCTYPE html>
@@ -327,8 +330,12 @@ export function generateSimplePDF(data: SimplePDFData): string {
           <img src="https://true-form-apps.com/logo.svg" alt="TrueForm" class="logo" />
         </div>
         <div class="proposal-info">
-          <div class="proposal-number">#${data.proposal.id.slice(-8).toUpperCase()}</div>
-          <div class="proposal-date">${formatDate(data.proposal.created_at)}</div>
+          <div class="proposal-number">#${data.proposal.id
+            .slice(-8)
+            .toUpperCase()}</div>
+          <div class="proposal-date">${formatDate(
+            data.proposal.created_at
+          )}</div>
         </div>
       </div>
     </div>
@@ -344,10 +351,14 @@ export function generateSimplePDF(data: SimplePDFData): string {
     <div class="client-info">
       <div class="client-name">${data.company.name}</div>
       <div class="client-details">
-        ${data.contact ? `${data.contact.first_name} ${data.contact.last_name}` : ''}
-        ${data.contact?.title ? ` • ${data.contact.title}` : ''}
-        ${data.contact?.email ? `<br>${data.contact.email}` : ''}
-        ${data.company.phone ? `<br>${data.company.phone}` : ''}
+        ${
+          data.contact
+            ? `${data.contact.first_name} ${data.contact.last_name}`
+            : ""
+        }
+        ${data.contact?.title ? ` • ${data.contact.title}` : ""}
+        ${data.contact?.email ? `<br>${data.contact.email}` : ""}
+        ${data.company.phone ? `<br>${data.company.phone}` : ""}
       </div>
     </div>
     
@@ -360,18 +371,26 @@ export function generateSimplePDF(data: SimplePDFData): string {
     <!-- Line Items -->
     <h2 class="section-title">What's Included</h2>
     <div class="line-items">
-      ${data.proposal.line_items.map(item => `
+      ${data.proposal.line_items
+        .map(
+          (item) => `
         <div class="line-item">
           <div class="item-header">
             <div class="item-name">${item.name}</div>
             <div class="item-price">${formatCurrency(item.total)}</div>
           </div>
-          ${item.description ? `<div class="item-description">${item.description}</div>` : ''}
+          ${
+            item.description
+              ? `<div class="item-description">${item.description}</div>`
+              : ""
+          }
           <div class="item-meta">
             Quantity: ${item.quantity} × ${formatCurrency(item.unitPrice)} each
           </div>
         </div>
-      `).join('')}
+      `
+        )
+        .join("")}
     </div>
     
     <!-- Breakdown -->
@@ -420,5 +439,5 @@ export class SimplePDFGenerator {
 }
 
 export const simplePdfGenerator = {
-  generate: generateSimplePDF
+  generate: generateSimplePDF,
 };

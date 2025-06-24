@@ -1,6 +1,6 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-import { GET, POST } from "../../routes/api/projects/+server";
 import type { RequestEvent } from "@sveltejs/kit";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { GET, POST } from "../../routes/api/projects/+server";
 
 // Mock the ProjectService
 const mockProjectService = {
@@ -82,7 +82,9 @@ describe("/api/projects", () => {
 
       mockProjectService.getProjects.mockResolvedValue(mockFilteredProjects);
 
-      const urlWithParams = new URL("http://localhost/api/projects?company_id=company-1");
+      const urlWithParams = new URL(
+        "http://localhost/api/projects?company_id=company-1"
+      );
       const event = {
         request: mockRequest,
         locals: mockLocals,
@@ -135,7 +137,9 @@ describe("/api/projects", () => {
       const mockProjects = [{ id: "project-1", name: "Test Project" }];
       mockProjectService.getProjects.mockResolvedValue(mockProjects);
 
-      const urlWithEmptyParam = new URL("http://localhost/api/projects?company_id=");
+      const urlWithEmptyParam = new URL(
+        "http://localhost/api/projects?company_id="
+      );
       const event = {
         request: mockRequest,
         locals: mockLocals,
@@ -193,7 +197,9 @@ describe("/api/projects", () => {
         company_id: "company-1",
         status: "planning",
       });
-      expect(mockProjectService.createProject).toHaveBeenCalledWith(validProjectData);
+      expect(mockProjectService.createProject).toHaveBeenCalledWith(
+        validProjectData
+      );
     });
 
     it("should return 401 when not authenticated", async () => {

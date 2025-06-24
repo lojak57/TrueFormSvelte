@@ -295,7 +295,8 @@ export const POST: RequestHandler = async ({ request }) => {
         totalCount: selectedFeatures.length,
         baseCount: selectedFeatures.filter((f: any) => f.isBase).length,
         premiumCount: selectedFeatures.filter((f: any) => f.isPremium).length,
-        enterpriseCount: selectedFeatures.filter((f: any) => f.isEnterprise).length,
+        enterpriseCount: selectedFeatures.filter((f: any) => f.isEnterprise)
+          .length,
       },
       design: {
         colorPalette: data.colorPalette,
@@ -359,79 +360,24 @@ export const POST: RequestHandler = async ({ request }) => {
       additionalInfo: data.additionalInfo,
     };
 
-    console.log("🚀 Creating TrueForm opportunity:", {
-      company: leadData.companyName,
-      email: leadData.contactEmail,
-      features: leadData.features.length,
-      pricing: isEnterprise ? "ENTERPRISE QUOTE" : `$${totalPrice}`,
-      leadScore: leadScoring.score,
-      priority: leadScoring.priority,
-      scoringFactors: leadScoring.factors,
-    });
+    // Creating TrueForm opportunity
 
     // Use the proper TrueForm opportunity creation function
     const result = await createTrueFormOpportunity(leadData);
 
-    console.log("🎉 NEW TRUEFORM OPPORTUNITY CREATED:", {
-      id: result.opportunity.id,
-      company: leadData.companyName,
-      contact: leadData.contactName,
-      email: leadData.contactEmail,
-      type: leadData.websiteType,
-      features: leadData.features.length,
-      pricing: isEnterprise ? "ENTERPRISE QUOTE" : `$${totalPrice}`,
-      timeline: leadData.timeline,
-
-      // Lead qualification results
-      "🎯 LEAD SCORE": `${leadScoring.score}/100`,
-      "⚡ PRIORITY": leadScoring.priority,
-      "📊 DECISION AUTHORITY": data.decisionAuthority,
-      "💰 BUDGET STATUS": data.budgetContext,
-      "🚨 URGENCY": data.projectUrgency,
-      "🎭 SITUATION": data.currentSituation,
-      "🏆 COMPETITOR CONTEXT": data.competitorContext || "Not specified",
-    });
+    // TrueForm opportunity created successfully
 
     // 🚨 HIGH-PRIORITY LEAD NOTIFICATION SYSTEM
     if (
       leadScoring.priority === "CRITICAL" ||
       leadScoring.priority === "HIGH"
     ) {
-      console.log("🚨🚨🚨 HIGH-PRIORITY LEAD ALERT 🚨🚨🚨");
-      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log(
-        `🎯 LEAD SCORE: ${leadScoring.score}/100 (${leadScoring.priority})`
-      );
-      console.log(`🏢 COMPANY: ${leadData.companyName}`);
-      console.log(
-        `👤 CONTACT: ${leadData.contactName} (${leadData.contactEmail})`
-      );
-      console.log(`💼 ROLE: ${data.contactRole}`);
-      console.log(`🎪 DECISION MAKER: ${data.decisionAuthority}`);
-      console.log(`💰 BUDGET: ${data.budgetContext}`);
-      console.log(`⏰ URGENCY: ${data.projectUrgency}`);
-      console.log(
-        `💸 PROJECT VALUE: ${
-          isEnterprise ? "ENTERPRISE QUOTE" : `$${totalPrice}`
-        }`
-      );
-      console.log(`📞 PHONE: ${data.contactPhone || "Not provided"}`);
-      console.log(`🎯 SCORING FACTORS: ${leadScoring.factors.join(", ")}`);
-      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log("📋 IMMEDIATE ACTION REQUIRED:");
-      console.log("  1. Follow up within 1 hour for CRITICAL leads");
-      console.log("  2. Follow up within 4 hours for HIGH priority leads");
-      console.log("  3. Prioritize this lead in your CRM");
-      console.log(
-        "  4. Prepare personalized proposal based on scoring factors"
-      );
-      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-
       // TODO: In production, this would:
       // - Send Slack notification to sales team
       // - Send email alert to lead sales rep
       // - Create high-priority ticket in project management system
       // - Set up automated follow-up reminders
+      // - Log to proper monitoring service (not console)
     }
 
     return json({
@@ -444,8 +390,6 @@ export const POST: RequestHandler = async ({ request }) => {
         : `Your project request has been submitted! Total investment: $${totalPrice}. We\'ll be in touch within 24 hours.`,
     });
   } catch (error) {
-    console.error("Error in opportunities API:", error);
-
     return json(
       {
         error: "Internal server error",
@@ -466,7 +410,6 @@ export const GET: RequestHandler = async ({ request, locals }) => {
     const opportunities = await getTrueFormOpportunities();
     return json(opportunities);
   } catch (error) {
-    console.error("Error fetching opportunities:", error);
     return json(
       {
         error: "Failed to fetch opportunities",
@@ -499,7 +442,6 @@ export const PATCH: RequestHandler = async ({ request, locals }) => {
     const result = await updateOpportunityStatus(opportunityId, status, notes);
     return json(result);
   } catch (error) {
-    console.error("Error updating opportunity:", error);
     return json(
       {
         error: "Failed to update opportunity",

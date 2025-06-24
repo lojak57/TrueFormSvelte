@@ -1,6 +1,6 @@
+import { supabaseAdmin } from "$lib/supabaseAdmin";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { supabaseAdmin } from "$lib/supabaseAdmin";
 
 export const GET: RequestHandler = async ({ params, request, locals }) => {
   // 🔒 SECURE: Require authentication for contact details
@@ -70,7 +70,6 @@ export const GET: RequestHandler = async ({ params, request, locals }) => {
 
     return json(contactWithRelations);
   } catch (error) {
-    console.error("Error fetching contact:", error);
     return json({ error: "Failed to fetch contact" }, { status: 500 });
   }
 };
@@ -100,7 +99,6 @@ export const PUT: RequestHandler = async ({ params, request, locals }) => {
 
     return json(contact);
   } catch (error) {
-    console.error("Error updating contact:", error);
     return json({ error: "Failed to update contact" }, { status: 500 });
   }
 };
@@ -113,13 +111,15 @@ export const DELETE: RequestHandler = async ({ params, request, locals }) => {
   try {
     const { id } = params;
 
-    const { error } = await supabaseAdmin.from("tf_contacts").delete().eq("id", id);
+    const { error } = await supabaseAdmin
+      .from("tf_contacts")
+      .delete()
+      .eq("id", id);
 
     if (error) throw error;
 
     return json({ success: true });
   } catch (error) {
-    console.error("Error deleting contact:", error);
     return json({ error: "Failed to delete contact" }, { status: 500 });
   }
 };
@@ -156,7 +156,6 @@ export const POST: RequestHandler = async ({ params, request, locals }) => {
 
     return json({ error: "Invalid request body" }, { status: 400 });
   } catch (error) {
-    console.error("Error creating interaction:", error);
     return json({ error: "Failed to create interaction" }, { status: 500 });
   }
 };

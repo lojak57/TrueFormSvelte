@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { ChevronRight, Home } from "lucide-svelte";
-  
+
   export let title: string;
   export let subtitle: string = "";
   export let icon: any = null;
@@ -9,20 +9,23 @@
 
   // Auto-generate breadcrumbs based on current path if not provided
   $: if (breadcrumbs.length === 0 && $page.url.pathname) {
-    const pathSegments = $page.url.pathname.split('/').filter(Boolean);
+    const pathSegments = $page.url.pathname.split("/").filter(Boolean);
     breadcrumbs = [
       { label: "Command Center", href: "/admin/dashboard" },
       ...pathSegments.slice(1).map((segment, index) => ({
         label: segment.charAt(0).toUpperCase() + segment.slice(1),
-        href: index === pathSegments.length - 2 ? undefined : `/${pathSegments.slice(0, index + 2).join('/')}`
-      }))
+        href:
+          index === pathSegments.length - 2
+            ? undefined
+            : `/${pathSegments.slice(0, index + 2).join("/")}`,
+      })),
     ];
   }
 </script>
 
 <div class="crm-header">
-  <div class="header-background"></div>
-  
+  <div class="header-background" />
+
   <div class="header-content">
     <!-- Breadcrumb Navigation -->
     <nav class="breadcrumb-nav">
@@ -63,7 +66,7 @@
             {/if}
           </div>
         </div>
-        
+
         <!-- Action Slot -->
         <div class="header-actions">
           <slot name="actions" />
@@ -87,8 +90,9 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: linear-gradient(135deg, 
-      rgba(255, 255, 255, 0.8) 0%, 
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.8) 0%,
       rgba(248, 250, 252, 0.9) 50%,
       rgba(241, 245, 249, 0.8) 100%
     );
@@ -290,8 +294,9 @@
   }
 
   :global(.dark) .header-background {
-    background: linear-gradient(135deg, 
-      rgba(15, 23, 42, 0.9) 0%, 
+    background: linear-gradient(
+      135deg,
+      rgba(15, 23, 42, 0.9) 0%,
       rgba(30, 41, 59, 0.8) 50%,
       rgba(51, 65, 85, 0.9) 100%
     );

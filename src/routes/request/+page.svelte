@@ -191,11 +191,7 @@
         </div>
 
         <div class="mt-8 text-center">
-          <Button
-            variant="accent"
-            size="lg"
-            on:click={startWizard}
-          >
+          <Button variant="accent" size="lg" on:click={startWizard}>
             <Sparkles size={20} class="mr-2" />
             Start Your Project Now
           </Button>

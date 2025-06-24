@@ -1,6 +1,6 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-import { GET, POST } from "../../routes/api/companies/+server";
 import type { RequestEvent } from "@sveltejs/kit";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { GET, POST } from "../../routes/api/companies/+server";
 
 // Mock the dependencies
 vi.mock("$lib/supabaseAdmin", () => ({
@@ -128,13 +128,16 @@ describe("/api/companies", () => {
     });
 
     it("should apply rate limiting", async () => {
-      const { rateLimiters, createRateLimitResponse } = await import("$lib/utils/rateLimit");
-      
+      const { rateLimiters, createRateLimitResponse } = await import(
+        "$lib/utils/rateLimit"
+      );
+
       vi.mocked(rateLimiters.admin.middleware).mockReturnValue({
         allowed: false,
+        remaining: 0,
         resetTime: Date.now() + 60000,
       });
-      
+
       vi.mocked(createRateLimitResponse).mockReturnValue(
         new Response("Rate limit exceeded", { status: 429 })
       );
@@ -201,7 +204,7 @@ describe("/api/companies", () => {
 
     it("should validate input data with Zod schema", async () => {
       const { validateSchema } = await import("$lib/schemas/api");
-      
+
       vi.mocked(validateSchema).mockReturnValue({
         success: false,
         error: "Invalid email format",
@@ -221,7 +224,7 @@ describe("/api/companies", () => {
 
     it("should handle Supabase insert errors", async () => {
       const { supabaseAdmin } = await import("$lib/supabaseAdmin");
-      
+
       vi.mocked(supabaseAdmin.from).mockReturnValue({
         insert: vi.fn(() => ({
           select: vi.fn(() => ({

@@ -238,7 +238,8 @@ export const SERVICE_TEMPLATES: ServiceTemplate[] = [
   {
     id: "crm-monthly",
     name: "CRM Monthly Service",
-    description: "Custom-branded CRM with lead management and customer tracking",
+    description:
+      "Custom-branded CRM with lead management and customer tracking",
     category: "maintenance",
     basePrice: 49,
     unit: "month",

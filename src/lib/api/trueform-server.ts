@@ -141,7 +141,6 @@ Plan Type: ${leadData.planType}`,
       success: true,
     };
   } catch (error) {
-    console.error("Error creating TrueForm opportunity:", error);
     throw error;
   }
 }
@@ -180,7 +179,6 @@ export async function getTrueFormOpportunities() {
 
     return data;
   } catch (error) {
-    console.error("Error fetching TrueForm opportunities:", error);
     throw error;
   }
 }
@@ -236,7 +234,6 @@ export async function updateOpportunityStatus(
 
     return data;
   } catch (error) {
-    console.error("Error updating opportunity status:", error);
     throw error;
   }
 }
@@ -282,7 +279,6 @@ export async function getOpportunityActivities(opportunityId: string) {
 
     return data;
   } catch (error) {
-    console.error("Error fetching opportunity activities:", error);
     throw error;
   }
 }
@@ -315,7 +311,6 @@ export async function addOpportunityActivity(
 
     return data;
   } catch (error) {
-    console.error("Error adding opportunity activity:", error);
     throw error;
   }
 }

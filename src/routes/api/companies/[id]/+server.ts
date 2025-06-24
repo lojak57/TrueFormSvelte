@@ -1,7 +1,7 @@
+import { updateCompanySchema, validateSchema } from "$lib/schemas/api";
+import { supabaseAdmin } from "$lib/supabaseAdmin";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { supabaseAdmin } from "$lib/supabaseAdmin";
-import { updateCompanySchema, validateSchema } from "$lib/schemas/api";
 
 export const GET: RequestHandler = async ({ params, request, locals }) => {
   // 🔒 SECURE: Require authentication for detailed company data
@@ -66,7 +66,6 @@ export const GET: RequestHandler = async ({ params, request, locals }) => {
 
     return json(companyWithRelations);
   } catch (error) {
-    console.error("Error fetching company:", error);
     return json({ error: "Failed to fetch company" }, { status: 500 });
   }
 };
@@ -102,7 +101,6 @@ export const PUT: RequestHandler = async ({ params, request, locals }) => {
 
     return json(company);
   } catch (error) {
-    console.error("Error updating company:", error);
     return json({ error: "Failed to update company" }, { status: 500 });
   }
 };
@@ -115,13 +113,15 @@ export const DELETE: RequestHandler = async ({ params, request, locals }) => {
   try {
     const { id } = params;
 
-    const { error } = await supabaseAdmin.from("tf_companies").delete().eq("id", id);
+    const { error } = await supabaseAdmin
+      .from("tf_companies")
+      .delete()
+      .eq("id", id);
 
     if (error) throw error;
 
     return json({ success: true });
   } catch (error) {
-    console.error("Error deleting company:", error);
     return json({ error: "Failed to delete company" }, { status: 500 });
   }
 };

@@ -65,7 +65,10 @@ export class ServiceEnhancer {
       return `Expert technical guidance. Architecture review, tech recommendations, clear roadmap.`;
     }
 
-    if (serviceName.includes("maintenance") || serviceName.includes("support")) {
+    if (
+      serviceName.includes("maintenance") ||
+      serviceName.includes("support")
+    ) {
       return `Ongoing support and maintenance. Security updates, monitoring, 24/7 peace of mind.`;
     }
 
@@ -87,7 +90,7 @@ export class ServiceEnhancer {
         "Cross-browser testing",
         "Performance optimization",
         "Clean source code",
-        "Documentation"
+        "Documentation",
       ];
     }
 
@@ -99,7 +102,7 @@ export class ServiceEnhancer {
         "Analytics setup",
         "Mobile responsive",
         "SSL certificate",
-        "Training included"
+        "Training included",
       ];
     }
 
@@ -110,7 +113,7 @@ export class ServiceEnhancer {
         "High-fidelity mockups",
         "Interactive prototypes",
         "Design system",
-        "Brand guidelines"
+        "Brand guidelines",
       ];
     }
 
@@ -121,7 +124,7 @@ export class ServiceEnhancer {
         "Authentication system",
         "Data validation",
         "API documentation",
-        "Testing suite"
+        "Testing suite",
       ];
     }
 
@@ -131,7 +134,7 @@ export class ServiceEnhancer {
         "Technology recommendations",
         "Performance audit",
         "Security assessment",
-        "Implementation roadmap"
+        "Implementation roadmap",
       ];
     }
 
@@ -142,7 +145,7 @@ export class ServiceEnhancer {
         "Bug fixes",
         "Backup & recovery",
         "24/7 monitoring",
-        "Monthly reports"
+        "Monthly reports",
       ];
     }
 
@@ -150,7 +153,7 @@ export class ServiceEnhancer {
       "Professional delivery",
       "Quality assurance",
       "Documentation",
-      "Post-launch support"
+      "Post-launch support",
     ];
   }
 

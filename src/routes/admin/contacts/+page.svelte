@@ -6,17 +6,25 @@
 </script>
 
 <div class="contacts-page">
-  <CRMHeader 
-    title="Strategic Contact Directory" 
+  <CRMHeader
+    title="Strategic Contact Directory"
     subtitle="Cultivate and maintain your network of key decision makers and influencers"
     icon={Users}
   >
     <div slot="actions" class="header-actions">
-      <BaseButton variant="outline" href="/admin/contacts/import" class="action-button">
+      <BaseButton
+        variant="outline"
+        href="/admin/contacts/import"
+        class="action-button"
+      >
         <Upload size={16} class="mr-2" />
         Import Directory
       </BaseButton>
-      <BaseButton variant="primary" href="/admin/contacts/create" class="action-button">
+      <BaseButton
+        variant="primary"
+        href="/admin/contacts/create"
+        class="action-button"
+      >
         <Plus size={16} class="mr-2" />
         Register Contact
       </BaseButton>

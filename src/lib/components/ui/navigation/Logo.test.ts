@@ -24,7 +24,14 @@ describe("Logo Component", () => {
     render(Logo);
 
     const logoContainer = screen.getByAltText("TrueForm Logo").parentElement;
-    expect(logoContainer).toHaveClass("h-12", "w-32", "md:h-14", "md:w-40", "lg:h-16", "lg:w-48");
+    expect(logoContainer).toHaveClass(
+      "h-12",
+      "w-32",
+      "md:h-14",
+      "md:w-40",
+      "lg:h-16",
+      "lg:w-48"
+    );
   });
 
   it("applies hover effect classes", () => {

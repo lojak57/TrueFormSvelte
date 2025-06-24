@@ -1,7 +1,7 @@
 <script lang="ts">
   import "../../app.css";
   import "$lib/styles/globals.css";
-  import "$lib/styles/animations.css";
+  import "$lib/styles/essential-animations.css";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { supabase } from "$lib/supabaseClient";
@@ -62,7 +62,8 @@
     display: flex;
     min-height: 100vh;
     background-color: #f9fafb;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+      sans-serif;
   }
 
   .admin-content {
@@ -90,7 +91,7 @@
     .admin-content {
       margin-left: 0;
     }
-    
+
     .admin-main {
       padding: 1rem;
     }

@@ -25,7 +25,6 @@ export const GET: RequestHandler = async ({ params, url }) => {
       .single();
 
     if (proposalError || !proposal) {
-      console.error("Error fetching proposal:", proposalError);
       throw error(404, "Proposal not found");
     }
 
@@ -35,24 +34,23 @@ export const GET: RequestHandler = async ({ params, url }) => {
       try {
         lineItems = JSON.parse(lineItems);
       } catch (e) {
-        console.error("Error parsing line items:", e);
         lineItems = [];
       }
     }
 
     // Ensure line items have proper structure
-    const formattedLineItems = Array.isArray(lineItems) ? lineItems.map(
-      (item: any, index: number) => ({
-        id: item.id || `item-${index}`,
-        name: item.name || "Unnamed Service",
-        description: item.description || "",
-        quantity: parseInt(item.quantity) || 1,
-        unitPrice: parseFloat(item.unitPrice) || 0,
-        total:
-          parseFloat(item.total) ||
-          (parseFloat(item.unitPrice) || 0) * (parseInt(item.quantity) || 1),
-      })
-    ) : [];
+    const formattedLineItems = Array.isArray(lineItems)
+      ? lineItems.map((item: any, index: number) => ({
+          id: item.id || `item-${index}`,
+          name: item.name || "Unnamed Service",
+          description: item.description || "",
+          quantity: parseInt(item.quantity) || 1,
+          unitPrice: parseFloat(item.unitPrice) || 0,
+          total:
+            parseFloat(item.total) ||
+            (parseFloat(item.unitPrice) || 0) * (parseInt(item.quantity) || 1),
+        }))
+      : [];
 
     // Build the simplified PDF data structure
     const pdfData = {
@@ -75,7 +73,10 @@ export const GET: RequestHandler = async ({ params, url }) => {
 
     // Generate filename
     const companyName = (proposal.company as any)?.name || "unnamed";
-    const filename = `proposal-${companyName.replace(/[^a-zA-Z0-9]/g, "-")}-${proposalId.slice(-8)}.pdf`;
+    const filename = `proposal-${companyName.replace(
+      /[^a-zA-Z0-9]/g,
+      "-"
+    )}-${proposalId.slice(-8)}.pdf`;
 
     // Return HTML for now (browser can print to PDF)
     return new Response(htmlContent, {
@@ -87,8 +88,6 @@ export const GET: RequestHandler = async ({ params, url }) => {
       },
     });
   } catch (err) {
-    console.error("Error generating PDF:", err);
-
     if (err instanceof Error && err.message.includes("not found")) {
       throw error(404, "Proposal not found");
     }
@@ -134,18 +133,18 @@ export const POST: RequestHandler = async ({ params, request }) => {
       }
     }
 
-    const formattedLineItems = Array.isArray(lineItems) ? lineItems.map(
-      (item: any, index: number) => ({
-        id: item.id || `item-${index}`,
-        name: item.name || "Unnamed Service",
-        description: item.description || "",
-        quantity: parseInt(item.quantity) || 1,
-        unitPrice: parseFloat(item.unitPrice) || 0,
-        total:
-          parseFloat(item.total) ||
-          (parseFloat(item.unitPrice) || 0) * (parseInt(item.quantity) || 1),
-      })
-    ) : [];
+    const formattedLineItems = Array.isArray(lineItems)
+      ? lineItems.map((item: any, index: number) => ({
+          id: item.id || `item-${index}`,
+          name: item.name || "Unnamed Service",
+          description: item.description || "",
+          quantity: parseInt(item.quantity) || 1,
+          unitPrice: parseFloat(item.unitPrice) || 0,
+          total:
+            parseFloat(item.total) ||
+            (parseFloat(item.unitPrice) || 0) * (parseInt(item.quantity) || 1),
+        }))
+      : [];
 
     const pdfData = {
       proposal: {
@@ -174,7 +173,6 @@ export const POST: RequestHandler = async ({ params, request }) => {
       },
     });
   } catch (err) {
-    console.error("Error generating custom PDF:", err);
     throw error(500, "Failed to generate PDF");
   }
 };

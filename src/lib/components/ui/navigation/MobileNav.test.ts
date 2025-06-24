@@ -24,9 +24,7 @@ describe("MobileNav Component", () => {
       label: "Services",
       href: "/services",
       isActive: false,
-      children: [
-        { label: "Marketing", href: "/services/marketing" },
-      ],
+      children: [{ label: "Marketing", href: "/services/marketing" }],
     },
     {
       label: "Contact",

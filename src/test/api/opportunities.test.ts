@@ -1,6 +1,6 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-import { GET, POST, PATCH } from "../../routes/api/opportunities/+server";
 import type { RequestEvent } from "@sveltejs/kit";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { GET, PATCH, POST } from "../../routes/api/opportunities/+server";
 
 // Mock the TrueForm API functions
 const mockCreateTrueFormOpportunity = vi.fn();
@@ -116,7 +116,14 @@ describe("/api/opportunities", () => {
       contactRole: "CTO",
       projectDescription: "Complete digital transformation",
       websiteType: "E-commerce",
-      coreFeatures: ["contact", "gallery", "seo", "analytics", "payment", "booking"],
+      coreFeatures: [
+        "contact",
+        "gallery",
+        "seo",
+        "analytics",
+        "payment",
+        "booking",
+      ],
       colorPalette: "modern",
       designMood: ["clean", "professional"],
       brandingAssets: { hasBrandAssets: "yes" },
@@ -124,7 +131,7 @@ describe("/api/opportunities", () => {
       industry: "Technology",
       targetAudience: "B2B clients",
       primaryGoals: ["increase-sales", "improve-branding"],
-      
+
       // Lead qualification data
       decisionAuthority: "decision_maker",
       budgetContext: "budget_approved",
@@ -176,7 +183,7 @@ describe("/api/opportunities", () => {
         lead_score: 90,
         lead_priority: "CRITICAL",
       });
-      
+
       // Verify the lead scoring calculation
       const callArgs = mockCreateTrueFormOpportunity.mock.calls[0][0];
       expect(callArgs.leadScore).toBeGreaterThan(80); // High score expected
@@ -196,11 +203,14 @@ describe("/api/opportunities", () => {
         coreFeatures: ["contact", "gallery"], // Fewer features
       };
 
-      const lowPriorityRequest = new Request("http://localhost/api/opportunities", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(lowPriorityData),
-      });
+      const lowPriorityRequest = new Request(
+        "http://localhost/api/opportunities",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(lowPriorityData),
+        }
+      );
 
       const mockResult = {
         opportunity: { id: "opp-4", lead_score: 45, lead_priority: "LOW" },
@@ -218,7 +228,7 @@ describe("/api/opportunities", () => {
       const data = await response.json();
 
       expect(response.status).toBe(200);
-      
+
       const callArgs = mockCreateTrueFormOpportunity.mock.calls[0][0];
       expect(callArgs.leadScore).toBeLessThan(60); // Low score expected
       expect(callArgs.leadPriority).toBe("LOW");
@@ -230,11 +240,14 @@ describe("/api/opportunities", () => {
         coreFeatures: ["contact", "gallery", "seo", "mobile"], // mobile = enterprise
       };
 
-      const enterpriseRequest = new Request("http://localhost/api/opportunities", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(enterpriseData),
-      });
+      const enterpriseRequest = new Request(
+        "http://localhost/api/opportunities",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(enterpriseData),
+        }
+      );
 
       const mockResult = {
         opportunity: { id: "opp-5", lead_score: 88 },
@@ -253,7 +266,7 @@ describe("/api/opportunities", () => {
 
       expect(response.status).toBe(200);
       expect(data.message).toContain("enterprise project");
-      
+
       const callArgs = mockCreateTrueFormOpportunity.mock.calls[0][0];
       expect(callArgs.budgetRange).toBe("Custom Quote");
       expect(callArgs.planType).toBe("enterprise");
@@ -262,15 +275,25 @@ describe("/api/opportunities", () => {
     it("should calculate pricing correctly for standard features", async () => {
       const standardData = {
         ...validOpportunityData,
-        coreFeatures: ["contact", "gallery", "seo", "analytics", "blog", "payment"],
+        coreFeatures: [
+          "contact",
+          "gallery",
+          "seo",
+          "analytics",
+          "blog",
+          "payment",
+        ],
         timeline: "ASAP", // Should add rush delivery cost
       };
 
-      const standardRequest = new Request("http://localhost/api/opportunities", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(standardData),
-      });
+      const standardRequest = new Request(
+        "http://localhost/api/opportunities",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(standardData),
+        }
+      );
 
       const mockResult = {
         opportunity: { id: "opp-6" },
@@ -288,7 +311,7 @@ describe("/api/opportunities", () => {
       const data = await response.json();
 
       expect(response.status).toBe(200);
-      
+
       // Verify pricing calculation in summary
       expect(data.summary.pricing.isEnterprise).toBe(false);
       expect(data.summary.pricing.totalPrice).toBeGreaterThan(999); // Base price + add-ons
@@ -307,11 +330,14 @@ describe("/api/opportunities", () => {
         // Missing many required fields
       };
 
-      const incompleteRequest = new Request("http://localhost/api/opportunities", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(incompleteData),
-      });
+      const incompleteRequest = new Request(
+        "http://localhost/api/opportunities",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(incompleteData),
+        }
+      );
 
       const event = {
         request: incompleteRequest,
@@ -323,7 +349,7 @@ describe("/api/opportunities", () => {
 
       // Should still succeed but with default scoring
       expect(response.status).toBe(200);
-      
+
       const callArgs = mockCreateTrueFormOpportunity.mock.calls[0][0];
       expect(callArgs.leadScore).toBe(50); // Base score when no qualification data
     });
@@ -473,11 +499,14 @@ describe("/api/opportunities", () => {
         status: "contacted",
       };
 
-      const requestWithoutNotes = new Request("http://localhost/api/opportunities", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataWithoutNotes),
-      });
+      const requestWithoutNotes = new Request(
+        "http://localhost/api/opportunities",
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dataWithoutNotes),
+        }
+      );
 
       const mockResult = {
         opportunity: {

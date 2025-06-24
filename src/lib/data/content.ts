@@ -1,4 +1,12 @@
-import { Award, Globe, Palette, Shield, Users, Zap, Settings } from "lucide-svelte";
+import {
+  Award,
+  Globe,
+  Palette,
+  Settings,
+  Shield,
+  Users,
+  Zap,
+} from "lucide-svelte";
 import type { ComponentType } from "svelte";
 
 // Type definitions for content structure
@@ -10,7 +18,6 @@ export interface Feature {
   category: string;
   colorScheme: string;
 }
-
 
 export interface PricingTier {
   id: string;
@@ -91,8 +98,6 @@ export const FEATURES_DATA: Feature[] = [
     colorScheme: "text-orange-600 bg-orange-100",
   },
 ];
-
-
 
 // Pricing data
 export const PRICING_DATA: PricingTier[] = [

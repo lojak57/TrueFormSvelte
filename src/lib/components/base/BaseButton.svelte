@@ -8,7 +8,7 @@
   export let type: "button" | "submit" | "reset" = "button";
   export let fullWidth: boolean = false;
   export let icon: boolean = false; // For icon-only buttons
-  
+
   // Allow custom CSS classes
   let className: string = "";
   export { className as class };

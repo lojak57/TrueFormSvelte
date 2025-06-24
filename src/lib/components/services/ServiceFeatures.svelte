@@ -5,7 +5,8 @@
 
   export let features: ServiceFeature[];
   export let title: string = "What Makes This Special";
-  export let description: string = "Every detail is designed to deliver exceptional results for your business.";
+  export let description: string =
+    "Every detail is designed to deliver exceptional results for your business.";
 </script>
 
 <section class="py-20 bg-gray-50">
@@ -25,15 +26,23 @@
         <!-- Features Grid -->
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {#each features as feature, i}
-            <div 
+            <div
               class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
-              in:fly={{ y: 50, duration: 600, delay: 200 + (i * 100) }}
+              in:fly={{ y: 50, duration: 600, delay: 200 + i * 100 }}
             >
               <div class="flex items-center mb-6">
-                <div class="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center mr-4">
-                  <svelte:component this={feature.icon} size={24} class="text-accent-600" />
+                <div
+                  class="w-12 h-12 bg-accent-100 rounded-xl flex items-center justify-center mr-4"
+                >
+                  <svelte:component
+                    this={feature.icon}
+                    size={24}
+                    class="text-accent-600"
+                  />
                 </div>
-                <h3 class="text-xl font-semibold text-gray-900">{feature.title}</h3>
+                <h3 class="text-xl font-semibold text-gray-900">
+                  {feature.title}
+                </h3>
               </div>
               <p class="text-gray-600 leading-relaxed">{feature.description}</p>
             </div>
@@ -41,7 +50,10 @@
         </div>
 
         <!-- Bottom Stats -->
-        <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center" in:fly={{ y: 40, duration: 600, delay: 800 }}>
+        <div
+          class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+          in:fly={{ y: 40, duration: 600, delay: 800 }}
+        >
           <div class="bg-white p-6 rounded-xl shadow-md">
             <div class="text-3xl font-bold text-accent-600 mb-2">7 Days</div>
             <div class="text-gray-600">Average Delivery</div>

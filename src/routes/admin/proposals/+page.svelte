@@ -2,7 +2,14 @@
   import { onMount } from "svelte";
   import type { Proposal } from "$lib/types";
   import CRMHeader from "$lib/components/ui/CRMHeader.svelte";
-  import { FileText, Plus, Building2, Download, ChevronRight, Calendar } from "lucide-svelte";
+  import {
+    FileText,
+    Plus,
+    Building2,
+    Download,
+    ChevronRight,
+    Calendar,
+  } from "lucide-svelte";
 
   let proposals: Proposal[] = [];
   let loading = true;
@@ -18,16 +25,9 @@
       const response = await fetch("/api/proposals");
       if (response.ok) {
         const data = await response.json();
-        console.log("Proposals API response:", data);
         // Ensure we always have an array
         proposals = Array.isArray(data) ? data : data.proposals || [];
-        console.log("Final proposals array:", proposals);
       } else {
-        console.log(
-          "API response not OK:",
-          response.status,
-          response.statusText
-        );
         // If API doesn't exist yet, show empty state
         proposals = [];
       }
@@ -145,8 +145,8 @@
 </svelte:head>
 
 <div class="proposals-page">
-  <CRMHeader 
-    title="Strategic Proposals Portfolio" 
+  <CRMHeader
+    title="Strategic Proposals Portfolio"
     subtitle="Craft and oversee high-value client engagements with sophistication"
     icon={FileText}
   >
@@ -307,7 +307,10 @@
                     class="flex items-center gap-1.5 text-blue-600 text-xs font-medium"
                   >
                     <span>View Details</span>
-                    <ChevronRight size={16} class="transform group-hover:translate-x-0.5 transition-transform" />
+                    <ChevronRight
+                      size={16}
+                      class="transform group-hover:translate-x-0.5 transition-transform"
+                    />
                   </div>
                 </div>
               </div>

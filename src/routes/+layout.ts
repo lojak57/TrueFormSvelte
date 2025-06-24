@@ -25,7 +25,11 @@ export const load: LayoutLoad = async ({ url }) => {
 
   // Route guard: redirect to login if accessing admin routes without session
   // But don't redirect if we're already on the login page to prevent loops
-  if (url.pathname.startsWith("/admin") && !session && url.pathname !== "/login") {
+  if (
+    url.pathname.startsWith("/admin") &&
+    !session &&
+    url.pathname !== "/login"
+  ) {
     throw redirect(303, "/login");
   }
 

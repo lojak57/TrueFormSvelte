@@ -1,8 +1,8 @@
-import { json } from "@sveltejs/kit";
-import type { RequestHandler } from "./$types";
-import { z } from 'zod';
 import { supabaseAdmin } from "$lib/supabaseAdmin";
-import { rateLimiters, createRateLimitResponse } from "$lib/utils/rateLimit";
+import { createRateLimitResponse, rateLimiters } from "$lib/utils/rateLimit";
+import { json } from "@sveltejs/kit";
+import { z } from "zod";
+import type { RequestHandler } from "./$types";
 
 // Schema for validating the incoming request body for creating a proposal
 const createProposalRequestSchema = z.object({
@@ -10,12 +10,16 @@ const createProposalRequestSchema = z.object({
   company_id: z.string().uuid("Invalid company ID"),
   contact_id: z.string().uuid("Invalid contact ID").optional(),
   tax_rate: z.number().min(0).max(1).optional().default(0),
-  line_items: z.array(z.object({
-    name: z.string().min(1, "Line item name is required"),
-    description: z.string().optional(),
-    quantity: z.number().min(1, "Quantity must be at least 1"),
-    unitPrice: z.number().min(0, "Unit price must be non-negative"),
-  })).min(1, "At least one line item is required"),
+  line_items: z
+    .array(
+      z.object({
+        name: z.string().min(1, "Line item name is required"),
+        description: z.string().optional(),
+        quantity: z.number().min(1, "Quantity must be at least 1"),
+        unitPrice: z.number().min(0, "Unit price must be non-negative"),
+      })
+    )
+    .min(1, "At least one line item is required"),
   notes: z.string().optional(),
 });
 
@@ -32,13 +36,11 @@ export const GET: RequestHandler = async ({ request, locals }) => {
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.error("Error fetching proposals:", error);
       return json({ error: "Failed to fetch proposals" }, { status: 500 });
     }
 
     return json(proposals || []);
   } catch (error) {
-    console.error("Error fetching proposals:", error);
     return json({ error: "Failed to fetch proposals" }, { status: 500 });
   }
 };
@@ -55,13 +57,19 @@ export const POST: RequestHandler = async ({ request, locals }) => {
     // ✅ VALIDATE: Use Zod to validate the request body
     const validationResult = createProposalRequestSchema.safeParse(requestData);
     if (!validationResult.success) {
-      return json({ error: "Invalid input", details: validationResult.error.flatten() }, { status: 400 });
+      return json(
+        { error: "Invalid input", details: validationResult.error.flatten() },
+        { status: 400 }
+      );
     }
 
     const { line_items, tax_rate, ...restOfProposal } = validationResult.data;
 
     // 💰 CALCULATE: Server-side calculation of totals
-    const subtotal = line_items.reduce((sum, item) => sum + item.quantity * item.unitPrice, 0);
+    const subtotal = line_items.reduce(
+      (sum, item) => sum + item.quantity * item.unitPrice,
+      0
+    );
     const tax = subtotal * tax_rate;
     const total = subtotal + tax;
 
@@ -83,13 +91,14 @@ export const POST: RequestHandler = async ({ request, locals }) => {
       .single();
 
     if (error) {
-      console.error("Supabase error creating proposal:", error);
-      return json({ error: "Failed to create proposal", details: error.message }, { status: 500 });
+      return json(
+        { error: "Failed to create proposal", details: error.message },
+        { status: 500 }
+      );
     }
 
     return json(proposal, { status: 201 });
   } catch (error) {
-    console.error("Unhandled error creating proposal:", error);
     return json({ error: "An unexpected error occurred" }, { status: 500 });
   }
 };

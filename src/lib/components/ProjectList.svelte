@@ -14,7 +14,7 @@
   let filteredProjects: Project[] = [];
   let error: string | null = null;
   let selectedProject: Project | null = null;
-  
+
   // Filter state
   let searchTerm = "";
   let statusFilter = "all";
@@ -27,7 +27,7 @@
     try {
       [projects, companies] = await Promise.all([
         projectService.getProjects(companyId),
-        companyService.getCompanies()
+        companyService.getCompanies(),
       ]);
       applyFilters();
     } catch (e: unknown) {
@@ -48,43 +48,59 @@
   }
 
   function getCompanyForProject(project: Project): Company | undefined {
-    return companies.find(c => c.id === project.company_id);
+    return companies.find((c) => c.id === project.company_id);
   }
 
   function isWizardSubmission(project: Project): boolean {
-    return project.description?.includes('Conversational Wizard') || 
-           project.project_type === 'website' ||
-           project.status === 'lead';
+    return (
+      project.description?.includes("Conversational Wizard") ||
+      (project.project_type === "website" && project.status === "lead")
+    );
+  }
+
+  function isWeKnowCoLead(project: Project): boolean {
+    return (
+      project.description?.includes("WeKnowCo Marketing Platform") ||
+      project.project_type === "marketing" ||
+      project.name?.includes("Marketing Lead")
+    );
   }
 
   function applyFilters() {
     let filtered = projects;
-    
+
     // Apply search filter
     if (searchTerm.trim()) {
       const search = searchTerm.toLowerCase();
-      filtered = filtered.filter(project => 
-        project.name.toLowerCase().includes(search) ||
-        project.description?.toLowerCase().includes(search) ||
-        getCompanyForProject(project)?.name.toLowerCase().includes(search)
+      filtered = filtered.filter(
+        (project) =>
+          project.name.toLowerCase().includes(search) ||
+          project.description?.toLowerCase().includes(search) ||
+          getCompanyForProject(project)?.name.toLowerCase().includes(search)
       );
     }
-    
+
     // Apply status filter
     if (statusFilter !== "all") {
-      filtered = filtered.filter(project => project.status === statusFilter);
+      filtered = filtered.filter((project) => project.status === statusFilter);
     }
-    
+
     // Apply type filter
     if (projectTypeFilter !== "all") {
-      filtered = filtered.filter(project => project.project_type === projectTypeFilter);
+      filtered = filtered.filter(
+        (project) => project.project_type === projectTypeFilter
+      );
     }
-    
+
     filteredProjects = filtered;
   }
 
   function handleFilterChange(event: CustomEvent) {
-    const { searchTerm: newSearch, statusFilter: newStatus, projectTypeFilter: newType } = event.detail;
+    const {
+      searchTerm: newSearch,
+      statusFilter: newStatus,
+      projectTypeFilter: newType,
+    } = event.detail;
     searchTerm = newSearch;
     statusFilter = newStatus;
     projectTypeFilter = newType;
@@ -100,15 +116,19 @@
   }
 
   function convertToOpportunity(project: Project) {
-    console.log('Converting to opportunity:', project);
-    // TODO: Implement opportunity conversion logic
-    alert('Converting to opportunity - feature coming soon!');
+    // Implementation coming soon - redirect to opportunities page
     closeModal();
+    // Could redirect to: `/admin/opportunities/create?project=${project.id}`
   }
 
-  // Separate projects into leads and regular projects
-  $: leads = filteredProjects.filter(p => isWizardSubmission(p));
-  $: regularProjects = filteredProjects.filter(p => !isWizardSubmission(p));
+  // Separate projects into different types
+  $: trueFormLeads = filteredProjects.filter(
+    (p) => isWizardSubmission(p) && !isWeKnowCoLead(p)
+  );
+  $: weKnowCoLeads = filteredProjects.filter((p) => isWeKnowCoLead(p));
+  $: regularProjects = filteredProjects.filter(
+    (p) => !isWizardSubmission(p) && !isWeKnowCoLead(p)
+  );
 </script>
 
 <div class="project-list">
@@ -121,19 +141,40 @@
   <!-- Filters -->
   <ProjectFilters on:filter={handleFilterChange} />
 
-  <!-- Leads Section -->
-  {#if leads.length > 0}
+  <!-- TrueForm Website Leads Section -->
+  {#if trueFormLeads.length > 0}
     <section class="leads-section">
       <div class="section-header">
-        <h2 class="section-title">🎯 New Leads</h2>
-        <span class="lead-count">{leads.length}</span>
+        <h2 class="section-title">🎯 TrueForm Website Leads</h2>
+        <span class="lead-count">{trueFormLeads.length}</span>
       </div>
       <div class="project-grid">
-        {#each leads as project}
+        {#each trueFormLeads as project}
           <ProjectCard
             {project}
             company={getCompanyForProject(project)}
             isWizardSubmission={true}
+            onClick={() => showProjectDetails(project)}
+            onConvert={() => convertToOpportunity(project)}
+          />
+        {/each}
+      </div>
+    </section>
+  {/if}
+
+  <!-- WeKnowCo Marketing Leads Section -->
+  {#if weKnowCoLeads.length > 0}
+    <section class="weknowco-leads-section">
+      <div class="section-header">
+        <h2 class="section-title">🚀 WeKnowCo Marketing Leads</h2>
+        <span class="weknowco-count">{weKnowCoLeads.length}</span>
+      </div>
+      <div class="project-grid">
+        {#each weKnowCoLeads as project}
+          <ProjectCard
+            {project}
+            company={getCompanyForProject(project)}
+            isWizardSubmission={false}
             onClick={() => showProjectDetails(project)}
             onConvert={() => convertToOpportunity(project)}
           />
@@ -175,7 +216,9 @@
 <ProjectModal
   project={selectedProject}
   company={selectedProject ? getCompanyForProject(selectedProject) : undefined}
-  isWizardSubmission={selectedProject ? isWizardSubmission(selectedProject) : false}
+  isWizardSubmission={selectedProject
+    ? isWizardSubmission(selectedProject)
+    : false}
   on:close={closeModal}
   on:convert={(event) => convertToOpportunity(event.detail)}
 />
@@ -201,6 +244,7 @@
   }
 
   .leads-section,
+  .weknowco-leads-section,
   .projects-section {
     margin-bottom: 2rem;
   }
@@ -222,6 +266,7 @@
   }
 
   .lead-count,
+  .weknowco-count,
   .project-count {
     background: #3b82f6;
     color: white;
@@ -229,6 +274,10 @@
     border-radius: 1rem;
     font-weight: 600;
     font-size: 0.875rem;
+  }
+
+  .weknowco-count {
+    background: #10b981;
   }
 
   .project-grid {

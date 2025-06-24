@@ -47,8 +47,6 @@ export class CompanyService {
       vertical_id: dto.vertical_id || null,
     };
 
-    console.log("Inserting company data:", companyData);
-
     const { data, error } = await this.supabase
       .from("tf_companies")
       .insert(companyData)
@@ -56,7 +54,6 @@ export class CompanyService {
       .single();
 
     if (error) {
-      console.error("Supabase error:", error);
       throw new Error(error.message);
     }
     return data;

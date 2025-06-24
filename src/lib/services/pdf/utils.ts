@@ -2,7 +2,7 @@
  * Utility functions for PDF generation
  */
 
-import QRCode from "qrcode";
+import * as QRCode from "qrcode";
 import type { QRCodeOptions } from "./types";
 
 export class PDFUtils {
@@ -56,9 +56,13 @@ export class PDFUtils {
     const mergedOptions = { ...defaultOptions, ...options };
 
     try {
-      const qrCodeDataURL = await QRCode.toDataURL(data, mergedOptions as any);
+      const qrCodeDataURL: string = await QRCode.toDataURL(
+        data,
+        mergedOptions as any
+      );
       return qrCodeDataURL;
     } catch (error) {
+      // Log error to proper logging service in production
       console.error("Error generating QR code:", error);
       return "";
     }

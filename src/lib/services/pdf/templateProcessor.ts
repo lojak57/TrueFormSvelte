@@ -66,7 +66,7 @@ export class TemplateProcessor {
     // Keep processing until no more loops are found
     while (loopFound) {
       const originalHtml = processedHtml;
-      
+
       // Find and process the innermost loops first
       processedHtml = processedHtml.replace(
         /{{#each\s+(\w+(?:\.\w+)*)}}([\s\S]*?){{\/each}}/,
@@ -99,7 +99,7 @@ export class TemplateProcessor {
     // Replace variables within the loop
     itemHtml = itemHtml.replace(/{{(\w+(?:\.\w+)*)}}/g, (match, prop) => {
       // Handle "this" keyword for simple arrays
-      if (prop === 'this') {
+      if (prop === "this") {
         return String(item);
       }
 
@@ -108,7 +108,7 @@ export class TemplateProcessor {
         const value = this.getNestedValue(item, prop);
         return value !== undefined ? String(value) : "";
       }
-      
+
       const value = item[prop];
       return value !== undefined ? String(value) : "";
     });
@@ -230,11 +230,11 @@ export class TemplateProcessor {
     // Clean up any remaining template artifacts and comments
     html = html.replace(/<!--[^>]*-->/g, "");
     html = html.replace(/{{[^}]*}}/g, ""); // Remove any unprocessed variables
-    
+
     // Clean up multiple spaces while preserving intentional formatting
     html = html.replace(/[ \t]+/g, " ");
     html = html.replace(/\n\s*\n/g, "\n");
-    
+
     // Remove empty lines and excessive whitespace around HTML tags
     html = html.replace(/>\s+</g, "><");
     html = html.replace(/^\s+|\s+$/gm, "");

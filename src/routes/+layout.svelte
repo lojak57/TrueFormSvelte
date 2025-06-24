@@ -1,7 +1,7 @@
 <script lang="ts">
   import "../app.css";
   import "$lib/styles/globals.css";
-  import "$lib/styles/animations.css";
+  import "$lib/styles/essential-animations.css";
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { supabase } from "$lib/supabaseClient";
@@ -42,11 +42,10 @@
 
     return () => subscription.unsubscribe();
   });
-
 </script>
 
 <!-- Conditional layout based on subdomain and admin routes -->
-{#if data?.isCRMSubdomain || $page.url.pathname.startsWith('/admin')}
+{#if data?.isCRMSubdomain || $page.url.pathname.startsWith("/admin")}
   <!-- CRM/Admin: No marketing layout -->
   <slot />
 {:else}
@@ -213,5 +212,4 @@
   :global(*) {
     box-sizing: border-box;
   }
-
 </style>

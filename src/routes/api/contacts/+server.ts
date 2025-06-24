@@ -1,7 +1,11 @@
+import {
+  companyFilterSchema,
+  createContactSchema,
+  validateSchema,
+} from "$lib/schemas/api";
+import { supabaseAdmin } from "$lib/supabaseAdmin";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { supabaseAdmin } from "$lib/supabaseAdmin";
-import { createContactSchema, companyFilterSchema, validateSchema } from "$lib/schemas/api";
 
 export const GET: RequestHandler = async ({ url, request, locals }) => {
   // 🔒 SECURE: Require authentication for contact data
@@ -18,7 +22,7 @@ export const GET: RequestHandler = async ({ url, request, locals }) => {
     if (!validation.success) {
       return json({ error: validation.error }, { status: 400 });
     }
-    
+
     const { company_id: companyId, vertical_id: verticalId } = validation.data;
 
     let query = supabaseAdmin
@@ -40,7 +44,6 @@ export const GET: RequestHandler = async ({ url, request, locals }) => {
 
     return json(contacts || []);
   } catch (error) {
-    console.error("Error fetching contacts:", error);
     return json({ error: "Failed to fetch contacts" }, { status: 500 });
   }
 };
@@ -71,7 +74,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
     return json(contact, { status: 201 });
   } catch (error) {
-    console.error("Error creating contact:", error);
     return json({ error: "Failed to create contact" }, { status: 500 });
   }
 };

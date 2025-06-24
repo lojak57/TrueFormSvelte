@@ -1,4 +1,4 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // Simple test focusing on the authentication and validation logic
 describe("API Authentication & Validation", () => {
@@ -10,7 +10,7 @@ describe("API Authentication & Validation", () => {
     it("should check for user in locals.user", () => {
       const mockLocals = { user: { id: "user-1", email: "test@example.com" } };
       const emptyLocals = { user: null };
-      
+
       expect(mockLocals.user).toBeTruthy();
       expect(mockLocals.user.id).toBe("user-1");
       expect(emptyLocals.user).toBeFalsy();
@@ -19,9 +19,9 @@ describe("API Authentication & Validation", () => {
     it("should return 401 for unauthenticated requests", () => {
       const unauthorizedResponse = {
         status: 401,
-        body: { error: "Unauthorized" }
+        body: { error: "Unauthorized" },
       };
-      
+
       expect(unauthorizedResponse.status).toBe(401);
       expect(unauthorizedResponse.body.error).toBe("Unauthorized");
     });
@@ -35,18 +35,18 @@ describe("API Authentication & Validation", () => {
         phone: "555-0123",
         website: "https://company.com",
         address: "123 Main St",
-        vertical_id: "vertical-1"
+        vertical_id: "vertical-1",
       };
 
       const invalidCompany = {
         // missing name and email
-        phone: "555-0123"
+        phone: "555-0123",
       };
 
       expect(validCompany).toHaveProperty("name");
       expect(validCompany).toHaveProperty("email");
       expect(validCompany.email).toMatch(/^[^\s@]+@[^\s@]+\.[^\s@]+$/);
-      
+
       expect(invalidCompany).not.toHaveProperty("name");
       expect(invalidCompany).not.toHaveProperty("email");
     });
@@ -58,7 +58,7 @@ describe("API Authentication & Validation", () => {
         phone: "555-0456",
         company_id: "company-1",
         position: "Manager",
-        notes: "Key contact"
+        notes: "Key contact",
       };
 
       expect(validContact).toHaveProperty("name");
@@ -78,9 +78,9 @@ describe("API Authentication & Validation", () => {
             name: "Design",
             description: "Website design",
             quantity: 1,
-            unit_price: 5000
-          }
-        ]
+            unit_price: 5000,
+          },
+        ],
       };
 
       expect(validProposal).toHaveProperty("title");
@@ -97,26 +97,26 @@ describe("API Authentication & Validation", () => {
     it("should have consistent error response format", () => {
       const validationError = {
         error: "Invalid email format",
-        status: 400
+        status: 400,
       };
 
       const authError = {
-        error: "Unauthorized", 
-        status: 401
+        error: "Unauthorized",
+        status: 401,
       };
 
       const serverError = {
         error: "Failed to fetch companies",
         details: "Database connection error",
-        status: 500
+        status: 500,
       };
 
       expect(validationError).toHaveProperty("error");
       expect(validationError.status).toBe(400);
-      
+
       expect(authError).toHaveProperty("error");
       expect(authError.status).toBe(401);
-      
+
       expect(serverError).toHaveProperty("error");
       expect(serverError).toHaveProperty("details");
       expect(serverError.status).toBe(500);
@@ -129,7 +129,7 @@ describe("API Authentication & Validation", () => {
         authorization: "Insufficient permissions",
         database: "Database operation failed",
         network: "External service unavailable",
-        rateLimit: "Rate limit exceeded"
+        rateLimit: "Rate limit exceeded",
       };
 
       expect(errorTypes.validation).toContain("validation");
@@ -145,8 +145,8 @@ describe("API Authentication & Validation", () => {
         admin: {
           windowMs: 15 * 60 * 1000, // 15 minutes
           maxRequests: 1000,
-          message: "Too many requests"
-        }
+          message: "Too many requests",
+        },
       };
 
       expect(rateLimitConfig.admin.windowMs).toBe(900000); // 15 minutes in ms
@@ -158,9 +158,9 @@ describe("API Authentication & Validation", () => {
       const rateLimitResponse = {
         status: 429,
         headers: {
-          "Retry-After": "60"
+          "Retry-After": "60",
         },
-        body: "Rate limit exceeded"
+        body: "Rate limit exceeded",
       };
 
       expect(rateLimitResponse.status).toBe(429);
@@ -176,19 +176,19 @@ describe("API Authentication & Validation", () => {
         table: "tf_companies",
         operation: "select",
         filters: { id: "$1" }, // Parameterized
-        parameters: ["company-123"]
+        parameters: ["company-123"],
       };
 
       const unsafeQuery = {
-        table: "tf_companies", 
+        table: "tf_companies",
         operation: "select",
-        filters: "id = 'company-123'" // Direct string interpolation - BAD
+        filters: "id = 'company-123'", // Direct string interpolation - BAD
       };
 
       expect(safeQuery.parameters).toBeDefined();
       expect(Array.isArray(safeQuery.parameters)).toBe(true);
       expect(safeQuery.filters).toBeTypeOf("object");
-      
+
       // Unsafe query should be avoided
       expect(unsafeQuery.filters).toBeTypeOf("string");
     });
@@ -196,8 +196,8 @@ describe("API Authentication & Validation", () => {
     it("should use admin client for privileged operations", () => {
       const clientTypes = {
         anonymous: "For public read operations",
-        authenticated: "For user-specific operations", 
-        admin: "For API routes with full privileges"
+        authenticated: "For user-specific operations",
+        admin: "For API routes with full privileges",
       };
 
       expect(clientTypes.admin).toContain("API routes");
@@ -222,7 +222,7 @@ describe("API Authentication & Validation", () => {
       const createdCompany = {
         id: "company-1",
         name: "New Company",
-        created_at: "2024-01-01T00:00:00Z"
+        created_at: "2024-01-01T00:00:00Z",
       };
 
       expect(createdCompany).toBeTypeOf("object");
@@ -236,7 +236,7 @@ describe("API Authentication & Validation", () => {
         opportunity: { id: "opp-1" },
         contact: { id: "contact-1" },
         summary: { pricing: { total: 5000 } },
-        message: "Success message"
+        message: "Success message",
       };
 
       expect(opportunityResponse).toHaveProperty("success");

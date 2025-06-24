@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 // Company schemas
 export const createCompanySchema = z.object({
@@ -64,7 +64,9 @@ export const createProjectSchema = z.object({
   description: z.string().optional(),
   company_id: z.string().uuid("Invalid company ID"),
   project_type: z.string().max(100),
-  status: z.enum(["planning", "active", "on_hold", "completed", "cancelled"]).default("planning"),
+  status: z
+    .enum(["planning", "active", "on_hold", "completed", "cancelled"])
+    .default("planning"),
   start_date: z.string().datetime().optional(),
   end_date: z.string().datetime().optional(),
   budget: z.number().min(0, "Budget must be non-negative").optional(),
@@ -83,23 +85,31 @@ export const companyFilterSchema = z.object({
   vertical_id: z.string().uuid().optional(),
 });
 
-export const catalogFilterSchema = z.object({
-  category: z.string().optional(),
-  search: z.string().optional(),
-  is_active: z.string().transform(val => val === "true").optional(),
-}).merge(paginationSchema);
+export const catalogFilterSchema = z
+  .object({
+    category: z.string().optional(),
+    search: z.string().optional(),
+    is_active: z
+      .string()
+      .transform((val) => val === "true")
+      .optional(),
+  })
+  .merge(paginationSchema);
 
 // Validation helper
-export function validateSchema<T>(schema: z.ZodSchema<T>, data: unknown): { success: true; data: T } | { success: false; error: string } {
+export function validateSchema<T>(
+  schema: z.ZodSchema<T>,
+  data: unknown
+): { success: true; data: T } | { success: false; error: string } {
   try {
     const result = schema.parse(data);
     return { success: true, data: result };
   } catch (error) {
     if (error instanceof z.ZodError) {
       const firstError = error.errors[0];
-      return { 
-        success: false, 
-        error: `${firstError.path.join('.')}: ${firstError.message}` 
+      return {
+        success: false,
+        error: `${firstError.path.join(".")}: ${firstError.message}`,
       };
     }
     return { success: false, error: "Invalid data format" };

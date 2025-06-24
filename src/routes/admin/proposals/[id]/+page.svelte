@@ -111,9 +111,9 @@
       }
 
       const htmlContent = await response.text();
-      
+
       // Create a new window with the PDF content
-      const printWindow = window.open('', '_blank');
+      const printWindow = window.open("", "_blank");
       if (!printWindow) {
         throw new Error("Please allow popups for this site to download PDFs");
       }
@@ -145,7 +145,7 @@
   <\/script>
 </body>
 </html>`;
-      
+
       printWindow.document.write(htmlDoc);
       printWindow.document.close();
 
@@ -154,7 +154,6 @@
         button.innerHTML = originalText;
         button.disabled = false;
       }, 1000);
-      
     } catch (err) {
       console.error("Error downloading PDF:", err);
       alert("Failed to generate PDF. Please try again.");
@@ -406,9 +405,12 @@
                       <div
                         class="flex items-center gap-4 mt-2 text-sm text-gray-700"
                       >
-                        <span class="text-gray-700 font-medium">Qty: {item.quantity}</span>
+                        <span class="text-gray-700 font-medium"
+                          >Qty: {item.quantity}</span
+                        >
                         <span class="text-gray-500">•</span>
-                        <span class="text-gray-700 font-medium">Unit Price: {formatCurrency(item.unitPrice)}</span
+                        <span class="text-gray-700 font-medium"
+                          >Unit Price: {formatCurrency(item.unitPrice)}</span
                         >
                       </div>
                     </div>
@@ -460,7 +462,9 @@
               </div>
               <div class="flex justify-between">
                 <span class="text-gray-600">Tax ({proposal.tax_rate}%)</span>
-                <span class="font-medium text-gray-900">{formatCurrency(proposal.tax)}</span>
+                <span class="font-medium text-gray-900"
+                  >{formatCurrency(proposal.tax)}</span
+                >
               </div>
               <hr class="border-gray-200" />
               <div class="flex justify-between text-lg">

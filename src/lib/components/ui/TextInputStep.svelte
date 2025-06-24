@@ -66,7 +66,7 @@
         {rows}
         on:keydown={handleKeyDown}
         class="input-field textarea"
-      ></textarea>
+      />
     {:else if inputType === "email"}
       <input
         bind:this={inputElement}

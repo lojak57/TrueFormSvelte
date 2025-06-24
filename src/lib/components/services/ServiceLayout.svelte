@@ -25,17 +25,10 @@
     heroImage={service.heroImage}
     badge={service.badge}
   />
-  
-  <ServiceFeatures
-    features={service.features}
-  />
-  
-  <ServiceMarketing
-    marketingContent={service.marketingContent}
-  />
-  
-  <ServiceCTA
-    title={service.ctaTitle}
-    description={service.ctaDescription}
-  />
+
+  <ServiceFeatures features={service.features} />
+
+  <ServiceMarketing marketingContent={service.marketingContent} />
+
+  <ServiceCTA title={service.ctaTitle} description={service.ctaDescription} />
 </div>

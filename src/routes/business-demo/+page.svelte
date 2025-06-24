@@ -25,6 +25,7 @@
         "Sister organization focused on mobile app development and digital solutions.",
       status: "active",
       created_at: "2024-01-15T10:00:00Z",
+      updated_at: "2024-01-15T10:00:00Z",
     },
     {
       id: "2",
@@ -35,6 +36,7 @@
       billing_state: "AZ",
       status: "active",
       created_at: "2024-02-01T14:30:00Z",
+      updated_at: "2024-02-01T14:30:00Z",
     },
     {
       id: "3",
@@ -44,6 +46,7 @@
       billing_state: "TX",
       status: "pending",
       created_at: "2024-02-15T09:15:00Z",
+      updated_at: "2024-02-15T09:15:00Z",
     },
     {
       id: "4",
@@ -54,6 +57,7 @@
       billing_state: "MA",
       status: "active",
       created_at: "2024-01-20T16:45:00Z",
+      updated_at: "2024-01-20T16:45:00Z",
     },
   ];
 

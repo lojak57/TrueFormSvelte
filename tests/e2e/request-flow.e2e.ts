@@ -187,12 +187,14 @@ test.describe("Project Request Form", () => {
 
     // Should handle error gracefully (show error message or retry option) or show success
     try {
-      await expect(page.locator("text=error, text=try again, text=problem"))
-        .toBeVisible({ timeout: 10000 });
+      await expect(
+        page.locator("text=error, text=try again, text=problem")
+      ).toBeVisible({ timeout: 10000 });
     } catch {
       // If no error message, check for success message
-      await expect(page.locator("text=success, text=submitted"))
-        .toBeVisible({ timeout: 10000 });
+      await expect(page.locator("text=success, text=submitted")).toBeVisible({
+        timeout: 10000,
+      });
     }
   });
 

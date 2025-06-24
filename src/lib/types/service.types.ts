@@ -20,17 +20,17 @@ export interface ServiceData {
   description: string;
   heroImage: string;
   badge?: string;
-  
+
   // Features
   features: ServiceFeature[];
-  
+
   // Marketing Content
   marketingContent: ServiceMarketingSection;
-  
+
   // CTA
   ctaTitle: string;
   ctaDescription: string;
-  
+
   // Meta
   slug: string;
   metaTitle: string;

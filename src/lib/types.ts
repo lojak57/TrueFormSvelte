@@ -145,6 +145,8 @@ export interface Proposal {
   total: number;
   notes?: string;
   status: "draft" | "sent" | "accepted" | "rejected";
+  proposal_number?: string;
+  valid_until?: string;
   created_at: string;
   updated_at: string;
 }
@@ -166,7 +168,13 @@ export interface WizardFormData {
 export interface ServiceTemplate {
   id: string;
   name: string;
-  category: "hosting" | "web-development" | "design" | "marketing" | "consulting" | "maintenance";
+  category:
+    | "hosting"
+    | "web-development"
+    | "design"
+    | "marketing"
+    | "consulting"
+    | "maintenance";
   description: string;
   price: number;
   unit?: string;

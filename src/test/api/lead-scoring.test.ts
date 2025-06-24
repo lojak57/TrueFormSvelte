@@ -2,9 +2,12 @@ import { describe, expect, it } from "vitest";
 
 // Test the lead scoring algorithm logic directly
 describe("Lead Scoring Algorithm", () => {
-  
   // Lead scoring function implementation for testing
-  function calculateLeadScore(data: any): { score: number; priority: string; factors: string[] } {
+  function calculateLeadScore(data: any): {
+    score: number;
+    priority: string;
+    factors: string[];
+  } {
     let score = 50; // Base score
     const factors = [];
 
@@ -152,7 +155,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score decision maker highest", () => {
       const data = { decisionAuthority: "decision_maker" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(75); // 50 base + 25 decision maker
       expect(result.factors).toContain("Decision maker identified");
     });
@@ -160,7 +163,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score influencer moderately", () => {
       const data = { decisionAuthority: "influencer" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(65); // 50 base + 15 influencer
       expect(result.factors).toContain("Key influencer");
     });
@@ -168,7 +171,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score researcher lowest", () => {
       const data = { decisionAuthority: "researcher" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(55); // 50 base + 5 researcher
       expect(result.factors).toContain("Research phase");
     });
@@ -178,7 +181,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score approved budget highest", () => {
       const data = { budgetContext: "budget_approved" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(75); // 50 base + 25 approved
       expect(result.factors).toContain("Budget already approved");
     });
@@ -186,7 +189,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score flexible budget high", () => {
       const data = { budgetContext: "budget_flexible" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(70); // 50 base + 20 flexible
       expect(result.factors).toContain("Flexible budget");
     });
@@ -194,7 +197,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score exploring budget lowest", () => {
       const data = { budgetContext: "budget_exploring" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(55); // 50 base + 5 exploring
       expect(result.factors).toContain("Early exploration");
     });
@@ -204,7 +207,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score urgent deadline highest", () => {
       const data = { projectUrgency: "urgent_deadline" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(75); // 50 base + 25 urgent
       expect(result.factors).toContain("Has specific deadline");
     });
@@ -212,7 +215,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score high priority well", () => {
       const data = { projectUrgency: "high_priority" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(70); // 50 base + 20 high priority
       expect(result.factors).toContain("High priority project");
     });
@@ -222,7 +225,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score losing business highest", () => {
       const data = { currentSituation: "losing_business" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(70); // 50 base + 20 losing business
       expect(result.factors).toContain("Losing business opportunities");
     });
@@ -230,7 +233,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score competitive pressure high", () => {
       const data = { currentSituation: "competitor_pressure" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(68); // 50 base + 18 competitive pressure
       expect(result.factors).toContain("Competitive pressure");
     });
@@ -238,7 +241,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score growth situations well", () => {
       const data = { currentSituation: "growth_phase" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(65); // 50 base + 15 growth
       expect(result.factors).toContain("Growth-driven need");
     });
@@ -248,7 +251,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score first choice highest", () => {
       const data = { competitorContext: "first_choice" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(65); // 50 base + 15 first choice
       expect(result.factors).toContain("We are first choice");
     });
@@ -256,7 +259,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should score referrals well", () => {
       const data = { competitorContext: "referral" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(62); // 50 base + 12 referral
       expect(result.factors).toContain("Came via referral");
     });
@@ -264,31 +267,31 @@ describe("Lead Scoring Algorithm", () => {
 
   describe("Project Complexity Bonuses", () => {
     it("should bonus for complex projects", () => {
-      const data = { 
-        coreFeatures: ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9"] // 9 features
+      const data = {
+        coreFeatures: ["f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9"], // 9 features
       };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(60); // 50 base + 10 complex
       expect(result.factors).toContain("Complex project requirements");
     });
 
     it("should bonus for moderate complexity", () => {
-      const data = { 
-        coreFeatures: ["f1", "f2", "f3", "f4", "f5", "f6"] // 6 features
+      const data = {
+        coreFeatures: ["f1", "f2", "f3", "f4", "f5", "f6"], // 6 features
       };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(55); // 50 base + 5 moderate
       expect(result.factors).toContain("Moderate complexity");
     });
 
     it("should not bonus for simple projects", () => {
-      const data = { 
-        coreFeatures: ["f1", "f2", "f3"] // 3 features
+      const data = {
+        coreFeatures: ["f1", "f2", "f3"], // 3 features
       };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(50); // 50 base + 0 simple
       expect(result.factors).not.toContain("Complex project requirements");
       expect(result.factors).not.toContain("Moderate complexity");
@@ -299,7 +302,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should bonus for ASAP timeline", () => {
       const data = { timeline: "ASAP" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(55); // 50 base + 5 urgent
       expect(result.factors).toContain("Urgent timeline");
     });
@@ -307,7 +310,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should bonus for 1-2 weeks timeline", () => {
       const data = { timeline: "1-2 weeks" };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(55); // 50 base + 5 urgent
       expect(result.factors).toContain("Urgent timeline");
     });
@@ -315,8 +318,8 @@ describe("Lead Scoring Algorithm", () => {
     it("should not bonus for longer timelines", () => {
       const data = { timeline: "3-4 months" };
       const result = calculateLeadScore(data);
-      
-      expect(result.score).toBe(50); // 50 base + 0 
+
+      expect(result.score).toBe(50); // 50 base + 0
       expect(result.factors).not.toContain("Urgent timeline");
     });
   });
@@ -325,50 +328,50 @@ describe("Lead Scoring Algorithm", () => {
     it("should classify high scores as CRITICAL", () => {
       const data = {
         decisionAuthority: "decision_maker", // +25
-        budgetContext: "budget_approved",    // +25  
-        projectUrgency: "urgent_deadline",   // +25
+        budgetContext: "budget_approved", // +25
+        projectUrgency: "urgent_deadline", // +25
         currentSituation: "losing_business", // +20
         // Total: 50 + 25 + 25 + 25 + 20 = 145, capped at 100
       };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(100);
       expect(result.priority).toBe("CRITICAL");
     });
 
     it("should classify mid-high scores as HIGH", () => {
       const data = {
-        decisionAuthority: "influencer",      // +15
-        budgetContext: "budget_flexible",     // +20
-        projectUrgency: "high_priority",      // +20
-        currentSituation: "growth_phase",     // +15
+        decisionAuthority: "influencer", // +15
+        budgetContext: "budget_flexible", // +20
+        projectUrgency: "high_priority", // +20
+        currentSituation: "growth_phase", // +15
         // Total: 50 + 15 + 20 + 20 + 15 = 120, capped at 100
       };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(100);
       expect(result.priority).toBe("CRITICAL");
     });
 
     it("should classify medium scores as MEDIUM", () => {
       const data = {
-        decisionAuthority: "team_decision",   // +10
-        budgetContext: "budget_researching",  // +15
+        decisionAuthority: "team_decision", // +10
+        budgetContext: "budget_researching", // +15
         // Total: 50 + 10 + 15 = 75
       };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(75);
       expect(result.priority).toBe("HIGH");
     });
 
     it("should classify low scores as LOW", () => {
       const data = {
-        decisionAuthority: "researcher",      // +5
+        decisionAuthority: "researcher", // +5
         // Total: 50 + 5 = 55
       };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(55);
       expect(result.priority).toBe("MEDIUM");
     });
@@ -376,7 +379,7 @@ describe("Lead Scoring Algorithm", () => {
     it("should classify base score as LOW", () => {
       const data = {}; // No qualification data
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(50);
       expect(result.priority).toBe("LOW");
     });
@@ -386,15 +389,15 @@ describe("Lead Scoring Algorithm", () => {
     it("should cap score at 100", () => {
       const data = {
         decisionAuthority: "decision_maker",
-        budgetContext: "budget_approved", 
+        budgetContext: "budget_approved",
         projectUrgency: "urgent_deadline",
         currentSituation: "losing_business",
         competitorContext: "first_choice",
         coreFeatures: Array(10).fill("feature"), // Complex project
-        timeline: "ASAP"
+        timeline: "ASAP",
       };
       const result = calculateLeadScore(data);
-      
+
       expect(result.score).toBe(100);
       expect(result.score).toBeLessThanOrEqual(100);
     });
@@ -405,15 +408,25 @@ describe("Lead Scoring Algorithm", () => {
       const perfectLead = {
         decisionAuthority: "decision_maker",
         budgetContext: "budget_approved",
-        projectUrgency: "urgent_deadline", 
+        projectUrgency: "urgent_deadline",
         currentSituation: "losing_business",
         competitorContext: "first_choice",
-        coreFeatures: ["contact", "gallery", "seo", "analytics", "blog", "payment", "booking", "newsletter", "multilang"],
-        timeline: "ASAP"
+        coreFeatures: [
+          "contact",
+          "gallery",
+          "seo",
+          "analytics",
+          "blog",
+          "payment",
+          "booking",
+          "newsletter",
+          "multilang",
+        ],
+        timeline: "ASAP",
       };
-      
+
       const result = calculateLeadScore(perfectLead);
-      
+
       expect(result.score).toBe(100);
       expect(result.priority).toBe("CRITICAL");
       expect(result.factors).toContain("Decision maker identified");
@@ -433,11 +446,11 @@ describe("Lead Scoring Algorithm", () => {
         currentSituation: "modernize",
         competitorContext: "researching",
         coreFeatures: ["contact", "gallery"],
-        timeline: "6+ months"
+        timeline: "6+ months",
       };
-      
+
       const result = calculateLeadScore(poorLead);
-      
+
       expect(result.score).toBe(50 + 5 + 5 + 5 + 10 + 5); // 80
       expect(result.priority).toBe("HIGH"); // Actually scores higher than expected
       expect(result.factors).toContain("Research phase");

@@ -284,14 +284,25 @@
                   {@const percentage =
                     total > 0 ? (item.total / total) * 100 : 0}
                   <div class="breakdown-item">
-                    <div class="flex justify-between items-center text-sm mb-2 md:mb-1">
-                      <span class="truncate pr-2 font-medium text-gray-900">{item.name}</span>
+                    <div
+                      class="flex justify-between items-center text-sm mb-2 md:mb-1"
+                    >
+                      <span class="truncate pr-2 font-medium text-gray-900"
+                        >{item.name}</span
+                      >
                       <div class="flex items-center gap-2">
-                        <span class="font-bold text-primary-600">${item.total.toLocaleString()}</span>
-                        <span class="text-xs bg-gray-100 px-2 py-1 rounded-full font-medium">{percentage.toFixed(1)}%</span>
+                        <span class="font-bold text-primary-600"
+                          >${item.total.toLocaleString()}</span
+                        >
+                        <span
+                          class="text-xs bg-gray-100 px-2 py-1 rounded-full font-medium"
+                          >{percentage.toFixed(1)}%</span
+                        >
                       </div>
                     </div>
-                    <div class="w-full bg-gray-200 rounded-full h-3 md:h-2 overflow-hidden">
+                    <div
+                      class="w-full bg-gray-200 rounded-full h-3 md:h-2 overflow-hidden"
+                    >
                       <div
                         class="bg-gradient-to-r from-primary-500 to-primary-600 h-full rounded-full transition-all duration-700 ease-out"
                         style="width: {percentage}%"
@@ -300,29 +311,53 @@
                   </div>
                 {/each}
               </div>
-              
+
               <!-- Mobile summary stats -->
               <div class="mt-6 pt-4 border-t border-gray-200 block md:hidden">
                 <div class="grid grid-cols-2 gap-4 text-center">
                   <div class="bg-gray-50 rounded-lg p-3">
-                    <div class="text-lg font-bold text-gray-900">{lineItems.length}</div>
-                    <div class="text-xs text-gray-600 font-medium">Services</div>
+                    <div class="text-lg font-bold text-gray-900">
+                      {lineItems.length}
+                    </div>
+                    <div class="text-xs text-gray-600 font-medium">
+                      Services
+                    </div>
                   </div>
                   <div class="bg-primary-50 rounded-lg p-3">
-                    <div class="text-lg font-bold text-primary-600">${total.toLocaleString()}</div>
-                    <div class="text-xs text-primary-700 font-medium">Total</div>
+                    <div class="text-lg font-bold text-primary-600">
+                      ${total.toLocaleString()}
+                    </div>
+                    <div class="text-xs text-primary-700 font-medium">
+                      Total
+                    </div>
                   </div>
                 </div>
               </div>
             {:else}
               <div class="text-center py-8 md:py-4">
-                <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
-                  <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <div
+                  class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center"
+                >
+                  <svg
+                    class="w-8 h-8 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                    />
                   </svg>
                 </div>
-                <p class="text-gray-600 text-sm font-medium">Add services to see breakdown</p>
-                <p class="text-gray-500 text-xs mt-1">Visual chart will appear here</p>
+                <p class="text-gray-600 text-sm font-medium">
+                  Add services to see breakdown
+                </p>
+                <p class="text-gray-500 text-xs mt-1">
+                  Visual chart will appear here
+                </p>
               </div>
             {/if}
           </div>

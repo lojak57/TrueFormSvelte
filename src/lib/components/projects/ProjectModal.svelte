@@ -1,6 +1,14 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { X, Calendar, DollarSign, Building2, Mail, Phone, User } from "lucide-svelte";
+  import {
+    X,
+    Calendar,
+    DollarSign,
+    Building2,
+    Mail,
+    Phone,
+    User,
+  } from "lucide-svelte";
   import type { Project, Company } from "$lib/types";
 
   export let project: Project | null;
@@ -10,32 +18,35 @@
   const dispatch = createEventDispatcher();
 
   function closeModal() {
-    dispatch('close');
+    dispatch("close");
   }
 
   function convertToOpportunity() {
-    dispatch('convert', project);
+    dispatch("convert", project);
   }
 
   function parseWizardData(description: string) {
     try {
-      const lines = description.split('\n');
+      const lines = description.split("\n");
       const data: Record<string, string> = {};
-      
-      lines.forEach(line => {
-        if (line.includes(':')) {
-          const [key, value] = line.split(':').map(s => s.trim());
+
+      lines.forEach((line) => {
+        if (line.includes(":")) {
+          const [key, value] = line.split(":").map((s) => s.trim());
           data[key] = value;
         }
       });
-      
+
       return data;
     } catch {
       return {};
     }
   }
 
-  $: wizardData = isWizardSubmission && project ? parseWizardData(project.description || '') : {};
+  $: wizardData =
+    isWizardSubmission && project
+      ? parseWizardData(project.description || "")
+      : {};
 </script>
 
 {#if project}
@@ -43,7 +54,11 @@
     <div class="modal-content" on:click|stopPropagation on:keydown>
       <div class="modal-header">
         <h2 class="modal-title">{project.name}</h2>
-        <button class="close-button" on:click={closeModal} aria-label="Close modal">
+        <button
+          class="close-button"
+          on:click={closeModal}
+          aria-label="Close modal"
+        >
           <X size={24} />
         </button>
       </div>
@@ -58,81 +73,89 @@
                 <div class="detail-item">
                   <Building2 size={16} />
                   <span class="detail-label">Company:</span>
-                  <span class="detail-value">{company?.name || 'Unknown Company'}</span>
+                  <span class="detail-value"
+                    >{company?.name || "Unknown Company"}</span
+                  >
                 </div>
-                
-                {#if wizardData['Contact Name']}
+
+                {#if wizardData["Contact Name"]}
                   <div class="detail-item">
                     <User size={16} />
                     <span class="detail-label">Contact:</span>
-                    <span class="detail-value">{wizardData['Contact Name']}</span>
+                    <span class="detail-value"
+                      >{wizardData["Contact Name"]}</span
+                    >
                   </div>
                 {/if}
-                
-                {#if wizardData['Email']}
+
+                {#if wizardData["Email"]}
                   <div class="detail-item">
                     <Mail size={16} />
                     <span class="detail-label">Email:</span>
-                    <span class="detail-value">{wizardData['Email']}</span>
+                    <span class="detail-value">{wizardData["Email"]}</span>
                   </div>
                 {/if}
-                
-                {#if wizardData['Phone']}
+
+                {#if wizardData["Phone"]}
                   <div class="detail-item">
                     <Phone size={16} />
                     <span class="detail-label">Phone:</span>
-                    <span class="detail-value">{wizardData['Phone']}</span>
+                    <span class="detail-value">{wizardData["Phone"]}</span>
                   </div>
                 {/if}
               </div>
             </div>
 
-            {#if wizardData['Project Vision'] || wizardData['Website Type'] || wizardData['Budget Range']}
+            {#if wizardData["Project Vision"] || wizardData["Website Type"] || wizardData["Budget Range"]}
               <div class="detail-section">
                 <h3 class="section-title">Project Details</h3>
                 <div class="detail-grid">
-                  {#if wizardData['Website Type']}
+                  {#if wizardData["Website Type"]}
                     <div class="detail-item">
                       <span class="detail-label">Website Type:</span>
-                      <span class="detail-value">{wizardData['Website Type']}</span>
+                      <span class="detail-value"
+                        >{wizardData["Website Type"]}</span
+                      >
                     </div>
                   {/if}
-                  
-                  {#if wizardData['Budget Range']}
+
+                  {#if wizardData["Budget Range"]}
                     <div class="detail-item">
                       <DollarSign size={16} />
                       <span class="detail-label">Budget:</span>
-                      <span class="detail-value">{wizardData['Budget Range']}</span>
+                      <span class="detail-value"
+                        >{wizardData["Budget Range"]}</span
+                      >
                     </div>
                   {/if}
                 </div>
-                
-                {#if wizardData['Project Vision']}
+
+                {#if wizardData["Project Vision"]}
                   <div class="vision-section">
                     <h4 class="vision-title">Project Vision</h4>
-                    <p class="vision-text">{wizardData['Project Vision']}</p>
+                    <p class="vision-text">{wizardData["Project Vision"]}</p>
                   </div>
                 {/if}
               </div>
             {/if}
 
-            {#if wizardData['Timeline'] || wizardData['Key Features']}
+            {#if wizardData["Timeline"] || wizardData["Key Features"]}
               <div class="detail-section">
                 <h3 class="section-title">Requirements</h3>
                 <div class="detail-grid">
-                  {#if wizardData['Timeline']}
+                  {#if wizardData["Timeline"]}
                     <div class="detail-item">
                       <Calendar size={16} />
                       <span class="detail-label">Timeline:</span>
-                      <span class="detail-value">{wizardData['Timeline']}</span>
+                      <span class="detail-value">{wizardData["Timeline"]}</span>
                     </div>
                   {/if}
                 </div>
-                
-                {#if wizardData['Key Features']}
+
+                {#if wizardData["Key Features"]}
                   <div class="features-section">
                     <h4 class="features-title">Key Features</h4>
-                    <p class="features-text">{wizardData['Key Features']}</p>
+                    <p class="features-text">{wizardData["Key Features"]}</p>
                   </div>
                 {/if}
               </div>
@@ -147,28 +170,36 @@
                 <div class="detail-item">
                   <Building2 size={16} />
                   <span class="detail-label">Company:</span>
-                  <span class="detail-value">{company?.name || 'Unknown Company'}</span>
+                  <span class="detail-value"
+                    >{company?.name || "Unknown Company"}</span
+                  >
                 </div>
-                
+
                 <div class="detail-item">
                   <Calendar size={16} />
                   <span class="detail-label">Created:</span>
-                  <span class="detail-value">{new Date(project.created_at).toLocaleDateString()}</span>
+                  <span class="detail-value"
+                    >{new Date(project.created_at).toLocaleDateString()}</span
+                  >
                 </div>
-                
+
                 {#if project.start_date}
                   <div class="detail-item">
                     <Calendar size={16} />
                     <span class="detail-label">Start Date:</span>
-                    <span class="detail-value">{new Date(project.start_date).toLocaleDateString()}</span>
+                    <span class="detail-value"
+                      >{new Date(project.start_date).toLocaleDateString()}</span
+                    >
                   </div>
                 {/if}
-                
+
                 {#if project.budget}
                   <div class="detail-item">
                     <DollarSign size={16} />
                     <span class="detail-label">Budget:</span>
-                    <span class="detail-value">${project.budget.toLocaleString()}</span>
+                    <span class="detail-value"
+                      >${project.budget.toLocaleString()}</span
+                    >
                   </div>
                 {/if}
               </div>

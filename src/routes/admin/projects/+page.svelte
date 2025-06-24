@@ -5,8 +5,8 @@
 </script>
 
 <div class="projects-page">
-  <CRMHeader 
-    title="Active Initiatives Portfolio" 
+  <CRMHeader
+    title="Active Initiatives Portfolio"
     subtitle="Monitor and orchestrate strategic client engagements with precision"
     icon={Rocket}
   >
@@ -71,7 +71,7 @@
   .plus-icon {
     transition: transform 0.2s ease;
   }
-  
+
   .launch-btn:hover .plus-icon {
     transform: rotate(90deg);
   }

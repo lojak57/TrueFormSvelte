@@ -1,6 +1,6 @@
-import { describe, expect, it, vi, beforeEach } from "vitest";
-import { GET, POST } from "../../routes/api/contacts/+server";
 import type { RequestEvent } from "@sveltejs/kit";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { GET, POST } from "../../routes/api/contacts/+server";
 
 // Mock the dependencies
 vi.mock("$lib/supabaseAdmin", () => ({
@@ -87,7 +87,9 @@ describe("/api/contacts", () => {
     });
 
     it("should filter by company_id when provided", async () => {
-      const urlWithParams = new URL("http://localhost/api/contacts?company_id=company-1");
+      const urlWithParams = new URL(
+        "http://localhost/api/contacts?company_id=company-1"
+      );
       const event = {
         request: mockRequest,
         locals: mockLocals,
@@ -116,7 +118,9 @@ describe("/api/contacts", () => {
     });
 
     it("should filter by vertical_id when provided", async () => {
-      const urlWithParams = new URL("http://localhost/api/contacts?vertical_id=vertical-1");
+      const urlWithParams = new URL(
+        "http://localhost/api/contacts?vertical_id=vertical-1"
+      );
       const event = {
         request: mockRequest,
         locals: mockLocals,
@@ -160,7 +164,7 @@ describe("/api/contacts", () => {
 
     it("should handle validation errors for query parameters", async () => {
       const { validateSchema } = await import("$lib/schemas/api");
-      
+
       vi.mocked(validateSchema).mockReturnValue({
         success: false,
         error: "Invalid company_id format",
@@ -181,7 +185,7 @@ describe("/api/contacts", () => {
 
     it("should handle database errors", async () => {
       const { supabaseAdmin } = await import("$lib/supabaseAdmin");
-      
+
       vi.mocked(supabaseAdmin.from).mockReturnValue({
         select: vi.fn(() => ({
           order: vi.fn(() => ({
@@ -256,7 +260,7 @@ describe("/api/contacts", () => {
 
     it("should validate input data with Zod schema", async () => {
       const { validateSchema } = await import("$lib/schemas/api");
-      
+
       vi.mocked(validateSchema).mockReturnValue({
         success: false,
         error: "Email is required",
@@ -276,7 +280,7 @@ describe("/api/contacts", () => {
 
     it("should handle Supabase insert errors", async () => {
       const { supabaseAdmin } = await import("$lib/supabaseAdmin");
-      
+
       vi.mocked(supabaseAdmin.from).mockReturnValue({
         insert: vi.fn(() => ({
           select: vi.fn(() => ({

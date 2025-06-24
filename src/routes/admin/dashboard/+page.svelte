@@ -3,7 +3,14 @@
   import ModernCard from "$lib/components/ui/ModernCard.svelte";
   import StatsCard from "$lib/components/ui/StatsCard.svelte";
   import BaseButton from "$lib/components/base/BaseButton.svelte";
-  import { Building2, Users, Rocket, TrendingUp, Plus, FileText } from "lucide-svelte";
+  import {
+    Building2,
+    Users,
+    Rocket,
+    TrendingUp,
+    Plus,
+    FileText,
+  } from "lucide-svelte";
 
   let stats = {
     companies: 0,
@@ -60,15 +67,22 @@
         <div class="welcome-text">
           <h1 class="dashboard-title">Command Intelligence Center</h1>
           <p class="dashboard-subtitle">
-            Your personal operations nexus. Monitor client portfolios, oversee project progression, 
-            and orchestrate business intelligence across all verticals with precision and elegance.
+            Your personal operations nexus. Monitor client portfolios, oversee
+            project progression, and orchestrate business intelligence across
+            all verticals with precision and elegance.
           </p>
         </div>
         <div class="welcome-visual">
           <div class="visual-grid">
-            <div class="visual-item"><Building2 size={28} class="text-white/70" /></div>
-            <div class="visual-item"><Rocket size={28} class="text-white/70" /></div>
-            <div class="visual-item"><TrendingUp size={28} class="text-white/70" /></div>
+            <div class="visual-item">
+              <Building2 size={28} class="text-white/70" />
+            </div>
+            <div class="visual-item">
+              <Rocket size={28} class="text-white/70" />
+            </div>
+            <div class="visual-item">
+              <TrendingUp size={28} class="text-white/70" />
+            </div>
           </div>
         </div>
       </div>
@@ -131,7 +145,9 @@
     <ModernCard variant="elevated" size="lg">
       <div class="actions-grid">
         <a href="/admin/companies/create" class="action-card">
-          <div class="action-icon"><Building2 size={24} class="text-white/70" /></div>
+          <div class="action-icon">
+            <Building2 size={24} class="text-white/70" />
+          </div>
           <div class="action-content">
             <h3 class="action-title">Onboard Organization</h3>
             <p class="action-desc">Register new client entity</p>
@@ -139,7 +155,9 @@
         </a>
 
         <a href="/admin/contacts/create" class="action-card">
-          <div class="action-icon"><Users size={24} class="text-white/70" /></div>
+          <div class="action-icon">
+            <Users size={24} class="text-white/70" />
+          </div>
           <div class="action-content">
             <h3 class="action-title">Register Contact</h3>
             <p class="action-desc">Add strategic personnel</p>
@@ -147,7 +165,9 @@
         </a>
 
         <a href="/admin/projects/create" class="action-card">
-          <div class="action-icon"><Rocket size={24} class="text-white/70" /></div>
+          <div class="action-icon">
+            <Rocket size={24} class="text-white/70" />
+          </div>
           <div class="action-content">
             <h3 class="action-title">Launch Initiative</h3>
             <p class="action-desc">Commence new project</p>
@@ -155,7 +175,9 @@
         </a>
 
         <a href="/admin/proposals/new" class="action-card">
-          <div class="action-icon"><FileText size={24} class="text-white/70" /></div>
+          <div class="action-icon">
+            <FileText size={24} class="text-white/70" />
+          </div>
           <div class="action-content">
             <h3 class="action-title">Draft Proposal</h3>
             <p class="action-desc">Craft strategic offering</p>
@@ -237,7 +259,7 @@
     backdrop-filter: blur(8px);
     transition: all 0.3s ease;
   }
-  
+
   .visual-item:hover {
     background: rgba(255, 255, 255, 0.95);
     transform: translateY(-2px);
@@ -253,9 +275,9 @@
     position: relative;
     padding-bottom: 8px;
   }
-  
+
   .section-title::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: 0;
     left: 0;
@@ -292,15 +314,20 @@
     position: relative;
     overflow: hidden;
   }
-  
+
   .action-card::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent 0%, rgba(148, 163, 184, 0.1) 50%, transparent 100%);
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(148, 163, 184, 0.1) 50%,
+      transparent 100%
+    );
     transition: left 0.5s ease;
   }
 
@@ -310,7 +337,7 @@
     box-shadow: 0 12px 24px rgba(71, 85, 105, 0.15);
     border-color: rgba(148, 163, 184, 0.3);
   }
-  
+
   .action-card:hover::before {
     left: 100%;
   }
@@ -328,7 +355,7 @@
     backdrop-filter: blur(4px);
     transition: all 0.3s ease;
   }
-  
+
   .action-card:hover .action-icon {
     background: white;
     transform: scale(1.05);

@@ -28,30 +28,30 @@
   function handleSearchChange(event: Event) {
     const target = event.target as HTMLInputElement;
     searchTerm = target.value;
-    dispatch('filter', {
+    dispatch("filter", {
       searchTerm,
       statusFilter,
-      projectTypeFilter
+      projectTypeFilter,
     });
   }
 
   function handleStatusChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     statusFilter = target.value;
-    dispatch('filter', {
+    dispatch("filter", {
       searchTerm,
       statusFilter,
-      projectTypeFilter
+      projectTypeFilter,
     });
   }
 
   function handleTypeChange(event: Event) {
     const target = event.target as HTMLSelectElement;
     projectTypeFilter = target.value;
-    dispatch('filter', {
+    dispatch("filter", {
       searchTerm,
       statusFilter,
-      projectTypeFilter
+      projectTypeFilter,
     });
   }
 
@@ -59,10 +59,10 @@
     searchTerm = "";
     statusFilter = "all";
     projectTypeFilter = "all";
-    dispatch('filter', {
+    dispatch("filter", {
       searchTerm,
       statusFilter,
-      projectTypeFilter
+      projectTypeFilter,
     });
   }
 </script>
@@ -73,9 +73,7 @@
       <Filter size={20} />
       <h3>Filter Projects</h3>
     </div>
-    <button class="clear-filters" on:click={clearFilters}>
-      Clear All
-    </button>
+    <button class="clear-filters" on:click={clearFilters}> Clear All </button>
   </div>
 
   <div class="filters-content">

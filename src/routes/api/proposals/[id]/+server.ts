@@ -1,6 +1,6 @@
+import { supabaseAdmin } from "$lib/supabaseAdmin";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
-import { supabaseAdmin } from "$lib/supabaseAdmin";
 
 export const GET: RequestHandler = async ({ params, request, locals }) => {
   // 🔒 SECURE: Require authentication for proposal details
@@ -17,13 +17,11 @@ export const GET: RequestHandler = async ({ params, request, locals }) => {
       .single();
 
     if (error) {
-      console.error("Error fetching proposal:", error);
       return json({ error: "Proposal not found" }, { status: 404 });
     }
 
     return json(proposal);
   } catch (error) {
-    console.error("Error fetching proposal:", error);
     return json({ error: "Failed to fetch proposal" }, { status: 500 });
   }
 };
@@ -53,7 +51,6 @@ export const PUT: RequestHandler = async ({ params, request, locals }) => {
 
     return json(proposal);
   } catch (error) {
-    console.error("Error updating proposal:", error);
     return json({ error: "Failed to update proposal" }, { status: 500 });
   }
 };
@@ -75,7 +72,6 @@ export const DELETE: RequestHandler = async ({ params, request, locals }) => {
 
     return json({ success: true });
   } catch (error) {
-    console.error("Error deleting proposal:", error);
     return json({ error: "Failed to delete proposal" }, { status: 500 });
   }
 };

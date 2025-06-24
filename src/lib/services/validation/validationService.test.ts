@@ -109,12 +109,14 @@ describe("ValidationService", () => {
         validData
       );
       expect(result.success).toBe(true);
-      expect(result.data).toEqual(
-        expect.objectContaining({
-          email: "test@example.com",
-          password: "StrongPassword123",
-        })
-      );
+      if (result.success) {
+        expect(result.data).toEqual(
+          expect.objectContaining({
+            email: "test@example.com",
+            password: "StrongPassword123",
+          })
+        );
+      }
     });
 
     it("should return error for invalid data", () => {
@@ -128,8 +130,10 @@ describe("ValidationService", () => {
         invalidData
       );
       expect(result.success).toBe(false);
-      expect(result.error).toBeDefined();
-      expect(result.error?.code).toBe("VALIDATION_ERROR");
+      if (!result.success) {
+        expect(result.error).toBeDefined();
+        expect(result.error?.code).toBe("VALIDATION_ERROR");
+      }
     });
   });
 });

@@ -1,53 +1,55 @@
 <script lang="ts">
-  import { conversationalWizard } from '../conversationalWizardStore';
-  import TextInputStep from '../../ui/TextInputStep.svelte';
-  import VisualVibeSelector from '../components/VisualVibeSelector.svelte';
-  import VisualFontSelector from '../components/VisualFontSelector.svelte';
-  import VisualColorSelector from '../components/VisualColorSelector.svelte';
-  import InlineReassurance from '../reassurance/InlineReassurance.svelte';
-  import { fade, fly } from 'svelte/transition';
-  
+  import { conversationalWizard } from "../conversationalWizardStore";
+  import TextInputStep from "../../ui/TextInputStep.svelte";
+  import VisualVibeSelector from "../components/VisualVibeSelector.svelte";
+  import VisualFontSelector from "../components/VisualFontSelector.svelte";
+  import VisualColorSelector from "../components/VisualColorSelector.svelte";
+  import InlineReassurance from "../reassurance/InlineReassurance.svelte";
+  import { fade, fly } from "svelte/transition";
+
   let currentField = 0;
   let formData = {
-    designVibe: '',
+    designVibe: "",
     fontFeel: [],
-    colorPalette: '',
-    inspirationLinks: ''
+    colorPalette: "",
+    inspirationLinks: "",
   };
-  
+
   // Subscribe to store data
   $: if ($conversationalWizard.data) {
     formData = {
-      designVibe: $conversationalWizard.data.designVibe || '',
+      designVibe: $conversationalWizard.data.designVibe || "",
       fontFeel: $conversationalWizard.data.fontFeel || [],
-      colorPalette: $conversationalWizard.data.colorPalette || '',
-      inspirationLinks: $conversationalWizard.data.inspirationLinks || ''
+      colorPalette: $conversationalWizard.data.colorPalette || "",
+      inspirationLinks: $conversationalWizard.data.inspirationLinks || "",
     };
   }
-  
+
   const fields = [
     {
-      key: 'designVibe',
+      key: "designVibe",
       title: "What kind of vibe are you going for?",
-      type: 'visual-vibe',
-      reassurance: "Pick the style that feels most like your brand's personality."
+      type: "visual-vibe",
+      reassurance:
+        "Pick the style that feels most like your brand's personality.",
     },
     {
-      key: 'fontFeel',
+      key: "fontFeel",
       title: "What kind of fonts feel right?",
-      type: 'visual-font',
-      reassurance: "Choose the font style that matches your brand's voice."
+      type: "visual-font",
+      reassurance: "Choose the font style that matches your brand's voice.",
     },
     {
-      key: 'colorPalette',
+      key: "colorPalette",
       title: "What colors feel right for your brand?",
-      type: 'visual-color',
-      reassurance: "Select colors that represent your brand's energy and values."
+      type: "visual-color",
+      reassurance:
+        "Select colors that represent your brand's energy and values.",
     },
     {
-      key: 'inspirationLinks',
+      key: "inspirationLinks",
       title: "Any websites you love? (Optional)",
-      type: 'text-input',
+      type: "text-input",
       placeholder: "www.example.com, or describe what you liked about them...",
       inputType: "text",
       skipLabel: "Skip this",
@@ -58,19 +60,20 @@
         "I saw this site that converts really well",
         "Our biggest competitor does this well",
         "I'll send you examples later",
-        "Nothing specific comes to mind"
+        "Nothing specific comes to mind",
       ],
-      reassurance: "Even describing what you liked about a site helps us understand your taste."
-    }
+      reassurance:
+        "Even describing what you liked about a site helps us understand your taste.",
+    },
   ];
-  
+
   function handleVisualSelect(event: CustomEvent) {
     const { value, vibeData, fontData, paletteData } = event.detail;
     const field = fields[currentField];
-    
+
     // Store the selection
     conversationalWizard.updateData({ [field.key]: value });
-    
+
     // Store additional data for design reference
     if (vibeData) {
       conversationalWizard.updateData({ _vibeData: vibeData });
@@ -81,7 +84,7 @@
     if (paletteData) {
       conversationalWizard.updateData({ _paletteData: paletteData });
     }
-    
+
     // Move to next field or complete step
     setTimeout(() => {
       if (currentField < fields.length - 1) {
@@ -91,14 +94,14 @@
       }
     }, 500); // Brief delay to show selection
   }
-  
+
   function handleTextComplete(event: CustomEvent) {
     const { value } = event.detail;
     const field = fields[currentField];
-    
+
     // Update store
     conversationalWizard.updateData({ [field.key]: value });
-    
+
     // Move to next field or complete step
     if (currentField < fields.length - 1) {
       currentField++;
@@ -106,7 +109,7 @@
       conversationalWizard.nextStep();
     }
   }
-  
+
   function goBack() {
     if (currentField > 0) {
       currentField--;
@@ -122,26 +125,26 @@
       <h2 class="step-title" in:fly={{ y: 20, duration: 400, delay: 200 }}>
         {fields[currentField].title}
       </h2>
-      
+
       {#if currentField === 0}
         <p class="step-subtitle" in:fly={{ y: 20, duration: 400, delay: 300 }}>
           We want your website to feel authentically <em>you</em>.
         </p>
       {/if}
-      
+
       <div class="input-wrapper" in:fly={{ y: 30, duration: 500, delay: 400 }}>
-        {#if fields[currentField].type === 'visual-vibe'}
-          <VisualVibeSelector 
+        {#if fields[currentField].type === "visual-vibe"}
+          <VisualVibeSelector
             selectedVibe={formData.designVibe}
             on:select={handleVisualSelect}
           />
-        {:else if fields[currentField].type === 'visual-font'}
-          <VisualFontSelector 
+        {:else if fields[currentField].type === "visual-font"}
+          <VisualFontSelector
             selectedFont={formData.fontFeel}
             on:select={handleVisualSelect}
           />
-        {:else if fields[currentField].type === 'visual-color'}
-          <VisualColorSelector 
+        {:else if fields[currentField].type === "visual-color"}
+          <VisualColorSelector
             selectedPalette={formData.colorPalette}
             on:select={handleVisualSelect}
           />
@@ -156,15 +159,15 @@
             on:complete={handleTextComplete}
           />
         {/if}
-        
+
         {#if fields[currentField].reassurance}
-          <InlineReassurance 
+          <InlineReassurance
             text={fields[currentField].reassurance}
             delay={1200}
           />
         {/if}
       </div>
-      
+
       <button
         on:click={goBack}
         class="back-button"
@@ -185,7 +188,7 @@
     min-height: auto;
     height: auto;
   }
-  
+
   .step-title {
     font-size: 2rem;
     font-weight: 700;
@@ -193,24 +196,24 @@
     margin-bottom: 1rem;
     line-height: 1.2;
   }
-  
+
   .step-subtitle {
     font-size: 1.125rem;
     color: #6b7280;
     margin-bottom: 2rem;
     line-height: 1.5;
   }
-  
+
   .step-subtitle em {
     color: #374151;
     font-style: italic;
     font-weight: 500;
   }
-  
+
   .input-wrapper {
     margin-bottom: 2rem;
   }
-  
+
   .back-button {
     color: #6b7280;
     font-size: 0.875rem;
@@ -218,21 +221,21 @@
     border-radius: 0.375rem;
     transition: all 0.2s;
   }
-  
+
   .back-button:hover {
     color: #374151;
     background-color: #f3f4f6;
   }
-  
+
   @media (max-width: 640px) {
     .step-container {
       padding: 1rem;
     }
-    
+
     .step-title {
       font-size: 1.5rem;
     }
-    
+
     .step-subtitle {
       font-size: 1rem;
     }

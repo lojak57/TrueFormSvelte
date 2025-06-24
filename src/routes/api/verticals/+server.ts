@@ -1,8 +1,12 @@
+import { apiLogger } from "$lib/utils/logger";
 import { json } from "@sveltejs/kit";
 import type { RequestHandler } from "./$types";
 
+const logger = apiLogger.child({ endpoint: "verticals" });
+
 export const GET: RequestHandler = async () => {
   try {
+    logger.debug("Fetching verticals list");
     // Return the list of available verticals/industries
     const verticals = [
       {
@@ -64,9 +68,10 @@ export const GET: RequestHandler = async () => {
       },
     ];
 
+    logger.info({ count: verticals.length }, "Returning verticals");
     return json(verticals);
   } catch (error) {
-    console.error("Error fetching verticals:", error);
+    logger.error({ error }, "Error fetching verticals");
     return json({ error: "Failed to fetch verticals" }, { status: 500 });
   }
 };
