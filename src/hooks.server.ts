@@ -71,10 +71,10 @@ export const handle: Handle = async ({ event, resolve }) => {
   }
 
   // Content Security Policy - Strict but functional for SvelteKit + Supabase + Stripe
-  const nonce = crypto.randomUUID();
+  // Note: SvelteKit requires 'unsafe-inline' for its hydration scripts
   const cspDirectives = [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' https://js.stripe.com https://maps.googleapis.com`,
+    "script-src 'self' 'unsafe-inline' https://js.stripe.com https://maps.googleapis.com",
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: https: blob:",
@@ -88,9 +88,6 @@ export const handle: Handle = async ({ event, resolve }) => {
   ];
 
   response.headers.set("Content-Security-Policy", cspDirectives.join("; "));
-
-  // Store nonce in locals for use in HTML
-  event.locals.nonce = nonce;
 
   return response;
 };
