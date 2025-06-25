@@ -79,24 +79,102 @@
 
   <div class="input-wrapper">
     <!-- Single consolidated input element -->
-    <input
-      {type}
-      bind:value
-      {placeholder}
-      {required}
-      {disabled}
-      {readonly}
-      id={inputId}
-      class={inputClasses}
-      aria-invalid={error ? "true" : "false"}
-      aria-describedby={ariaDescribedBy}
-      on:input
-      on:change
-      on:focus
-      on:blur
-      on:keydown
-      on:keyup
-    />
+    {#if type === 'text'}
+      <input
+        type="text"
+        bind:value
+        {placeholder}
+        {required}
+        {disabled}
+        {readonly}
+        id={inputId}
+        class={inputClasses}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={ariaDescribedBy}
+        on:input
+        on:change
+        on:focus
+        on:blur
+        on:keydown
+        on:keyup
+      />
+    {:else if type === 'email'}
+      <input
+        type="email"
+        bind:value
+        {placeholder}
+        {required}
+        {disabled}
+        {readonly}
+        id={inputId}
+        class={inputClasses}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={ariaDescribedBy}
+        on:input
+        on:change
+        on:focus
+        on:blur
+        on:keydown
+        on:keyup
+      />
+    {:else if type === 'password'}
+      <input
+        type="password"
+        bind:value
+        {placeholder}
+        {required}
+        {disabled}
+        {readonly}
+        id={inputId}
+        class={inputClasses}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={ariaDescribedBy}
+        on:input
+        on:change
+        on:focus
+        on:blur
+        on:keydown
+        on:keyup
+      />
+    {:else if type === 'tel'}
+      <input
+        type="tel"
+        bind:value
+        {placeholder}
+        {required}
+        {disabled}
+        {readonly}
+        id={inputId}
+        class={inputClasses}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={ariaDescribedBy}
+        on:input
+        on:change
+        on:focus
+        on:blur
+        on:keydown
+        on:keyup
+      />
+    {:else}
+      <input
+        type="text"
+        bind:value
+        {placeholder}
+        {required}
+        {disabled}
+        {readonly}
+        id={inputId}
+        class={inputClasses}
+        aria-invalid={error ? "true" : "false"}
+        aria-describedby={ariaDescribedBy}
+        on:input
+        on:change
+        on:focus
+        on:blur
+        on:keydown
+        on:keyup
+      />
+    {/if}
 
     {#if label && floating}
       <label for={inputId} class="floating-label">
