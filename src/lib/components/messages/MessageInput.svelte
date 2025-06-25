@@ -1,6 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
   import { supabase } from "$lib/supabase.client";
+  import { fade, scale } from "svelte/transition";
+  import { Paperclip, Send, Smile, X, Image, FileText } from "lucide-svelte";
 
   export let threadId: string;
 
@@ -11,6 +13,7 @@
   let fileInput: HTMLInputElement;
   let isTyping = false;
   let typingTimeout: NodeJS.Timeout;
+  let dragActive = false;
 
   async function sendMessage() {
     if (!message.trim() && files.length === 0) return;
@@ -79,8 +82,14 @@
   function handleFileSelect(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files) {
-      files = [...files, ...Array.from(input.files)];
+      addFiles(Array.from(input.files));
     }
+  }
+
+  function addFiles(newFiles: File[]) {
+    files = [...files, ...newFiles];
+    // Reset file input
+    if (fileInput) fileInput.value = '';
   }
 
   function removeFile(index: number) {
@@ -94,49 +103,112 @@
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   }
+
+  function getFileIcon(file: File) {
+    if (file.type.startsWith('image/')) return Image;
+    return FileText;
+  }
+
+  function getFilePreview(file: File): string | null {
+    if (file.type.startsWith('image/')) {
+      return URL.createObjectURL(file);
+    }
+    return null;
+  }
+
+  // Drag and drop handlers
+  function handleDragEnter(e: DragEvent) {
+    e.preventDefault();
+    dragActive = true;
+  }
+
+  function handleDragLeave(e: DragEvent) {
+    e.preventDefault();
+    dragActive = false;
+  }
+
+  function handleDragOver(e: DragEvent) {
+    e.preventDefault();
+  }
+
+  function handleDrop(e: DragEvent) {
+    e.preventDefault();
+    dragActive = false;
+    
+    const droppedFiles = Array.from(e.dataTransfer?.files || []);
+    if (droppedFiles.length > 0) {
+      addFiles(droppedFiles);
+    }
+  }
 </script>
 
-<div class="border-t bg-white p-4">
+<div 
+  class="border-t bg-white p-4 transition-all duration-200 {dragActive ? 'bg-blue-50 border-blue-300' : ''}"
+  on:dragenter={handleDragEnter}
+  on:dragleave={handleDragLeave}
+  on:dragover={handleDragOver}
+  on:drop={handleDrop}
+>
+  <!-- Drag Overlay -->
+  {#if dragActive}
+    <div 
+      class="absolute inset-0 bg-blue-100 bg-opacity-90 flex items-center justify-center z-10 rounded-lg"
+      transition:fade={{ duration: 200 }}
+    >
+      <div class="text-center">
+        <Paperclip size={48} class="mx-auto mb-2 text-blue-600" />
+        <p class="text-lg font-medium text-blue-900">Drop files here</p>
+        <p class="text-sm text-blue-700">Images and documents accepted</p>
+      </div>
+    </div>
+  {/if}
+
   <!-- File Attachments Preview -->
   {#if files.length > 0}
-    <div class="mb-3 flex flex-wrap gap-2">
+    <div class="mb-3 flex flex-wrap gap-2" transition:fade={{ duration: 200 }}>
       {#each files as file, i}
+        {@const preview = getFilePreview(file)}
+        {@const FileIcon = getFileIcon(file)}
         <div
-          class="bg-gray-100 rounded-lg px-3 py-2 flex items-center gap-2 text-sm"
+          class="group relative bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-200"
+          transition:scale={{ duration: 200, start: 0.8 }}
         >
-          <svg
-            class="w-4 h-4 text-gray-600"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-            />
-          </svg>
-          <span class="font-medium">{file.name}</span>
-          <span class="text-gray-500">({formatFileSize(file.size)})</span>
-          <button
-            on:click={() => removeFile(i)}
-            class="ml-1 text-gray-500 hover:text-red-600 transition-colors"
-          >
-            <svg
-              class="w-4 h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
+          {#if preview}
+            <!-- Image preview -->
+            <div class="relative w-24 h-24">
+              <img 
+                src={preview} 
+                alt={file.name}
+                class="w-full h-full object-cover"
               />
-            </svg>
-          </button>
+              <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-200 flex items-center justify-center">
+                <button
+                  on:click={() => removeFile(i)}
+                  class="opacity-0 group-hover:opacity-100 bg-white rounded-full p-1 transition-all duration-200 transform scale-0 group-hover:scale-100"
+                >
+                  <X size={16} class="text-gray-700" />
+                </button>
+              </div>
+            </div>
+            <div class="px-2 py-1 text-xs text-gray-600 truncate">
+              {file.name}
+            </div>
+          {:else}
+            <!-- File preview -->
+            <div class="px-3 py-2 flex items-center gap-2">
+              <FileIcon size={20} class="text-gray-500 flex-shrink-0" />
+              <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-gray-900 truncate">{file.name}</p>
+                <p class="text-xs text-gray-500">{formatFileSize(file.size)}</p>
+              </div>
+              <button
+                on:click={() => removeFile(i)}
+                class="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-red-600 transition-all duration-200"
+              >
+                <X size={16} />
+              </button>
+            </div>
+          {/if}
         </div>
       {/each}
     </div>
@@ -147,22 +219,10 @@
     <!-- File Upload Button -->
     <button
       on:click={() => fileInput.click()}
-      class="p-2 text-gray-600 hover:text-primary-600 transition-colors"
+      class="p-2 text-gray-500 hover:text-gray-700 transition-all duration-200 hover:bg-gray-100 rounded-lg"
       title="Attach files"
     >
-      <svg
-        class="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-        />
-      </svg>
+      <Paperclip size={20} />
     </button>
 
     <!-- Hidden File Input -->
@@ -182,53 +242,34 @@
         on:keydown={handleKeydown}
         placeholder="Type a message..."
         rows="1"
-        class="w-full px-4 py-2 pr-12 border border-gray-300 rounded-2xl resize-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-        style="min-height: 40px; max-height: 120px;"
+        class="w-full px-4 py-3 pr-12 border border-gray-200 rounded-full resize-none 
+               focus:ring-2 focus:ring-blue-500 focus:border-transparent
+               transition-all duration-200 bg-gray-50 focus:bg-white"
+        style="min-height: 44px; max-height: 120px;"
       />
 
       <!-- Send Button -->
       <button
         on:click={sendMessage}
         disabled={!message.trim() && files.length === 0}
-        class="absolute right-2 bottom-2 p-1.5 rounded-full transition-all
+        class="absolute right-1.5 bottom-1.5 p-2 rounded-full transition-all duration-200 transform
           {message.trim() || files.length > 0
-          ? 'bg-primary-500 text-white hover:bg-primary-600'
-          : 'bg-gray-200 text-gray-400 cursor-not-allowed'}"
+          ? 'bg-blue-500 text-white hover:bg-blue-600 scale-100'
+          : 'bg-gray-200 text-gray-400 cursor-not-allowed scale-90'}"
       >
-        <svg
-          class="w-5 h-5"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-          />
-        </svg>
+        <Send 
+          size={18} 
+          class="transform transition-transform duration-200 {message.trim() || files.length > 0 ? 'translate-x-0' : '-translate-x-1'}"
+        />
       </button>
     </div>
 
     <!-- Emoji Button -->
     <button
-      class="p-2 text-gray-600 hover:text-primary-600 transition-colors"
+      class="p-2 text-gray-500 hover:text-gray-700 transition-all duration-200 hover:bg-gray-100 rounded-lg"
       title="Add emoji"
     >
-      <svg
-        class="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-        />
-      </svg>
+      <Smile size={20} />
     </button>
   </div>
 </div>
@@ -250,5 +291,19 @@
   textarea::-webkit-scrollbar-thumb {
     background-color: #cbd5e0;
     border-radius: 3px;
+  }
+
+  /* Auto-resize textarea */
+  textarea {
+    field-sizing: content;
+    min-height: 44px;
+    max-height: 120px;
+  }
+  
+  /* Fallback for browsers that don't support field-sizing */
+  @supports not (field-sizing: content) {
+    textarea {
+      overflow-y: auto;
+    }
   }
 </style>

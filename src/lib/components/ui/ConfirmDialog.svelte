@@ -1,8 +1,9 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { fade, fly } from "svelte/transition";
+  import { fade, scale } from "svelte/transition";
+  import { quintOut } from "svelte/easing";
   import BaseButton from "../base/BaseButton.svelte";
-  import { X } from "lucide-svelte";
+  import { X, AlertTriangle, AlertCircle, Info } from "lucide-svelte";
 
   export let open = false;
   export let title = "Confirm Action";
@@ -24,16 +25,24 @@
   }
 
   function handleBackdropClick(event: MouseEvent) {
-    if (event.target === event.currentTarget) {
+    if (event.target === event.currentTarget && !loading) {
       handleCancel();
     }
   }
 
   function handleKeydown(event: KeyboardEvent) {
-    if (event.key === "Escape") {
+    if (event.key === "Escape" && !loading) {
       handleCancel();
     }
   }
+  
+  const iconMap = {
+    danger: AlertTriangle,
+    warning: AlertCircle,
+    info: Info
+  };
+  
+  $: Icon = iconMap[variant];
 </script>
 
 {#if open}
@@ -46,7 +55,10 @@
     aria-modal="true"
     aria-labelledby="dialog-title"
   >
-    <div class="dialog-content" transition:fly={{ y: 20, duration: 300 }}>
+    <div 
+      class="dialog-content" 
+      transition:scale={{ duration: 200, easing: quintOut, start: 0.95 }}
+    >
       <button
         class="close-button"
         on:click={handleCancel}
@@ -57,13 +69,7 @@
       </button>
 
       <div class="dialog-icon {variant}">
-        {#if variant === "danger"}
-          ⚠️
-        {:else if variant === "warning"}
-          ⚠️
-        {:else}
-          ℹ️
-        {/if}
+        <svelte:component this={Icon} size={48} />
       </div>
 
       <h2 id="dialog-title" class="dialog-title">{title}</h2>
@@ -82,7 +88,12 @@
           on:click={handleConfirm}
           disabled={loading}
         >
-          {loading ? "Processing..." : confirmText}
+          {#if loading}
+            <span class="loading-spinner" />
+            Processing...
+          {:else}
+            {confirmText}
+          {/if}
         </BaseButton>
       </div>
     </div>
@@ -94,6 +105,7 @@
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -103,8 +115,8 @@
 
   .dialog-content {
     background: white;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-xl);
+    border-radius: 0.75rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     max-width: 400px;
     width: 100%;
     padding: 2rem;
@@ -135,21 +147,38 @@
   }
 
   .dialog-icon {
-    font-size: 3rem;
-    text-align: center;
+    display: flex;
+    justify-content: center;
     margin-bottom: 1rem;
   }
 
   .dialog-icon.danger {
-    filter: hue-rotate(-10deg) saturate(2);
+    color: #ef4444;
   }
 
   .dialog-icon.warning {
-    filter: saturate(1.5);
+    color: #f59e0b;
   }
 
   .dialog-icon.info {
-    filter: hue-rotate(200deg);
+    color: #3b82f6;
+  }
+  
+  .loading-spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.8s linear infinite;
+    margin-right: 0.5rem;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   .dialog-title {

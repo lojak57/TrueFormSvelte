@@ -1,117 +1,82 @@
 <script lang="ts">
   import type { LayoutData } from "./$types";
+  import AdminSidebar from "$lib/components/admin/AdminSidebar.svelte";
+  import { Menu, X } from "lucide-svelte";
+  
   export let data: LayoutData;
+  
+  let sidebarOpen = false;
+  
+  function toggleSidebar() {
+    sidebarOpen = !sidebarOpen;
+  }
+  
+  function closeSidebar() {
+    sidebarOpen = false;
+  }
 </script>
 
-<!-- Admin layout with expanded navigation -->
+<!-- Admin layout with modern navigation -->
 <div class="min-h-screen bg-gray-50">
+  <!-- Mobile header -->
+  <div class="md:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200">
+    <div class="flex items-center justify-between px-4 py-3">
+      <button
+        on:click={toggleSidebar}
+        class="p-2 rounded-md text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+        aria-label="Toggle menu"
+      >
+        {#if sidebarOpen}
+          <X size={24} />
+        {:else}
+          <Menu size={24} />
+        {/if}
+      </button>
+      
+      <div class="flex items-center gap-2">
+        <img src="/logo.svg" alt="TrueForm" class="h-8 w-8" />
+        <span class="font-bold text-lg">TrueForm</span>
+      </div>
+      
+      <div class="w-10" /> <!-- Spacer for centering -->
+    </div>
+  </div>
+  
+  <!-- Backdrop for mobile -->
+  {#if sidebarOpen}
+    <div
+      class="md:hidden fixed inset-0 z-40 bg-black bg-opacity-50 transition-opacity"
+      on:click={closeSidebar}
+    />
+  {/if}
+  
   <div class="flex h-screen">
     <!-- Admin Sidebar -->
-    <div class="hidden md:flex md:w-64 md:flex-col">
-      <div class="flex flex-col flex-grow pt-5 overflow-y-auto bg-indigo-700">
-        <div class="flex items-center flex-shrink-0 px-4">
-          <a href="/" class="text-xl font-bold text-white">TrueForm Admin</a>
-        </div>
-
-        <div class="mt-5 flex-1 flex flex-col">
-          <nav class="flex-1 px-2 space-y-1">
-            <!-- Admin Navigation -->
-            <a
-              href="/admin/dashboard"
-              class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-            >
-              Dashboard
-            </a>
-            <a
-              href="/admin/companies"
-              class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-            >
-              Companies
-            </a>
-            <a
-              href="/admin/contacts"
-              class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-            >
-              Contacts
-            </a>
-            <a
-              href="/admin/projects"
-              class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-            >
-              Projects
-            </a>
-            <a
-              href="/admin/proposals"
-              class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-            >
-              Proposals
-            </a>
-            <a
-              href="/admin/opportunities"
-              class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-            >
-              Opportunities
-            </a>
-            <a
-              href="/admin/invoices"
-              class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-            >
-              Invoices
-            </a>
-            <a
-              href="/admin/verticals"
-              class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-            >
-              Verticals
-            </a>
-            <a
-              href="/admin/settings"
-              class="text-indigo-100 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-            >
-              Settings
-            </a>
-
-            <!-- App link -->
-            <div class="pt-4 mt-4 border-t border-indigo-800">
-              <a
-                href="/companies"
-                class="text-indigo-200 hover:bg-indigo-600 group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-              >
-                ← Back to App
-              </a>
-            </div>
-          </nav>
-        </div>
-
-        <!-- Admin user menu -->
-        <div class="flex-shrink-0 flex border-t border-indigo-800 p-4">
-          <div class="flex-shrink-0 w-full group block">
-            <div class="flex items-center justify-between">
-              <div>
-                <p class="text-sm font-medium text-white">{data.user.email}</p>
-                <p class="text-xs font-medium text-indigo-300 capitalize">
-                  {data.user.role} Admin
-                </p>
-              </div>
-              <form action="/auth/signout" method="POST">
-                <button
-                  type="submit"
-                  class="text-xs text-indigo-300 hover:text-white"
-                >
-                  Sign out
-                </button>
-              </form>
-            </div>
-          </div>
-        </div>
+    <div class="hidden md:block">
+      <AdminSidebar />
+    </div>
+    
+    <!-- Mobile Sidebar -->
+    <div class="md:hidden">
+      <div class="fixed inset-y-0 left-0 z-50 transition-transform duration-300 transform {sidebarOpen ? 'translate-x-0' : '-translate-x-full'}">
+        <AdminSidebar />
       </div>
     </div>
 
     <!-- Main admin content -->
-    <div class="flex flex-col w-0 flex-1 overflow-hidden">
-      <main class="flex-1 relative overflow-y-auto focus:outline-none">
+    <div class="flex flex-col flex-1 md:ml-[260px]">
+      <main class="flex-1 relative overflow-y-auto focus:outline-none pt-16 md:pt-0">
         <slot />
       </main>
     </div>
   </div>
 </div>
+
+<style>
+  /* Smooth transitions for mobile sidebar */
+  @media (max-width: 768px) {
+    :global(.admin-sidebar) {
+      box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    }
+  }
+</style>

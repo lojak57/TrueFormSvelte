@@ -41,7 +41,7 @@
   let messagesContainer: HTMLDivElement;
   let subscription: RealtimeChannel;
   let currentUserId: string;
-  let typingUsers: Set<string> = new Set();
+  let typingUsers: Map<string, { userId: string; userName: string }> = new Map();
 
   onMount(async () => {
     const {
@@ -152,12 +152,24 @@
           table: "tf_typing_indicators",
           filter: `thread_id=eq.${thread.id}`,
         },
-        (payload) => {
+        async (payload) => {
           if (
             payload.eventType === "INSERT" &&
             payload.new.user_id !== currentUserId
           ) {
-            typingUsers.add(payload.new.user_id);
+            // Fetch user info for typing indicator
+            const { data: userData } = await supabase
+              .from("tf_user_profiles")
+              .select("first_name, last_name")
+              .eq("user_id", payload.new.user_id)
+              .single();
+              
+            if (userData) {
+              typingUsers.set(payload.new.user_id, {
+                userId: payload.new.user_id,
+                userName: `${userData.first_name} ${userData.last_name}`
+              });
+            }
           } else if (payload.eventType === "DELETE") {
             typingUsers.delete(payload.old.user_id);
           }
@@ -387,23 +399,24 @@
 
     <!-- Typing Indicators -->
     {#if typingUsers.size > 0}
-      <div class="flex items-center gap-2 text-sm text-gray-500 italic">
-        <div class="flex gap-1">
-          <span
-            class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-            style="animation-delay: 0ms"
-          />
-          <span
-            class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-            style="animation-delay: 150ms"
-          />
-          <span
-            class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
-            style="animation-delay: 300ms"
-          />
-        </div>
-        <span>Someone is typing...</span>
-      </div>
+      {#each Array.from(typingUsers.values()) as typingUser}
+        <MessageBubble
+          message={{
+            id: `typing-${typingUser.userId}`,
+            content: '',
+            sender: {
+              first_name: typingUser.userName.split(' ')[0],
+              last_name: typingUser.userName.split(' ')[1] || '',
+              is_client: true
+            },
+            created_at: new Date().toISOString()
+          }}
+          isOwn={false}
+          showAvatar={true}
+          isTyping={true}
+          typingUser={typingUser.userName.split(' ')[0]}
+        />
+      {/each}
     {/if}
   {/if}
 </div>
