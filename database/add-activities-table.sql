@@ -54,7 +54,6 @@ CREATE POLICY "Users can create activities" ON tf_activities
 
 -- Grant permissions
 GRANT SELECT, INSERT ON tf_activities TO authenticated;
-GRANT USAGE ON SEQUENCE tf_activities_id_seq TO authenticated;
 
 -- Create a function to automatically log authentication activities
 CREATE OR REPLACE FUNCTION log_auth_activity()
