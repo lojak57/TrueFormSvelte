@@ -38,13 +38,14 @@
 
   onMount(async () => {
     await loadThreads();
-    setupRealtimeSubscription();
+    // Realtime subscriptions disabled for now
+    // setupRealtimeSubscription();
   });
 
   onDestroy(() => {
-    if (subscription) {
-      subscription.unsubscribe();
-    }
+    // if (subscription) {
+    //   subscription.unsubscribe();
+    // }
   });
 
   async function loadThreads() {
@@ -59,14 +60,10 @@
           `
           *,
           company:tf_companies(id, name),
-          messages:tf_messages(
+          messages:tf_messages!inner(
             content,
             created_at,
-            sender_id,
-            sender:tf_user_profiles!tf_messages_sender_id_fkey(
-              first_name,
-              last_name
-            )
+            sender_id
           )
         `
         )
@@ -74,6 +71,26 @@
         .order("updated_at", { ascending: false });
 
       if (threadsError) throw threadsError;
+
+      // Get all unique sender IDs from messages
+      const senderIds = new Set<string>();
+      threadsData?.forEach(thread => {
+        thread.messages?.forEach((msg: any) => {
+          if (msg.sender_id) senderIds.add(msg.sender_id);
+        });
+      });
+
+      // Fetch user profiles for all senders
+      const { data: userProfiles } = await supabase
+        .from("tf_user_profiles")
+        .select("user_id, first_name, last_name")
+        .in("user_id", Array.from(senderIds));
+
+      // Create a map of user profiles
+      const profileMap = new Map();
+      userProfiles?.forEach(profile => {
+        profileMap.set(profile.user_id, profile);
+      });
 
       // Get unread counts
       const threadIds = threadsData?.map((t) => t.id) || [];
@@ -89,6 +106,17 @@
           (a: any, b: any) =>
             new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
         )[0];
+
+        // Add sender info to last message
+        if (lastMessage && lastMessage.sender_id) {
+          const profile = profileMap.get(lastMessage.sender_id);
+          if (profile) {
+            lastMessage.sender = {
+              first_name: profile.first_name,
+              last_name: profile.last_name
+            };
+          }
+        }
 
         return {
           ...thread,
@@ -109,23 +137,24 @@
     }
   }
 
-  function setupRealtimeSubscription() {
-    subscription = supabase
-      .channel("messages-hub")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "tf_messages",
-        },
-        async (payload) => {
-          // Reload threads when new message arrives
-          await loadThreads();
-        }
-      )
-      .subscribe();
-  }
+  // Realtime subscriptions disabled for now
+  // function setupRealtimeSubscription() {
+  //   subscription = supabase
+  //     .channel("messages-hub")
+  //     .on(
+  //       "postgres_changes",
+  //       {
+  //         event: "*",
+  //         schema: "public",
+  //         table: "tf_messages",
+  //       },
+  //       async (payload) => {
+  //         // Reload threads when new message arrives
+  //         await loadThreads();
+  //       }
+  //     )
+  //     .subscribe();
+  // }
 
   function handleThreadSelect(threadId: string) {
     selectedThreadId = threadId;

@@ -52,14 +52,15 @@
     }
 
     await loadMessages();
-    setupRealtimeSubscription();
+    // Realtime subscriptions disabled for now
+    // setupRealtimeSubscription();
     scrollToBottom();
   });
 
   onDestroy(() => {
-    if (subscription) {
-      subscription.unsubscribe();
-    }
+    // if (subscription) {
+    //   subscription.unsubscribe();
+    // }
   });
 
   afterUpdate(() => {
@@ -73,13 +74,7 @@
         .select(
           `
           *,
-          sender:tf_user_profiles!tf_messages_sender_id_fkey(
-            user_id,
-            first_name,
-            last_name,
-            is_client,
-            avatar_url
-          ),
+          sender_id,
           reactions:tf_message_reactions(
             reaction_type,
             user_id
@@ -98,6 +93,38 @@
 
       messages = data || [];
 
+      // Fetch user profiles for all senders
+      const senderIds = new Set<string>();
+      messages.forEach((msg) => {
+        if (msg.sender_id) senderIds.add(msg.sender_id);
+      });
+
+      const { data: userProfiles } = await supabase
+        .from("tf_user_profiles")
+        .select("user_id, first_name, last_name, is_client, avatar_url")
+        .in("user_id", Array.from(senderIds));
+
+      // Create a map of user profiles
+      const profileMap = new Map();
+      userProfiles?.forEach((profile) => {
+        profileMap.set(profile.user_id, profile);
+      });
+
+      // Add sender info to messages
+      messages = messages.map((msg) => {
+        const profile = profileMap.get(msg.sender_id);
+        if (profile) {
+          msg.sender = {
+            user_id: profile.user_id,
+            first_name: profile.first_name,
+            last_name: profile.last_name,
+            is_client: profile.is_client,
+            avatar_url: profile.avatar_url
+          };
+        }
+        return msg;
+      });
+
       // Mark messages as read
       await markMessagesAsRead();
     } catch (err) {
@@ -108,6 +135,8 @@
     }
   }
 
+  // Realtime subscriptions disabled for now
+  /*
   function setupRealtimeSubscription() {
     subscription = supabase
       .channel(`thread-${thread.id}`)
@@ -178,6 +207,7 @@
       )
       .subscribe();
   }
+  */
 
   async function markMessagesAsRead() {
     const unreadMessages = messages.filter(
@@ -212,18 +242,34 @@
         .select(
           `
           *,
-          sender:tf_user_profiles!tf_messages_sender_id_fkey(
-            user_id,
-            first_name,
-            last_name,
-            is_client,
-            avatar_url
-          )
+          sender_id
         `
         )
         .single();
 
       if (error) throw error;
+
+      // Fetch sender profile for the new message
+      if (data) {
+        const { data: profile } = await supabase
+          .from("tf_user_profiles")
+          .select("user_id, first_name, last_name, is_client, avatar_url")
+          .eq("user_id", data.sender_id)
+          .single();
+
+        if (profile) {
+          data.sender = {
+            user_id: profile.user_id,
+            first_name: profile.first_name,
+            last_name: profile.last_name,
+            is_client: profile.is_client,
+            avatar_url: profile.avatar_url
+          };
+        }
+
+        // Add the new message to the list
+        messages = [...messages, data];
+      }
 
       // Handle file uploads if any
       if (files && files.length > 0 && data) {

@@ -61,8 +61,8 @@
     </div>
 
     <!-- Main admin content -->
-    <div class="flex flex-col flex-1 md:ml-[260px]">
-      <main class="flex-1 relative overflow-y-auto focus:outline-none pt-16 md:pt-0">
+    <div class="flex flex-col flex-1">
+      <main class="flex-1 relative overflow-y-auto focus:outline-none pt-16 md:pt-0 md:ml-[260px]">
         <slot />
       </main>
     </div>

@@ -35,14 +35,15 @@
   onMount(async () => {
     messageService = new MessageService();
     await loadMessages();
-    setupRealtimeSubscription();
+    // Realtime subscriptions disabled for now
+    // setupRealtimeSubscription();
     scrollToBottom();
   });
 
   onDestroy(() => {
-    if (realtimeSubscription) {
-      realtimeSubscription.unsubscribe();
-    }
+    // if (realtimeSubscription) {
+    //   realtimeSubscription.unsubscribe();
+    // }
   });
 
   async function loadMessages() {
@@ -60,6 +61,8 @@
     }
   }
 
+  // Realtime subscriptions disabled for now
+  /*
   function setupRealtimeSubscription() {
     realtimeSubscription = messageService.subscribeToThread(
       thread.id,
@@ -69,6 +72,10 @@
     );
   }
 
+  */
+
+  // Realtime event handler disabled for now
+  /*
   async function handleRealtimeEvent(payload: any) {
     const { eventType, table, new: newRecord, old: oldRecord } = payload;
 
@@ -109,6 +116,10 @@
     }
   }
 
+  */
+
+  // Typing indicators disabled for now
+  /*
   async function updateTypingIndicators() {
     try {
       typingUsers = await messageService.getTypingUsers(thread.id);
@@ -120,6 +131,7 @@
       console.warn("Failed to update typing indicators:", err);
     }
   }
+  */
 
   async function handleSendMessage(
     event: CustomEvent<{ content: string; replyTo?: string }>
