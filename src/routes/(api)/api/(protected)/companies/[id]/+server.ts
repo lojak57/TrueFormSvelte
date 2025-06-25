@@ -113,15 +113,62 @@ export const DELETE: RequestHandler = async ({ params, request, locals }) => {
   try {
     const { id } = params;
 
+    // Check if company has related records
+    const { data: contacts } = await supabaseAdmin
+      .from("tf_contacts")
+      .select("id")
+      .eq("company_id", id)
+      .limit(1);
+
+    const { data: projects } = await supabaseAdmin
+      .from("tf_company_projects")
+      .select("id")
+      .eq("company_id", id)
+      .limit(1);
+
+    const { data: proposals } = await supabaseAdmin
+      .from("tf_proposals")
+      .select("id")
+      .eq("company_id", id)
+      .limit(1);
+
+    if (contacts?.length || projects?.length || proposals?.length) {
+      return json(
+        {
+          error: "Cannot delete company with existing relationships",
+          details: {
+            hasContacts: !!contacts?.length,
+            hasProjects: !!projects?.length,
+            hasProposals: !!proposals?.length,
+          },
+        },
+        { status: 400 }
+      );
+    }
+
     const { error } = await supabaseAdmin
       .from("tf_companies")
       .delete()
       .eq("id", id);
 
-    if (error) throw error;
+    if (error) {
+      console.error("Delete company error:", error);
+      if (error.code === "23503") {
+        // Foreign key constraint violation
+        return json(
+          {
+            error: "Cannot delete company - it has related records",
+            hint: "Delete all contacts, projects, and proposals first",
+          },
+          { status: 400 }
+        );
+      }
+      throw error;
+    }
 
     return json({ success: true });
   } catch (error) {
+    console.error("Failed to delete company:", error);
     return json({ error: "Failed to delete company" }, { status: 500 });
   }
 };
