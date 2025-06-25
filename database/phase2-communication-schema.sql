@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS tf_document_permissions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     document_id UUID NOT NULL REFERENCES tf_documents_v2(id) ON DELETE CASCADE,
     user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-    role TEXT REFERENCES tf_team_company_access(role), -- For role-based access
+    role TEXT CHECK (role IN ('account_manager', 'developer', 'designer', 'admin')), -- Role-based access (not FK)
     permission_type TEXT NOT NULL CHECK (permission_type IN ('view', 'download', 'comment', 'edit', 'delete')),
     granted_by UUID NOT NULL REFERENCES auth.users(id),
     granted_at TIMESTAMPTZ DEFAULT NOW(),
