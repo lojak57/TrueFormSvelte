@@ -1,5 +1,4 @@
 <script lang="ts">
-  import ModernCard from "./ModernCard.svelte";
   import { createEventDispatcher } from "svelte";
 
   export let title: string;
@@ -42,72 +41,134 @@
   }
 </script>
 
-<ModernCard
-  variant="interactive"
-  size="md"
-  accent={statusColors[status]}
-  {href}
-  {loading}
-  on:click={handleCardClick}
->
-  <div class="business-card-content">
-    <!-- Header -->
-    <div class="card-header">
-      <div class="title-section">
-        <h3 class="card-title">{title}</h3>
-        {#if subtitle}
-          <p class="card-subtitle">{subtitle}</p>
-        {/if}
-      </div>
-
-      <div class="badges">
-        {#if priority}
-          <span class="priority-badge priority-{priority}">
-            {priority}
+{#if href}
+  <a
+    {href}
+    class="business-card"
+    class:loading
+    style="--accent-color: {statusColors[status]}"
+  >
+    <div class="business-card-content">
+      <slot name="header" />
+      <div class="card-header">
+        <div class="title-section">
+          <h3 class="card-title">{title}</h3>
+          {#if subtitle}
+            <p class="card-subtitle">{subtitle}</p>
+          {/if}
+        </div>
+        <div class="badges">
+          {#if priority}
+            <span class="priority-badge priority-{priority}">
+              {priority}
+            </span>
+          {/if}
+          <span class="status-badge status-{status}">
+            {status}
           </span>
-        {/if}
-        <span class="status-badge status-{status}">
-          {status}
-        </span>
+        </div>
       </div>
+      {#if description}
+        <p class="card-description">{description}</p>
+      {/if}
+      {#if value}
+        <div class="value-section">
+          <div class="value">{value}</div>
+          {#if valueLabel}
+            <div class="value-label">{valueLabel}</div>
+          {/if}
+        </div>
+      {/if}
+      <slot />
     </div>
-
-    <!-- Description -->
-    {#if description}
-      <p class="card-description">{description}</p>
-    {/if}
-
-    <!-- Value section -->
-    {#if value}
-      <div class="value-section">
-        <div class="value">{value}</div>
-        {#if valueLabel}
-          <div class="value-label">{valueLabel}</div>
-        {/if}
+  </a>
+{:else}
+  <div
+    class="business-card"
+    class:loading
+    style="--accent-color: {statusColors[status]}"
+    on:click={handleCardClick}
+    on:keydown={(e) => e.key === 'Enter' && handleCardClick()}
+    role="button"
+    tabindex="0"
+  >
+    <div class="business-card-content">
+      <slot name="header" />
+      <div class="card-header">
+        <div class="title-section">
+          <h3 class="card-title">{title}</h3>
+          {#if subtitle}
+            <p class="card-subtitle">{subtitle}</p>
+          {/if}
+        </div>
+        <div class="badges">
+          {#if priority}
+            <span class="priority-badge priority-{priority}">
+              {priority}
+            </span>
+          {/if}
+          <span class="status-badge status-{status}">
+            {status}
+          </span>
+        </div>
       </div>
-    {/if}
-
-    <!-- Actions -->
-    {#if actions.length > 0}
-      <div class="card-actions">
-        {#each actions as action}
-          <button
-            class="action-btn action-{action.variant || 'secondary'}"
-            on:click|stopPropagation={() => handleAction(action.action)}
-          >
-            {action.label}
-          </button>
-        {/each}
-      </div>
-    {/if}
+      {#if description}
+        <p class="card-description">{description}</p>
+      {/if}
+      {#if value}
+        <div class="value-section">
+          <div class="value">{value}</div>
+          {#if valueLabel}
+            <div class="value-label">{valueLabel}</div>
+          {/if}
+        </div>
+      {/if}
+      {#if actions.length > 0}
+        <div class="card-actions">
+          {#each actions as action}
+            <button
+              class="action-btn action-{action.variant || 'secondary'}"
+              on:click|stopPropagation={() => handleAction(action.action)}
+            >
+              {action.label}
+            </button>
+          {/each}
+        </div>
+      {/if}
+      <slot />
+    </div>
   </div>
-</ModernCard>
+{/if}
 
 <style>
+  .business-card {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    border: 1px solid #e5e7eb;
+    border-left: 4px solid var(--accent-color, #6366f1);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .business-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .business-card.loading {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
   .business-card-content {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 1rem;
     height: 100%;
   }
 
@@ -115,7 +176,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 16px;
+    gap: 1rem;
   }
 
   .title-section {
@@ -124,21 +185,20 @@
   }
 
   .card-title {
-    font-size: 18px;
+    font-size: 1.125rem;
     font-weight: 600;
-    color: rgb(17, 24, 39);
+    color: #111827;
     margin: 0;
     line-height: 1.4;
-    /* Text truncation with ellipsis */
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
   .card-subtitle {
-    font-size: 14px;
-    color: rgb(107, 114, 128);
-    margin: 4px 0 0 0;
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin: 0.25rem 0 0 0;
     line-height: 1.4;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -147,61 +207,60 @@
 
   .badges {
     display: flex;
-    gap: 8px;
+    gap: 0.5rem;
     flex-shrink: 0;
   }
 
   .status-badge,
   .priority-badge {
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 12px;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
     font-weight: 500;
     text-transform: capitalize;
     white-space: nowrap;
   }
 
   .status-active {
-    background: rgb(220, 252, 231);
-    color: rgb(5, 150, 105);
+    background: #dcfce7;
+    color: #059669;
   }
 
   .status-inactive {
-    background: rgb(243, 244, 246);
-    color: rgb(75, 85, 99);
+    background: #f3f4f6;
+    color: #4b5563;
   }
 
   .status-pending {
-    background: rgb(254, 243, 199);
-    color: rgb(217, 119, 6);
+    background: #fef3c7;
+    color: #d97706;
   }
 
   .status-draft {
-    background: rgb(237, 233, 254);
-    color: rgb(124, 58, 237);
+    background: #ede9fe;
+    color: #7c3aed;
   }
 
   .priority-low {
-    background: rgb(207, 250, 254);
-    color: rgb(8, 145, 178);
+    background: #cffafe;
+    color: #0891b2;
   }
 
   .priority-medium {
-    background: rgb(254, 243, 199);
-    color: rgb(217, 119, 6);
+    background: #fef3c7;
+    color: #d97706;
   }
 
   .priority-high {
-    background: rgb(254, 226, 226);
-    color: rgb(220, 38, 38);
+    background: #fee2e2;
+    color: #dc2626;
   }
 
   .card-description {
-    font-size: 14px;
-    color: rgb(75, 85, 99);
+    font-size: 0.875rem;
+    color: #4b5563;
     margin: 0;
     line-height: 1.5;
-    /* Multi-line text truncation */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -210,36 +269,36 @@
 
   .value-section {
     margin-top: auto;
-    padding-top: 8px;
-    border-top: 1px solid rgb(243, 244, 246);
+    padding-top: 0.5rem;
+    border-top: 1px solid #f3f4f6;
   }
 
   .value {
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: 700;
-    color: rgb(17, 24, 39);
+    color: #111827;
     line-height: 1.2;
   }
 
   .value-label {
-    font-size: 12px;
-    color: rgb(107, 114, 128);
+    font-size: 0.75rem;
+    color: #6b7280;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    margin-top: 2px;
+    margin-top: 0.125rem;
   }
 
   .card-actions {
     display: flex;
-    gap: 8px;
+    gap: 0.5rem;
     flex-wrap: wrap;
     margin-top: auto;
   }
 
   .action-btn {
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 12px;
+    padding: 0.375rem 0.75rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
     font-weight: 500;
     border: none;
     cursor: pointer;
@@ -247,67 +306,36 @@
   }
 
   .action-primary {
-    background: rgb(59, 130, 246);
+    background: #3b82f6;
     color: white;
   }
 
   .action-primary:hover {
-    background: rgb(37, 99, 235);
+    background: #2563eb;
   }
 
   .action-secondary {
-    background: rgb(243, 244, 246);
-    color: rgb(55, 65, 81);
+    background: #f3f4f6;
+    color: #374151;
   }
 
   .action-secondary:hover {
-    background: rgb(229, 231, 235);
+    background: #e5e7eb;
   }
 
   .action-danger {
-    background: rgb(254, 226, 226);
-    color: rgb(220, 38, 38);
+    background: #fee2e2;
+    color: #dc2626;
   }
 
   .action-danger:hover {
-    background: rgb(252, 165, 165);
+    background: #fca5a5;
   }
 
-  /* Dark mode */
-  :global(.dark) .card-title {
-    color: rgb(243, 244, 246);
-  }
-
-  :global(.dark) .card-subtitle {
-    color: rgb(156, 163, 175);
-  }
-
-  :global(.dark) .card-description {
-    color: rgb(156, 163, 175);
-  }
-
-  :global(.dark) .value {
-    color: rgb(243, 244, 246);
-  }
-
-  :global(.dark) .value-section {
-    border-color: rgb(55, 65, 81);
-  }
-
-  :global(.dark) .action-secondary {
-    background: rgb(55, 65, 81);
-    color: rgb(209, 213, 219);
-  }
-
-  :global(.dark) .action-secondary:hover {
-    background: rgb(75, 85, 99);
-  }
-
-  /* Mobile responsive */
   @media (max-width: 640px) {
     .card-header {
       flex-direction: column;
-      gap: 12px;
+      gap: 0.75rem;
     }
 
     .badges {
@@ -315,11 +343,11 @@
     }
 
     .card-title {
-      font-size: 16px;
+      font-size: 1rem;
     }
 
     .value {
-      font-size: 20px;
+      font-size: 1.25rem;
     }
   }
 </style>

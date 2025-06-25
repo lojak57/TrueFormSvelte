@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import { supabase } from "$lib/supabase.client";
+  import { supabase } from "$lib/supabaseClient";
   import { formatDistanceToNow } from "date-fns";
   import MessageList from "$lib/components/messages/MessageList.svelte";
   import MessageThread from "$lib/components/messages/MessageThread.svelte";

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { supabase } from "$lib/supabase.client";
+  import { supabase } from "$lib/supabaseClient";
   import { fade, scale } from "svelte/transition";
   import { Paperclip, Send, Smile, X, Image, FileText } from "lucide-svelte";
 

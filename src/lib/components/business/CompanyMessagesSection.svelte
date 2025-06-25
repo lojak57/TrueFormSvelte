@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
-  import { supabase } from "$lib/supabase.client";
+  import { supabase } from "$lib/supabaseClient";
   import MessageThread from "../messages/MessageThread.svelte";
   import type { RealtimeChannel } from "@supabase/supabase-js";
 

@@ -1,9 +1,6 @@
 <script lang="ts">
-  import type { LayoutData } from "./$types";
   import AdminSidebar from "$lib/components/admin/AdminSidebar.svelte";
   import { Menu, X } from "lucide-svelte";
-  
-  export let data: LayoutData;
   
   let sidebarOpen = false;
   
