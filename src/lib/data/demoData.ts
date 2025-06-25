@@ -1,0 +1,161 @@
+import type { Company, Contact, Project } from "$lib/types";
+
+export const sampleCompanies: Company[] = [
+  {
+    id: "1",
+    name: "Pillar Apps",
+    website: "https://pillarapps.com",
+    vertical_id: "technology",
+    billing_street: "123 Tech Street",
+    billing_city: "Austin",
+    billing_state: "TX",
+    billing_zip: "78701",
+    billing_country: "USA",
+    notes:
+      "Sister organization focused on mobile app development and digital solutions.",
+    status: "active",
+    created_at: "2024-01-15T10:00:00Z",
+    updated_at: "2024-01-15T10:00:00Z",
+  },
+  {
+    id: "2",
+    name: "Green Valley Golf Club",
+    website: "https://greenvalleygolf.com",
+    vertical_id: "golf",
+    billing_city: "Scottsdale",
+    billing_state: "AZ",
+    status: "active",
+    created_at: "2024-02-01T14:30:00Z",
+    updated_at: "2024-02-01T14:30:00Z",
+  },
+  {
+    id: "3",
+    name: "Lone Star Energy",
+    vertical_id: "oilfield",
+    billing_city: "Houston",
+    billing_state: "TX",
+    status: "pending",
+    created_at: "2024-02-15T09:15:00Z",
+    updated_at: "2024-02-15T09:15:00Z",
+  },
+];
+
+export const sampleContacts: Contact[] = [
+  {
+    id: "1",
+    company_id: "1",
+    first_name: "Sarah",
+    last_name: "Johnson",
+    email: "sarah@pillarapps.com",
+    phone: "+1 (555) 123-4567",
+    title: "Product Manager",
+    status: "active",
+    created_at: "2024-01-15T10:00:00Z",
+    updated_at: "2024-01-15T10:00:00Z",
+  },
+  {
+    id: "2",
+    company_id: "2",
+    first_name: "Mike",
+    last_name: "Thompson",
+    email: "mike@greenvalleygolf.com",
+    phone: "+1 (555) 987-6543",
+    title: "General Manager",
+    status: "active",
+    created_at: "2024-02-01T14:30:00Z",
+    updated_at: "2024-02-01T14:30:00Z",
+  },
+  {
+    id: "3",
+    company_id: "3",
+    first_name: "James",
+    last_name: "Wilson",
+    email: "james@lonestarenergy.com",
+    title: "Operations Director",
+    status: "active",
+    created_at: "2024-02-15T09:15:00Z",
+    updated_at: "2024-02-15T09:15:00Z",
+  },
+  {
+    id: "4",
+    company_id: "4",
+    first_name: "Dr. Emily",
+    last_name: "Chen",
+    email: "emily@medtechsolutions.com",
+    title: "Chief Technology Officer",
+    status: "active",
+    created_at: "2024-01-20T16:45:00Z",
+    updated_at: "2024-01-20T16:45:00Z",
+  },
+];
+
+export const sampleProjects: Project[] = [
+  {
+    id: "1",
+    company_id: "1",
+    name: "Mobile CRM Platform",
+    description:
+      "Development of a comprehensive mobile CRM solution with real-time synchronization and offline capabilities.",
+    project_type: "custom_development",
+    status: "active",
+    start_date: "2024-01-15",
+    end_date: "2024-06-15",
+    budget: 150000,
+    created_at: "2024-01-15T10:00:00Z",
+    updated_at: "2024-01-15T10:00:00Z",
+  },
+  {
+    id: "2",
+    company_id: "2",
+    name: "Golf Club Website Launch",
+    description:
+      "Complete website redesign with booking system, member portal, and event management.",
+    project_type: "website_launch",
+    status: "active",
+    start_date: "2024-02-01",
+    end_date: "2024-04-01",
+    budget: 25000,
+    created_at: "2024-02-01T14:30:00Z",
+    updated_at: "2024-02-01T14:30:00Z",
+  },
+  {
+    id: "3",
+    company_id: "3",
+    name: "Operations Dashboard Demo",
+    description:
+      "Interactive frontend demo showcasing real-time drilling data and equipment monitoring.",
+    project_type: "frontend_demo",
+    status: "planning",
+    start_date: "2024-03-01",
+    budget: 35000,
+    created_at: "2024-02-15T09:15:00Z",
+    updated_at: "2024-02-15T09:15:00Z",
+  },
+  {
+    id: "4",
+    company_id: "4",
+    name: "Healthcare Platform Integration",
+    description:
+      "Integration with existing EHR systems and compliance with HIPAA requirements.",
+    project_type: "platform_integration",
+    status: "completed",
+    start_date: "2024-01-01",
+    end_date: "2024-02-28",
+    budget: 75000,
+    created_at: "2024-01-20T16:45:00Z",
+    updated_at: "2024-01-20T16:45:00Z",
+  },
+];
+
+export const headerActions = [
+  {
+    label: "Add Company",
+    variant: "primary" as const,
+    onClick: () => alert("Add Company clicked!"),
+  },
+  {
+    label: "Import Data",
+    variant: "outline" as const,
+    onClick: () => alert("Import Data clicked!"),
+  },
+];

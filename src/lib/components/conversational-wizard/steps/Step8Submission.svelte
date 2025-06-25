@@ -1,8 +1,11 @@
 <script lang="ts">
   import { conversationalWizard } from "../conversationalWizardStore";
   import InlineReassurance from "../reassurance/InlineReassurance.svelte";
+  import ProcessStep from "../../submission/ProcessStep.svelte";
+  import PricingBreakdown from "../../submission/PricingBreakdown.svelte";
+  import GuaranteesGrid from "../../submission/GuaranteesGrid.svelte";
   import { fade, fly } from "svelte/transition";
-  import { CheckCircle, Clock, DollarSign, FileText, Zap } from "lucide-svelte";
+  import { SUBMISSION_PROCESS_STEPS } from "$lib/data/submissionProcess";
 
   let isSubmitting = false;
   let isSubmitted = false;
@@ -71,180 +74,20 @@
         </h3>
 
         <div class="process-steps">
-          <div
-            class="process-step"
-            in:fly={{ x: -30, duration: 400, delay: 600 }}
-          >
-            <div class="step-icon step-1">
-              <FileText size={24} />
-            </div>
-            <div class="step-content">
-              <h4>1. Designer Review</h4>
-              <p>
-                Our designer reviews your scoped project and all the details
-                you've shared. We'll refine the exact features and ensure
-                everything aligns with your vision.
-              </p>
-              <span class="step-timing"
-                >Within 24-48 hours (usually much sooner)</span
-              >
-            </div>
-          </div>
-
-          <div
-            class="process-step"
-            in:fly={{ x: -30, duration: 400, delay: 700 }}
-          >
-            <div class="step-icon step-2">
-              <DollarSign size={24} />
-            </div>
-            <div class="step-content">
-              <h4>2. Official Proposal + 25% Deposit</h4>
-              <p>
-                You'll receive a refined proposal with a secure payment link.
-                Pay just 25% to get started—this confirms your spot in our queue
-                and kicks off the design process.
-              </p>
-              <span class="step-timing">Proposal valid for 7 days</span>
-            </div>
-          </div>
-
-          <div
-            class="process-step"
-            in:fly={{ x: -30, duration: 400, delay: 800 }}
-          >
-            <div class="step-icon step-3">
-              <Zap size={24} />
-            </div>
-            <div class="step-content">
-              <h4>3. We Build Your Site</h4>
-              <p>
-                Our team gets to work immediately. You'll see progress updates
-                and can provide feedback throughout the process. Most sites are
-                completed within 7 business days.
-              </p>
-              <span class="step-timing">7-day delivery promise</span>
-            </div>
-          </div>
-
-          <div
-            class="process-step"
-            in:fly={{ x: -30, duration: 400, delay: 900 }}
-          >
-            <div class="step-icon step-4">
-              <CheckCircle size={24} />
-            </div>
-            <div class="step-content">
-              <h4>4. Final Payment + Launch</h4>
-              <p>
-                Once you approve the final site, we collect the remaining 75%
-                and launch your site live. Your hosting and support start
-                immediately.
-              </p>
-              <span class="step-timing">Same-day launch after approval</span>
-            </div>
-          </div>
+          {#each SUBMISSION_PROCESS_STEPS as step}
+            <ProcessStep {step} />
+          {/each}
         </div>
       </div>
 
       <!-- Pricing Clarity Section -->
-      <div
-        class="pricing-clarity"
-        in:fly={{ y: 30, duration: 500, delay: 1000 }}
-      >
-        <div class="clarity-header" in:fade={{ duration: 400, delay: 1100 }}>
-          <h3>Investment Breakdown</h3>
-          <p>Clear, honest pricing with no hidden fees</p>
-        </div>
-
-        <div class="pricing-breakdown" in:fade={{ duration: 500, delay: 1200 }}>
-          <div class="pricing-item">
-            <span>Estimated Total Investment</span>
-            <span class="price-amount"
-              >${data.estimatedTotal?.toLocaleString() || "999"}</span
-            >
-          </div>
-          <div class="pricing-split">
-            <div class="split-item">
-              <div class="split-label">To Start (25%)</div>
-              <div class="split-amount">
-                ${Math.round(
-                  (data.estimatedTotal || 999) * 0.25
-                ).toLocaleString()}
-              </div>
-              <div class="split-desc">Secures your spot, starts design</div>
-            </div>
-            <div class="split-divider">+</div>
-            <div class="split-item">
-              <div class="split-label">At Completion (75%)</div>
-              <div class="split-amount">
-                ${Math.round(
-                  (data.estimatedTotal || 999) * 0.75
-                ).toLocaleString()}
-              </div>
-              <div class="split-desc">Final payment before launch</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="pricing-note" in:fade={{ duration: 400, delay: 1300 }}>
-          <Clock size={16} />
-          <p>
-            <strong>Note:</strong> This is a budgetary estimate. Your designer may
-            suggest adjustments based on your specific needs, but we'll always get
-            your approval before any changes.
-          </p>
-        </div>
+      <div in:fly={{ y: 30, duration: 500, delay: 1000 }}>
+        <PricingBreakdown estimatedTotal={data.estimatedTotal || 999} />
       </div>
 
       <!-- Guarantees Section -->
-      <div
-        class="guarantees-section"
-        in:fly={{ y: 30, duration: 500, delay: 1400 }}
-      >
-        <h3 in:fade={{ duration: 400, delay: 1500 }}>Our Promises to You</h3>
-        <div class="guarantees-grid">
-          <div
-            class="guarantee-item"
-            in:fly={{ y: 20, duration: 400, delay: 1600 }}
-          >
-            <div class="guarantee-icon">✅</div>
-            <div class="guarantee-text">
-              <strong>7-Day Delivery</strong><br />
-              Your site launches within one week
-            </div>
-          </div>
-          <div
-            class="guarantee-item"
-            in:fly={{ y: 20, duration: 400, delay: 1700 }}
-          >
-            <div class="guarantee-icon">✅</div>
-            <div class="guarantee-text">
-              <strong>First Year Hosting Free</strong><br />
-              $180 value included in your price
-            </div>
-          </div>
-          <div
-            class="guarantee-item"
-            in:fly={{ y: 20, duration: 400, delay: 1800 }}
-          >
-            <div class="guarantee-icon">✅</div>
-            <div class="guarantee-text">
-              <strong>24-Hour Support</strong><br />
-              Real humans answer your questions
-            </div>
-          </div>
-          <div
-            class="guarantee-item"
-            in:fly={{ y: 20, duration: 400, delay: 1900 }}
-          >
-            <div class="guarantee-icon">✅</div>
-            <div class="guarantee-text">
-              <strong>One Revision Round</strong><br />
-              We polish until you're happy
-            </div>
-          </div>
-        </div>
+      <div in:fly={{ y: 30, duration: 500, delay: 1400 }}>
+        <GuaranteesGrid />
       </div>
 
       <InlineReassurance

@@ -5,6 +5,7 @@
   export let contact: any;
   export let onEditContact: () => void;
   export let onViewCompany: () => void;
+  export let onDeleteContact: () => void;
 
   function getContactInitials(first: string, last: string): string {
     return `${first.charAt(0)}${last.charAt(0)}`.toUpperCase();
@@ -76,6 +77,9 @@
         <BaseButton on:click={onEditContact}>Edit Contact</BaseButton>
         <BaseButton variant="outline" on:click={onViewCompany}
           >View Company</BaseButton
+        >
+        <BaseButton variant="danger" on:click={onDeleteContact}
+          >Delete Contact</BaseButton
         >
       </div>
     </div>

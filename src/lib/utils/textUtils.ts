@@ -11,15 +11,15 @@ export function generateInitials(
   maxInitials: number = 2
 ): string {
   if (!name?.trim()) {
-    return '?';
+    return "?";
   }
 
   const words = name.trim().split(/\s+/);
-  
+
   // For single word, take first two characters
   if (words.length === 1) {
     const word = words[0];
-    return word.length >= 2 
+    return word.length >= 2
       ? word.substring(0, 2).toUpperCase()
       : word.charAt(0).toUpperCase();
   }
@@ -27,8 +27,8 @@ export function generateInitials(
   // For multiple words, take first letter of each word up to maxInitials
   return words
     .slice(0, maxInitials)
-    .map(word => word.charAt(0))
-    .join('')
+    .map((word) => word.charAt(0))
+    .join("")
     .toUpperCase();
 }
 
@@ -45,16 +45,16 @@ export function generatePersonInitials(
   if (first && last) {
     return `${first.charAt(0)}${last.charAt(0)}`.toUpperCase();
   }
-  
+
   if (first) {
     return generateInitials(first);
   }
-  
+
   if (last) {
     return generateInitials(last);
   }
-  
-  return '?';
+
+  return "?";
 }
 
 /**
@@ -65,13 +65,16 @@ export function generateCompanyInitials(
   maxInitials: number = 2
 ): string {
   if (!companyName?.trim()) {
-    return '?';
+    return "?";
   }
 
   // Remove common business suffixes and articles
   const cleanName = companyName
-    .replace(/\b(Inc|LLC|Corp|Ltd|Company|Co|Solutions|Services|Group|Associates|Partners)\b\.?/gi, '')
-    .replace(/\b(The|A|An|Of|And|&)\b\s*/gi, '')
+    .replace(
+      /\b(Inc|LLC|Corp|Ltd|Company|Co|Solutions|Services|Group|Associates|Partners)\b\.?/gi,
+      ""
+    )
+    .replace(/\b(The|A|An|Of|And|&)\b\s*/gi, "")
     .trim();
 
   return generateInitials(cleanName, maxInitials);
@@ -83,14 +86,14 @@ export function generateCompanyInitials(
 export function truncateText(
   text: string | null | undefined,
   maxLength: number,
-  suffix: string = '...'
+  suffix: string = "..."
 ): string {
-  if (!text) return '';
-  
+  if (!text) return "";
+
   if (text.length <= maxLength) {
     return text;
   }
-  
+
   return text.substring(0, maxLength - suffix.length) + suffix;
 }
 
@@ -100,21 +103,21 @@ export function truncateText(
 export function truncateAtWord(
   text: string | null | undefined,
   maxLength: number,
-  suffix: string = '...'
+  suffix: string = "..."
 ): string {
-  if (!text) return '';
-  
+  if (!text) return "";
+
   if (text.length <= maxLength) {
     return text;
   }
-  
+
   const truncated = text.substring(0, maxLength - suffix.length);
-  const lastSpaceIndex = truncated.lastIndexOf(' ');
-  
+  const lastSpaceIndex = truncated.lastIndexOf(" ");
+
   if (lastSpaceIndex > 0) {
     return truncated.substring(0, lastSpaceIndex) + suffix;
   }
-  
+
   return truncated + suffix;
 }
 
@@ -122,21 +125,21 @@ export function truncateAtWord(
  * Convert text to title case
  */
 export function toTitleCase(text: string | null | undefined): string {
-  if (!text) return '';
-  
+  if (!text) return "";
+
   return text
     .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 /**
  * Convert text to sentence case
  */
 export function toSentenceCase(text: string | null | undefined): string {
-  if (!text) return '';
-  
+  if (!text) return "";
+
   const trimmed = text.trim();
   return trimmed.charAt(0).toUpperCase() + trimmed.slice(1).toLowerCase();
 }
@@ -145,11 +148,11 @@ export function toSentenceCase(text: string | null | undefined): string {
  * Convert camelCase or PascalCase to readable text
  */
 export function camelToReadable(text: string | null | undefined): string {
-  if (!text) return '';
-  
+  if (!text) return "";
+
   return text
-    .replace(/([A-Z])/g, ' $1')
-    .replace(/^./, str => str.toUpperCase())
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (str) => str.toUpperCase())
     .trim();
 }
 
@@ -157,25 +160,25 @@ export function camelToReadable(text: string | null | undefined): string {
  * Convert snake_case or kebab-case to readable text
  */
 export function snakeToReadable(text: string | null | undefined): string {
-  if (!text) return '';
-  
+  if (!text) return "";
+
   return text
-    .replace(/[_-]/g, ' ')
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
+    .replace(/[_-]/g, " ")
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
 }
 
 /**
  * Clean and normalize text for search/comparison
  */
 export function normalizeForSearch(text: string | null | undefined): string {
-  if (!text) return '';
-  
+  if (!text) return "";
+
   return text
     .toLowerCase()
-    .replace(/[^\w\s]/g, '') // Remove special characters
-    .replace(/\s+/g, ' ')    // Normalize whitespace
+    .replace(/[^\w\s]/g, "") // Remove special characters
+    .replace(/\s+/g, " ") // Normalize whitespace
     .trim();
 }
 
@@ -183,24 +186,24 @@ export function normalizeForSearch(text: string | null | undefined): string {
  * Extract domain from email address
  */
 export function extractEmailDomain(email: string | null | undefined): string {
-  if (!email) return '';
-  
+  if (!email) return "";
+
   const match = email.match(/@([^@]+)$/);
-  return match ? match[1].toLowerCase() : '';
+  return match ? match[1].toLowerCase() : "";
 }
 
 /**
  * Generate a slug from text (URL-friendly)
  */
 export function generateSlug(text: string | null | undefined): string {
-  if (!text) return '';
-  
+  if (!text) return "";
+
   return text
     .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove special characters except hyphens
-    .replace(/\s+/g, '-')     // Replace spaces with hyphens
-    .replace(/-+/g, '-')      // Replace multiple hyphens with single hyphen
-    .replace(/^-|-$/g, '');   // Remove leading/trailing hyphens
+    .replace(/[^\w\s-]/g, "") // Remove special characters except hyphens
+    .replace(/\s+/g, "-") // Replace spaces with hyphens
+    .replace(/-+/g, "-") // Replace multiple hyphens with single hyphen
+    .replace(/^-|-$/g, ""); // Remove leading/trailing hyphens
 }
 
 /**
@@ -208,8 +211,11 @@ export function generateSlug(text: string | null | undefined): string {
  */
 export function countWords(text: string | null | undefined): number {
   if (!text) return 0;
-  
-  return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+
+  return text
+    .trim()
+    .split(/\s+/)
+    .filter((word) => word.length > 0).length;
 }
 
 /**
@@ -229,10 +235,13 @@ export function estimateReadingTime(
 export function highlightSearchTerms(
   text: string,
   searchTerm: string,
-  highlightClass: string = 'bg-yellow-200'
+  highlightClass: string = "bg-yellow-200"
 ): string {
   if (!searchTerm.trim()) return text;
-  
-  const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+
+  const regex = new RegExp(
+    `(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`,
+    "gi"
+  );
   return text.replace(regex, `<span class="${highlightClass}">$1</span>`);
 }

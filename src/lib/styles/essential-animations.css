@@ -57,7 +57,7 @@
 
 .floating-label.active {
   transform: translateY(-0.5rem) scale(0.875);
-  color: theme('colors.accent.600');
+  color: theme("colors.accent.600");
 }
 
 /* ============================================================================
@@ -68,14 +68,14 @@
   .animate-spin {
     animation: none;
   }
-  
+
   .skeleton,
   .skeleton-card,
   .loading-skeleton {
     animation: none;
     background: #f0f0f0;
   }
-  
+
   .floating-label {
     transition: none;
   }

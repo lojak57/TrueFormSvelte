@@ -1,29 +1,31 @@
 <script lang="ts">
   import { CheckCircle } from "lucide-svelte";
-  
+
   export let basePrice: number = 999;
 
   const baseFeatures = [
     "Professional website design",
-    "Mobile-responsive layout", 
+    "Mobile-responsive layout",
     "Content management system",
     "Basic SEO optimization",
     "Contact forms & integration",
     "SSL security certificate",
     "1 year domain registration",
-    "3 months maintenance included"
+    "3 months maintenance included",
   ];
 
   function formatPrice(amount: number): string {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 0,
     }).format(amount);
   }
 </script>
 
-<div class="bg-gradient-to-br from-accent-600 to-accent-700 rounded-xl text-white p-6 mb-8">
+<div
+  class="bg-gradient-to-br from-accent-600 to-accent-700 rounded-xl text-white p-6 mb-8"
+>
   <div class="flex items-center justify-between mb-6">
     <div>
       <h2 class="text-2xl font-bold mb-1">Professional Website Package</h2>

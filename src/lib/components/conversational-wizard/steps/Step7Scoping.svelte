@@ -3,18 +3,10 @@
   import InlineReassurance from "../reassurance/InlineReassurance.svelte";
   import { fade, fly } from "svelte/transition";
   import {
-    ShoppingCart,
-    Calendar,
-    Camera,
-    Edit3,
-    FileText,
-    Users,
-    Globe,
-    Sparkles,
-    Mail,
-    PenTool,
-    Database,
-  } from "lucide-svelte";
+    ADDONS_DATA,
+    SERVICE_REQUIREMENTS,
+    SERVICE_RECOMMENDATIONS,
+  } from "$lib/data/addons";
 
   export let serviceParam: string | null = null;
 
@@ -30,194 +22,11 @@
     estimatedTotal = $conversationalWizard.data.estimatedTotal;
   }
 
-  const addons = [
-    {
-      id: "crm",
-      title: "CRM Integration",
-      price: 200,
-      description:
-        "Custom-branded CRM with lead management ($49/month after launch)",
-      icon: Database,
-      imageBg: "from-blue-500 to-blue-700",
-      iconColor: "text-white",
-      benefits: [
-        "Lead tracking",
-        "Customer management",
-        "Custom branding",
-        "Monthly service: $49",
-      ],
-      popular: true,
-    },
-    {
-      id: "ecommerce",
-      title: "eCommerce (Lite)",
-      price: 200,
-      description: "Up to 50 products, Stripe integration, simple shop flow",
-      icon: ShoppingCart,
-      imageBg: "from-green-400 to-green-600",
-      iconColor: "text-white",
-      benefits: [
-        "Product catalog",
-        "Secure checkout",
-        "Inventory tracking",
-        "Order management",
-      ],
-    },
-    {
-      id: "booking",
-      title: "Booking / Scheduling",
-      price: 200,
-      description: "Perfect for photographers, stylists, trainers",
-      icon: Calendar,
-      imageBg: "from-blue-400 to-blue-600",
-      iconColor: "text-white",
-      benefits: [
-        "Calendar integration",
-        "Automated reminders",
-        "Payment collection",
-        "Client management",
-      ],
-    },
-    {
-      id: "portfolio",
-      title: "Portfolio Builder",
-      price: 150,
-      description: "Grid, categories, filters, high-res images",
-      icon: Camera,
-      imageBg: "from-purple-400 to-purple-600",
-      iconColor: "text-white",
-      benefits: [
-        "Image galleries",
-        "Category filters",
-        "Lightbox viewing",
-        "Mobile optimized",
-      ],
-    },
-    {
-      id: "blog",
-      title: "Blog Setup",
-      price: 100,
-      description: "Styled blog + SEO basics built-in",
-      icon: Edit3,
-      imageBg: "from-orange-400 to-orange-600",
-      iconColor: "text-white",
-      benefits: [
-        "SEO optimized",
-        "Easy publishing",
-        "Comment system",
-        "Social sharing",
-      ],
-    },
-    {
-      id: "forms",
-      title: "Custom Forms / Intake",
-      price: 100,
-      description: "Contact, lead gen, quote request forms",
-      icon: FileText,
-      imageBg: "from-teal-400 to-teal-600",
-      iconColor: "text-white",
-      benefits: [
-        "Custom fields",
-        "Email notifications",
-        "Data export",
-        "Spam protection",
-      ],
-    },
-    {
-      id: "portal",
-      title: "Client Portal",
-      price: 300,
-      description: "Login area + gated pages for contractors, artists",
-      icon: Users,
-      imageBg: "from-indigo-400 to-indigo-600",
-      iconColor: "text-white",
-      benefits: [
-        "Secure login",
-        "Document sharing",
-        "Progress tracking",
-        "Client dashboard",
-      ],
-    },
-    {
-      id: "service-pages",
-      title: "Service Page Generator",
-      price: 100,
-      description: "Pre-scaffolded dynamic service pages for SEO",
-      icon: Globe,
-      imageBg: "from-pink-400 to-pink-600",
-      iconColor: "text-white",
-      benefits: [
-        "SEO templates",
-        "Dynamic content",
-        "Local search",
-        "Service listings",
-      ],
-    },
-    {
-      id: "animations",
-      title: "Premium Animation",
-      price: 150,
-      description: "Parallax, transitions, hover effects",
-      icon: Sparkles,
-      imageBg: "from-yellow-400 to-yellow-600",
-      iconColor: "text-white",
-      benefits: [
-        "Scroll animations",
-        "Hover effects",
-        "Loading transitions",
-        "Interactive elements",
-      ],
-    },
-    {
-      id: "domain-email",
-      title: "Domain + Email Setup",
-      price: 100,
-      description: "We set up your DNS, domain, and business email",
-      icon: Mail,
-      imageBg: "from-red-400 to-red-600",
-      iconColor: "text-white",
-      benefits: [
-        "Professional email",
-        "DNS configuration",
-        "Domain setup",
-        "Email forwarding",
-      ],
-    },
-    {
-      id: "copywriting",
-      title: "Copywriting Polish",
-      price: 200,
-      description: "Human-written blurbs, taglines, CTAs",
-      icon: PenTool,
-      imageBg: "from-emerald-400 to-emerald-600",
-      iconColor: "text-white",
-      benefits: [
-        "Professional copy",
-        "Brand voice",
-        "SEO content",
-        "Call-to-actions",
-      ],
-    },
-  ];
+  const addons = ADDONS_DATA;
 
-  // Service-specific required add-ons
-  const serviceRequirements: Record<string, string[]> = {
-    membership: ["crm"],
-    realestate: ["crm"],
-    education: ["crm"],
-    ecommerce: ["ecommerce"],
-    booking: ["booking"],
-  };
-
-  // Service-specific recommendations
-  const serviceRecommendations: Record<string, string[]> = {
-    marketing: ["crm", "copywriting"],
-    ecommerce: ["crm", "seo"],
-    booking: ["crm", "domain-email"],
-    membership: ["social-media", "domain-email"],
-    realestate: ["social-media", "seo", "domain-email"],
-    education: ["social-media", "copywriting"],
-  };
+  // Use imported service requirements and recommendations
+  const serviceRequirements = SERVICE_REQUIREMENTS;
+  const serviceRecommendations = SERVICE_RECOMMENDATIONS;
 
   // Pre-select required add-ons if coming from service page
   if (serviceParam && serviceRequirements[serviceParam]) {

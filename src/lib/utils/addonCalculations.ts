@@ -26,7 +26,10 @@ export function calculateTotalPrice(
   basePrice: number,
   selectedAddons: Addon[]
 ): PriceCalculation {
-  const addonTotal = selectedAddons.reduce((sum, addon) => sum + addon.price, 0);
+  const addonTotal = selectedAddons.reduce(
+    (sum, addon) => sum + addon.price,
+    0
+  );
   const estimatedTotal = basePrice + addonTotal;
 
   return {
@@ -55,7 +58,9 @@ export function toggleAddonSelection(
   currentSelection: Addon[],
   addonToToggle: Addon
 ): Addon[] {
-  const isSelected = currentSelection.some((addon) => addon.id === addonToToggle.id);
+  const isSelected = currentSelection.some(
+    (addon) => addon.id === addonToToggle.id
+  );
 
   if (isSelected) {
     return currentSelection.filter((addon) => addon.id !== addonToToggle.id);
@@ -109,7 +114,9 @@ export function validateAddonSelection(selectedAddons: Addon[]): {
   const hasBooking = selectedAddons.some((addon) => addon.id === "booking");
 
   if (hasEcommerce && hasBooking) {
-    warnings.push("E-commerce and booking systems may have integration complexities");
+    warnings.push(
+      "E-commerce and booking systems may have integration complexities"
+    );
   }
 
   // Check for recommended combinations
@@ -117,7 +124,9 @@ export function validateAddonSelection(selectedAddons: Addon[]): {
   const hasEmail = selectedAddons.some((addon) => addon.id === "email");
 
   if (hasCRM && !hasEmail) {
-    recommendations.push("Email marketing pairs well with CRM for lead nurturing");
+    recommendations.push(
+      "Email marketing pairs well with CRM for lead nurturing"
+    );
   }
 
   if (hasEcommerce && !hasCRM) {

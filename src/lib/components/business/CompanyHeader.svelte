@@ -6,6 +6,7 @@
   export let onEditCompany: () => void;
   export let onNewProject: () => void;
   export let onNewContact: () => void;
+  export let onDeleteCompany: () => void;
 
   function getCompanyInitials(name: string): string {
     return name
@@ -59,6 +60,9 @@
         >
         <BaseButton variant="outline" on:click={onNewContact}
           >Add Contact</BaseButton
+        >
+        <BaseButton variant="danger" on:click={onDeleteCompany}
+          >Delete Company</BaseButton
         >
       </div>
     </div>

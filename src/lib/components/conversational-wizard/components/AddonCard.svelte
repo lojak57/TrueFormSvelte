@@ -27,7 +27,7 @@
     ? 'border-accent-600 ring-2 ring-accent-600 ring-opacity-50'
     : 'border-gray-200 hover:border-gray-300'}"
   on:click={toggleAddon}
-  on:keydown={(e) => e.key === 'Enter' && toggleAddon()}
+  on:keydown={(e) => e.key === "Enter" && toggleAddon()}
   role="button"
   tabindex="0"
 >
@@ -42,7 +42,9 @@
   <div class="p-6">
     <!-- Icon and Title -->
     <div class="flex items-center space-x-3 mb-4">
-      <div class="w-12 h-12 rounded-lg bg-gradient-to-br {addon.imageBg} flex items-center justify-center">
+      <div
+        class="w-12 h-12 rounded-lg bg-gradient-to-br {addon.imageBg} flex items-center justify-center"
+      >
         <svelte:component this={addon.icon} class="w-6 h-6 {addon.iconColor}" />
       </div>
       <div>
@@ -60,7 +62,7 @@
     <div class="space-y-2">
       {#each addon.benefits as benefit}
         <div class="flex items-center space-x-2">
-          <div class="w-1.5 h-1.5 bg-accent-500 rounded-full"></div>
+          <div class="w-1.5 h-1.5 bg-accent-500 rounded-full" />
           <span class="text-sm text-gray-700">{benefit}</span>
         </div>
       {/each}
@@ -68,11 +70,11 @@
 
     <!-- Selection Indicator -->
     {#if isSelected}
-      <div 
+      <div
         class="mt-4 flex items-center justify-center space-x-2 bg-accent-50 text-accent-700 py-2 px-4 rounded-lg"
         in:fade={{ duration: 200 }}
       >
-        <div class="w-2 h-2 bg-accent-600 rounded-full"></div>
+        <div class="w-2 h-2 bg-accent-600 rounded-full" />
         <span class="text-sm font-medium">Added to package</span>
       </div>
     {/if}
