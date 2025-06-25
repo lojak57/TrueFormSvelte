@@ -10,6 +10,7 @@
   import CompanyProjectList from "$lib/components/business/CompanyProjectList.svelte";
   import CompanyContactsSection from "$lib/components/business/CompanyContactsSection.svelte";
   import ConfirmDialog from "$lib/components/ui/ConfirmDialog.svelte";
+  import CompanyMessagesSection from "$lib/components/business/CompanyMessagesSection.svelte";
 
   let company: any = null;
   let loading = true;
@@ -121,6 +122,9 @@
 
     <!-- Company Details Grid -->
     <CompanyDetailsGrid {company} />
+
+    <!-- Messages Section (NEW - Always visible for frictionless communication) -->
+    <CompanyMessagesSection {company} />
 
     <!-- Contacts Section -->
     <CompanyContactsSection

@@ -1,35 +1,51 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import ModernCard from "$lib/components/ui/ModernCard.svelte";
-  import StatsCard from "$lib/components/ui/StatsCard.svelte";
-  import BaseButton from "$lib/components/base/BaseButton.svelte";
-  import {
-    Building2,
-    Users,
-    Rocket,
-    TrendingUp,
-    Plus,
-    FileText,
-  } from "lucide-svelte";
+  import { goto } from "$app/navigation";
+  import type { DealWithDetails, PipelineMetrics } from "$lib/types";
+  import DealPipeline from "$lib/components/crm/DealPipeline.svelte";
+  import DashboardStats from "$lib/components/dashboard/DashboardStats.svelte";
+  import RecentActivity from "$lib/components/dashboard/RecentActivity.svelte";
+  import QuickActions from "$lib/components/dashboard/QuickActions.svelte";
 
+  // Stats data
   let stats = {
     companies: 0,
     contacts: 0,
     projects: 0,
-    verticals: 0,
+    proposals: 0,
+    totalRevenue: 0,
+    activeDeals: 0,
   };
 
+  // Deal pipeline data
+  let deals: DealWithDetails[] = [];
+  let metrics: PipelineMetrics | null = null;
+
+  // Recent activity
+  let recentActivities: any[] = [];
+
+  // Loading states
   let loading = true;
+  let error: string | null = null;
 
   onMount(async () => {
-    // Load dashboard statistics
+    await Promise.all([
+      loadStats(),
+      loadDeals(),
+      loadMetrics(),
+      loadRecentActivity(),
+    ]);
+    loading = false;
+  });
+
+  async function loadStats() {
     try {
-      const [companiesRes, contactsRes, projectsRes, verticalsRes] =
+      const [companiesRes, contactsRes, projectsRes, proposalsRes] =
         await Promise.all([
           fetch("/api/companies"),
           fetch("/api/contacts"),
           fetch("/api/projects"),
-          fetch("/api/verticals"),
+          fetch("/api/proposals"),
         ]);
 
       if (companiesRes.ok) {
@@ -47,420 +63,271 @@
         stats.projects = projects.length;
       }
 
-      if (verticalsRes.ok) {
-        const verticals = await verticalsRes.json();
-        stats.verticals = verticals.length;
+      if (proposalsRes.ok) {
+        const proposals = await proposalsRes.json();
+        stats.proposals = proposals.length;
+        // Calculate total revenue from accepted proposals
+        stats.totalRevenue = proposals
+          .filter((p: any) => p.status === "accepted")
+          .reduce((sum: number, p: any) => sum + (p.total || 0), 0);
       }
-    } catch (error) {
-      console.error("Error loading dashboard stats:", error);
-    } finally {
-      loading = false;
+    } catch (err) {
+      console.error("Error loading stats:", err);
     }
-  });
+  }
+
+  async function loadDeals() {
+    try {
+      const response = await fetch("/api/deals?with_details=true");
+      if (!response.ok) throw new Error("Failed to load deals");
+
+      const result = await response.json();
+      if (result.success) {
+        deals = result.data || [];
+        stats.activeDeals = deals.filter(
+          (d) => !["closed_won", "closed_lost"].includes(d.stage)
+        ).length;
+      }
+    } catch (err) {
+      console.error("Error loading deals:", err);
+    }
+  }
+
+  async function loadMetrics() {
+    try {
+      const response = await fetch("/api/deals/pipeline-metrics");
+      if (!response.ok) throw new Error("Failed to load metrics");
+
+      const result = await response.json();
+      if (result.success) {
+        metrics = result.data;
+      }
+    } catch (err) {
+      console.error("Error loading metrics:", err);
+    }
+  }
+
+  async function loadRecentActivity() {
+    // TODO: Create an activity feed API endpoint
+    // For now, we'll use mock data
+    recentActivities = [
+      {
+        id: 1,
+        type: "proposal_sent",
+        description: "Proposal sent to Acme Corp",
+        timestamp: new Date().toISOString(),
+        icon: "FileText",
+      },
+      {
+        id: 2,
+        type: "deal_won",
+        description: "Deal closed with TechStart Inc",
+        timestamp: new Date(Date.now() - 3600000).toISOString(),
+        icon: "Trophy",
+      },
+      {
+        id: 3,
+        type: "contact_added",
+        description: "New contact added: John Smith",
+        timestamp: new Date(Date.now() - 7200000).toISOString(),
+        icon: "UserPlus",
+      },
+    ];
+  }
+
+  async function handleStageChange(event: CustomEvent) {
+    const { dealId, newStage } = event.detail;
+
+    try {
+      const response = await fetch(`/api/deals/${dealId}/stage`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          stage: newStage,
+          notes: `Stage changed via pipeline to ${newStage}`,
+        }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update stage");
+
+      const result = await response.json();
+      if (result.success) {
+        deals = deals.map((deal) =>
+          deal.id === dealId ? { ...deal, stage: newStage } : deal
+        );
+        await loadMetrics();
+      }
+    } catch (err) {
+      console.error("Error updating stage:", err);
+      alert("Failed to update deal stage");
+    }
+  }
+
+  function handleDealClick(event: CustomEvent) {
+    const deal = event.detail;
+    goto(`/admin/companies/${deal.company_id}`);
+  }
+
+  function handleQuickAction(action: string) {
+    switch (action) {
+      case "new-company":
+        goto("/admin/companies/create");
+        break;
+      case "new-contact":
+        goto("/admin/contacts/create");
+        break;
+      case "new-proposal":
+        goto("/admin/proposals/new");
+        break;
+      case "view-messages":
+        goto("/admin/messages");
+        break;
+    }
+  }
 </script>
 
-<div class="modern-dashboard">
-  <!-- Welcome Section -->
-  <section class="welcome-section">
-    <ModernCard variant="feature" size="lg">
-      <div class="welcome-content">
-        <div class="welcome-text">
-          <h1 class="dashboard-title">Command Intelligence Center</h1>
-          <p class="dashboard-subtitle">
-            Your personal operations nexus. Monitor client portfolios, oversee
-            project progression, and orchestrate business intelligence across
-            all verticals with precision and elegance.
-          </p>
-        </div>
-        <div class="welcome-visual">
-          <div class="visual-grid">
-            <div class="visual-item">
-              <Building2 size={28} class="text-white/70" />
-            </div>
-            <div class="visual-item">
-              <Rocket size={28} class="text-white/70" />
-            </div>
-            <div class="visual-item">
-              <TrendingUp size={28} class="text-white/70" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </ModernCard>
-  </section>
+<svelte:head>
+  <title>Dashboard | TrueForm Admin</title>
+</svelte:head>
 
-  <!-- Intelligence Overview -->
-  <section class="stats-section">
-    <h2 class="section-title">Intelligence Overview</h2>
-    <div class="stats-grid">
-      <StatsCard
-        title="Client Organizations"
-        value={stats.companies.toString()}
-        icon={Building2}
-        href="/admin/companies"
-        {loading}
-        trend="up"
-        change={12.5}
-        changeLabel="portfolio growth"
-      />
-
-      <StatsCard
-        title="Strategic Contacts"
-        value={stats.contacts.toString()}
-        icon={Users}
-        href="/admin/contacts"
-        {loading}
-        trend="up"
-        change={8.3}
-        changeLabel="network expansion"
-      />
-
-      <StatsCard
-        title="Active Initiatives"
-        value={stats.projects.toString()}
-        icon={Rocket}
-        href="/admin/projects"
-        {loading}
-        trend="up"
-        change={15.7}
-        changeLabel="project acceleration"
-      />
-
-      <StatsCard
-        title="Market Verticals"
-        value={stats.verticals.toString()}
-        icon={TrendingUp}
-        href="/admin/verticals"
-        {loading}
-        trend="neutral"
-        change={0}
-        changeLabel="sector coverage"
-      />
+<div class="dashboard-container">
+  {#if loading}
+    <div class="loading-state">
+      <div class="tf-spinner tf-spinner-lg" />
+      <p>Loading dashboard...</p>
     </div>
-  </section>
-
-  <!-- Executive Actions -->
-  <section class="actions-section">
-    <h2 class="section-title">Executive Actions</h2>
-    <ModernCard variant="elevated" size="lg">
-      <div class="actions-grid">
-        <a href="/admin/companies/create" class="action-card">
-          <div class="action-icon">
-            <Building2 size={24} class="text-white/70" />
-          </div>
-          <div class="action-content">
-            <h3 class="action-title">Onboard Organization</h3>
-            <p class="action-desc">Register new client entity</p>
-          </div>
-        </a>
-
-        <a href="/admin/contacts/create" class="action-card">
-          <div class="action-icon">
-            <Users size={24} class="text-white/70" />
-          </div>
-          <div class="action-content">
-            <h3 class="action-title">Register Contact</h3>
-            <p class="action-desc">Add strategic personnel</p>
-          </div>
-        </a>
-
-        <a href="/admin/projects/create" class="action-card">
-          <div class="action-icon">
-            <Rocket size={24} class="text-white/70" />
-          </div>
-          <div class="action-content">
-            <h3 class="action-title">Launch Initiative</h3>
-            <p class="action-desc">Commence new project</p>
-          </div>
-        </a>
-
-        <a href="/admin/proposals/new" class="action-card">
-          <div class="action-icon">
-            <FileText size={24} class="text-white/70" />
-          </div>
-          <div class="action-content">
-            <h3 class="action-title">Draft Proposal</h3>
-            <p class="action-desc">Craft strategic offering</p>
-          </div>
-        </a>
+  {:else if error}
+    <div class="error-state">
+      <p class="text-red-600">{error}</p>
+    </div>
+  {:else}
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 class="tf-heading-1">Dashboard</h1>
+        <p class="text-gray-600">
+          Welcome back! Here's what's happening with your business.
+        </p>
       </div>
-    </ModernCard>
-  </section>
+      <QuickActions on:action={(e) => handleQuickAction(e.detail)} />
+    </div>
+
+    <!-- Stats Grid -->
+    <DashboardStats {stats} />
+
+    <!-- Main Content Grid -->
+    <div class="content-grid">
+      <!-- Deal Pipeline (2/3 width) -->
+      <div class="pipeline-section">
+        <div class="section-header">
+          <h2 class="tf-heading-2">Deal Pipeline</h2>
+          {#if metrics}
+            <div class="pipeline-metrics">
+              <span class="metric">
+                <strong>${(metrics.total_value || 0).toLocaleString()}</strong>
+                total value
+              </span>
+              <span class="metric">
+                <strong
+                  >{metrics.average_deal_size?.toLocaleString() || 0}</strong
+                >
+                avg deal
+              </span>
+            </div>
+          {/if}
+        </div>
+        <DealPipeline
+          {deals}
+          on:stageChange={handleStageChange}
+          on:dealClick={handleDealClick}
+        />
+      </div>
+
+      <!-- Recent Activity (1/3 width) -->
+      <div class="activity-section">
+        <RecentActivity activities={recentActivities} />
+      </div>
+    </div>
+  {/if}
 </div>
 
 <style>
-  .modern-dashboard {
-    max-width: 1200px;
+  .dashboard-container {
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 32px 24px;
+  }
+
+  .loading-state,
+  .error-state {
     display: flex;
     flex-direction: column;
-    gap: 48px;
-    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-    min-height: 100vh;
-  }
-
-  .welcome-section {
-    margin-bottom: 16px;
-  }
-
-  .welcome-content {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-  }
-
-  .welcome-text {
-    flex: 1;
-  }
-
-  .dashboard-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: rgb(15, 23, 42);
-    margin: 0 0 12px 0;
-    line-height: 1.2;
-    letter-spacing: -0.025em;
-    background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .dashboard-subtitle {
-    font-size: 18px;
-    color: rgba(255, 255, 255, 0.95);
-    margin: 0;
-    line-height: 1.6;
-    font-weight: 400;
-    letter-spacing: 0.01em;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
-  }
-
-  .welcome-visual {
-    flex-shrink: 0;
-  }
-
-  .visual-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
-  .visual-item {
-    width: 60px;
-    height: 60px;
-    display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 12px;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
+    min-height: 400px;
+    gap: 1rem;
   }
 
-  .visual-item:hover {
-    background: rgba(255, 255, 255, 0.95);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(71, 85, 105, 0.1);
-  }
-
-  .section-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: rgb(15, 23, 42);
-    margin: 0 0 24px 0;
-    letter-spacing: -0.01em;
-    position: relative;
-    padding-bottom: 8px;
-  }
-
-  .section-title::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 40px;
-    height: 2px;
-    background: linear-gradient(90deg, #475569 0%, #94a3b8 100%);
-    border-radius: 1px;
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px;
-  }
-
-  .actions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-  }
-
-  .action-card {
+  .dashboard-header {
     display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 20px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(8px);
-    position: relative;
-    overflow: hidden;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
   }
 
-  .action-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      rgba(148, 163, 184, 0.1) 50%,
-      transparent 100%
-    );
-    transition: left 0.5s ease;
+  .content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin-top: 2rem;
   }
 
-  .action-card:hover {
-    background: rgba(255, 255, 255, 0.9);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 24px rgba(71, 85, 105, 0.15);
-    border-color: rgba(148, 163, 184, 0.3);
-  }
-
-  .action-card:hover::before {
-    left: 100%;
-  }
-
-  .action-icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    border: 1px solid rgba(148, 163, 184, 0.2);
-    flex-shrink: 0;
-    backdrop-filter: blur(4px);
-    transition: all 0.3s ease;
-  }
-
-  .action-card:hover .action-icon {
+  .pipeline-section {
     background: white;
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(71, 85, 105, 0.1);
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
   }
 
-  .action-content {
-    flex: 1;
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
   }
 
-  .action-title {
-    font-size: 16px;
+  .pipeline-metrics {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .metric {
+    font-size: 0.875rem;
+    color: #6b7280;
+  }
+
+  .metric strong {
+    color: #111827;
     font-weight: 600;
-    color: rgb(15, 23, 42);
-    margin: 0 0 4px 0;
-    letter-spacing: -0.01em;
   }
 
-  .action-desc {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.9);
-    margin: 0;
-    font-weight: 400;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  .activity-section {
+    background: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
   }
 
-  /* Dark mode */
-  :global(.dark) .dashboard-title {
-    color: rgb(243, 244, 246);
+  /* Responsive */
+  @media (max-width: 1280px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
-  :global(.dark) .dashboard-subtitle {
-    color: rgb(156, 163, 175);
-  }
-
-  :global(.dark) .section-title {
-    color: rgb(243, 244, 246);
-  }
-
-  :global(.dark) .visual-item {
-    background: rgb(31, 41, 55);
-    border-color: rgb(55, 65, 81);
-  }
-
-  :global(.dark) .action-card {
-    background: rgb(31, 41, 55);
-    border-color: rgb(55, 65, 81);
-  }
-
-  :global(.dark) .action-card:hover {
-    background: rgb(55, 65, 81);
-  }
-
-  :global(.dark) .action-icon {
-    background: rgb(17, 24, 39);
-    border-color: rgb(75, 85, 99);
-  }
-
-  :global(.dark) .action-title {
-    color: rgb(243, 244, 246);
-  }
-
-  :global(.dark) .action-desc {
-    color: rgb(156, 163, 175);
-  }
-
-  /* Mobile responsive */
   @media (max-width: 768px) {
-    .modern-dashboard {
-      padding: 24px 16px;
-      gap: 32px;
-    }
-
-    .welcome-content {
+    .dashboard-header {
       flex-direction: column;
-      text-align: center;
-      gap: 24px;
-    }
-
-    .dashboard-title {
-      font-size: 28px;
-    }
-
-    .dashboard-subtitle {
-      font-size: 16px;
-    }
-
-    .stats-grid {
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    .actions-grid {
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    .visual-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .visual-item {
-      width: 48px;
-      height: 48px;
-      font-size: 20px;
+      gap: 1rem;
     }
   }
 </style>

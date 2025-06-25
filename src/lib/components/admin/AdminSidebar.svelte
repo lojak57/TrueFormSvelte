@@ -10,10 +10,12 @@
     Target,
     Settings,
     LogOut,
+    MessageSquare,
   } from "lucide-svelte";
 
   const navigationItems = [
     { href: "/admin/dashboard", icon: Home, label: "Dashboard" },
+    { href: "/admin/messages", icon: MessageSquare, label: "Messages" },
     { href: "/admin/companies", icon: Building2, label: "Companies" },
     { href: "/admin/contacts", icon: Users, label: "Contacts" },
     { href: "/admin/projects", icon: FolderOpen, label: "Projects" },

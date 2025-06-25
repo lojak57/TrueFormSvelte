@@ -1,0 +1,425 @@
+<script lang="ts">
+  import { onMount, onDestroy, afterUpdate } from "svelte";
+  import { createEventDispatcher } from "svelte";
+  import { supabase } from "$lib/supabase.client";
+  import { formatDistanceToNow } from "date-fns";
+  import MessageInput from "./MessageInput.svelte";
+  import MessageBubble from "./MessageBubble.svelte";
+  import type { RealtimeChannel } from "@supabase/supabase-js";
+
+  export let thread: any;
+  export let embedded: boolean = false;
+
+  const dispatch = createEventDispatcher();
+
+  interface Message {
+    id: string;
+    content: string;
+    message_type: string;
+    sender_id: string;
+    created_at: string;
+    is_edited: boolean;
+    sender: {
+      first_name: string;
+      last_name: string;
+      is_client: boolean;
+      avatar_url?: string;
+    };
+    reactions?: Array<{
+      reaction_type: string;
+      user_id: string;
+    }>;
+    read_by?: Array<{
+      user_id: string;
+      read_at: string;
+    }>;
+  }
+
+  let messages: Message[] = [];
+  let loading = true;
+  let error = "";
+  let messagesContainer: HTMLDivElement;
+  let subscription: RealtimeChannel;
+  let currentUserId: string;
+  let typingUsers: Set<string> = new Set();
+
+  onMount(async () => {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (user) {
+      currentUserId = user.id;
+    }
+
+    await loadMessages();
+    setupRealtimeSubscription();
+    scrollToBottom();
+  });
+
+  onDestroy(() => {
+    if (subscription) {
+      subscription.unsubscribe();
+    }
+  });
+
+  afterUpdate(() => {
+    scrollToBottom();
+  });
+
+  async function loadMessages() {
+    try {
+      const { data, error: messagesError } = await supabase
+        .from("tf_messages")
+        .select(
+          `
+          *,
+          sender:tf_user_profiles!tf_messages_sender_id_fkey(
+            user_id,
+            first_name,
+            last_name,
+            is_client,
+            avatar_url
+          ),
+          reactions:tf_message_reactions(
+            reaction_type,
+            user_id
+          ),
+          read_by:tf_message_read_status(
+            user_id,
+            read_at
+          )
+        `
+        )
+        .eq("thread_id", thread.id)
+        .eq("is_deleted", false)
+        .order("created_at", { ascending: true });
+
+      if (messagesError) throw messagesError;
+
+      messages = data || [];
+
+      // Mark messages as read
+      await markMessagesAsRead();
+    } catch (err) {
+      console.error("Error loading messages:", err);
+      error = "Failed to load messages";
+    } finally {
+      loading = false;
+    }
+  }
+
+  function setupRealtimeSubscription() {
+    subscription = supabase
+      .channel(`thread-${thread.id}`)
+      .on(
+        "postgres_changes",
+        {
+          event: "INSERT",
+          schema: "public",
+          table: "tf_messages",
+          filter: `thread_id=eq.${thread.id}`,
+        },
+        async (payload) => {
+          // Fetch full message with relations
+          const { data } = await supabase
+            .from("tf_messages")
+            .select(
+              `
+              *,
+              sender:tf_user_profiles!tf_messages_sender_id_fkey(
+                user_id,
+                first_name,
+                last_name,
+                is_client,
+                avatar_url
+              )
+            `
+            )
+            .eq("id", payload.new.id)
+            .single();
+
+          if (data) {
+            messages = [...messages, data];
+            await markMessagesAsRead();
+          }
+        }
+      )
+      .on(
+        "postgres_changes",
+        {
+          event: "*",
+          schema: "public",
+          table: "tf_typing_indicators",
+          filter: `thread_id=eq.${thread.id}`,
+        },
+        (payload) => {
+          if (
+            payload.eventType === "INSERT" &&
+            payload.new.user_id !== currentUserId
+          ) {
+            typingUsers.add(payload.new.user_id);
+          } else if (payload.eventType === "DELETE") {
+            typingUsers.delete(payload.old.user_id);
+          }
+          typingUsers = typingUsers; // Trigger reactivity
+        }
+      )
+      .subscribe();
+  }
+
+  async function markMessagesAsRead() {
+    const unreadMessages = messages.filter(
+      (m) =>
+        m.sender_id !== currentUserId &&
+        !m.read_by?.some((r) => r.user_id === currentUserId)
+    );
+
+    for (const message of unreadMessages) {
+      await supabase.rpc("mark_message_as_read", {
+        message_uuid: message.id,
+        user_uuid: currentUserId,
+      });
+    }
+  }
+
+  async function sendMessage(
+    event: CustomEvent<{ content: string; type: string; files?: File[] }>
+  ) {
+    const { content, type, files } = event.detail;
+
+    try {
+      // Insert message
+      const { data, error } = await supabase
+        .from("tf_messages")
+        .insert({
+          thread_id: thread.id,
+          sender_id: currentUserId,
+          content,
+          message_type: type,
+        })
+        .select(
+          `
+          *,
+          sender:tf_user_profiles!tf_messages_sender_id_fkey(
+            user_id,
+            first_name,
+            last_name,
+            is_client,
+            avatar_url
+          )
+        `
+        )
+        .single();
+
+      if (error) throw error;
+
+      // Handle file uploads if any
+      if (files && files.length > 0 && data) {
+        // TODO: Implement file upload
+      }
+
+      // Update thread's updated_at
+      await supabase
+        .from("tf_message_threads")
+        .update({ updated_at: new Date().toISOString() })
+        .eq("id", thread.id);
+    } catch (err) {
+      console.error("Error sending message:", err);
+    }
+  }
+
+  async function handleReaction(
+    event: CustomEvent<{ messageId: string; reaction: string }>
+  ) {
+    const { messageId, reaction } = event.detail;
+
+    try {
+      // Toggle reaction
+      const existing = messages
+        .find((m) => m.id === messageId)
+        ?.reactions?.find(
+          (r) => r.user_id === currentUserId && r.reaction_type === reaction
+        );
+
+      if (existing) {
+        // Remove reaction
+        await supabase.from("tf_message_reactions").delete().match({
+          message_id: messageId,
+          user_id: currentUserId,
+          reaction_type: reaction,
+        });
+      } else {
+        // Add reaction
+        await supabase.from("tf_message_reactions").insert({
+          message_id: messageId,
+          user_id: currentUserId,
+          reaction_type: reaction,
+        });
+      }
+
+      // Reload messages to get updated reactions
+      await loadMessages();
+    } catch (err) {
+      console.error("Error handling reaction:", err);
+    }
+  }
+
+  function scrollToBottom() {
+    if (messagesContainer) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+  }
+
+  function handleBack() {
+    dispatch("back");
+  }
+
+  // Group messages by date
+  function groupMessagesByDate(messages: Message[]) {
+    const groups: { date: string; messages: Message[] }[] = [];
+    let currentDate = "";
+
+    messages.forEach((message) => {
+      const messageDate = new Date(message.created_at).toDateString();
+
+      if (messageDate !== currentDate) {
+        currentDate = messageDate;
+        groups.push({
+          date: messageDate,
+          messages: [message],
+        });
+      } else {
+        groups[groups.length - 1].messages.push(message);
+      }
+    });
+
+    return groups;
+  }
+
+  $: messageGroups = groupMessagesByDate(messages);
+</script>
+
+<!-- Thread Header -->
+{#if !embedded}
+  <div class="border-b bg-white px-4 py-3 flex items-center gap-3">
+    <button
+      on:click={handleBack}
+      class="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+    >
+      <svg
+        class="w-5 h-5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 19l-7-7 7-7"
+        />
+      </svg>
+    </button>
+
+    <div class="flex-1">
+      <h2 class="font-semibold text-gray-900">{thread.company.name}</h2>
+      <p class="text-sm text-gray-600">{thread.title}</p>
+    </div>
+
+    <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+      <svg
+        class="w-5 h-5 text-gray-600"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    </button>
+  </div>
+{/if}
+
+<!-- Messages Container -->
+<div
+  bind:this={messagesContainer}
+  class="flex-1 overflow-y-auto px-4 py-4 space-y-4 bg-gray-50"
+>
+  {#if loading}
+    <div class="flex items-center justify-center h-full">
+      <div class="tf-spinner tf-spinner-lg" />
+    </div>
+  {:else if error}
+    <div class="flex items-center justify-center h-full">
+      <p class="text-red-600">{error}</p>
+    </div>
+  {:else}
+    {#each messageGroups as group}
+      <!-- Date Separator -->
+      <div class="flex items-center gap-4 my-4">
+        <div class="flex-1 border-t border-gray-300" />
+        <span class="text-xs text-gray-500 font-medium px-2">
+          {new Date(group.date).toLocaleDateString("en-US", {
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </span>
+        <div class="flex-1 border-t border-gray-300" />
+      </div>
+
+      <!-- Messages in Group -->
+      {#each group.messages as message, i}
+        <MessageBubble
+          {message}
+          isOwn={message.sender_id === currentUserId}
+          showAvatar={i === 0 ||
+            group.messages[i - 1].sender_id !== message.sender_id}
+          on:reaction={handleReaction}
+        />
+      {/each}
+    {/each}
+
+    <!-- Typing Indicators -->
+    {#if typingUsers.size > 0}
+      <div class="flex items-center gap-2 text-sm text-gray-500 italic">
+        <div class="flex gap-1">
+          <span
+            class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+            style="animation-delay: 0ms"
+          />
+          <span
+            class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+            style="animation-delay: 150ms"
+          />
+          <span
+            class="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+            style="animation-delay: 300ms"
+          />
+        </div>
+        <span>Someone is typing...</span>
+      </div>
+    {/if}
+  {/if}
+</div>
+
+<!-- Message Input -->
+<MessageInput threadId={thread.id} on:send={sendMessage} />
+
+<style>
+  @keyframes bounce {
+    0%,
+    60%,
+    100% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-10px);
+    }
+  }
+</style>
