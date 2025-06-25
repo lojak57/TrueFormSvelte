@@ -1,5 +1,5 @@
 <script lang="ts">
-  import "../../app.css";
+  import "../../../app.css";
   import "$lib/styles/globals.css";
   import "$lib/styles/essential-animations.css";
   import { page } from "$app/stores";
