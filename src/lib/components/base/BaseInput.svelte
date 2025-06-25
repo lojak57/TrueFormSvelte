@@ -79,7 +79,7 @@
 
   <div class="input-wrapper">
     <!-- Single consolidated input element -->
-    {#if type === 'text'}
+    {#if type === "text"}
       <input
         type="text"
         bind:value
@@ -98,7 +98,7 @@
         on:keydown
         on:keyup
       />
-    {:else if type === 'email'}
+    {:else if type === "email"}
       <input
         type="email"
         bind:value
@@ -117,7 +117,7 @@
         on:keydown
         on:keyup
       />
-    {:else if type === 'password'}
+    {:else if type === "password"}
       <input
         type="password"
         bind:value
@@ -136,7 +136,7 @@
         on:keydown
         on:keyup
       />
-    {:else if type === 'tel'}
+    {:else if type === "tel"}
       <input
         type="tel"
         bind:value

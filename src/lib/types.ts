@@ -482,7 +482,7 @@ export interface ClientPortalAccess {
   id: string;
   user_id: string;
   company_id: string;
-  access_level: 'view' | 'comment' | 'edit' | 'admin';
+  access_level: "view" | "comment" | "edit" | "admin";
   granted_by: string;
   granted_at: string;
   expires_at?: string;
@@ -492,7 +492,7 @@ export interface ClientPortalAccess {
 export interface CreateClientPortalAccessDTO {
   user_id: string;
   company_id: string;
-  access_level?: ClientPortalAccess['access_level'];
+  access_level?: ClientPortalAccess["access_level"];
   granted_by: string;
   expires_at?: string;
 }
@@ -501,7 +501,7 @@ export interface TeamCompanyAccess {
   id: string;
   team_member_id: string;
   company_id: string;
-  role: 'account_manager' | 'developer' | 'designer' | 'admin';
+  role: "account_manager" | "developer" | "designer" | "admin";
   is_primary: boolean;
   created_at: string;
 }
@@ -511,7 +511,7 @@ export interface MessageThread {
   id: string;
   company_id: string;
   project_id?: string;
-  thread_type: 'general' | 'project' | 'support' | 'billing';
+  thread_type: "general" | "project" | "support" | "billing";
   title: string;
   description?: string;
   is_archived: boolean;
@@ -523,7 +523,7 @@ export interface MessageThread {
 export interface CreateMessageThreadDTO {
   company_id: string;
   project_id?: string;
-  thread_type?: MessageThread['thread_type'];
+  thread_type?: MessageThread["thread_type"];
   title: string;
   description?: string;
   created_by: string;
@@ -549,7 +549,7 @@ export interface Message {
   id: string;
   thread_id: string;
   sender_id: string;
-  message_type: 'text' | 'image' | 'document' | 'proposal' | 'system';
+  message_type: "text" | "image" | "document" | "proposal" | "system";
   content?: string;
   metadata: Record<string, any>;
   reply_to?: string;
@@ -563,7 +563,7 @@ export interface Message {
 export interface CreateMessageDTO {
   thread_id: string;
   sender_id: string;
-  message_type?: Message['message_type'];
+  message_type?: Message["message_type"];
   content?: string;
   metadata?: Record<string, any>;
   reply_to?: string;
@@ -625,18 +625,18 @@ export interface MessageReaction {
   id: string;
   message_id: string;
   user_id: string;
-  reaction_type: '👍' | '❤️' | '😂' | '😮' | '😢' | '👎';
+  reaction_type: "👍" | "❤️" | "😂" | "😮" | "😢" | "👎";
   created_at: string;
 }
 
 export interface CreateMessageReactionDTO {
   message_id: string;
   user_id: string;
-  reaction_type: MessageReaction['reaction_type'];
+  reaction_type: MessageReaction["reaction_type"];
 }
 
 export interface MessageReactionSummary {
-  reaction_type: MessageReaction['reaction_type'];
+  reaction_type: MessageReaction["reaction_type"];
   count: number;
   users: UserProfile[];
   user_reacted: boolean;
@@ -659,7 +659,7 @@ export interface CreateTypingIndicatorDTO {
 export interface DocumentLibrary {
   id: string;
   company_id: string;
-  library_type: 'shared' | 'client_private' | 'team_private';
+  library_type: "shared" | "client_private" | "team_private";
   name: string;
   description?: string;
   created_by: string;
@@ -668,7 +668,7 @@ export interface DocumentLibrary {
 
 export interface CreateDocumentLibraryDTO {
   company_id: string;
-  library_type: DocumentLibrary['library_type'];
+  library_type: DocumentLibrary["library_type"];
   name: string;
   description?: string;
   created_by: string;
@@ -686,7 +686,7 @@ export interface DocumentV2 {
   file_size: number;
   version_number: number;
   is_current_version: boolean;
-  document_status: 'draft' | 'review' | 'approved' | 'archived';
+  document_status: "draft" | "review" | "approved" | "archived";
   tags: string[];
   uploaded_by: string;
   approved_by?: string;
@@ -706,7 +706,7 @@ export interface CreateDocumentV2DTO {
   file_type: string;
   file_size: number;
   version_number?: number;
-  document_status?: DocumentV2['document_status'];
+  document_status?: DocumentV2["document_status"];
   tags?: string[];
   uploaded_by: string;
   expires_at?: string;
@@ -715,7 +715,7 @@ export interface CreateDocumentV2DTO {
 export interface UpdateDocumentV2DTO {
   name?: string;
   description?: string;
-  document_status?: DocumentV2['document_status'];
+  document_status?: DocumentV2["document_status"];
   tags?: string[];
   approved_by?: string;
   expires_at?: string;
@@ -737,7 +737,7 @@ export interface DocumentPermission {
   document_id: string;
   user_id?: string;
   role?: string;
-  permission_type: 'view' | 'download' | 'comment' | 'edit' | 'delete';
+  permission_type: "view" | "download" | "comment" | "edit" | "delete";
   granted_by: string;
   granted_at: string;
   expires_at?: string;
@@ -747,7 +747,7 @@ export interface CreateDocumentPermissionDTO {
   document_id: string;
   user_id?: string;
   role?: string;
-  permission_type: DocumentPermission['permission_type'];
+  permission_type: DocumentPermission["permission_type"];
   granted_by: string;
   expires_at?: string;
 }
@@ -757,7 +757,14 @@ export interface DocumentActivity {
   id: string;
   document_id: string;
   user_id: string;
-  activity_type: 'uploaded' | 'downloaded' | 'viewed' | 'edited' | 'commented' | 'approved' | 'shared';
+  activity_type:
+    | "uploaded"
+    | "downloaded"
+    | "viewed"
+    | "edited"
+    | "commented"
+    | "approved"
+    | "shared";
   metadata: Record<string, any>;
   created_at: string;
 }
@@ -765,7 +772,7 @@ export interface DocumentActivity {
 export interface CreateDocumentActivityDTO {
   document_id: string;
   user_id: string;
-  activity_type: DocumentActivity['activity_type'];
+  activity_type: DocumentActivity["activity_type"];
   metadata?: Record<string, any>;
 }
 
@@ -813,7 +820,12 @@ export interface DocumentCommentWithDetails extends DocumentComment {
 export interface Notification {
   id: string;
   user_id: string;
-  notification_type: 'message' | 'document_shared' | 'document_commented' | 'proposal_status' | 'task_assigned';
+  notification_type:
+    | "message"
+    | "document_shared"
+    | "document_commented"
+    | "proposal_status"
+    | "task_assigned";
   title: string;
   message: string;
   related_entity_type?: string;
@@ -825,7 +837,7 @@ export interface Notification {
 
 export interface CreateNotificationDTO {
   user_id: string;
-  notification_type: Notification['notification_type'];
+  notification_type: Notification["notification_type"];
   title: string;
   message: string;
   related_entity_type?: string;
@@ -865,9 +877,9 @@ export interface ClientInvite {
   id: string;
   email: string;
   company_id: string;
-  access_level: ClientPortalAccess['access_level'];
+  access_level: ClientPortalAccess["access_level"];
   invite_token: string;
-  status: 'pending' | 'accepted' | 'expired';
+  status: "pending" | "accepted" | "expired";
 }
 
 export interface ClientProfileData {
@@ -882,7 +894,13 @@ export interface CompanyAccess extends ClientPortalAccess {
 
 // Real-time Event Types
 export interface RealtimeMessageEvent {
-  type: 'message_sent' | 'message_edited' | 'message_deleted' | 'typing_start' | 'typing_stop' | 'message_read';
+  type:
+    | "message_sent"
+    | "message_edited"
+    | "message_deleted"
+    | "typing_start"
+    | "typing_stop"
+    | "message_read";
   thread_id: string;
   message?: Message;
   user?: UserProfile;
@@ -890,7 +908,11 @@ export interface RealtimeMessageEvent {
 }
 
 export interface RealtimeDocumentEvent {
-  type: 'document_uploaded' | 'document_commented' | 'document_shared' | 'document_approved';
+  type:
+    | "document_uploaded"
+    | "document_commented"
+    | "document_shared"
+    | "document_approved";
   document_id: string;
   document?: DocumentV2;
   user?: UserProfile;
@@ -898,19 +920,19 @@ export interface RealtimeDocumentEvent {
 }
 
 // Permission Helper Types
-export type Permission = 
-  | 'view_messages'
-  | 'send_messages'
-  | 'view_shared_documents'
-  | 'upload_documents'
-  | 'view_private_documents'
-  | 'manage_team_documents'
-  | 'invite_clients'
-  | 'manage_client_access';
+export type Permission =
+  | "view_messages"
+  | "send_messages"
+  | "view_shared_documents"
+  | "upload_documents"
+  | "view_private_documents"
+  | "manage_team_documents"
+  | "invite_clients"
+  | "manage_client_access";
 
-export type Role = 
-  | 'client_view'
-  | 'client_edit'
-  | 'team_member'
-  | 'account_manager'
-  | 'admin';
+export type Role =
+  | "client_view"
+  | "client_edit"
+  | "team_member"
+  | "account_manager"
+  | "admin";

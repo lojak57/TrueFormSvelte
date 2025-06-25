@@ -181,7 +181,7 @@
         company_id: proposalData.company_id,
         contact_id: proposalData.contact_id || undefined,
         line_items: lineItems.map(({ id, total, ...item }) => item),
-        tax_rate: proposalData.tax_rate,
+        tax_rate: proposalData.tax_rate / 100, // Convert percentage to decimal
         notes: proposalData.notes,
       };
 
